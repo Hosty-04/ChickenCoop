@@ -113,3 +113,7 @@ https://cz.mouser.com/ProductDetail/STMicroelectronics/STM32WLE5CCU6?qs=26oI9%25
 **Slave (vývojová deska a čip)**  
 https://cz.mouser.com/ProductDetail/STMicroelectronics/NUCLEO-U031R8?qs=sGAEpiMZZMv0WPLDnYsI70d1YaGuDSdFrBEvuBfrX2oCPZoXXcsbiw%3D%3D  
 https://cz.mouser.com/ProductDetail/STMicroelectronics/STM32G031G8U6?qs=uwxL4vQweFO0dXSA%2FIGJ2w%3D%3D  
+
+**Headery**  
+https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/  
+https://www.laskakit.cz/dupont-2x40pin-2-54-mm-pinovy-pas/  
