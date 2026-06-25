@@ -88,12 +88,12 @@ https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/  
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
-**Konektory**
+**Konektory**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c  
 
 **Klipy  
 5mm hřebíkové**  
-Hobby ḿarket (Hornbach)  
+Hobby market (Hornbach)  
 
 **Solární panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-6v-1670ma-10w-solarni-clanek_z2899/  
