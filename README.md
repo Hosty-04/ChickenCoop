@@ -110,7 +110,7 @@ https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-bud
 https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm  
 
 **Svorkovnice (prototyp, DPS)**  
-https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/
+https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/  
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
 **Špulka**  
