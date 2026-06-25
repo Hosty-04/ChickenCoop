@@ -19,7 +19,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 Systém bude obsahovat jednu krabičku pro akumulátor a druhou (K) pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (P). Dále bude pro každé snáškové hnízdo určena jedna krabička (Kx). Tyto krabičky budou vytisknuty na 3D tiskárně a budou disponovat otvory s gumovými kabelovými průchodkami. Krabička K bude mít zespodu ještě navíc 2cm trubičku pro lanko.
 
 ### Kabely
-Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna o průřezu 1,5mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5mm². Pro kladnou větev bude použit červený vodič a pro zápornou větev černý vodič.
+Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna o průřezu 1,5mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5mm². Pro kladnou větev bude použit červený vodič a pro zápornou větev černý vodič. Jako sdělovací kabel byl zvolen UTP CAT5E, který je zcela dostačující.
 
 ### Napájení
 Solární panel (6V 10W) bude připevněn svisle na zeď, umístěn pod malou stříškou a orientován na jih (popř. východ, západ nebo při žádné jiné možnosti na sever). Tím se docílí toho, že nikdy nezapadne sněhem a využije co možná nejvíce sluneční energie.
@@ -63,24 +63,37 @@ K panelu budou taktéž sériově (drainy k sobě) připojeny 2 P-MOS tranzistor
 
 Důvodem použití 2 P-MOSů namísto jednoho je parazitní dioda, která je pevnou součástí křemíkového čipu. Kdyby byl P-MOS pouze jeden, tak by večer i přes jeho rozpojení přes tuto parazitní diodu protékal proud z akumulátoru zpátky do panelu, a tím by se baterie vybíjela.
 
-Modul INA219 (resp. čip INA219 s externími součástkami) je proudové, ale i napěťové čidlo s nízkým klidovým proudem (jednotky mikroampér), které bude zapojeno mezi akumulátor a lineární LDO stabilizátor, kde bude snímat napětí na baterii. Stabilizátor bude disponovat vyhlazovacími kondenzátory. Těsně na vstupu keramickým 10µF 25V a elektrolytickým 100µF 16V a těsně na výstupu keramickým 10µF 16V.
+Modul INA219 (resp. čip INA219 s externími součástkami) je proudové, ale i napěťové čidlo s nízkým klidovým proudem (jednotky mikroampér), které bude zapojeno mezi akumulátor a stabilizátor, kde bude snímat napětí na baterii.
 
 Podle údaje o napětí od INA219 bude P přes sběrnici I2C informován o tom, jak moc je baterie nabitá, resp. vybitá. Mohou nastat 3 případy. Buď bude panel ve slunečný den přivádět napětí vyšší než 7,2V a baterie bude plně nabitá (přepětí), panel nebude přivádět žádné napětí (noc) a z baterie do něj začne proudit zpětný proud (přepólování), nebo bude baterie kriticky vybitá (blížit se 5,4V). P tudíž buď odpojí napájení, nebo v posledním uvedeném případě vše, co může, vypne a co nejhlouběji uspí.
 
 INA219 je také, jak jsem již zmiňoval, senzorem proudu. Této vlastnosti bude využívat P, když se najednou proud dodávaný z baterie zvýší. To bude značit, že dvířka při zavírání narazila na slepici, a P okamžitě obrátí chod (pozor na falešné špičky způsobené rozběhem a vypnutím motorku).
 
-Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 470µF 25V (kvůli indukčním špičkám při vypínání motorku) a filtračním keramickým kondenzátorem 100nF 50V (kvůli vysokofrekvenčnímu rušení), zapojenými těsně paralelně k VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47µF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků.
+Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 47µF 25V (kvůli indukčním špičkám při vypínání motorku), zapojeným těsně paralelně k VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47nF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků a filtraci vysokofrekvenčního rušení.
 
-K čipu P budou na finálních deskách těsně paralelně k pinům VDDA a VSSA připojeny keramické odrušovací kondenzátory s parametry 10µF 16V a 100nF 16V. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru ve formě souvislé vrstvy mědi.
+K čipu P budou na finálních deskách paralelně těsně k pinům VDDA a VSSA připojeny keramické odrušovací kondenzátory s parametry 10µF 25V a 100nF 50V, kvůli filtraci VF šumu. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru ve formě souvislé vrstvy mědi.
 
 ## Prototyp
 **Krabičky**  
 
-**Kabely (červené a černé)**  
+**Kabely**  
 https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko  
 https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko  
 https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko  
 https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko  
+  
+https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131  
+
+**Svorkovnice (prototyp, DPS)**  
+https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/  
+https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
+
+**Konektory**
+https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c  
+
+**Klipy  
+5mm hřebíkové**  
+Hobby ḿarket (Hornbach)  
 
 **Solární panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-6v-1670ma-10w-solarni-clanek_z2899/  
@@ -95,7 +108,7 @@ https://www.gme.cz/v/1493257/infineon-irf4905pbf-unipolarni-tranzistor
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-7Ah-d5513.htm  
 
 **Lineární LDO regulátor**  
-https://www.laskakit.cz/holtek-ht7833-3-3v-0-5a-stabilizator--sot-89/?utm_source=google&utm_medium=cpc&utm_campaign=2_SEA_DSA_%5BCZ%5D_tROAS_400%2F500&utm_id=1371577095  
+https://www.laskakit.cz/modul-stabilizatoru-napeti-ams1117-3-3v/  
 
 **Proudový senzor INA219**  
 https://dratek.cz/arduino-platforma/1437-ina219-proudovy-snimac-obousmerny.html  
@@ -108,10 +121,6 @@ https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-bud
 
 **Koncák**  
 https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm  
-
-**Svorkovnice (prototyp, DPS)**  
-https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/  
-https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
 **Špulka**  
 2cm šířka  
