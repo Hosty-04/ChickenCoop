@@ -16,22 +16,62 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Koncept
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor a druhou (K) pro mechaniku a elektroniku dvířek a hlavní procesor (P). Dále potom jednu pro každé snáškové hnízdo Kx. Tyto krabičky budou disponovat dírami s gumovými kabelovými průchodkami a K bude mít zespodu ještě navíc 2 cm trubičku pro lanko.
+Systém bude obsahovat jednu krabičku pro akumulátor a druhou (K) pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (P). Dále bude pro každé snáškové hnízdo určena jedna krabička (Kx). Tyto krabičky budou disponovat otvory s gumovými kabelovými průchodkami a krabička K bude mít zespodu ještě navíc 2cm trubičku pro lanko.
 
 ### Kabely
-Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna 1,5 mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna 0,5 mm². Pro kladnou větev bude použit kabel červené barvy a na větev zápornou kabel barvy černé.
+Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna o průřezu 1,5mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5mm². Pro kladnou větev bude použit červený vodič a pro zápornou větev černý vodič.
 
 ### Napájení
-Solární panel (6V 10W) bude připevněný svisle na zeď, umístěný pod malou stříškou a orientovaný na jih (popř. východ, západ nebo při žádné jiné možnosti na sever). Tím se docílí toho, že nikdy nezasněží a využije co možná nejvíce sluneční energie. Společně s olověným bezúdržbovým akumulátorem AGM (6V 7Ah) budou celý systém zásobovat elektřinou. Silová část bude dimenzována na 6V (motorek) a veškerá elektronika na 3,3V. Snížení napětí z 6 na 3,3V bude realizováno pomocí LDO regulátoru s nízkým klidovým proudem (jednotky mikroampér), ke kterému bude co nejblíže paralelně připojen vstupní a výstupní elektrolytický filtrační kondenzátor s parametry 10uF a minimálně 16V. Buck měniče nejsou vhodné kvůli horší dostupnosti modelu s nízkým Iq a malému odběru systému po většinu dne. Jejich vysoká učinnost by se uplatnila pouze po dobu přibližně 2 minut a po zbytek dne by měli paradoxně nižší účinnost než jednoduché LDO stabilizátory.  
+Solární panel (6V 10W) bude připevněn svisle na zeď, umístěn pod malou stříškou a orientován na jih (popř. východ, západ nebo při žádné jiné možnosti na sever). Tím se docílí toho, že nikdy nezapadne sněhem a využije co možná nejvíce sluneční energie.
+
+Společně s olověným bezúdržbovým akumulátorem AGM (6V 7Ah) budou celý systém zásobovat elektřinou. Silová část bude dimenzována na 6V (motorek) a veškerá elektronika na 3,3V.
+
+Snížení napětí z 6V na 3,3V bude realizováno pomocí LDO regulátoru s nízkým klidovým proudem (jednotky mikroampér).
+
+Buck měniče nejsou vhodné kvůli horší dostupnosti modelů s nízkým Iq a malému odběru systému po většinu dne. Jejich vysoká účinnost by se uplatnila pouze po dobu přibližně 2 minut a po zbytek dne by měly paradoxně nižší účinnost než jednoduché LDO stabilizátory.
 
 ### Řízení
-Hlavní řídicí jednotkou v kurníku bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868MHz. LoRa modul umožní komunikaci na velké vzdálenosti při nízké spotřebě energie. U každého snáškového hnízda pak bude další mikrokontrolér STM32. Programování bude probíhat v prostředí STM32CubeIDE. Částí firmwaru hlavní jednotky budou astronomické hodiny, podle kterých se budou otevírat a zavírat dvířka. Časovač jsem se rozhodl nepoužít z důvodu proměnné délky dne a světelný senzor by se zase mohl spínat při zatažených dnech (deště, bouřky) nebo večer vlivem pouličního osvětlení či světlometů aut. Tyto mikroprocesory dokáží přejít do tzv. režimu hlubokého spánku (Stand By) a tím ušetřit velké množství energie (klidový proud je v řádu jednotek mikroampér). Hlavní jednotka se bude spolu s dalšími potřebnými částmi systému probouzet co 10 minut pro zkontrolování stavu panelu a baterie. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24x denně, a to právě co hodinu, pro zkontrolování stavu vajec. A nakonec se zapne ráno a večer, opět pouze s dalšími potřebnými částmi systému, pro otevření a zavření dvířek. Pro vývoj budou použity vývojové desky stejného typu jako budou čipy na finálních desce. Finální deska bude mít vyvedenou čtyř kolíkovou lištu k připojení programátoru (z vývojové desky). K hlavnímu čipu bude potřeba připojit anténu operující na LoRa frekvenci ve formě ustřiženého měděného drátu dlouhého 8.2cm (čtvrtvlnný monopól), třeba z klasického UTP kabelu. Ten se připájí k plošnému spoji a může zůstat uvnitř krabičky. Anténa se ale musí nacházet co nejdále od baterie a motorku a 2cm kolem a pod ní nesmí být žádná měď a součástky. V domě bude potom vývojová deska ESP32, se zabudovaným LoRa modulem a anténou, zastávající roli internetové brány. Veškerá data, která tato deska příjme, odešle na cloud.
+Hlavní řídicí jednotkou v kurníku bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868MHz. LoRa modul umožní komunikaci na velké vzdálenosti při nízké spotřebě energie. U každého snáškového hnízda pak bude další mikrokontrolér STM32.
+
+Programování bude probíhat v prostředí STM32CubeIDE. Součástí firmwaru hlavní jednotky budou astronomické hodiny, podle kterých se budou otevírat a zavírat dvířka. Časovač jsem se rozhodl nepoužít z důvodu proměnné délky dne a světelný senzor by se zase mohl spínat při zatažených dnech (deště, bouřky) nebo večer vlivem pouličního osvětlení či světlometů aut.
+
+Tyto mikrokontroléry dokáží přejít do tzv. režimu hlubokého spánku (Standby), a tím ušetřit velké množství energie (klidový proud je v řádu jednotek mikroampér). Hlavní jednotka se bude spolu s dalšími potřebnými částmi systému probouzet každých 10 minut pro zkontrolování stavu panelu a baterie. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, a to právě každou hodinu, pro zkontrolování stavu vajec. A nakonec se zapne ráno a večer, opět pouze s dalšími potřebnými částmi systému, pro otevření a zavření dvířek.
+
+Pro vývoj budou použity vývojové desky stejného/podobného typu, jako budou čipy na finální desce. Finální deska bude mít vyvedenou čtyřkolíkovou lištu k připojení programátoru (z vývojové desky).
+
+K hlavnímu čipu bude potřeba připojit anténu pracující na LoRa frekvenci ve formě ustřiženého měděného drátu dlouhého 8,2cm (čtvrtvlnný monopól), třeba z klasického UTP kabelu. Ten se připájí k plošnému spoji a může zůstat uvnitř krabičky. Anténa se ale musí nacházet co nejdále od baterie a motorku a 2cm kolem a pod ní nesmí být žádná měď ani součástky.
+
+V domě bude potom vývojová deska ESP32 se zabudovaným LoRa modulem a anténou, zastávající roli internetové brány. Veškerá data, která tato deska přijme, odešle do cloudového úložiště.
 
 ### Mechanika
-Hlavní část sytému bude umístěna na venkovní stěně kurníku, která bude v souladu s požadavky pro solární panel, již jsou uvedeny v sekci napájení. Tímto snížím komplexnost montáže a z velké části eliminuji vliv amoniaku ze slepičího trusu. Pomocí vrutů budou na stěnu přišrubovány dřevěné hranolky, po jejichž bocích budou přivrtány plechové drážky z hliníku (opět pomocí vrutů), ve kterých budou nahoru a dolů jezdit bílá pěněná PVC dvířka o rozměrech x a tloušťce 8mm. Na přední straně dvířek nahoře bude umístěno závěsné očko, upevněné zapuštěnou podložkou a maticí. Tímto očkem bude prostrčeno lanko, zajištěné dračí smyčkou. Tohle lanko povede nahoru do K1, ve které bude špulka, jejímž tělem bude uprostřed skrz díru provlečeno a upevněno pomocí osmičkového uzlu. Špulka bude přes stavěcí šroub (červíka) přimontována ke hřídeli DC nízkootáčkového motorku s kovovou převodovkou a hřídelí tvaru D (6V). V horní a dolní části hranolku budou zapuštěné 2 mechanické koncové mikrospínače (pákové). Jak dvířka pojedou nahoru nebo dolů, tak sepnou resp. rozepnou koncáky, které budou pinem NO připojeny na společnou zem a pinem COM do P v K. Před pohybem dvířek se piny koncových spínačů aktivují (digitální vstup s pull-up rezistorem). Po dosažení koncové polohy se piny deaktivují přepnutím do analogového režimu, čímž se eliminuje jejich klidový odběr.
+Hlavní část systému bude umístěna na venkovní stěně kurníku, která bude v souladu s požadavky pro solární panel, jež jsou uvedeny v sekci napájení. Tímto snížím komplexnost montáže a z velké části eliminuji vliv amoniaku ze slepičího trusu.
+
+Pomocí vrutů budou na stěnu přišroubovány dřevěné hranolky, po jejichž bocích budou přivrtány plechové drážky z hliníku (opět pomocí vrutů), ve kterých se budou svisle pohybovat bílá pěněná PVC dvířka o rozměrech x a tloušťce 8mm.
+
+Na přední straně dvířek nahoře bude umístěno závěsné očko, upevněné zapuštěnou podložkou a maticí. Tímto očkem bude prostrčeno lanko, zajištěné dračí smyčkou. Toto lanko povede nahoru do K, ve které bude špulka, jejímž tělem bude uprostřed skrz díru provlečeno a upevněno pomocí osmičkového uzlu. Špulka bude přes stavěcí šroub (červík) přimontována ke hřídeli tvaru D nízkootáčkového DC motorku s kovovou převodovkou (6V).
+
+V horní a dolní části hranolku budou zapuštěné 2 mechanické koncové mikrospínače (pákové). Jak dvířka pojedou nahoru nebo dolů, tak sepnou, resp. rozepnou tyto spínače, které budou pinem NO připojeny na společnou zem a pinem COM do P.
+
+Před pohybem dvířek se piny koncových spínačů aktivují (digitální vstup s pull-up rezistorem). Po dosažení koncové polohy se piny deaktivují přepnutím do analogového režimu, čímž se eliminuje jejich klidový odběr.
 
 ### Elektronika
-Prototyp bude složen z modulů, umístěných na nepájivé pole pomocí kolíkových lišt a klasických svorek, ale finální verze bude mít pouze jednu hlavní DPS a x vedlejších DPS pro každé snáškové hnízdo. Jako rozhraní budou použity svorky s kovovým plíškem pro ochranu licny a konektory RJ45. Na panel bude připojen vysoko-impedační dělič, složený z rezistorů o hodnotách 1Mohm a 470kohm. Na rezistor R2, tedy 470kohm, bude paralelně připojen keramický kondenzátor s parametry 100nF 16V pro správné měření při takto velké impedanci. Tento dělič bude snímat napětí na panelu, které bude odesílat do P. Vysoká impedance zajistí odběr v řádu jednotek mikroampér. K panelu budou taktéž sériově proti sobě připojeny 2 P-MOS tranzistory, které budou plnit funkci výkonového spínače celého systému. Oba musí být ale spínané přes jeden N-MOS tranzistor, přes P, protože by je 3,3V procesor sám sepnout nezvládl. Na gate N-MOSu bude sériově připojen 220ohm odpor, z důvodu ochrany P, proti proudovým špičkám a paralelně 10kohm pulldown rezistor, z důvodu zamezení neurčitého stavu. Drain bude připojen na baterii, pullup rezistor 10kohm a gate obou P-MOSů. Source potom na společnou zem. Důvod 2 P-MOSů namísto jednoho je parazitní dioda, která je pevnou součástí křemíkového čipu. Kdyby byl P-MOS pouze jeden, tak by večer, i přes jeho rozpojení, přes tuto parazitní diodu protékal proud z akumulátoru zpátky do panelu, a tím by se baterie vybíjela. Modul INA219 (resp. příslušné části finální DPS) je proudové, ale i napěťové čidlo s nízkým klidovým proudem (jednotky mikroampér), které bude zapojeno mezi akumulátor a lineární LDO stabilizátor s 10µF keramickým a 100µF elektrolytickým odrušovacím kondenzátorem těsně na jeho vstupu a 10µF keramickým na výstup pro stabilitu, kde bude snímat napětí na baterii. Podle tohoto údaje bude P přes sběrnici I2C informováno, jak moc je nabitá resp. vybitá. Mohou nastat 3 připady. Buď bude panel ve slunečný den přivádět napětí vyšší než 7,2V a baterie bude plně nabitá (přepěťí) nebo nebude panel přivádět žádné napětí (noc) a z baterie do něj začne proudit zpětný proud (přepólování) nebo bude baterie kriticky vybitá (blížit se 5,4V). P tudíž v takovém případě buď odpojí napájení nebo v posledním uvedeném případě vše co může vypne nebo co nejhlouběji uspí. INA219 je také, jak jsem již zmiňoval, senzorem proudu. Této vlastnosti bude využívat P, když se najednou proud, dodávaný z baterie, zvýší. To bude značit, že dvířka při zavírání narazili na slepici a P okamžitě obrátí chod (pozor na falešné špičky způsobené rozběhem a vypnutím motorku). Je tedy zřejmé, že P bude taktéž řídit H-můstek s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. A H-můstek s elektrolytem 470uF 25V a keramickým kondenzátorem 100nF 50V, zapojenými mezi VM a GND, kvůli špičkám při ovládání motoru, bude zase řídit elektromotorek, jež bude odrušený 100nF keramickým kondenzátorem zapojeným mezi kontakty a dvěma 47uF keramickými kondenzátory zapojenými mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba, kvůli jiskření kartáčků. K čipu P, na finálních deskách, budou mezi piny VDDA a VSSA připojeny keramické odrušovací kondenzátory o hodnotách 10uF a 100nF, dimenzované na napětí 16V. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru, ve formě souvislé vrstvy mědi.
+Prototyp bude složen z modulů, umístěných na nepájivé pole pomocí kolíkových lišt a svorek s kovovým plíškem pro ochranu licny. Finální verze bude mít pouze jednu hlavní DPS a x vedlejších DPS pro každé snáškové hnízdo. Jako rozhraní budou použity svorky a konektory RJ45.
+
+Na panel bude připojen vysokoimpedanční dělič, složený z rezistorů o hodnotách 1MΩ a 470kΩ. Na rezistor R2, tedy 470kΩ, bude paralelně připojen keramický kondenzátor s parametry 100nF 16V pro správné měření při takto velké impedanci. Tento dělič bude snímat napětí na panelu, které bude odesílat do P. Vysoká impedance zajistí odběr v řádu jednotek mikroampér.
+
+K panelu budou taktéž sériově (drainy k sobě) připojeny 2 P-MOS tranzistory, které budou plnit funkci výkonového spínače celého systému. Oba musí být ale spínány přes jeden N-MOS tranzistor, protože by je 3,3V mikrokontrolér sám sepnout nezvládl. Ten bude potom spínán přes P. Na gate N-MOSu bude sériově připojen 220Ω odpor z důvodu ochrany P proti proudovým špičkám. Paralelně mezi gate a společnou zem bude potom připojen 10kΩ pulldown rezistor z důvodu zamezení neurčitého stavu. Drain bude připojen na baterii, pullup rezistor 10kΩ a gate obou P-MOSů. Source potom na zem.
+
+Důvodem použití 2 P-MOSů namísto jednoho je parazitní dioda, která je pevnou součástí křemíkového čipu. Kdyby byl P-MOS pouze jeden, tak by večer i přes jeho rozpojení přes tuto parazitní diodu protékal proud z akumulátoru zpátky do panelu, a tím by se baterie vybíjela.
+
+Modul INA219 (resp. čip INA219 s externími součástkami) je proudové, ale i napěťové čidlo s nízkým klidovým proudem (jednotky mikroampér), které bude zapojeno mezi akumulátor a lineární LDO stabilizátor, kde bude snímat napětí na baterii. Stabilizátor bude disponovat vyhlazovacími kondenzátory. Těsně na vstupu keramickým 10µF 25V a elektrolytickým 100µF 16V a těsně na výstupu keramickým 10µF 16V.
+
+Podle údaje o napětí od INA219 bude P přes sběrnici I2C informován o tom, jak moc je baterie nabitá, resp. vybitá. Mohou nastat 3 případy. Buď bude panel ve slunečný den přivádět napětí vyšší než 7,2V a baterie bude plně nabitá (přepětí), panel nebude přivádět žádné napětí (noc) a z baterie do něj začne proudit zpětný proud (přepólování), nebo bude baterie kriticky vybitá (blížit se 5,4V). P tudíž buď odpojí napájení, nebo v posledním uvedeném případě vše, co může, vypne a co nejhlouběji uspí.
+
+INA219 je také, jak jsem již zmiňoval, senzorem proudu. Této vlastnosti bude využívat P, když se najednou proud dodávaný z baterie zvýší. To bude značit, že dvířka při zavírání narazila na slepici, a P okamžitě obrátí chod (pozor na falešné špičky způsobené rozběhem a vypnutím motorku).
+
+Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip DRV8838 s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 470µF 25V (kvůli indukčním špičkám při vypínání motorku) a filtračním keramickým kondenzátorem 100nF 50V (kvůli vysokofrekvenčnímu rušení), zapojenými těsně paralelně k VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47µF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků.
+
+K čipu P budou na finálních deskách těsně paralelně k pinům VDDA a VSSA připojeny keramické odrušovací kondenzátory s parametry 10µF 16V a 100nF 16V. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru ve formě souvislé vrstvy mědi.
 
 ## Prototyp
 **Krabičky  
@@ -70,7 +110,8 @@ https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-bud
 **Koncák**  
 https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm  
 
-**Svorkovnice**  
+**Svorkovnice (prototyp, DPS)**  
+https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
 **Špulka  
@@ -103,7 +144,7 @@ Hobby ḿarket (Hornbach)
 **Dveře**  
 https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/  
 
-**Internetová brána**  
+**Brána**  
 https://www.hadex.cz/p/m378d-vyvojovy-modul-heltec-lora-32-wifi-bluetooth-v3-2  
 
 **Master (vývojová deska a čip)**  
