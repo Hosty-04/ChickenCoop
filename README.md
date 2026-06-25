@@ -16,7 +16,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Koncept
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor a druhou (K) pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (P). Dále bude pro každé snáškové hnízdo určena jedna krabička (Kx). Tyto krabičky budou disponovat otvory s gumovými kabelovými průchodkami a krabička K bude mít zespodu ještě navíc 2cm trubičku pro lanko.
+Systém bude obsahovat jednu krabičku pro akumulátor a druhou (K) pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (P). Dále bude pro každé snáškové hnízdo určena jedna krabička (Kx). Tyto krabičky budou vytisknuty na 3D tiskárně a budou disponovat otvory s gumovými kabelovými průchodkami. Krabička K bude mít zespodu ještě navíc 2cm trubičku pro lanko.
 
 ### Kabely
 Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna o průřezu 1,5mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5mm². Pro kladnou větev bude použit červený vodič a pro zápornou větev černý vodič.
@@ -48,7 +48,7 @@ Hlavní část systému bude umístěna na venkovní stěně kurníku, která bu
 
 Pomocí vrutů budou na stěnu přišroubovány dřevěné hranolky, po jejichž bocích budou přivrtány plechové drážky z hliníku (opět pomocí vrutů), ve kterých se budou svisle pohybovat bílá pěněná PVC dvířka o rozměrech x a tloušťce 8mm.
 
-Na přední straně dvířek nahoře bude umístěno závěsné očko, upevněné zapuštěnou podložkou a maticí. Tímto očkem bude prostrčeno lanko, zajištěné dračí smyčkou. Toto lanko povede nahoru do K, ve které bude špulka, jejímž tělem bude uprostřed skrz díru provlečeno a upevněno pomocí osmičkového uzlu. Špulka bude přes stavěcí šroub (červík) přimontována ke hřídeli tvaru D nízkootáčkového DC motorku s kovovou převodovkou (6V).
+Na přední straně dvířek nahoře bude umístěno závěsné očko, upevněné zapuštěnou podložkou a maticí. Tímto očkem bude prostrčeno lanko, zajištěné dračí smyčkou. Toto lanko povede nahoru do K, ve které bude špulka z PETG, vytištěná na 3D tiskárně, jejímž tělem bude uprostřed skrz otvor provlečeno a upevněno pomocí osmičkového uzlu. Špulka bude pomocí stavěcího šroubu (červíku) připevněna ke hřídeli tvaru D nízkootáčkového stejnosměrného motorku s kovovou převodovkou (6V).
 
 V horní a dolní části hranolku budou zapuštěné 2 mechanické koncové mikrospínače (pákové). Jak dvířka pojedou nahoru nebo dolů, tak sepnou, resp. rozepnou tyto spínače, které budou pinem NO připojeny na společnou zem a pinem COM do P.
 
@@ -69,13 +69,12 @@ Podle údaje o napětí od INA219 bude P přes sběrnici I2C informován o tom, 
 
 INA219 je také, jak jsem již zmiňoval, senzorem proudu. Této vlastnosti bude využívat P, když se najednou proud dodávaný z baterie zvýší. To bude značit, že dvířka při zavírání narazila na slepici, a P okamžitě obrátí chod (pozor na falešné špičky způsobené rozběhem a vypnutím motorku).
 
-Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip DRV8838 s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 470µF 25V (kvůli indukčním špičkám při vypínání motorku) a filtračním keramickým kondenzátorem 100nF 50V (kvůli vysokofrekvenčnímu rušení), zapojenými těsně paralelně k VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47µF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků.
+Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 470µF 25V (kvůli indukčním špičkám při vypínání motorku) a filtračním keramickým kondenzátorem 100nF 50V (kvůli vysokofrekvenčnímu rušení), zapojenými těsně paralelně k VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47µF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků.
 
 K čipu P budou na finálních deskách těsně paralelně k pinům VDDA a VSSA připojeny keramické odrušovací kondenzátory s parametry 10µF 16V a 100nF 16V. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru ve formě souvislé vrstvy mědi.
 
 ## Prototyp
-**Krabičky  
-3D tisk**  
+**Krabičky**  
 
 **Kabely (červené a černé)**  
 https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko  
@@ -114,8 +113,7 @@ https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13m
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
-**Špulka  
-3D tisk (PETG ASA ABS nylon)**  
+**Špulka**  
 2cm šířka  
 2,5cm vnější průměr  
 3mm vnitřní průměr  
