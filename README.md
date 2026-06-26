@@ -16,13 +16,13 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Koncept
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech × a tloušťce stěny 2,4 mm a druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku, elektroniku dvířek a hlavní mikrokontrolér (P). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Tato krabička bude obsahovat vedlejší mikrokontroléry (Px).
+Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech 250×175×150 mm a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku, elektroniku dvířek a hlavní mikrokontrolér (P). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat vedlejší mikrokontrolér (Px).
 
-Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. PETG bylo zvoleno pro vyšší houževnatost a teplotní odolnost oproti PLA. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně. Zvětšená tloušťka zvyšuje tuhost při montáži pomocí vrutů.
+Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. PETG bylo zvoleno pro vyšší houževnatost a teplotní odolnost oproti PLA. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně. Zvětšená tloušťka zvyšuje tuhost při montáži pomocí vrutů. Krabičky budou mít ve stěnách naproti sobě 2 větrací otvory o průměru 1,5 cm.
 
-Na krabičkách budou dále vytvořeny mírně zaoblené nízké drážky ve tvaru písmene U, směřující od horní hrany směrem dolů. Tyto drážky budou sloužit k protažení kabelů. Pro vodiče o průřezu 0,5 mm² budou mít šířku 2,5 mm, pro vodiče o průřezu 1,5 mm² šířku 3,5 mm a pro datový kabel šířku 5,5 mm. Stejný průměr bude mít i kruhový otvor umístěný na spodní straně krabičky Kx, určený pro průchod stíněného kabelu.
+Dále budou na všech krabičkách vytvořeny mírně zaoblené nízké drážky ve tvaru písmene U, směřující od horní hrany směrem dolů. Tyto drážky budou sloužit k protažení kabelů. Pro vodiče o průřezu 0,5 mm² budou mít šířku 2,5 mm, pro vodiče o průřezu 1,5 mm² šířku 3,5 mm a pro datový kabel šířku 5,5 mm. Stejný průměr bude mít i kruhový otvor umístěný na spodní straně krabičky Kx, určený pro průchod stíněného kabelu. V krabičce K bude zespodu otvor pro lanko o průměru 3 mm.
 
-Víko bude vytištěno samostatně s přesahem 2 mm a bude obsahovat dutou trubičku uprostřed zadní hrany. Na horní hraně zadní stěny každé krabičky budou po stranách umístěny dvě trubičky s průměrem otvoru 2,1 mm. Po vytištění jimi bude protažen filament o průměru 1,75 mm, jehož konce budou krátce nahřáty zapalovačem a roztemovány tak, aby vytvořily hlavičky. Tím vznikne jednoduchý pant pro uchycení víka. Toto řešení minimalizuje počet součástek a umožňuje výrobu celé krabičky bez dalších kovových dílů.
+Víko bude vytištěno samostatně s přesahem 2 mm a bude obsahovat dutou trubičku uprostřed levé hrany. Na horní hraně levé stěny každé krabičky budou po stranách na malé plošince umístěny dvě trubičky s průměrem otvoru 2,1 mm. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce budou krátce nahřáty zapalovačem a roztemovány tak, aby vytvořily hlavičky. Tím vznikne jednoduchý pant pro uchycení víka. Toto řešení minimalizuje počet součástek a umožňuje výrobu celé krabičky bez dalších kovových dílů.
 
 ### Mechanika
 Hlavní část systému bude umístěna na vnější stěně kurníku, která bude splňovat požadavky na umístění solárního panelu uvedené v kapitole Napájení. Toto řešení zjednoduší montáž a zároveň z velké části eliminuje působení amoniaku ze slepičího trusu na elektroniku.
@@ -73,13 +73,24 @@ Pro silové rozvody, zahrnující připojení solárního panelu, akumulátoru, 
 Pro kladný pól bude použit červený vodič a pro záporný pól černý vodič. Pro datovou komunikaci byl zvolen stíněný kabel a kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí hřebíkových příchytek o průměru 5 mm.
 
 ### Napájení
-Solární panel o parametrech 6 V / 10 W bude připevněn svisle na stěnu pod malou stříšku a orientován směrem na jih, případně na východ nebo západ. Tím bude zajištěno, že panel bude co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
+2 Solární panely o parametrech 6 V / 10 Wp budou paralelně spojeny, svisle připevněny na stěnu pod malou stříšku a orientovány směrem na jih, případně na východ nebo západ. Tím bude zajištěno, že panely budou co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
 
 Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 7 Ah bude zajišťovat napájení celého systému. Akumulátor LiFePO4 je sice v mnoha ohledech lepší, ale nesmí se používat v zimě. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
 
 Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonového LDO regulátoru. Nízký klidový proud významně prodlužuje provoz z akumulátoru. Tento stabilizátor bude zapojený k baterii a na jeho vstupu bude připojen blokovací keramický kondenzátor o kapacitě 1 µF / 50 V. Stejný kondenzátor bude připojen i na výstupu, ale tentokrát z důvodu vyhlazení napětí. 
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze přibližně po dobu dvou minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
+
+Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh.
+
+#### Energetická bilance
+
+| Orientace | Zimní Wh/den | Letní Wh/den | Roční průměr mAh/den (6 V) | Zimní bilance (efektivita 70 %) vs ~12 mAh spotřeba |
+|-----------|------------------------------|--------------|---------------------------|---------------------------------------------------------|
+| **Jih**   | 16–30                       | 70–110      | 7300–9300                | +3800 až +7500 mAh/den (extrémně dobrá)                    |
+| **Východ**| 12–24                       | 50–80       | 5300–7300                | +2500 až +5000 mAh/den (velmi dobrá)                       |
+| **Západ** | 12–24                       | 50–80       | 5300–7300                | +2500 až +5000 mAh/den (velmi dobrá)                       |
+| **Sever** | 4–12                        | 16–30       | 2000–3300                | +300 až +1800 mAh/den (přijatelná)                         |
 
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a svorek s roztečí 2,54 mm, které budou obsahovat kovový plíšek pro ochranu licny. Finální verze bude obsahovat jednu hlavní desku plošných spojů a x vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami. Jako rozhraní budou použity šroubovací svorkovnice s roztečí 5,08 mm a konektory RJ45.
@@ -98,11 +109,11 @@ Senzor INA219 bude současně využíván jako proudový senzor. P bude monitoro
 
 P bude dále prostřednictvím sběrnice I²C řídit H-můstek s nízkým klidovým proudem. H-můstek bude vybaven elektrolytickým kondenzátorem 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, který bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-můstek i elektromotor budou umístěny v krabičce K.
 
-Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Stíněný kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Px, který bude schopen převodník uspat a tím současně odpojit napájení tenzometru.
+Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Stíněný kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Px, který bude schopen převodník uspat a tím současně odpojit napájení tenzometru.
 
 Px bude pro komunikaci s P prostřednictvím datového kabelu typu UTP využívat sběrnici RS485. První kroucený pár bude sloužit k přenosu napájení, přičemž oba vodiče budou zapojeny paralelně. Druhý pár bude stejným způsobem použit pro propojení společné země. Třetí pár bude přenášet data prostřednictvím čipu MAX3485 s keramickým kondenzátorem 100 nF / 16 V zapojeným co nejblíže mezi piny VCC a GND. Čip bude u prototypu připájen k adaptéru SOIC-8 na DIP-8 a bude sloužit jako transceiver sběrnice RS485. Jeden čip bude před P a druhý před Px.
 
-Na rozdíl od sběrnice I²C je RS485 vhodná pro komunikaci na delší vzdálenosti. Pro přenos dat bude využit protokol LPUART, který nevyužívá hodinový signál a vyznačuje se nízkou spotřebou energie. Čip MAX3485 vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Současně jej bude možné prostřednictvím Px uvést do režimu spánku, ve kterém bude odebírat pouze proud v řádu jednotek mikroampér. Vše od tenzometru až po čip MAX3485 musí být co nejblíže k sobě.
+Na rozdíl od sběrnice I²C je RS485 vhodná pro komunikaci na delší vzdálenosti. Pro přenos dat bude využit protokol LPUART, který nevyužívá hodinový signál a vyznačuje se nízkou spotřebou energie. Čip MAX3485 vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Současně jej bude možné prostřednictvím Px uvést do režimu shutdown, ve kterém bude odebírat pouze proud v řádu jednotek nanoampér. Vše od tenzometru až po čip MAX3485 musí být co nejblíže k sobě.
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi jednou řídicí jednotkou P (master) a několika jednotkami Px (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat zakončovací rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
@@ -115,7 +126,7 @@ Hlavní řídicí jednotkou systému bude mikrokontrolér STM32 s integrovaným 
 
 Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavní řídicí jednotky budou astronomické hodiny, podle kterých se budou automaticky otevírat a zavírat dvířka. Použití časovače nebylo zvoleno z důvodu proměnlivé délky dne. Světelný senzor by mohl způsobovat chybné sepnutí při zatažené obloze (déšť nebo bouřka) nebo ve večerních hodinách vlivem pouličního osvětlení či světlometů automobilů.
 
-Použité čipy podporují režim hlubokého spánku (Standby), který umožňuje výrazně snížit spotřebu energie. Klidový proud se v tomto režimu pohybuje v řádu jednotek mikroampér. Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut za účelem kontroly stavu solárního panelu a akumulátoru. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, tedy každou hodinu, pro kontrolu stavu vajec. Nakonec se bude probouzet ráno a večer, opět pouze s nezbytnými částmi systému, za účelem otevření a zavření dvířek. Před zahájením pohybu dvířek budou piny koncových spínačů nastaveny jako digitální vstupy s interním pull-up rezistorem. Po dosažení koncové polohy budou přepnuty do analogového režimu, čímž bude eliminován jejich klidový odběr.
+Použité čipy podporují režim hlubokého spánku (Standby), který umožňuje výrazně snížit spotřebu energie. Klidový proud se v tomto režimu pohybuje v řádu jednotek mikroampér. Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut za účelem kontroly stavu solárního panelu a akumulátoru (stovky milisekund). Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, tedy každou hodinu, pro sekvenční kontrolu stavu vajec u každého hnízda (24 × 5 hnízd × 5 s na jedno hnízdo = 10 minut). Nakonec se bude probouzet ráno a večer, opět pouze s nezbytnými částmi systému, za účelem otevření a zavření dvířek (cca 2 × 20 s). Před zahájením pohybu dvířek budou piny koncových spínačů nastaveny jako digitální vstupy s interním pull-up rezistorem. Po dosažení koncové polohy budou přepnuty do analogového režimu, čímž bude eliminován jejich klidový odběr.
 
 Pro vývoj budou použity vývojové desky stejného nebo podobného typu, jako budou čipy použité na finální desce plošných spojů. Finální deska bude obsahovat čtyřpinovou lištu pro připojení programátoru z vývojové desky.
 
@@ -127,7 +138,7 @@ V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a an
 #### Stavový automat pro algoritmus detekce snesených vajec
 Probuzení mikrokontroléru a převodníku HX711.  
 Čekání 500 ms na ustálení měření.  
-Odebrání 32 vzorků.  
+Odebrání 32 vzorků rychlostí 10 SPS.  
 Výpočet mediánu.  
 Výběr 16 vzorků s nejmenší odchylkou od mediánu.  
 Výpočet aritmetického průměru a směrodatné odchylky.  
