@@ -127,7 +127,7 @@ V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a an
 
 ## Nákup
 
-**Kabely**  
+**Kabeláž**  
 https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko  
 https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko  
 https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko  
@@ -197,11 +197,20 @@ https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13m
 **Dvířka**  
 https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/  
 
-**Hnízda**  
+**Hnízdo**  
 https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/  
 
 **Tenzometr**  
 https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/  
+
+**Převodník**  
+https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/  
+
+**Transceiver**  
+https://cz.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX3485EESA+?qs=1THa7WoU59HLsdsozrMCeQ%3D%3D  
+
+**Adaptér**  
+https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html  
 
 **Překližky**  
 Hobby market (Hornbach)  
