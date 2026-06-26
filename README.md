@@ -178,7 +178,7 @@ https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
 https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/  
 
 **Překližka**  
-Hobby ḿarket (Hornbach)  
+Hobby market (Hornbach)  
 
 **Červík**  
 Fabory Přerov  
@@ -187,10 +187,10 @@ Fabory Přerov
 https://www.majkl3d.cz/p/zavitova-vlozka-do-plastu-mosaz-m3  
 
 **Lanko**  
-Hobby ḿarket (Hornbach)  
+Hobby market (Hornbach)  
 
 **Očko Šrouby Podložka Matice Vruty**  
-Hobby ḿarket (Hornbach)  
+Hobby market (Hornbach)  
 
 **PU tmel**  
-Hobby ḿarket (Hornbach)  
+Hobby market (Hornbach)  
