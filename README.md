@@ -83,14 +83,14 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh.
 
-#### Energetická bilance
+| Orientace | Letní výkon (Wh/den) | Zimní výkon (Wh/den) | Zimní bilance (mAh/den) |
+| :--- | :---: | :---: | :---: |
+| **Jih** | 70–110 | 16–30 | +3800 až +7500 (extrémně dobrá) |
+| **Východ** | 50–80 | 12–24 | +2500 až +5000 (velmi dobrá) |
+| **Západ** | 50–80 | 12–24 | +2500 až +5000 (velmi dobrá) |
+| **Sever** | 16–30 | 4–12 | +300 až +1800 (přijatelná) |
 
-| Orientace | Zimní Wh/den | Letní Wh/den | Roční průměr mAh/den (6 V) | Zimní bilance (efektivita 70 %) vs ~12 mAh spotřeba |
-|-----------|------------------------------|--------------|---------------------------|---------------------------------------------------------|
-| **Jih**   | 16–30                       | 70–110      | 7300–9300                | +3800 až +7500 mAh/den (extrémně dobrá)                    |
-| **Východ**| 12–24                       | 50–80       | 5300–7300                | +2500 až +5000 mAh/den (velmi dobrá)                       |
-| **Západ** | 12–24                       | 50–80       | 5300–7300                | +2500 až +5000 mAh/den (velmi dobrá)                       |
-| **Sever** | 4–12                        | 16–30       | 2000–3300                | +300 až +1800 mAh/den (přijatelná)                         |
+*Poznámka: Zimní bilance počítá s efektivitou 70 %.*
 
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a svorek s roztečí 2,54 mm, které budou obsahovat kovový plíšek pro ochranu licny. Finální verze bude obsahovat jednu hlavní desku plošných spojů a x vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami. Jako rozhraní budou použity šroubovací svorkovnice s roztečí 5,08 mm a konektory RJ45.
