@@ -16,96 +16,102 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Koncept
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech x a tloušťce 2,4mm a druhou (K) o rozměrech x a tloušťce 1,6mm pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (P). Dále bude pro každé snáškové hnízdo určena jedna krabička (Kx) o rozměrech x a tloušťce 1,6mm.
+Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech × a tloušťce stěny 2,4 mm a druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku, elektroniku dvířek a hlavní mikrokontrolér (P). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm.
 
-Tyto krabičky budou vytištěny na 3D tiskárně z materiálu PETG a budou disponovat prodlouženou zadní stěnou ve svislém směru s tloušťkou 3,5mm. V každém rohu této stěny budou otvory pro vruty pro upevnění krabičky ke zdi. Na krabičkách budou také směrem od horního obvodu dolů mírně zaoblené drážky ve tvaru písmene U. Tyto drážky budou sloužit pro prostrčení kabelů. Drážky s šířkou 2,5mm pro 0,5mm² kabel a drážky s šířkou 3,5mm pro 1,5mm² kabel. Pro UTP kabel bude šířka výřezu 5,5mm. Tímto průměrem bude taktéž disponovat klasický kulovitý otvor ze spodu Kx pro stíněný kabel.
+Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně.
 
-Vrchní stěna (víko) bude vytištěna zvlášť s přesahem 2mm a dutou trubičkou uprostřed zadní hrany. Na horní hraně zadní stěny krabiček budou po stranách dvě takové trubičky o stejném průměru otvoru, a to 2,1mm. Těmito trubičkami bude po vytištění provlečen klasický filament o tloušťce 1,75mm, jehož konce budou krátce zahřáty zapalovačem a zatlačeny proti oběma koncům nyní již celistvé trubičky, aby vytvořily hlavičku. Takto bude vytvořen pant pro víko.
+Na krabičkách budou dále vytvořeny mírně zaoblené nízké drážky ve tvaru písmene U, směřující od horní hrany směrem dolů. Tyto drážky budou sloužit k protažení kabelů. Pro vodiče o průřezu 0,5 mm² budou mít šířku 2,5 mm, pro vodiče o průřezu 1,5 mm² šířku 3,5 mm a pro kabel UTP šířku 5,5 mm. Stejný průměr bude mít i kruhový otvor umístěný na spodní straně krabičky Kx, určený pro průchod stíněného kabelu.
 
-### Kabely
-Pro silové rozvody (solární panel, akumulátor, H-můstek a motor) bude použita měděná ohebná licna o průřezu 1,5mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5mm². Pro kladnou větev bude použit červený vodič a pro zápornou větev černý vodič. Jako sdělovací kabel byl zvolen UTP CAT5E typu licna, který bude upevněn na zeď pomocí 5mm hřebíkových příchytek.
-
-### Napájení
-Solární panel (6V 10W) bude připevněn svisle na zeď, umístěn pod malou stříškou a orientován na jih (popř. východ, západ nebo při žádné jiné možnosti na sever). Tím se docílí toho, že nikdy nezapadne sněhem a využije co možná nejvíce sluneční energie.
-
-Společně s olověným bezúdržbovým akumulátorem AGM (6V 7Ah) budou celý systém zásobovat elektřinou. Silová část bude dimenzována na 6V (motorek) a veškerá elektronika na 3,3V.
-
-Snížení napětí z 6V na 3,3V bude realizováno pomocí LDO regulátoru s nízkým klidovým proudem (jednotky mikroampér).
-
-Buck měniče nejsou vhodné kvůli horší dostupnosti modelů s nízkým Iq a malému odběru systému po většinu dne. Jejich vysoká účinnost by se uplatnila pouze po dobu přibližně 2 minut a po zbytek dne by měly paradoxně nižší účinnost než jednoduché stabilizátory.
-
-### Řízení
-Hlavní řídicí jednotkou v kurníku bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868MHz. LoRa modul umožní komunikaci na velké vzdálenosti při nízké spotřebě energie. U každého snáškového hnízda pak bude další mikrokontrolér STM32.
-
-Programování bude probíhat v prostředí STM32CubeIDE. Součástí firmwaru hlavní jednotky budou astronomické hodiny, podle kterých se budou otevírat a zavírat dvířka. Časovač jsem se rozhodl nepoužít z důvodu proměnné délky dne a světelný senzor by se zase mohl spínat při zatažených dnech (deště, bouřky) nebo večer vlivem pouličního osvětlení či světlometů aut.
-
-Tyto mikrokontroléry dokáží přejít do tzv. režimu hlubokého spánku (Standby), a tím ušetřit velké množství energie (klidový proud je v řádu jednotek mikroampér). Hlavní jednotka se bude spolu s dalšími potřebnými částmi systému probouzet každých 10 minut pro zkontrolování stavu panelu a baterie. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, a to právě každou hodinu, pro zkontrolování stavu vajec. A nakonec se zapne ráno a večer, opět pouze s dalšími potřebnými částmi systému, pro otevření a zavření dvířek.
-
-Pro vývoj budou použity vývojové desky stejného/podobného typu, jako budou čipy na finální desce. Finální deska bude mít vyvedenou čtyřkolíkovou lištu k připojení programátoru (z vývojové desky).
-
-K hlavnímu čipu bude potřeba připojit anténu pracující na LoRa frekvenci ve formě ustřiženého měděného drátu dlouhého 8,2cm (čtvrtvlnný monopól), třeba z klasického UTP kabelu. Ten se připájí k plošnému spoji a může zůstat uvnitř krabičky. Anténa se ale musí nacházet co nejdále od baterie a motorku a 2cm kolem a pod ní nesmí být žádná měď ani součástky.
-
-V domě bude potom vývojová deska ESP32 se zabudovaným LoRa modulem a anténou, zastávající roli internetové brány. Veškerá data, která tato deska přijme, odešle do cloudového úložiště.
-
-### Elektronika
-Prototyp bude složen z modulů, umístěných na nepájivé pole pomocí kolíkových lišt a svorek do pole s roztečí 2,54mm a kovovým plíškem pro ochranu licny. Finální verze bude mít pouze jednu hlavní DPS a x vedlejších DPS pro každé snáškové hnízdo. Všechny DPS budou osazeny čipy a SMD součástkami. Jako rozhraní budou použity svorky s roztečí 5,08mm a konektory RJ45.
-
-V K bude na panel připojen vysokoimpedanční dělič, složený z rezistorů o hodnotách 1MΩ a 470kΩ. Na rezistor R2, tedy 470kΩ, bude paralelně připojen keramický kondenzátor s parametry 100nF 16V pro správné měření při takto velké impedanci. Tento dělič bude snímat napětí na panelu, které bude odesílat do P. Vysoká impedance zajistí odběr v řádu jednotek mikroampér.
-
-K panelu budou taktéž sériově (drainy k sobě) připojeny 2 P-MOS tranzistory, které budou plnit funkci výkonového spínače celého systému. Oba musí být ale spínány přes jeden N-MOS tranzistor, protože by je 3,3V mikrokontrolér sám sepnout nezvládl. Ten bude potom spínán přes P. Na gate N-MOSu bude sériově připojen 220Ω odpor z důvodu ochrany P proti proudovým špičkám. Paralelně mezi gate a společnou zem bude potom připojen 10kΩ pulldown rezistor z důvodu zamezení neurčitého stavu. Drain bude připojen na baterii, pullup rezistor 10kΩ a gate obou P-MOSů. Source potom na zem.
-
-Důvodem použití 2 P-MOSů namísto jednoho je parazitní dioda, která je pevnou součástí křemíkového čipu. Kdyby byl P-MOS pouze jeden, tak by večer i přes jeho rozpojení přes tuto parazitní diodu protékal proud z akumulátoru zpátky do panelu, a tím by se baterie vybíjela.
-
-Modul INA219 (resp. čip INA219 s externími součástkami) je proudové, ale i napěťové čidlo s nízkým klidovým proudem (jednotky mikroampér), které bude zapojeno v K mezi akumulátor a stabilizátor, kde bude snímat napětí na baterii.
-
-Podle údaje o napětí od INA219 bude P přes sběrnici I2C informován o tom, jak moc je baterie nabitá, resp. vybitá. Mohou nastat 3 případy. Buď bude panel ve slunečný den přivádět napětí vyšší než 7,2V a baterie bude plně nabitá (přepětí), panel nebude přivádět žádné napětí (noc) a z baterie do něj začne proudit zpětný proud (přepólování), nebo bude baterie kriticky vybitá (blížit se 5,4V). P tudíž buď odpojí napájení, nebo v posledním uvedeném případě vše, co může, vypne a co nejhlouběji uspí.
-
-INA219 je také, jak jsem již zmiňoval, senzorem proudu. Této vlastnosti bude využívat P, když se najednou proud dodávaný z baterie zvýší. Pokud se dvířka zrovna zavírala, tak to bude značit, že narazila na slepici nebo se zasekla, což se může stát i při otevírání. P okamžitě zkusí obrátit chod (pozor na falešné špičky způsobené rozběhem a vypnutím motorku) a pokud i to selže, tak systém vypne a odešle zprávu o nefunkčnosti dveří.
-
-Je tedy zřejmé, že P bude taktéž řídit H-můstek (resp. čip s externími součástkami) s nízkým klidovým proudem (jednotky mikroampér), a to přes sběrnici I2C. H-můstek s elektrolytem 47µF 25V (kvůli indukčním špičkám při vypínání motorku), zapojeným těsně paralelně k pinům VM a GND, bude zase řídit elektromotorek, jenž bude odrušený 100nF keramickým kondenzátorem zapojeným těsně mezi kontakty a dvěma 47nF keramickými kondenzátory zapojenými těsně mezi kontakty a kostru (Faradayova klec). Všechny tyto kondenzátory budou dimenzované na napětí 50V. Odrušení je potřeba kvůli jiskření kartáčků a filtraci vysokofrekvenčního rušení. H-můstek i elektromotorek budou v K.
-
-Jelikož jsou vodiče od tenzometru přiliš krátké, tak budou prodlouženy stíněným kabelem typu licna. Drátky se odizolují a bude přes ně navlečena smršťovací bužírka. Poté budou spojeny pomocí pájecí bužírky a zataveny zapalovačem. Nakonec bude smršťovací bužírka přetažena přes spoje a taktéž zahřáta zapalovačem. Stínící vodič bude připojen ke společné zemi, kvůli odvodu šumu.
-
-K čipům P a Px budou na finálních deskách paralelně těsně k pinům VDDA a VSSA připojeny keramické odrušovací kondenzátory s parametry 10µF 25V a 100nF 50V, kvůli filtraci VF šumu. DPS budou mít společnou zem ze záporného pólu panelu a akumulátoru ve formě souvislé vrstvy mědi.
+Víko bude vytištěno samostatně s přesahem 2 mm a bude obsahovat dutou trubičku uprostřed zadní hrany. Na horní hraně zadní stěny každé krabičky budou po stranách umístěny dvě trubičky s průměrem otvoru 2,1 mm. Po vytištění jimi bude protažen filament o průměru 1,75 mm, jehož konce budou krátce nahřáty zapalovačem a roztemovány tak, aby vytvořily hlavičky. Tím vznikne jednoduchý pant pro uchycení víka.
 
 ### Mechanika
-Hlavní část systému bude umístěna na venkovní stěně kurníku, která bude v souladu s požadavky pro solární panel, jež jsou uvedeny v sekci napájení. Tímto snížím komplexnost montáže a z velké části eliminuji vliv amoniaku ze slepičího trusu.
+Hlavní část systému bude umístěna na vnější stěně kurníku, která bude splňovat požadavky na umístění solárního panelu uvedené v kapitole Napájení. Toto řešení zjednoduší montáž a zároveň z velké části eliminuje působení amoniaku ze slepičího trusu na elektroniku.
 
-Pomocí vrutů do dřeva budou na stěnu přišroubovány dřevěné hranolky, po jejichž bocích budou pomocí vrutů připevněny hliníkové drážky (U-profil) s vnitřním rozměrem 10mm. V nich se budou svisle pohybovat bílá pěněná PVC dvířka o rozměrech x a tloušťce 8mm (při vrtání nízké otáčky a netlačit!).
+Na stěnu budou pomocí vrutů do dřeva připevněny dřevěné hranolky. K jejich bočním stranám budou následně pomocí vrutů upevněny hliníkové U-profily s vnitřním rozměrem 10 mm. V těchto profilech se budou ve svislém směru pohybovat bílá pěněná PVC dvířka o rozměrech × a tloušťce 8 mm. Při vrtání otvorů do PVC bude nutné použít nízké otáčky a nevyvíjet nadměrný přítlak.
 
-Na přední straně dvířek nahoře bude umístěno očko, upevněné zapuštěnou podložkou a maticí, vše M5 nerez A2. Očko bude procházet otvorem o stejném průměru, jako je jeho metrický závit. Podložka s maticí budou zapuštěny v záhlubení o průměru 10mm a hloubce 3mm (indikací je moment, kdy vrták přestane vytvářet kužel).
+Na horní části přední strany dvířek bude umístěno očko, upevněné pomocí zapuštěné podložky a matice M5 z nerezové oceli A2. Očko bude procházet otvorem o stejném průměru, jako je jeho metrický závit. Podložka i matice budou zapuštěny do záhlubení o průměru 10 mm a hloubce 3 mm.
 
-Očkem bude prostrčeno syntetické lanko (zednická stavební šňůra) o tloušťce 2mm, zajištěné dračí smyčkou, která bude zakápnuta vteřinovým lepidlem. Toto lanko povede kolmo nahoru do K, ve které bude 2cm šíroká špulka s vnějším průměrem 2,5cm z materiálu PETG, vytištěná na 3D tiskárně.
+Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, které bude zajištěno dračí smyčkou zakápnutou vteřinovým lepidlem. Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vytištěnou z materiálu PETG. Špulka bude mít šířku 2 cm a vnější průměr 2,5 cm.
 
-Tělem špulky bude skrz 3mm otvor, umístěný mírně mimo střed směrem od motorku, provlečeno lanko a upevněno pomocí osmičkového uzlu, který bude rovněž zakápnut vteřinovým lepidlem.
+Lanko bude otvorem o průměru 3 mm, umístěným mírně mimo osu špulky směrem od motoru, provlečeno skrz její tělo a upevněno osmičkovým uzlem, který bude rovněž zakápnut vteřinovým lepidlem.
 
-Špulka s vnitřním průměrem 3mm (D-profil) bude pomocí 6mm stavěcího šroubu (červíku) M3 nerez A2 a mosazné závitové vložky M3 (délka 4mm, průměr 4,5mm) připevněna ke hřídeli tvaru D nízkootáčkového stejnosměrného DC motorku s kovovou převodovkou (6V).
+Špulka bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M3 z nerezové oceli A2 a mosazné závitové vložky M3 (délka 4 mm, průměr 4,5 mm) bude upevněna na hřídeli nízkootáčkového stejnosměrného motoru s kovovou převodovkou (6 V).
 
-Otvor pro vložku bude mít průměr 5mm a v posledních 4mm směrem ke hřídeli se zúží na 4,1mm. Do otvoru bude zavedena vložka s dlouhým šroubem M3. Jakmile narazí na zúžení, bude hlava šroubu zahřáta mikropájkou. Plast v oblasti zúžení se roztaví a umožní zalisování mosazné vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
+Otvor pro mosaznou závitovou vložku bude mít průměr 5 mm a v posledních 4 mm směrem ke hřídeli se zúží na průměr 4,1 mm. Do otvoru bude zavedena vložka pomocí dlouhého šroubu M3. Jakmile vložka narazí na zúženou část otvoru, bude hlava šroubu nahřáta mikropájkou. Plast se v místě zúžení roztaví, což umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
-V horní a dolní části hranolku budou zapuštěny dva mechanické koncové mikrospínače (pákové). Jak budou dvířka jezdit po svislé ose, budou spínače postupně spínat, resp. rozpínat. Pin NO bude připojen na společnou zem a pin COM do P.
+V horní i dolní části hranolku budou zapuštěny dva pákové koncové mikrospínače. Při pohybu dvířek po svislé ose budou postupně spínány, respektive rozpínány. Kontakt NO bude připojen ke společné zemi a kontakt COM k P.
 
-Před pohybem dvířek se piny koncových spínačů aktivují (digitální vstup s pull-up rezistorem). Po dosažení koncové polohy se piny deaktivují přepnutím do analogového režimu, čímž se eliminuje jejich klidový odběr.
+Před zahájením pohybu dvířek budou piny koncových spínačů nastaveny jako digitální vstupy s interním pull-up rezistorem. Po dosažení koncové polohy budou přepnuty do analogového režimu, čímž bude eliminován jejich klidový odběr.
 
-Vedlejší část systému bude umístěna u snáškových hnízd, jež budou orientována příčně ke zdi. Pod kukaní pro slepice bude pomocí vrutů přimontována březová sítotisková překližka (při vrtání nízké otáčky!) o rozměrech 37×28cm a tloušťce 12mm. Další z těchto desek, o rozměrech 35×26cm, bude základová a bude přimontována k podlaze kurníku, opět pomocí vrutů do dřeva a poslední o rozměrech 40×50cm, bude fungovat jako zádní stěna.
+Vedlejší část systému bude umístěna u snáškových hnízd orientovaných příčně ke stěně.
 
-Tyto desky budou umístěny hladkou stranou nahoru resp. směrem ke hnízdu. Řezné hrany budou zatřeny voděodolným lakem proti vlhkosti.
+Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm bude tvořit základovou desku a bude připevněna k podlaze kurníku. Třetí překližka o rozměrech 40 × 50 cm bude sloužit jako zadní stěna. Všechny překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
 
-Mezi nimi bude uprostřed u zdi, kratší stranou s vodiči směrem k ní, umístěn tenzometr o tloušťce 12,7mm. Tento tenzometr je dimenzovaný na 20kg. Maximální váha, které může být vystaven je ve formě 2 překližek, hnízda, 2 slepic a 10 vajec (2+2+1+2+2+10×0,1 = 10kg).
+Mezi horní a spodní překližkou bude u stěny umístěn tenzometr o tloušťce 12,7 mm, orientovaný kratší stranou s vodiči směrem ke stěně. Tenzometr je dimenzován na zatížení 20 kg. Maximální předpokládané zatížení tvořené dvěma překližkami, hnízdem, dvěma slepicemi a deseti vejci činí přibližně 10 kg.
 
-Jeho volný konec bude upevněn dvěma inbusovými šrouby M4 nerez A2 se zápustnou hlavou. Šrouby budou procházet shora vážicí deskou skrz otvory o průměru 4,5mm a budou zapuštěny v záhlubení o průměru 10mm a hloubce 3mm. Mezi hlavou šroubu a deskou bude tenká vrstva PU tmelu.
+Volný konec tenzometru bude upevněn dvěma zápustnými inbusovými šrouby M4 z nerezové oceli A2. Šrouby budou procházet horní deskou skrz otvory o průměru 4,5 mm a budou zapuštěny do záhlubení o průměru 10 mm a hloubce 3 mm. Mezi hlavu šroubu a desku bude nanesena tenká vrstva PU tmelu.
 
-Pevný konec tenzometru bude upevněn dvěma inbusovými šrouby M5 nerez A2 se zápustnou hlavou. Ty budou procházet zespodu základovou deskou skrz otvory o průměru 5,5mm a budou zapuštěny v záhlubení o průměru 10mm a hloubce 3mm.
+Pevný konec tenzometru bude upevněn dvěma zápustnými inbusovými šrouby M5 z nerezové oceli A2. Ty budou procházet spodní deskou skrz otvory o průměru 5,5 mm a budou rovněž zapuštěny do záhlubení o průměru 10 mm a hloubce 3 mm.
 
-Šrouby budou dlouhé 25mm. Mezi deskami a závity tenzometru budou distanční matice o větším průměru, než má samotný šroub (M5 a M6 nerez A2) a tloušťce 4mm.
+Použité šrouby budou mít délku 25 mm. Mezi deskami a závity tenzometru budou umístěny distanční matice M5 a M6 z nerezové oceli A2, o tloušťce 4 mm.
 
-Ze zbytku vážicí překližky, která bude z obchodu nařezána na rozměr 38,5×29,5cm, budou odřezány lišty. Ty budou pomocí vrutů přimontovány zespodu horní desky. Lišty budou vysoké 15mm, protože volná mezera mezi deskami je 20,7mm a celá horní konstrukce (hnízdo spolu s vážicí deskou) musí levitovat s mezerou alespoň 3mm a být podepřená pouze tenzometrem.
+Ze zbytku vážicí překližky, která bude z obchodu nařezána na rozměr 38,5 × 29,5 cm, budou vyrobeny lišty. Ty budou pomocí vrutů připevněny ke spodní straně horní desky. Lišty budou vysoké 15 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem. Současně musí být zachována vůle alespoň 3 mm.
 
-Do zadní lišty bude vyvrtán otvor a ním proveden již prodloužený kabel od tenzometru (nesmí za tenzometr tahat) směrem nahoru po zdi až do Kx. Z boku krabičky bude vyveden sdělovací kabel, který povede vysoko po zdi a bude na ní upevněn pomocí hřebíkových příchytek. Tento kabel povede až do K.
+Krátké vodiče tenzometru budou prodlouženy stíněným lankovým kabelem. Jednotlivé vodiče budou odizolovány a bude na ně navlečena smršťovací bužírka. Následně budou spojeny pomocí pájecích smršťovacích spojek a zataveny zapalovačem. Poté bude smršťovací bužírka přetažena přes spoje a rovněž zahřáta.
 
-Ode zdi musí být celá konstrukce vzdálena tak, aby se jí nedotýkala a zůstalo za ní místo na kabel. Je taktéž nutné, aby se do tohoto prostoru nedostali slepice a jiní hlodavci.
+Do zadní lišty bude vyvrtán otvor, kterým bude protažen již prodloužený kabel od tenzometru. Kabel nesmí být mechanicky namáhán tahem. Dále bude veden vzhůru po stěně do krabičky Kx. Z boku krabičky bude vyveden sdělovací kabel, který povede vysoko po stěně až do krabičky K a bude upevněn pomocí hřebíkových příchytek.
 
-Uprostřed u košíku, naproti váze, bude vytvořen doraz pomocí inbusového šroubu M5 nerez A2 se zápustnou hlavou o délce 30mm. Šroub bude procházet zespodu základovou deskou skrz otvor o průměru 4,5mm a bude zapuštěn v záhlubení o průměru 10mm a hloubce 6mm (izolepa na vrtáku jako indikátor). Doraz bude tvořen mosaznou M5 kloboučkovou maticí kvůli nečistotám. Ideální vůle dorazu je 0,8mm (jedno otočení šroubu M5 nebo šířka kreditní karty).
+Celá konstrukce musí být od stěny vzdálena natolik, aby se jí nikde nedotýkala a současně za ní zůstal prostor pro vedení kabelu. Zároveň je nutné zabránit přístupu slepic a hlodavců do tohoto prostoru.
+
+Uprostřed konstrukce naproti košíku bude vytvořen stavitelný doraz pomocí zápustného inbusového šroubu M5 z nerezové oceli A2 o délce 30 mm. Šroub bude procházet spodní deskou skrz otvor o průměru 4,5 mm a bude zapuštěn do záhlubení o průměru 10 mm a hloubce 6 mm. Doraz bude tvořen mosaznou kloboučkovou maticí M5 (délka 10 mm, závit 7,5 mm) z důvodu omezení ulpívání nečistot. Optimální vůle dorazu je 0,8 mm, což odpovídá jednomu otočení šroubu M5 nebo přibližně tloušťce běžné platební karty.
+
+### Kabeláž
+Pro silové rozvody, zahrnující připojení solárního panelu, akumulátoru, H-můstku a motoru, bude použita měděná ohebná licna o průřezu 1,5 mm². Pro napájení elektroniky a signálová vedení bude použita měděná ohebná licna o průřezu 0,5 mm².
+
+Pro kladný pól bude použit červený vodič a pro záporný pól černý vodič. Pro datovou komunikaci byl zvolen stíněný kabel a kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí hřebíkových příchytek o průměru 5 mm.
+
+### Napájení
+Solární panel o parametrech 6 V / 10 W bude připevněn svisle na stěnu pod malou stříšku a orientován směrem na jih, případně na východ nebo západ. Pokud nebude jiná možnost, bude orientován na sever. Tím bude zajištěno, že panel nebude zakrytý sněhem a zároveň bude co nejlépe využívat dostupnou sluneční energii.
+
+Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 7 Ah bude zajišťovat napájení celého systému. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
+
+Snížení napětí z 6 V na 3,3 V bude realizováno pomocí LDO regulátoru s nízkým klidovým proudem v řádu jednotek mikroampér.
+
+Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti variant s nízkým klidovým proudem a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze přibližně po dobu dvou minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
+
+### Elektronika
+Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a svorek s roztečí 2,54 mm, které budou obsahovat kovový plíšek pro ochranu licny. Finální verze bude obsahovat jednu hlavní desku plošných spojů a x vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami. Jako rozhraní budou použity šroubovací svorkovnice s roztečí 5,08 mm a konektory RJ45.
+
+V krabičce K bude k solárnímu panelu připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen keramický kondenzátor o kapacitě 100 nF a jmenovitém napětí 16 V, který zajistí správnou funkci měření při takto vysoké impedanci. Dělič bude sloužit ke snímání napětí solárního panelu, přičemž naměřené hodnoty budou odesílány do P. Díky vysoké impedanci bude proudový odběr děliče pouze v řádu jednotek mikroampér.
+
+K solárnímu panelu budou sériově připojeny dva P-MOS tranzistory (drainy proti sobě), které budou tvořit výkonový spínač celého systému. Jejich řízení bude realizováno jedním N-MOS tranzistorem, protože napětí 3,3 V z P není dostatečné pro jejich přímé sepnutí. N-MOS tranzistor bude řízen P. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω pro omezení proudových špiček na výstupu P. Mezi gate a společnou zem bude paralelně připojen pulldown rezistor o hodnotě 10 kΩ, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru, pull-up rezistoru 10 kΩ a na gate obou P-MOS tranzistorů. Source bude připojen ke společné zemi.
+
+Důvodem použití dvou P-MOS tranzistorů namísto jednoho je přítomnost parazitní diody, která je nedílnou součástí jejich vnitřní struktury. Pokud by byl použit pouze jeden tranzistor, protékal by večer i při jeho rozepnutí proud z akumulátoru zpět do solárního panelu prostřednictvím této diody, což by způsobovalo samovolné vybíjení akumulátoru.
+
+Modul INA219 bude zapojen v krabičce K mezi akumulátor a stabilizátor. Jedná se o proudový i napěťový senzor s klidovým proudem v řádu jednotek mikroampér, který bude snímat napětí akumulátoru.
+
+Na základě údajů z modulu INA219 bude P prostřednictvím sběrnice I²C vyhodnocovat stav akumulátoru. Mohou nastat tři situace. První možností je slunečný den, kdy bude solární panel dodávat napětí vyšší než 7,2 V a akumulátor bude plně nabitý. Druhou možností je noc, kdy panel nebude dodávat žádné napětí a dojde ke vzniku zpětného proudu směrem do panelu. Třetí možností je kritické vybití akumulátoru při poklesu napětí přibližně k hodnotě 5,4 V. V závislosti na těchto stavech P odpojí napájení nebo v případě kritického vybití vypne všechny nepotřebné části systému a přejde do co nejhlubšího režimu spánku.
+
+Modul INA219 bude současně využíván jako proudový senzor. P bude monitorovat proud odebíraný z akumulátoru. Náhlé zvýšení proudu během pohybu dvířek bude indikovat jejich zablokování nebo náraz do překážky, například slepice. V takovém případě se P zastaví na 250 ms a pokusí se obrátit směr otáčení motoru. Pokud ani změna směru problém nevyřeší, systém se vypne a odešle zprávu o nefunkčnosti dvířek. Bude nutné brát v potaz krátkodobé proudové špičky vznikající při rozběhu motoru.
+
+P bude dále prostřednictvím sběrnice I²C řídit H-můstek s nízkým klidovým proudem. H-můstek bude vybaven elektrolytickým kondenzátorem 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, který bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-můstek i elektromotor budou umístěny v krabičce K.
+
+Stínění kabelu vedeného od tenzometru bude připojeno ke společné zemi za účelem odvodu šumu.
+
+K čipům P a Px budou na finálních deskách plošných spojů přímo k pinům VDDA a VSSA paralelně připojeny odrušovací keramické kondenzátory o kapacitách 10 µF / 25 V a 100 nF / 50 V pro filtraci vysokofrekvenčního šumu. Desky plošných spojů budou obsahovat souvislou zemní plochu připojenou k zápornému pólu solárního panelu a akumulátoru.
+
+### Řízení
+Hlavní řídicí jednotkou systému bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868 MHz. LoRa modul umožní komunikaci na velké vzdálenosti při nízké spotřebě energie. U každého snáškového hnízda bude umístěn další mikrokontrolér STM32.
+
+Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavní řídicí jednotky budou astronomické hodiny, podle kterých se budou automaticky otevírat a zavírat dvířka. Použití časovače nebylo zvoleno z důvodu proměnlivé délky dne. Světelný senzor by mohl způsobovat chybné sepnutí při zatažené obloze (déšť nebo bouřka) nebo ve večerních hodinách vlivem pouličního osvětlení či světlometů automobilů.
+
+Použité čipy podporují režim hlubokého spánku (Standby), který umožňuje výrazně snížit spotřebu energie. Klidový proud se v tomto režimu pohybuje v řádu jednotek mikroampér. Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut za účelem kontroly stavu solárního panelu a akumulátoru. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, tedy každou hodinu, pro kontrolu stavu vajec. Nakonec se bude probouzet ráno a večer, opět pouze s nezbytnými částmi systému, za účelem otevření a zavření dvířek.
+
+Pro vývoj budou použity vývojové desky stejného nebo podobného typu, jako budou čipy použité na finální desce plošných spojů. Finální deska bude obsahovat čtyřpinovou lištu pro připojení programátoru z vývojové desky.
+
+K hlavnímu čipu bude připojena anténa pro LoRa pásmo ve formě měděného vodiče o délce 8,2 cm (čtvrtvlnný monopól), například z běžného UTP kabelu. Anténa bude připájena přímo k desce plošných spojů a může zůstat uvnitř krabičky. Musí však být umístěna co nejdále od akumulátoru a motoru. V prostoru o poloměru 2 cm kolem antény ani pod ní se nesmí vyskytovat měď ani žádné elektronické součástky.
+
+V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a anténou, která bude plnit funkci internetové brány. Veškerá data přijatá touto deskou budou následně odesílána do cloudové databáze.
 
 ## Nákup
 
@@ -128,10 +134,10 @@ Electric-Hranice s.r.o.
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf128-2-54/  
 https://www.laskakit.cz/sroubovaci-svorkovnice-do-dps-kf301-2p/  
 
-**Klip**  
+**Klipy**  
 Hobby market (Hornbach)  
 
-**Konektor**  
+**Konektory**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c  
 
 **Solární panel**  
@@ -164,7 +170,7 @@ https://cz.mouser.com/ProductDetail/STMicroelectronics/STM32G031G8U6?qs=uwxL4vQw
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/  
 https://www.laskakit.cz/dupont-2x40pin-2-54-mm-pinovy-pas/  
 
-**Proudový senzor INA219**  
+**Proudový a napěťový senzor**  
 https://dratek.cz/arduino-platforma/1437-ina219-proudovy-snimac-obousmerny.html  
 
 **H-můstek**  
@@ -173,19 +179,19 @@ https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-bud
 **Motor**  
 https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html  
 
-**Koncák**  
+**Mikrospínače**  
 https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm  
 
-**Dveře**  
+**Dvířka**  
 https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/  
 
-**Hnízdo**  
+**Hnízda**  
 https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/  
 
 **Tenzometr**  
 https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/  
 
-**Překližka**  
+**Překližky**  
 Hobby market (Hornbach)  
 
 **Červík**  
