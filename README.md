@@ -82,13 +82,13 @@ Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonovéh
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze přibližně po dobu dvou minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
 
 Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh.
-
-| Orientace | Letní výkon (Wh/den) | Zimní výkon (Wh/den) | Zimní bilance (mAh/den) |
-| :--- | :---: | :---: | :---: |
-| **Jih** | 70–110 | 16–30 | +3800 až +7500 (extrémně dobrá) |
-| **Východ** | 50–80 | 12–24 | +2500 až +5000 (velmi dobrá) |
-| **Západ** | 50–80 | 12–24 | +2500 až +5000 (velmi dobrá) |
-| **Sever** | 16–30 | 4–12 | +300 až +1800 (přijatelná) |
+|               |                          |                          |                                 |
+| :---:         | :---:                    | :---:                    | :---:                           |
+| **Orientace** | **Letní výkon (Wh/den)** | **Zimní výkon (Wh/den)** | **Zimní bilance (mAh/den)**     |
+| **Jih**       | 70–110                   | 16–30                    | +3800 až +7500 (extrémně dobrá) |
+| **Východ**    | 50–80                    | 12–24                    | +2500 až +5000 (velmi dobrá)    |
+| **Západ**     | 50–80                    | 12–24                    | +2500 až +5000 (velmi dobrá)    |
+| **Sever**     | 16–30                    | 4–12                     | +300 až +1800 (přijatelná)      |
 
 *Poznámka: Zimní bilance počítá s efektivitou 70 %.*
 
