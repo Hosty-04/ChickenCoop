@@ -16,7 +16,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Koncept
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech 250×175×150 mm a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku, elektroniku dvířek a hlavní mikrokontrolér (P). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat vedlejší mikrokontrolér (Px).
+Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech 250 × 175 × 150 mm a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku, elektroniku dvířek a hlavní mikrokontrolér (P). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat vedlejší mikrokontrolér (Px).
 
 Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. PETG bylo zvoleno pro vyšší houževnatost a teplotní odolnost oproti PLA. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně. Zvětšená tloušťka zvyšuje tuhost při montáži pomocí vrutů. Krabičky budou mít ve stěnách naproti sobě 2 větrací otvory o průměru 1,5 cm.
 
