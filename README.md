@@ -237,7 +237,7 @@ https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
 Hobby market (Hornbach)  
 
 **Červík**  
-Fabory Přerov  
+Handy corp. Hranice / Přerov  
 
 **Vložka**  
 https://www.majkl3d.cz/p/zavitova-vlozka-do-plastu-mosaz-m3  
