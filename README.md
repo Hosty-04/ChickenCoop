@@ -192,7 +192,7 @@ https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-7Ah-d5513.htm
 https://cz.mouser.com/ProductDetail/Microchip-Technology/MCP1700-3302E-TO?qs=h7tZ5KkzNMMPEB66r2rMQw%3D%3D  
 
 **Brána**  
-https://www.hadex.cz/p/m378d-vyvojovy-modul-heltec-lora-32-wifi-bluetooth-v3-2  
+https://www.laskakit.cz/heltec-wifi-lora-32-v3-868mhz-0-96--wifi-modul/  
 
 **Master (vývojová deska a čip)**  
 https://cz.mouser.com/ProductDetail/STMicroelectronics/NUCLEO-WL55JC1?qs=zW32dvEIR3uxo98jZ7%2FN0g%3D%3D  
