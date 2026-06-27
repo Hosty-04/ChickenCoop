@@ -68,7 +68,7 @@ Uprostřed konstrukce naproti košíku bude vytvořen stavitelný doraz pomocí 
 ### Kabeláž
 Pro připojení solárního panelu a akumulátoru bude využito speciálního solárního kabelu typu licna o průřezu 4 mm² a hřebíkových přichytek o průměru 4 mm. Tyto kabely budou v K přes WAGO svorky přetransformovány na měděnou ohebnou licnu o průřezu 0.5mm², která bude pomocí svorek připojena k desce plošných spojů. U prototypu bude využíváno drátků do nepájivého pole s průřezem 0.5mm². Pro kladný pól bude použit červený vodič a pro záporný pól černý vodič.
 
-Pro datovou komunikaci byl zvolen stíněný kabel a kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek o průměru 5 mm. Prodloužení vodičů tenzometru zajistí přes WAGO svorky stíněný kabel LiYCY 4 × 25 mm² typu licna.
+Pro datovou komunikaci byl zvolen stíněný kabel a kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek o průměru 5 mm. Prodloužení vodičů tenzometru zajistí přes WAGO svorky stíněný kabel LiYCY 4 × 25 mm² typu licna. Průřez vodičů tenzometru je na hraně toho co WAGO svorky zvládnou, takže budou konce vodičů přehnuty napůl.
 
 ### Napájení
 2 Solární panely o parametrech 6 V / 10 Wp budou paralelně spojeny, svisle připevněny na stěnu pod malou stříšku a orientovány směrem na jih, případně na východ nebo západ. Tím bude zajištěno, že panely budou co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
