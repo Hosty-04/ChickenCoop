@@ -237,8 +237,7 @@ https://cz.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX3485EESA+
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html  
 
 **Kondenzátory**  
-https://www.tme.eu/cz/sk/details/fg28x5r1h105krt00/kondenzatory-mlcc-tht/tdk/  
-https://www.tme.eu/cz/details/fg28x5r1e106mrt06/kondenzatory-mlcc-tht/tdk/  
+ELBAS Přerov  
 
 **Překližky**  
 Hobby market (Hornbach)  
