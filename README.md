@@ -29,7 +29,7 @@ Hlavní část systému bude umístěna na vnější stěně kurníku, která bu
 
 Na stěnu budou pomocí vrutů do dřeva připevněny dřevěné hranolky. K jejich bočním stranám budou následně pomocí vrutů upevněny hliníkové U-profily s vnitřním rozměrem 10 mm. U-profily zajišťují přesné vedení dvířek při minimálním tření.
 
-V těchto profilech se budou ve svislém směru pohybovat bílá pěněná PVC dvířka o rozměrech × a tloušťce 8 mm. Při vrtání otvorů do PVC bude nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno díky nízké hmotnosti, odolnosti proti vlhkosti a snadné obrobitelnosti.
+V těchto profilech se budou ve svislém směru pohybovat bílá pěněná PVC dvířka o rozměrech × a tloušťce 8 mm (pozor na tolerance). Při vrtání otvorů do PVC bude nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno díky nízké hmotnosti, odolnosti proti vlhkosti a snadné obrobitelnosti.
 
 Na horní části přední strany dvířek bude umístěno očko, upevněné pomocí zapuštěné podložky a matice M5 z nerezové oceli A2. Očko bude procházet otvorem o stejném průměru, jako je jeho metrický závit. Podložka i matice budou zapuštěny do záhlubení o průměru 10 mm a hloubce 3 mm.
 
@@ -45,7 +45,7 @@ V horní i dolní části hranolku budou zapuštěny dva pákové koncové mikro
 
 Vedlejší část systému bude umístěna u snáškových hnízd orientovaných příčně ke stěně.
 
-Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm bude tvořit základovou desku a bude připevněna k podlaze kurníku. Třetí překližka o rozměrech 40 × 50 cm bude sloužit jako zadní stěna. Všechny překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
+Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm (502 × 402 mm) bude sloužit jako zadní stěna. Všechny překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
 
 Mezi horní a spodní překližkou bude u stěny umístěn tenzometr o tloušťce 12,7 mm, orientovaný kratší stranou s vodiči směrem ke stěně. Tenzometr váží s přesností 2 g, což je pro 50-70 g vejce zcela v pořádku. Je dimenzován na zatížení 20 kg a maximální předpokládané zatížení tvořené dvěma překližkami, hnízdem, dvěma slepicemi a deseti vejci činí přibližně 10 kg.
 
@@ -57,7 +57,7 @@ Pevný konec tenzometru bude upevněn dvěma zápustnými inbusovými šrouby M5
 
 Použité šrouby budou mít délku 25 mm. Mezi deskami a závity tenzometru budou umístěny distanční matice M5 a M6 z nerezové oceli A2, o tloušťce 4 mm.
 
-Ze zbytku vážicí překližky, která bude z obchodu nařezána na rozměr 38,5 × 29,5 cm, budou vyrobeny lišty. Ty budou pomocí vrutů připevněny ke spodní straně horní desky. Lišty budou vysoké 15 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem. Současně musí být zachována vůle alespoň 3 mm.
+Ze zbytku vážicí překližky o rozměru 38,5 × 29,5 cm, budou vyrobeny lišty. Ty budou pomocí vrutů připevněny ke spodní straně horní desky. Lišty budou vysoké 15 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem. Současně musí být zachována vůle alespoň 3 mm.
 
 Krátké vodiče tenzometru budou prodlouženy stíněným lankovým kabelem. Jednotlivé vodiče budou odizolovány a bude na ně navlečena smršťovací bužírka. Následně budou spojeny pomocí pájecích smršťovacích spojek a zataveny zapalovačem. Poté bude smršťovací bužírka přetažena přes spoje a rovněž zahřáta.
 
