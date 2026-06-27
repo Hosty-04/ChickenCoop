@@ -237,7 +237,7 @@ https://cz.mouser.com/ProductDetail/Analog-Devices-Maxim-Integrated/MAX3485EESA+
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html  
 
 **Kondenzátory**  
-ELBAS Přerov  
+https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator  
 
 **Překližky**  
 Hobby market (Hornbach)  
