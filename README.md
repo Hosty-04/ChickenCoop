@@ -157,7 +157,7 @@ https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-
 
 https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131  
 
-https://konektor-kabel.cz/liycy-4x025-mm2-stineny-od-48-mm-sedy-helu  
+Willmann Elektro Lipník  
 
 **Svorkovnice**  
 https://www.gme.cz/v/1497538/kls-301-500-02p-2-sc-svorkovnice-2pol-roztec-5mm-16a-250v-vstup-90-sroub  
