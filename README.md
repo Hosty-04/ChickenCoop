@@ -73,7 +73,7 @@ Pro datovou komunikaci byl zvolen stíněný kabel a kabel UTP CAT5e typu licna,
 ### Napájení
 2 Solární panely o parametrech 6 V / 10 Wp budou paralelně spojeny, svisle připevněny na stěnu pod malou stříšku a orientovány směrem na jih, případně na východ nebo západ. Tím bude zajištěno, že panely budou co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
 
-Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 7 Ah, jež bude umístěný ve stínu, bude zajišťovat napájení celého systému. Akumulátor LiFePO4 je sice v mnoha ohledech lepší, ale nesmí se používat v zimě. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
+Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 7 Ah, jenž bude umístěný ve stínu, bude zajišťovat napájení celého systému. Akumulátor LiFePO4 je sice v mnoha ohledech lepší, ale nesmí se používat v zimě. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
 
 Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonového LDO regulátoru. Nízký klidový proud významně prodlužuje provoz z akumulátoru. Tento stabilizátor bude zapojený k baterii a na jeho vstupu bude připojen blokovací keramický kondenzátor o kapacitě 1 µF / 50 V. Stejný kondenzátor bude připojen i na výstupu, ale tentokrát z důvodu vyhlazení napětí. 
 
