@@ -81,7 +81,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh.
 |               |                          |                          |                                 |
-| :---:         | :---:                    | :---:                    | :---:                           |
+| :---          | :---:                    | :---:                    | :---:                           |
 | **Orientace** | **Letní výkon (Wh/den)** | **Zimní výkon (Wh/den)** | **Zimní bilance (mAh/den)**     |
 | **Jih**       | 70–110                   | 16–30                    | +3800 až +7500 (extrémně dobrá) |
 | **Východ**    | 50–80                    | 12–24                    | +2500 až +5000 (velmi dobrá)    |
@@ -255,7 +255,7 @@ Hornbach (6, 6, 1, sada)
 Hornbach  
 
 |               |             |
-| :---:         | :---:       |
+| :---          | :---:       |
 | **OBCHOD**    | **CENA**    |
 | GME           | 700 Kč      |
 | ALZA          | 200 Kč      |
