@@ -79,7 +79,8 @@ Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonovéh
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze přibližně po dobu dvou minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
 
-Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh.
+Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod 50 µA, v aktivním režimu pod 50 mA a při pohybu dvířek kolem 500 mA. Denní spotřeba bude kolem 12 mAh, resp. 50 mWh. Dvířka (motor) se na denní spotřebě podílí ze 40 %, hnízda taktéž ze 40 % a řídicí elektronika a LoRa po 10 %.
+
 |               |                          |                          |                                 |
 | :---          | :---:                    | :---:                    | :---:                           |
 | **Orientace** | **Letní výkon (Wh/den)** | **Zimní výkon (Wh/den)** | **Zimní bilance (mAh/den)**     |
