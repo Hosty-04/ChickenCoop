@@ -154,9 +154,6 @@ Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více
 Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota.  
 Přechod mikrokontroléru i převodníku HX711 do režimu spánku.  
 
-#### Vývojový diagram
-<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/flowcharts/egg_detection_flowchart.png" alt="egg_detection_flowchart">
-  
 ## Nákup
 
 **Kabeláž**  
