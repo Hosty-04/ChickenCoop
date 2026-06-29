@@ -144,12 +144,12 @@ Probuzení mikrokontroléru a převodníku HX711.
 Odebrání 32 vzorků rychlostí 10 SPS.  
 Výpočet mediánu.  
 Výběr 16 vzorků s nejmenší odchylkou od mediánu.  
-Výpočet aritmetického průměru a směrodatné odchylky.  
-Pokud průměr překročí 1 kg (v hnízdu je slepice), měření se zahodí.  
+Výpočet aritmetického průměru, aktuální hmotnosti (odečet referenční nulové hodnoty) a směrodatné odchylky.  
+Pokud hmotnost překročí 1 kg (v hnízdu je slepice), měření se zahodí.  
 Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí.  
-Každý den ve 3 hodiny ráno je při hmotnosti < 25 g provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota.  
-Je-li měření stabilní, porovná se aktuální hmotnost s referenční hodnotou.  
-Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, je změna zaznamenána a uložena.  
+Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota.  
+Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou.  
+Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, je změna uložena.  
 Přechod mikrokontroléru i převodníku HX711 do režimu spánku.  
 
 ## Nákup
