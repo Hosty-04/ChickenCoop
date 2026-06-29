@@ -138,8 +138,7 @@ V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a an
 
 ## Algoritmy
 
-### Detekce snesených vajec
-**Stavový automat**  
+### Stavový automat pro detekci snesených vajec
 Probuzení mikrokontroléru a převodníku HX711.  
 Čekání 500 ms na ustálení měření.  
 Odebrání 32 vzorků rychlostí 10 SPS.  
