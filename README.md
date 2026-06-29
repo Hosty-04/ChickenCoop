@@ -138,7 +138,9 @@ V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a an
 
 ## Algoritmy
 
-### Stavový automat pro algoritmus detekce snesených vajec
+### Detekce snesených vajec
+
+#### Stavový automat
 Probuzení mikrokontroléru a převodníku HX711.  
 Čekání 500 ms na ustálení měření.  
 Odebrání 32 vzorků rychlostí 10 SPS.  
@@ -151,8 +153,9 @@ Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou.
 Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, je změna aritmeticky přičtena k uložené hodnotě.  
 Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota.  
 Přechod mikrokontroléru i převodníku HX711 do režimu spánku.  
-  
-<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/flowcharts/egg_detection_flowchart.png" alt="egg_detection_flowchart" height="1500px">
+
+#### Vývojový diagram
+<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/flowcharts/egg_detection_flowchart.png" alt="egg_detection_flowchart">
   
 ## Nákup
 
