@@ -66,7 +66,7 @@ K hlavnímu čipu bude připojena anténa pro LoRa pásmo ve formě měděného 
 
 V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a anténou, která bude plnit funkci internetové brány. Veškerá data přijatá touto deskou budou následně odesílána do cloudové databáze.
 
-### Stavový automat pro detekci snesených vajec
+**Detekce snesených vajec**  
 Probuzení mikrokontroléru a převodníku HX711.  
 Čekání 500 ms na ustálení měření.  
 Odebrání 32 vzorků rychlostí 10 SPS.  
