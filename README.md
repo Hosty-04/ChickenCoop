@@ -122,11 +122,11 @@ Na horní části přední strany dvířek bude umístěno závěsné očko M5 z
 
 Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, které bude zajištěno dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti.
 
-Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vytištěnou z materiálu PETG. Špulka bude mít šířku 2 cm a vnější průměr 2,5 cm. Otvorem o průměru 3 mm, umístěným mírně od středu těla špulky směrem od motoru, bude provlečeno skrz a upevněno osmičkovým uzlem, který bude rovněž zakápnut vteřinovým lepidlem.
+Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vytištěnou z materiálu PETG. Špulka bude mít šířku 2 cm a vnější průměr 2,5 cm. Otvorem o průměru 3 mm, umístěným na okraji špulky směrem od motoru, bude provlečeno skrz a upevněno osmičkovým uzlem, který bude rovněž zakápnut vteřinovým lepidlem. Tento uzel bude zapuštěn 1 cm hluboko do záhlubení s průměrem taktéž 1 cm. Vývod lanka se bude nacházet na okraji záhlubení směrem k okraji špulky.
 
-Špulka bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M3 z nerezové oceli A2 a mosazné závitové vložky M3 (délka 4 mm, průměr 4,5 mm) bude upevněna na hřídeli nízkootáčkového stejnosměrného motoru s kovovou převodovkou (6 V).
+Špulka bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A2 a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového stejnosměrného motoru s kovovou převodovkou (6 V). A to ze strany kde bude vstupovat lanko.
 
-Otvor pro mosaznou závitovou vložku bude mít průměr 5 mm a v posledních 4 mm směrem ke hřídeli se zúží na průměr 4,1 mm. Do otvoru bude zavedena vložka pomocí dlouhého šroubu M3. Jakmile vložka narazí na zúženou část otvoru, bude hlava šroubu nahřáta mikropájkou. Plast se v místě zúžení roztaví, což umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
+Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na průměr 6,5 mm. Do otvoru bude zavedena vložka pomocí dlouhého šroubu M5. Jakmile vložka narazí na zúženou část otvoru, bude hlava šroubu nahřáta mikropájkou. Plast se v místě zúžení roztaví, což umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
 V horní i dolní části hranolku budou zapuštěny dva pákové koncové mikrospínače. Při pohybu dvířek po svislé ose budou postupně spínány, respektive rozpínány. Kontakt NO bude připojen ke společné zemi a kontakt COM k M. Koncové spínače představují jednoduché a energeticky nenáročné řešení určování krajních poloh.
 
@@ -242,10 +242,7 @@ https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
 Hornbach (2 ks)  
 
 **Červík**  
-Handy corp. Hranice / Přerov (2 ks)  
-
-**Vložka**  
-https://www.majkl3d.cz/p/zavitova-vlozka-do-plastu-mosaz-m3 (2 ks)  
+Hornbach (2 ks)  
 
 **Lanko**  
 Hornbach  
@@ -274,8 +271,7 @@ Hornbach
 | BOTLAND       | 200 Kč      |
 | ZENIT         | 100 Kč      |
 | LIHNEME       | 1000 Kč     |
-| MAJKL3D       | 100 Kč      |
 | REZERVA       | 1000 Kč     |
-| **CELKEM**    | **8900 Kč** |
+| **CELKEM**    | **8800 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
