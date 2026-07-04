@@ -122,7 +122,7 @@ Na horní části přední strany dvířek bude umístěno závěsné očko M5 z
 
 Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, které bude zajištěno dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti.
 
-Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vytištěnou z materiálu PETG. Špulka bude mít šířku 2 cm a vnější průměr 2,5 cm. Otvorem o průměru 3 mm, umístěným na okraji špulky směrem od motoru, bude provlečeno skrz a upevněno osmičkovým uzlem, který bude rovněž zakápnut vteřinovým lepidlem. Tento uzel bude zapuštěn 1 cm hluboko do záhlubení s průměrem taktéž 1 cm. Vývod lanka se bude nacházet na okraji záhlubení směrem k okraji špulky.
+Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vytištěnou z materiálu PETG. Špulka bude mít šířku 2 cm a vnější průměr 2,5 cm. Otvorem o průměru 3 mm, umístěným na okraji špulky směrem od motoru, bude provlečeno skrz a upevněno osmičkovým uzlem, který bude rovněž zakápnut vteřinovým lepidlem. Tento uzel bude zapuštěn 8 mm hluboko do záhlubení s průměrem taktéž 10 mm. Vývod lanka se bude nacházet na okraji záhlubení směrem k okraji špulky.
 
 Špulka bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A2 a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového stejnosměrného motoru s kovovou převodovkou (6 V). A to ze strany kde bude vstupovat lanko.
 
