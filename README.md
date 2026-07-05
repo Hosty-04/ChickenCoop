@@ -51,7 +51,7 @@ Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod
 | **Západ**     | 50–80                    | 12–24                    | +2500 až +5000 (velmi dobrá)    |
 | **Sever**     | 16–30                    | 4–12                     | +300 až +1800 (přijatelná)      |
 
-*Poznámka: Zimní bilance počítá s efektivitou 70 %.*
+*Poznámka: Zimní bilance počítá s poklesem efektivity o 70 %.*
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868 MHz. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT není pro tento typ projektu vhodnou technologií. U každého snáškového hnízda bude umístěn další mikrokontrolér STM32.
