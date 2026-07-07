@@ -51,10 +51,10 @@ Spotřeba proudu u systému s 5 snáškovými hnízdy bude v režimu spánku pod
 | **Západ**     | 50–80                    | 12–24                    | +2500 až +5000 (velmi dobrá)    |
 | **Sever**     | 16–30                    | 4–12                     | +300 až +1800 (přijatelná)      |
 
-*Poznámka: Zimní bilance počítá s poklesem efektivity o 70 %.*
+*Poznámka: Zimní bilance počítá s poklesem efektivity solárního panelu o 70 % a akumulátoru o 20 %*
 
 ### Řízení
-Hlavní řídicí jednotkou systému bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868 MHz. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT není pro tento typ projektu vhodnou technologií. U každého snáškového hnízda bude umístěn další mikrokontrolér STM32.
+Hlavní řídicí jednotkou systému bude mikrokontrolér STM32 s integrovaným LoRa modulem, komunikujícím na frekvenci 868 MHz. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT není pro tento typ projektu vhodnou technologií, kvůli vyšší spotřebě. U každého snáškového hnízda bude umístěn další mikrokontrolér STM32.
 
 Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavní řídicí jednotky budou astronomické hodiny, podle kterých se budou automaticky otevírat a zavírat dvířka. Použití časovače nebylo zvoleno z důvodu proměnlivé délky dne. Světelný senzor by mohl způsobovat chybné sepnutí při zatažené obloze (déšť nebo bouřka) nebo ve večerních hodinách vlivem pouličního osvětlení či světlometů automobilů.
 
@@ -64,7 +64,7 @@ Pro vývoj budou použity vývojové desky stejného nebo podobného typu, jako 
 
 K hlavnímu čipu bude připojena anténa pro LoRa pásmo ve formě měděného vodiče o délce 8,2 cm (čtvrtvlnný monopól), například z běžného UTP kabelu. Anténa bude připájena přímo k desce plošných spojů a může zůstat uvnitř krabičky. Musí však být umístěna co nejdále od akumulátoru a motoru. V prostoru o poloměru 2 cm kolem antény ani pod ní se nesmí vyskytovat měď ani žádné elektronické součástky.
 
-V domě bude umístěna vývojová deska ESP32 s integrovaným LoRa modulem a anténou, která bude plnit funkci internetové brány. Veškerá data přijatá touto deskou budou následně odesílána do cloudové databáze.
+V domě bude umístěna LoRaWAN gateway, která bude přes WiFi plnit funkci internetové brány. Veškerá data přijatá přes gateway budou následně odeslána do cloudové databáze.
 
 **Stavový automat pro algoritmus detekce snesených vajec**  
 Probuzení mikrokontroléru a převodníku HX711.  
