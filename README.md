@@ -238,7 +238,7 @@ https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
 
 **Překližka**  
-Hornbach (2 ks)  
+Hornbach (4 ks)  
 
 **Červík**  
 Hornbach (2 ks)  
@@ -250,7 +250,7 @@ Hornbach
 Hornbach  
 
 **Šrouby Matice Podložky Vruty**  
-Hornbach (6, 6, 1, sada)  
+Hornbach (11, 11, 2, sada)  
 
 **PU tmel**  
 Hornbach  
@@ -261,7 +261,7 @@ Hornbach
 | GME           | 700 Kč      |
 | ALZA          | 200 Kč      |
 | HADEX         | 100 Kč      |
-| HORNBACH      | 600 Kč      |
+| HORNBACH      | 800 Kč      |
 | DEXHAL        | 750 Kč      |   
 | LEVNE-BATERKY | 350 Kč      |
 | MOUSER        | 2400 Kč     |
@@ -271,6 +271,6 @@ Hornbach
 | ZENIT         | 100 Kč      |
 | LIHNEME       | 1000 Kč     |
 | REZERVA       | 1000 Kč     |
-| **CELKEM**    | **8000 Kč** |
+| **CELKEM**    | **8200 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
