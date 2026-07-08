@@ -265,12 +265,12 @@ Hornbach
 | DEXHAL        | 750 Kč      |   
 | LEVNE-BATERKY | 350 Kč      |
 | MOUSER        | 2400 Kč     |
-| LASKAKIT      | 1100 Kč     |
+| LASKAKIT      | 300 Kč      |
 | DRATEK        | 300 Kč      |
 | BOTLAND       | 200 Kč      |
 | ZENIT         | 100 Kč      |
 | LIHNEME       | 1000 Kč     |
 | REZERVA       | 1000 Kč     |
-| **CELKEM**    | **8800 Kč** |
+| **CELKEM**    | **8000 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
