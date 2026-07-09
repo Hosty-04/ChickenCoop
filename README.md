@@ -255,10 +255,10 @@ Hornbach
 | ECOM          | 100 Kč      |
 | LASKAKIT      | 600 Kč      |
 | DRATEK        | 300 Kč      |
-| BOTLAND       | 1400 Kč     |
+| BOTLAND       | 1800 Kč     |
 | ZENIT         | 100 Kč      |
 | LIHNEME       | 1000 Kč     |
 | REZERVA       | 1000 Kč     |
-| **CELKEM**    | **8300 Kč** |
+| **CELKEM**    | **8800 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
