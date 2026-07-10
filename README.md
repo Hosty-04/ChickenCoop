@@ -127,7 +127,7 @@ Lanko povede kolmo vzhůru do krabičky K, ve které bude navinuto na špulku vy
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na průměr 6,5 mm. Do otvoru bude zavedena vložka pomocí dlouhého 15 mm šroubu M5. Jakmile vložka narazí na zúženou část otvoru, bude hlava šroubu nahřáta mikropájkou. Plast se v místě zúžení roztaví, což umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
-V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače. Záhlubení široká 20 mm povedou skrz hranolek, kvůli vývodu pinů. Mikrospínače budou upevněny pomocí vrutů o průměru 2 mm. Je důležité otvory předvrtat, kvůli deformaci plastu při vrtání do dřeva.
+V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10 mm hliníkovou drážku, kvůli vývodu pinů. Mikrospínače budou upevněny pomocí vrutů o průměru 2 mm. Je důležité otvory předvrtat, kvůli deformaci plastu při vrtání do dřeva.
 
 Vedlejší část systému bude umístěna u spádovaných snáškových hnízd s košíkem orientovaných příčně ke stěně.
 
