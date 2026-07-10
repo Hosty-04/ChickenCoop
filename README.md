@@ -232,8 +232,9 @@ https://www.laskakit.cz/en/prevodnik-ttl-na-rs-485--max485/ (3 ks)
 **Adaptér**  
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
-**Kondenzátor**  
+**Kondenzátory**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
+https://www.hadex.cz/p/i857-470u-25v-105-8x14x5mm-elektrolyt-kondenzator-radialni (4 ks)  
 
 **Překližka**  
 Hornbach (4 ks)  
