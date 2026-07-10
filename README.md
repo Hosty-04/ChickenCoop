@@ -101,7 +101,7 @@ Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zaned
 
 Mx bude pro komunikaci s M prostřednictvím datového kabelu typu UTP využívat sběrnici RS485. První kroucený pár bude sloužit k přenosu napájení pro Mx, přičemž oba vodiče budou zapojeny paralelně. Stejně tak druhý pár, který bude sloužit k přenosu napájení pro HX711 a MAX3485 přes tranzistorový spínač. Třetí pár bude stejným způsobem použit pro propojení společné země. Čtvrtý pár bude přenášet data prostřednictvím čipu MAX3485, který bude sloužit jako transceiver sběrnice RS485. Jeden čip bude před M a druhý před Mx.
 
-Tento čip vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Vše od tenzometru až po tento čip musí být zapojeno co nejblíže k sobě.
+Tento čip vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Jelikož je to čip, tak je pro prototyp potřeba použít adaptér SOIC8 na DIP8 a kolíkové lišty. Vše od tenzometru až po tento čip musí být zapojeno co nejblíže k sobě.
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi jednou řídicí jednotkou M (master) a několika jednotkami Mx (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat zakončovací rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
@@ -223,6 +223,9 @@ https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ (2 ks)
 
 **Transceiver**  
 https://www.laskakit.cz/en/prevodnik-ttl-na-rs-485--max485/ (3 ks)  
+
+**Adaptér**  
+https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
 **Kondenzátor**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
