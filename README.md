@@ -174,10 +174,10 @@ https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131 (5 m)
 
 Willmann Elektro Lipník (5 m)  
 
-**Svorkovnice**  
-https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina (2 ks)  
+**Svorkovnice a svorky**  
+https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina (4 ks)  
 https://www.gme.cz/v/1502753/wago-250-405-svorkovnice-5pol-roztec-25mm-4a-160v-vstup-45-pruzina  
-https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (10 ks)  
+https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (8 ks)  
 
 **Konektory**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (5 ks)  
@@ -206,7 +206,7 @@ https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868
 **Slave**  
 https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html (2 ks)  
 
-**Header**  
+**Headery**  
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/  
 
 **Proudový a napěťový senzor**  
