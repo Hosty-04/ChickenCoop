@@ -263,7 +263,7 @@ Hornbach
 |               |             |
 | :---          | :---:       |
 | **OBCHOD**    | **CENA**    |
-| GME           | 800 Kč      |
+| GME           | 850 Kč      |
 | ALZA          | 200 Kč      |
 | HADEX         | 100 Kč      |
 | HORNBACH      | 800 Kč      |
