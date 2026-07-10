@@ -82,9 +82,9 @@ Přechod mikrořadiče i převodníku HX711 do režimu spánku.
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a šroubovacích svorek, které budou obsahovat kovový plíšek pro ochranu licny. Finální verze bude obsahovat jednu hlavní desku plošných spojů a až 5 vedlejších desek pro jednotlivá snášková hnízda (v mém případě 2). Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-Po připojení solárního panelu do krabičky K bude využito dvou co nejblíže paralelně zapojených elektrolytických kondenzátorů 470 uF / 25 V a jednoho stejně zapojeného keramického kondenzátoru 100 nF / 50 V. Elektrolytické kondenzátory budou fungovat jako zásobárna energie a keramický bude filtrovat rychlé špičky.
+Po připojení solárního panelu do krabičky K bude využito elektrolytického kondenzátoru 47 uF / 25 V a keramického kondenzátoru 100 nF / 50 V, zapojeného co nejblíže spínacím prvkům. Elektrolytický kondenzátor bude fungovat jako zásobárna energie a keramický bude filtrovat rychlé špičky.
 
-V krabičce K bude k solárnímu panelu připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o kapacitě 100 nF a jmenovitém napětí 16 V. Dělič bude sloužit ke snímání napětí solárního panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v režimu analog input. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o kapacitě 100 nF a jmenovitém napětí 16 V. Dělič bude sloužit ke snímání napětí solárního panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v režimu analog input. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
 
 K solárnímu panelu budou sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS tranzistor bude řízen M. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω pro omezení proudových špiček na výstupu M. Mezi gate a společnou zem bude paralelně připojen pulldown rezistor o hodnotě 10 kΩ, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru, pull-up rezistoru 10 kΩ a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Source bude připojen ke společné zemi. Tahle část obvodu bude sloužit jako jednoduchý a velmi úsporný solární regulátor napájení.
 
@@ -92,13 +92,7 @@ Důvodem použití dvou P-MOS tranzistorů namísto jednoho je přítomnost para
 
 Modul proudového a napěťového senzoru INA219 bude spolu s vyrovnávacím keramickým kondenzátorem o parametrech 100 nF / 50 V, co nejblíže paralelně zapojeným mezi piny Vin+ a GND, zapojen v krabičce K mezi akumulátor a vstup VM pro napájení motoru u H-bridge. Jednou z jeho funkcí bude snímat napětí akumulátoru.
 
-Na základě údajů z modulu INA219 a děliče napětí bude M prostřednictvím sběrnice I²C, resp. portu GPIO vyhodnocovat stav akumulátoru a solárního panelu.
-
-Pomocí PWM regulace bude M, přes hlavní spínač systému, přepínat mezi způsoby dobíjení akumulátoru. Stav 1: Bulk bude zvolen, když bude napětí akumulátoru pod limitem. V tomto stavu bude střída PWM 100 %. Stav 2: Absorbtion bude zvolen po dosažení limitu napětí akumulátoru, který je v létě 7,2 V, na jaře / podzim 7,3 V a v zimě 7,5 V. Zde bude střída PWM adaptivní, její úděl bude udržet napětí na akumulátoru konstantní. Stav 3: Float je posledním stavem, který nastane když proud klesne k nule (střida PWM kolem 5 %). V tomto stavu bude potřeba nastavit udržovací napětí, které je v létě 6,7 V, na jaře / podzim 6,8 V a v zimě 6,9 V.
-
-Při kritickém vybití akumulátoru, kdy se jeho napětí přiblíží k hodnotě 5,4 V, M vypne všechny nepotřebné části systému, Mx uvede do StandBy režimu bez RTC a sám přejde do režimu Shutdown. Pro probuzení je potřeba mikrořadiče resetovat.
-
-V noci, kdy panel nebude dodávat žádné napětí musí M zamezit přepólování, aneb ke vzniku zpětného proudu směrem do panelu. To udělá odpojením hlavního spínače systému.
+Na základě údajů z modulu INA219 a děliče napětí bude M prostřednictvím sběrnice I²C, resp. portu GPIO vyhodnocovat stav akumulátoru a solárního panelu. Ochranu proti přepětí M zajistí přes regulaci s hysterezí. Pokud bude napětí na akumulátoru limitní, tedy v létě 7,2 V, na jaře / podzim 7,3 V a v zimě 7,5 V, M odpojí solární panel. Jestli napětí akumulátoru klesne o 0,25 V, tak M solární panel znovu připojí. Při kritickém vybití akumulátoru, kdy se jeho napětí dosáhne hodnoty 5,75 V, M vypne všechny části systému, Mx uvede do StandBy režimu bez RTC a sám přejde do režimu Shutdown. Pro probuzení je potřeba mikrořadiče resetovat. V noci, kdy panel nebude dodávat žádné napětí musí M zamezit přepólování, aneb ke vzniku zpětného proudu směrem do panelu. To udělá odpojením solárního panelu.
 
 Senzor INA219 bude současně využíván jako proudový snímač. M bude monitorovat proud odebíraný z akumulátoru. Náhlé zvýšení proudu během pohybu dvířek bude indikovat jejich zablokování nebo náraz do překážky, například slepice. V takovém případě se M zastaví na 250 ms, pokusí se obrátit směr otáčení motoru, dvířka vrátí zpět do původní polohy, uspí se a po 10 minutách to zkusí znovu. Pokud ani zpětný chod problém nevyřeší, systém se vypne. Bude nutné brát v potaz krátkodobé proudové špičky vznikající při rozběhu motoru.
 
@@ -178,7 +172,7 @@ https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v
 https://www.gme.cz/v/1502753/wago-250-405-svorkovnice-5pol-roztec-25mm-4a-160v-vstup-45-pruzina  
 https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (8 ks)  
 
-**Konektory**  
+**Konektor**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (5 ks)  
 
 **Klipy**  
@@ -214,7 +208,7 @@ https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/
 **Proudový a napěťový senzor**  
 https://dratek.cz/arduino-platforma/1437-ina219-proudovy-snimac-obousmerny.html  
 
-**H-můstek**  
+**H-bridge**  
 https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html  
 
 **Motor**  
@@ -241,9 +235,8 @@ https://www.laskakit.cz/en/prevodnik-ttl-na-rs-485--max485/ (3 ks)
 **Adaptér**  
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
-**Kondenzátory**  
+**Kondenzátor**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
-https://www.hadex.cz/p/i857-470u-25v-105-8x14x5mm-elektrolyt-kondenzator-radialni (4 ks)  
 
 **Překližka**  
 Hornbach (4 ks)  
