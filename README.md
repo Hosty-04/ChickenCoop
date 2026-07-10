@@ -167,6 +167,8 @@ https://www.gme.cz/v/1511630/solarkabel-xh-400mm2-cerveny (5 m)
 https://www.gme.cz/v/1511631/solarkabel-xh-400mm2-cerny (5 m)  
 https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko (5 m)  
 https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko (5 m)  
+https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko (5m)  
+https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko (5m)  
 
 https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131 (5 m)  
 
@@ -261,7 +263,7 @@ Hornbach
 |               |             |
 | :---          | :---:       |
 | **OBCHOD**    | **CENA**    |
-| GME           | 700 Kč      |
+| GME           | 800 Kč      |
 | ALZA          | 200 Kč      |
 | HADEX         | 100 Kč      |
 | HORNBACH      | 800 Kč      |
