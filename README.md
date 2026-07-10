@@ -177,7 +177,7 @@ Willmann Elektro Lipník (5 m)
 **Svorkovnice**  
 https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina (2 ks)  
 https://www.gme.cz/v/1502753/wago-250-405-svorkovnice-5pol-roztec-25mm-4a-160v-vstup-45-pruzina  
-https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (8 ks)  
+https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (10 ks)  
 
 **Konektory**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (5 ks)  
