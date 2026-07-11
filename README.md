@@ -78,18 +78,18 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | INA219 | 0,7 / 1 mA | 0,0078 / 0,0111 |
 | **Celkem** | **151 / 202 mA** | **1,67 / 2,24 mAh/den** |
 
-### Kontrola vajec (8 minut)
+### Kontrola vajec (8 minut pro 5 hnízd)
 
 | Komponenta | Proud (typ / max) | mAh/den (typ / max) |
 |---|---|---|
 | M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
-| MAX3485 (M) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
-| 5 × MAX3485 (Mx) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
-| 5 × Mx (LPRun @ 131 kHz) | 5 × (32 / 42 µA) | 0,0128 / 0,0168 |
-| 5 × HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 |
-| **Celkem** | **6,88 / 20 mA** | **0,91 / 2,66 mAh/den** |
+| MAX3485 (M) | 1,1 / 2,2 mA | 0,147 / 0,293 |
+| MAX3485 (Mx) | 1,1 / 2,2 mA | 0,147 / 0,293 |
+| Mx (LPRun @ 131 kHz) | 32 / 42 µA | 0,00427 / 0,00506 |
+| HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 |
+| **Celkem** | **6,75 / 9,22** | **0,9 / 1,23 mAh/den** |
 
-*Poznámka: Kvůli spínačům v Kx je spotřeba u MAX3485 i HX711 a tenzometru 5 × menší. Mx se po vykonání úkolu hned vypnou, takže první Mx je aktivní pouze 24 × 4 = 96 sekund, druhé Mx pouze 24 × 8 = 192 sekund, atd.*
+*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr. Tyto obvody jsou v každé Kx, ale zásluhou chytrého používání tranzistorových spínačů a režimů řadiče se proud tváří, jako kdyby bylo v celém kurníku pouze jedno hnízdo. Trik je v tom že zapnuté je pouze to, co zrovna pracuje. Výsledkem je 5 × nižší spotřeba.*
 
 ### LoRa RX (10 sekund)
 
@@ -109,17 +109,19 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | Stavová zpráva dvířek | 90 ms | 2 | 21,044 / 21,310 mA | 0,00105 / 0,00107 |
 | **Celkem** | | | | **~0,0186 / 0,0186 mAh/den** |
 
+*Poznámka: Stejně jako u LoRa RX je i zde využíváno režimu SMPS*
+
 ### Procentuální rozložení a celková denní spotřeba
 
-| Blok | mAh/den (pokoj) | Podíl | mAh/den (max) | Podíl |
+| Blok | mAh/den (typ) | Podíl | mAh/den (max) | Podíl |
 |---|---|---|---|---|
-| Pohyb dvířek | 1,691 | 64,9 % | 2,264 | 61,9 % |
-| Kontrola vajec | 0,763 | 29,3 % | 1,064 | 29,1 % |
-| Klidový režim | 0,108 | 4,1 % | 0,282 | 7,7 % |
-| Kontrola panelu/baterie | 0,0107 | 0,4 % | 0,0149 | 0,4 % |
-| LoRa TX | 0,0186 | 0,7 % | 0,0186 | 0,5 % |
-| LoRa RX | 0,0140 | 0,5 % | 0,0140 | 0,4 % |
-| **CELKEM** | **~2,605 mAh/den** | 100 % | **~3,657 mAh/den** | 100 % |
+| Pohyb dvířek | 1,67 | 61,4 % | 2,24 | 47,3 % |
+| Kontrola vajec | 0,901 | 33,1 % | 1,229 | 25,9 % |
+| Klidový režim | 0,108 | 4,0 % | 1,22 | 25,7 % |
+| LoRa TX | 0,0186 | 0,7 % | 0,0186 | 0,4 % |
+| LoRa RX | 0,0134 | 0,5 % | 0,0142 | 0,3 % |
+| Kontrola panelu / baterie | 0,00984 | 0,4 % | 0,0136 | 0,3 % |
+| **Celkem** | **2,72 mAh/den** | 100 % | **4,74 mAh/den** | 100 % |
 
 ### Tabulka 7 – Výroba energie panelu (1 panel, dle světových stran)
 
@@ -204,7 +206,7 @@ Přechod mikrořadiče i převodníku HX711 do režimu spánku.
 
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a narozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí že je čas na práci, tak se řadič přepne do režimu LPRun (Low Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do LPSleep režimu (LSI, 1MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz.
 
-U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka a protože je potřeba, aby si uchovali paměť RAM. Řadiče budou probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se řadiče přepnou do režimu LPRun (LSI, 131 kHz) a hned po vykonání úkolu se znovu přepnou do režimu Stop bez RTC.
+U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka a protože je potřeba, aby si uchovali paměť RAM. Řadiče budou postupně jeden za druhým probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se daný řadič přepne do režimu LPRun (LSI, 131 kHz) a hned po vykonání úkolu se přepne zpět do režimu Stop bez RTC.
 
 Před odpojením napájení VCC různých částí systému je potřeba piny (SCK, DT, PH, EN, DI, DE, RE, RO) přepsat na logickou nulu, pro zamezení napájení přes piny tomu neurčené (leakage current). Dále budou vypnuty periferie (I²C, UART, ADC) a jejich hodinový signál, který plýtvá energii, i když nic neposílají. Po odpojení VCC je potom třeba nastavit všechny piny, včetně těch pro teď už vypnuté periferie, do analogového režimu bez pull rezistoru.
 
