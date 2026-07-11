@@ -114,7 +114,7 @@ Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zaned
 
 Mx bude pro komunikaci s M prostřednictvím datového kabelu typu UTP využívat sběrnici RS485. První kroucený pár bude sloužit k přenosu napájení pro Mx, přičemž oba vodiče budou zapojeny paralelně. Stejně tak druhý pár, který bude sloužit k přenosu napájení do zbylé elektroniky v krabičce Kx, přes tranzistorový spínač. Třetí pár bude stejným způsobem použit pro propojení společné země. Čtvrtý pár bude přenášet data prostřednictvím čipu MAX3485, který bude sloužit jako transceiver sběrnice RS485. Jeden čip bude před M a druhý před Mx.
 
-Tento čip vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Jelikož je to čip, tak je pro prototyp potřeba použít adaptér SOIC8 na DIP8 a kolíkové lišty.
+Tento čip vytváří diferenciální signál na linkách A B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Jelikož je to čip, tak je pro prototyp potřeba použít adaptér SO8 na DIP8 a kolíkové lišty.
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi jednou řídicí jednotkou M (master) a několika jednotkami Mx (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat zakončovací rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
