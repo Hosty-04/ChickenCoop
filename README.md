@@ -49,6 +49,125 @@ Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonovéh
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze po dobu několika minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
 
+### Klidová spotřeba (~24 hodin)
+
+| Komponenta | Proud (typ/max) | mAh/den (typ/max) |
+|---|---|---|
+| LDO (MCP1700) | 1,6 / 4 µA | 0,0384 / 0,096 |
+| M (Stop2 s RTC) | 1,0 / 26 µA | 0,024 / 0,624 |
+| 5 × Mx (Stop bez RTC) | 1,9 / 21 µA | 0,0456 / 0,504 |
+| **CELKEM** | **4,5 / 51 µA** | **0,108 / 1,22 mAh/den** |
+
+*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
+
+### Kontrola vajec (8 minut)
+
+| Fáze | Proud (typ/max) | mAh/den (typ/max) |
+|---|---|---|
+| M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
+| MAX3485 (M) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
+| 5 × MAX3485 (Mx) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
+| 5 × Mx (LPRun @ 131 kHz) | 160 / 210 µA | 0,0213 / 0,028 |
+| 5 × HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 |
+| **CELKEM** | **6,88 / 20 mA** | **0,917 / 2,67 mAh/den** |
+
+*Poznámka: Kvůli spínačům v Kx je spotřeba u MAX3485, HX711 a tenzometru 5 × menší.*
+
+### Tabulka 3a – Pohyb dvířek (2× 20 s/den)
+
+| Komponenta | Proud (pokoj/max) | Doba | mAh/den (pokoj/max) | Zdroj |
+|---|---|---|---|---|
+| DRV8838 + motor (VM) | 150 / 200 mA | 40 s | 1,667 / 2,222 | Zadáno (neověřeno, motor datasheet nedohledán) |
+| DRV8838 logika | 1,3 / 2,5 mA | 40 s | 0,0144 / 0,0278 | Zadáno |
+| M – core (LPRun @ 1 MHz) | 190 / 245 µA | 40 s | 0,0021 / 0,0027 | Zadáno |
+| INA219 aktivní | 0,7 / 1 mA | 40 s | 0,0078 / 0,0111 | Ověřeno (INA219 datasheet) |
+| **CELKEM** | | | **~1,691 / 2,264 mAh/den** | |
+
+### Tabulka 4 – RX (52 oken/den, SMPS mód)
+
+| Komponenta | Proud | Doba/okno | Počet | mAh/den (pokoj/max) | Zdroj |
+|---|---|---|---|---|---|
+| Rádio RX (SMPS) | 4,8 mA (jednotná hodnota) | 200 ms | 52 | – | Zadáno |
+| CPU (LPSleep během RX) | 35,5 / 60,0 µA | 200 ms | 52 | – | Ověřeno (STM32WLE5 datasheet, Table 42) |
+| **CELKEM (rádio+CPU)** | 4,8355 / 4,860 mA | | | **~0,0140 / 0,0140 mAh/den** | |
+
+### Tabulka 5 – Kontrola panelu a baterie (144×/den)
+
+| Komponenta | Proud (pokoj/max) | Doba/den | mAh/den (pokoj/max) | Zdroj |
+|---|---|---|---|---|
+| M – core (LPRun @ 1 MHz) | 190 / 245 µA | 43,2 s | 0,0023 / 0,0029 | Zadáno |
+| INA219 aktivní | 0,7 / 1 mA | 43,2 s | 0,0084 / 0,0120 | Ověřeno |
+| **CELKEM** | | | **~0,0107 / 0,0149 mAh/den** | |
+
+### Tabulka 6 – LoRa TX (SMPS mód)
+
+| Událost | Airtime | Proud (rádio+CPU) | Počet | mAh/den (pokoj/max) | Zdroj |
+|---|---|---|---|---|---|
+| Hodinová zpráva | 123,9 ms | 21,0355 / 21,060 mA | 24 | 0,0174 / 0,0174 | Rádio zadáno; CPU ověřeno |
+| Stavová zpráva dvířek | 103,4 ms | 21,0355 / 21,060 mA | 2 | 0,0012 / 0,0012 | Rádio zadáno; CPU ověřeno |
+| **CELKEM TX** | | | | **~0,0186 / 0,0186 mAh/den** | |
+
+### Procentuální rozložení a celková denní spotřeba
+
+| Blok | mAh/den (pokoj) | Podíl | mAh/den (max) | Podíl |
+|---|---|---|---|---|
+| Pohyb dvířek | 1,691 | 64,9 % | 2,264 | 61,9 % |
+| Kontrola vajec | 0,763 | 29,3 % | 1,064 | 29,1 % |
+| Klidový režim | 0,108 | 4,1 % | 0,282 | 7,7 % |
+| Kontrola panelu/baterie | 0,0107 | 0,4 % | 0,0149 | 0,4 % |
+| LoRa TX | 0,0186 | 0,7 % | 0,0186 | 0,5 % |
+| LoRa RX | 0,0140 | 0,5 % | 0,0140 | 0,4 % |
+| **CELKEM** | **~2,605 mAh/den** | 100 % | **~3,657 mAh/den** | 100 % |
+
+### Tabulka 7 – Výroba energie panelu (1 panel, dle světových stran)
+
+| Orientace | Léto (Wh/den) | Zima (Wh/den) |
+|---|---|---|
+| Jih | 30–45 | 7,5–11,25 |
+| Východ | 22–32 | 5,5–8,0 |
+| Západ | 22–32 | 5,5–8,0 |
+| Sever | 8–14 | 2,0–3,5 |
+| JZ (odhad interpolací Jih/Západ) | ~26–38 | ~6,5–9,5 |
+
+### Tabulka 8 – Kapacita baterie (25 % derating v zimě)
+
+| | Léto | Zima |
+|---|---|---|
+| AGM 6V/7Ah | 7 Ah / 42 Wh | 5,25 Ah / 31,5 Wh |
+
+### Tabulka 9 – Energetická bilance (spotřeba: 2,605–3,657 mAh/den = 0,0156–0,0219 Wh/den)
+
+| Orientace | Bilance léto (mAh/den) | Bilance zima (mAh/den) |
+|---|---|---|
+| Jih | +4 997–7 497 | +1 246–1 871 |
+| Východ | +3 663–5 330 | +913–1 330 |
+| Západ | +3 663–5 330 | +913–1 330 |
+| Sever | +1 330–2 330 | +330–580 |
+| JZ | +4 330–6 330 | +1 080–1 580 |
+
+### Denní harmonogram power módů – M (LoRa-E5, 1 MHz)
+
+| Čas/událost | Mód | Proud (pokoj/max) |
+|---|---|---|
+| Mezi probuzeními | Stop2 mode + RTC | 1,0 / 2,8 µA |
+| Kontrola panelu/baterie (144×) | LPRun @ 1 MHz | 190/245 µA + INA219 aktivní |
+| Koordinace vajec (24×, 20 s/hod) | LPRun @ 1 MHz | 190/245 µA + MAX3485_M aktivní |
+| LoRa TX (SMPS) | LPSleep (CPU) + rádio TX | 35,5/60,0 µA + 21 mA |
+| LoRa RX (SMPS) | LPSleep (CPU) + rádio RX | 35,5/60,0 µA + 4,8 mA |
+| Pohyb dvířek | LPRun @ 1 MHz | 190/245 µA + INA219 + DRV8838 logika |
+
+### Denní harmonogram power módů – Mx (STM32L031, 131 kHz)
+
+| Čas/událost | Mód | Proud (pokoj/max) |
+|---|---|---|
+| Mezi vlastními cykly (většina hodiny) | Stop mode bez RTC (RAM zachována) | 0,38 / 0,99 µA |
+| Vlastní aktivní okno (4 s/hodinu) | LPRun @ 131 kHz | 32/36 µA + tenzometr+HX711 + MAX3485_Mx aktivní |
+
+### Poznámky k ověření hodnot
+
+Ověřeno z datasheetů: proud M ve Stop2+RTC (STM32WLE5, Table 43), proud M v LPSleep (STM32WLE5, Table 42), proud Mx v LPRun @131kHz (STM32L031, Table 29), proud Mx ve Stop bez RTC (STM32L031, Table 31), klidový proud LDO MCP1700, aktivní/shutdown proud INA219, klidový proud DRV8838 nSLEEP (0,34/0,6 µA – bezpředmětný díky spínači 2).
+
+Neověřeno, zůstává jako zadaná/odhadnutá hodnota: proud motoru DRV8838 VM (150/200 mA), proud M v LPRun @1MHz (190/245 µA), proud MAX3485 (1,1/2,2 mA), proud HX711 samotného (1,5 mA) a tenzometr+HX711 dohromady (3,3 mA), airtime LoRa (SF9/BW125/CR4:5, vypočteno teoreticky, neměřeno), doba aktivního okna 4 s/hnízdo (odhad rozpadu, neměřeno).
 
 *Poznámka: Zimní bilance počítá s poklesem efektivity solárního panelu o 75 % a kapacity akumulátoru o 25 % oproti letním hodnotám*
 
