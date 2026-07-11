@@ -60,6 +60,16 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
+### Pohyb dvířek (40 sekund)
+
+| Komponenta | Proud (typ/max) | mAh/den (typ/max) |
+|---|---|---|
+| Motor | 150 / 200 mA | 1,667 / 2,222 |
+| DRV8838 | 340 / 600 µA | 0,00378 / 0,00667 |
+| M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
+| INA219 | 0,7 / 1 mA | 0,0078 / 0,0111 |
+| **CELKEM** | 151 / 202 mA | **1,67 / 2,24 mAh/den** |
+
 ### Kontrola vajec (8 minut)
 
 | Fáze | Proud (typ/max) | mAh/den (typ/max) |
@@ -67,21 +77,11 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
 | MAX3485 (M) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
 | 5 × MAX3485 (Mx) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
-| 5 × Mx (LPRun @ 131 kHz) | 160 / 210 µA | 0,0213 / 0,028 |
+| 5 × Mx (LPRun @ 131 kHz) | 5 × (32 / 42 µA) | 0,0128 / 0,0168 |
 | 5 × HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 |
-| **CELKEM** | **6,88 / 20 mA** | **0,917 / 2,67 mAh/den** |
+| **CELKEM** | **6,88 / 20 mA** | **0,91 / 2,66 mAh/den** |
 
-*Poznámka: Kvůli spínačům v Kx je spotřeba u MAX3485, HX711 a tenzometru 5 × menší.*
-
-### Tabulka 3a – Pohyb dvířek (2× 20 s/den)
-
-| Komponenta | Proud (pokoj/max) | Doba | mAh/den (pokoj/max) | Zdroj |
-|---|---|---|---|---|
-| DRV8838 + motor (VM) | 150 / 200 mA | 40 s | 1,667 / 2,222 | Zadáno (neověřeno, motor datasheet nedohledán) |
-| DRV8838 logika | 1,3 / 2,5 mA | 40 s | 0,0144 / 0,0278 | Zadáno |
-| M – core (LPRun @ 1 MHz) | 190 / 245 µA | 40 s | 0,0021 / 0,0027 | Zadáno |
-| INA219 aktivní | 0,7 / 1 mA | 40 s | 0,0078 / 0,0111 | Ověřeno (INA219 datasheet) |
-| **CELKEM** | | | **~1,691 / 2,264 mAh/den** | |
+*Poznámka: Kvůli spínačům v Kx je spotřeba u MAX3485 i HX711 a tenzometru 5 × menší. Mx se po vykonání úkolu hned vypnou, takže první Mx je aktivní pouze 24 × 4 = 96 sekund, druhé Mx pouze 24 × 8 = 192 sekund, atd.*
 
 ### Tabulka 4 – RX (52 oken/den, SMPS mód)
 
@@ -202,7 +202,7 @@ Přechod mikrořadiče i převodníku HX711 do režimu spánku.
 
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a narozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí že je čas na práci, tak se řadič přepne do režimu LPRun (Low Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do LPSleep režimu (LSI, 1MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz.
 
-U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka a protože je potřeba, aby si uchovali paměť RAM. Řadiče budou probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se řadiče přepnou do režimu LPRun (LSI, 131 kHz).
+U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka a protože je potřeba, aby si uchovali paměť RAM. Řadiče budou probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se řadiče přepnou do režimu LPRun (LSI, 131 kHz) a hned po vykonání úkolu se znovu přepnou do režimu Stop bez RTC.
 
 Před odpojením napájení VCC různých částí systému je potřeba piny (SCK, DT, PH, EN, DI, DE, RE, RO) přepsat na logickou nulu, pro zamezení napájení přes piny tomu neurčené (leakage current). Dále budou vypnuty periferie (I²C, UART, ADC) a jejich hodinový signál, který plýtvá energii, i když nic neposílají. Po odpojení VCC je potom třeba nastavit všechny piny, včetně těch pro teď už vypnuté periferie, do analogového režimu bez pull rezistoru.
 
@@ -237,7 +237,7 @@ Tento čip vytváří diferenciální signál na linkách A B, čímž zvyšuje 
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi jednou řídicí jednotkou M (master) a několika jednotkami Mx (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat zakončovací rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
-Pro dosažení nízké spotřeby bude celý systém řízen několika tranzistorovými spínači. Tyto spínače budou konstruovány stejně jako hlavní spínač, ale jen s jedním PMOS tranzistorem. Přes první z těchto spínačů bude M řídit napájení k INA219. Přes druhý napájení k DRV8838 a třetí bude dodávat napětí k hlavnímu MAX3485 a zároveň do všech krabiček Kx. V každé krabičce Kx budou 2 spínače. Přes první z nich bude Mx řídit napájení ke svému MAX3485 a HX711. Ten bude ve výchozím stavu sepnutý. Druhý spínač bude Mx umožňovat poslat napětí do další krabičky Kx. Ten bude ve výchozím stavu rozepnutý. Použití těchto spínačů bude znamenat zanedbatelnou spotřebu celého systému po většinu dne.
+Pro dosažení nízké spotřeby bude celý systém řízen několika tranzistorovými spínači. Tyto spínače budou konstruovány stejně jako hlavní spínač, ale jen s jedním PMOS tranzistorem. Přes první z těchto spínačů bude M řídit napájení k INA219. Přes druhý napájení k DRV8838 a třetí bude dodávat napětí k hlavnímu MAX3485 a zároveň do všech krabiček Kx. V každé krabičce Kx budou 2 spínače. Přes první z nich bude Mx řídit napájení ke svému MAX3485 a HX711. Ten bude ve výchozím stavu sepnutý. Druhý spínač bude Mx umožňovat poslat napětí do další krabičky Kx. Ten bude ve výchozím stavu rozepnutý. Použití těchto spínačů sníží spotřebu celého systému na zanedbatelnou po většinu dne.
 
 Po zapnutí napájení k daným částem systému bude potřeba chvíli počkat něž naběhnou. U INA219 to je 150 µs před odesláním konfigurace a 1,5 ms než je připraven s prvními naměřenými hodnotami. Pro DRV8838 je to 1,5 ms než se nabije nábojová pumpa a MAX3485 potřebuje pouhých 150 µs.
 
