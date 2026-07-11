@@ -51,61 +51,63 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 ### Klidová spotřeba (~24 hodin)
 
-| Komponenta | Proud (typ/max) | mAh/den (typ/max) |
+| Komponenta | Proud (typ / max) | mAh/den (typ / max) |
 |---|---|---|
 | LDO (MCP1700) | 1,6 / 4 µA | 0,0384 / 0,096 |
 | M (Stop2 s RTC) | 1,0 / 26 µA | 0,024 / 0,624 |
 | 5 × Mx (Stop bez RTC) | 1,9 / 21 µA | 0,0456 / 0,504 |
-| **CELKEM** | **4,5 / 51 µA** | **0,108 / 1,22 mAh/den** |
+| **Celkem** | **4,5 / 51 µA** | **0,108 / 1,22 mAh/den** |
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
 ### Kontrola panelu a baterie (co 10 minut 300 ms)
 
-| Komponenta | Proud (typ/max) | mAh/den (typ/max) |
+| Komponenta | Proud (typ / max) | mAh/den (typ / max) |
 |---|---|---|
 | M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
 | INA219 aktivní | 0,7 / 1 mA | 0,0084 / 0,0120 |
-| **CELKEM** | **0,82 / 1,38 mA** | **0,00984 / 0,0136 mAh/den** |
+| **Celkem** | **0,82 / 1,38 mA** | **0,00984 / 0,0136 mAh/den** |
 
 ### Pohyb dvířek (40 sekund)
 
-| Komponenta | Proud (typ/max) | mAh/den (typ/max) |
+| Komponenta | Proud (typ / max) | mAh/den (typ / max) |
 |---|---|---|
 | Motor | 150 / 200 mA | 1,667 / 2,222 |
 | DRV8838 | 340 / 600 µA | 0,00378 / 0,00667 |
 | M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
 | INA219 | 0,7 / 1 mA | 0,0078 / 0,0111 |
-| **CELKEM** | **151 / 202 mA** | **1,67 / 2,24 mAh/den** |
+| **Celkem** | **151 / 202 mA** | **1,67 / 2,24 mAh/den** |
 
 ### Kontrola vajec (8 minut)
 
-| Fáze | Proud (typ/max) | mAh/den (typ/max) |
+| Komponenta | Proud (typ / max) | mAh/den (typ / max) |
 |---|---|---|
 | M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 |
 | MAX3485 (M) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
 | 5 × MAX3485 (Mx) | 1,1 / 2,2 mA | 0,1467 / 0,2933 |
 | 5 × Mx (LPRun @ 131 kHz) | 5 × (32 / 42 µA) | 0,0128 / 0,0168 |
 | 5 × HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 |
-| **CELKEM** | **6,88 / 20 mA** | **0,91 / 2,66 mAh/den** |
+| **Celkem** | **6,88 / 20 mA** | **0,91 / 2,66 mAh/den** |
 
 *Poznámka: Kvůli spínačům v Kx je spotřeba u MAX3485 i HX711 a tenzometru 5 × menší. Mx se po vykonání úkolu hned vypnou, takže první Mx je aktivní pouze 24 × 4 = 96 sekund, druhé Mx pouze 24 × 8 = 192 sekund, atd.*
 
-### Tabulka 4 – RX (52 oken/den, SMPS mód)
+### LoRa RX (10 sekund)
 
-| Komponenta | Proud | Doba/okno | Počet | mAh/den (pokoj/max) | Zdroj |
-|---|---|---|---|---|---|
-| Rádio RX (SMPS) | 4,8 mA (jednotná hodnota) | 200 ms | 52 | – | Zadáno |
-| CPU (LPSleep během RX) | 35,5 / 60,0 µA | 200 ms | 52 | – | Ověřeno (STM32WLE5 datasheet, Table 42) |
-| **CELKEM (rádio+CPU)** | 4,8355 / 4,860 mA | | | **~0,0140 / 0,0140 mAh/den** | |
+| Komponenta | Proud (typ / max) | mAh/den (typ / max) |
+|---|---|---|
+| Rádio RX (SMPS) | 4,8 mA | 0,0133 |
+| CPU (LPSleep) | 44 / 310 µA | 0,000122 / 0,000861 |
+| **Celkem** | 4,84 / 5,11 mA | **0,0134 / 0,0142 mAh/den** |
 
-### Tabulka 6 – LoRa TX (SMPS mód)
+*Poznámka: Odhad délky okna je 200 ms*
 
-| Událost | Airtime | Proud (rádio+CPU) | Počet | mAh/den (pokoj/max) | Zdroj |
-|---|---|---|---|---|---|
-| Hodinová zpráva | 123,9 ms | 21,0355 / 21,060 mA | 24 | 0,0174 / 0,0174 | Rádio zadáno; CPU ověřeno |
-| Stavová zpráva dvířek | 103,4 ms | 21,0355 / 21,060 mA | 2 | 0,0012 / 0,0012 | Rádio zadáno; CPU ověřeno |
-| **CELKEM TX** | | | | **~0,0186 / 0,0186 mAh/den** | |
+### LoRa TX (3 sekundy)
+
+| Událost | Airtime | Počet | Proud (typ / max) | mAh/den (typ / max) |
+|---|---|---|---|---|
+| Hodinová zpráva | 120 ms | 24 | 21,044 / 21,310 mA | 0,0168 / 0,0171 |
+| Stavová zpráva dvířek | 90 ms | 2 | 21,044 / 21,310 mA | 0,00105 / 0,00107 |
+| **Celkem** | | | | **~0,0186 / 0,0186 mAh/den** |
 
 ### Procentuální rozložení a celková denní spotřeba
 
