@@ -85,15 +85,9 @@ Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento reži
 
 U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka. Ostatní řadiče budou probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se řadiče přepnou do režimu LPRun (LSI, 131 kHz).
 
-Pozor na plovoucí piny! Pokud piny nejsou používány, tak se musí kvůli spotřebě nastavit do analogového režimu bez pull rezistoru.
-
 Před odpojením napájení VCC různých částí systému je potřeba piny (SCK, DT, PH, EN, DI, DE, RE, RO) přepsat na logickou nulu, pro zamezení napájení přes piny tomu neurčené (leakage current). Dále budou vypnuty periferie (I²C, UART, ADC) a jejich hodinový signál, který plýtvá energii, i když nic neposílají. Po odpojení VCC je potom třeba nastavit všechny piny, včetně těch pro teď už vypnuté periferie, do analogového režimu bez pull rezistoru.
 
-Kvůli spotřebě je potřeba odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody.
-
-Programátor ST-Link musí být při provozu odpojen hardwarově. Pájecí jumpery SB9, SB14, SB2 a SB3 je potřeba odpájet. U LoRa-E5 mini je ještě potřeba přepnout piny PA2 a PA3, zodpovědné za ladění, do analogového režimu bez pull rezistoru. Pro programování lze poté programátor připojovat k deskám přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu.
-
-Kvůli správné funkci úsporného režimu je u hlavní řídicí jednotky před uspáním nutné nastavit externí RF switch na logickou nulu a použít LP rádio (vstup i software). U ostatních řídicích jednotek je zase nutné v registrech napájení (PWR) aktivovat ultra-low-power režim (ULP bit) a vypnout fast wakeup.
+Kvůli spotřebě je potřeba odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být při provozu hardwarově odpojen. Pájecí jumpery SB9, SB14, SB2 a SB3 je potřeba odpájet. U LoRa-E5 mini je ještě potřeba přepnout piny PA2 a PA3, zodpovědné za ladění, do analogového režimu bez pull rezistoru. Pro programování lze poté programátor připojovat k deskám přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Pozor na plovoucí piny! Nepoužívané piny musejí být uvedeny do analogového režimu bez pull rezistoru. Kvůli správné funkci úsporného režimu je u hlavní řídicí jednotky před uspáním nutné nastavit externí RF switch na logickou nulu a použít LP rádio (vstup i software). U ostatních řídicích jednotek je zase nutné v registrech napájení (PWR) aktivovat ultra-low-power režim (ULP bit) a vypnout fast wakeup.
 
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a šroubovacích svorek, které budou obsahovat kovový plíšek pro ochranu licny. Finální verze bude obsahovat jednu hlavní desku plošných spojů a až 5 vedlejších desek pro jednotlivá snášková hnízda (v mém případě 2). Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
