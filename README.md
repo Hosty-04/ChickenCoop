@@ -49,7 +49,7 @@ Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonovéh
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze po dobu několika minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
 
-#### Denní přehled
+## Denní přehled
 
 ### Klidová spotřeba (24 hod)
 
