@@ -138,21 +138,23 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | Sever | 8–14 | 2,0–3,5 |
 | JZ | 26–38 | 6,5–9,5 |
 
+### Energetická bilance
+
+| Orientace | Léto (mAh/den) | Léto (mWh/den) | Zima (mAh/den) | Zima (mWh/den) |
+|---|---|---|---|---|
+| Jih | +4 995–7 497 | +29 970–44 980 | +1 245–1 872 | +7 470–11 230 |
+| Východ | +3 662–5 331 | +21 970–31 990 | +912–1 331 | +5 470–7 990 |
+| Západ | +3 662–5 331 | +21 970–31 990 | +912–1 331 | +5 470–7 990 |
+| Sever | +1 328–2 331 | +7 970–13 990 | +328–581 | +1 970–3 490 |
+| JZ | +4 328–6 331 | +25 970–37 990 | +1 078–1 581 | +6 470–9 490 |
+
 ### Kapacita baterie
 
 | | Léto | Zima |
 |---|---|---|
 | AGM 6V 7Ah | 7 Ah / 42 Wh | 5,25 Ah / 31,5 Wh |
 
-### Energetická bilance
-
-| Orientace | Léto (mAh/den) | Zima (mAh/den) |
-|---|---|---|
-| Jih | +4 995–7 497 | +1 245–1 872 |
-| Východ | +3 662–5 331 | +912–1 331 |
-| Západ | +3 662–5 331 | +912–1 331 |
-| Sever | +1 328–2 331 | +328–581 |
-| JZ | +4 328–6 331 | +1 078–1 581 |
+*Poznámka: Pokles kapacity v zimě znamená, že systém vydrží kratší dobu bez slunce. Protože je ale spotřeba celého systému téměř zanedbatelná, tak to není žádný problém.*
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini. Ten bude disponovat integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Kvůli zamezení rušení při komunikaci bude řadič umístěn na opačné straně než motor. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT má taktéž vyšší spotřebu. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6. Ten má integrovaný programátor, který bude využit i pro hlavní řadič.
