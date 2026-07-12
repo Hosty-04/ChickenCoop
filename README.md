@@ -172,7 +172,7 @@ Data budou z kurníku odesílána pomocí 3+ bajtů. První bajt bude obsahovat 
 Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednotkami bude využit protokol LPUART, který nevyužívá hodinový signál a vyznačuje se nízkou spotřebou energie. Přenosová rychlost bude 9600 Bd, kvůli minimalizaci odrazů. Na aplikační vrstvě bude použit komunikační protokol Modbus RTU a knihovna ModbusRTU-Slave. Protokol Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. LPUART, hardware v řadiči, následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici. Na straně přijímače proběhne opačný proces.
 
 **Stavový automat pro algoritmus detekce snesených vajec**  
-Probuzení mikrořadiče a převodníku HX711.  
+Probuzení mikrořadiče.  
 Čekání 500 ms na ustálení měření.  
 Odebrání 32 vzorků rychlostí 10 SPS.  
 Výpočet mediánu.  
@@ -183,7 +183,7 @@ Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření 
 Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou.  
 Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, je změna aritmeticky přičtena k uložené hodnotě.  
 Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota.  
-Přechod mikrořadiče i převodníku HX711 do režimu spánku.  
+Uspání mikrořadiče.  
 
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí, že je čas na práci, tak se řadič přepne do režimu LPRun (Low Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do LPSleep režimu (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz.
 
