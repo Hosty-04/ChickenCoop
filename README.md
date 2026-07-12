@@ -19,31 +19,33 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Popis
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech 250 × 175 × 150 mm a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (M). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat potřebnou elektroniku a vedlejší mikrokontrolér (Mx).
+Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech 80 × 60 × 110 mm a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, která bude určena pro mechaniku a elektroniku dvířek a hlavní mikrokontrolér (M). Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat potřebnou elektroniku a vedlejší mikrokontrolér (Mx).
 
-Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. Tento materiál byl zvolen pro vyšší houževnatost a teplotní odolnost oproti materiálu PLA. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně. Zvětšená tloušťka zvyšuje tuhost při montáži. Krabičky budou mít ve stěnách naproti sobě 2 větrací otvory o průměru 1,5 cm.
+Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. Tento materiál byl zvolen pro vyšší houževnatost a teplotní odolnost oproti materiálu PLA. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně. Zvětšená tloušťka zvyšuje tuhost při montáži.
 
-Dále budou na všech krabičkách vytvořeny mírně zaoblené nízké drážky ve tvaru písmene U, směřující od horní hrany směrem dolů. Tyto drážky budou sloužit k protažení kabelů. Pro speciální solární kabel budou mít šířku 6 mm a pro datový kabel 5,5 mm. Kruhový otvor umístěný na spodní straně krabičky Kx bude mít průměr taktéž 5,5 mm, určený pro průchod stíněného kabelu. V krabičce K bude zespodu otvor pro lanko o průměru 3 mm.
+Dále budou na krabičkách K a Kx u víka vytvořeny nízké drážky ve tvaru písmene U s mírně zaoblenými rohy. Tyto drážky budou sloužit k protažení kabelů. Pro kabel o průřezu 1,5 mm² budou mít šířku 4,5 mm, hloubku 3 mm a zaoblení dna i hran 1 mm, pro kabel o průřezu 0,5 mm² budou mít šířku 3,5 mm, hloubku 2 mm a zaoblení dna i hran 0,75 mm a pro datový kabel bude šířka 6 mm a hloubka 3,5 mm a zaoblení stejné jako u prvního kabelu.
+
+U krabičky pro akumulátor budou ze spodu 2 kruhové otvory o průměru 5 mm. Tyto otvory budou určené pro průchod napájecích kabelů. U krabičky Kx bude ze spodu jeden kruhový otvor o průměru 6 mm. Ten bude určený pro průchod kabelu od tenzometru. V krabičce K bude zespodu otvor o průměru 3 mm pro lanko. Krabička pro akumulátor bude mít 2 větrací otvory o průměru 4 mm. Tyto otvory budou umístěny v horní a spodní části, aby mohl v krabičce cirkulovat vzduch.
 
 Víko bude vytištěno samostatně s přesahem 2 mm a bude obsahovat dutou trubičku uprostřed levé hrany. Na horní hraně levé stěny každé krabičky budou po stranách na malé plošince umístěny dvě trubičky s průměrem otvoru 2,1 mm. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce budou krátce nahřáty zapalovačem a roztepány tak, aby vytvořily hlavičky. Tím vznikne jednoduchý pant pro uchycení víka. Toto řešení minimalizuje počet součástek a umožňuje výrobu celé krabičky bez dalších kovových dílů.
 
 ### Kabeláž
-Pro připojení solárního panelu a akumulátoru bude využito speciálního solárního kabelu typu licna o průřezu 4 mm² a hřebíkových příchytek o průměru 6 mm. Tyto kabely budou v K přes prodlužovací WAGO svorky přetransformovány na měděnou ohebnou licnu o průřezu 1,5 mm². Ta bude pomocí 4 pinové WAGO svorkovnice o rozteči 5,08 mm připojena k desce plošných spojů a odtamtud povede do akumulátoru.
+Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm² a hřebíkové příchytky o průměru 5 mm. Ta bude pomocí 4 pinové WAGO svorkovnice o rozteči 5,08 mm připojena k desce plošných spojů a odtamtud povede do akumulátoru. Vzhledem k maximálnímu proudu 1,1 A poskytuje tento průřez dostatečnou proudovou rezervu při minimálních úbytcích napětí. Kabel bude uložen v chráničce odolné proti UV záření, proto není nutné použití speciálního fotovoltaického kabelu.
 
-Mikrospínače budou připojeny k desce plošných spojů přes měděnou ohebnou licnu o průřezu 0,5 mm² pomocí další 4 pinové WAGO svorkovnice s roztečí 5,08 mm. Spoje kontaktů mikrospínačů s touto licnou budou izolovány pomocí smršťovacích bužírek s poměrem 2:1 a vnitřním průměrem před / po zahřátí 2 mm / 0,75 mm, které budou přečnívat asi centimetr přes izolaci.
+Mikrospínače budou připojeny k desce plošných spojů stejným způsobem. Použita bude ale měděná ohebná licna o průřezu 0,5 mm² a hřebíkové příchytky o průměru 4 mm. Spoje kontaktů mikrospínačů s touto licnou budou izolovány pomocí smršťovacích bužírek s poměrem 2:1 a vnitřním průměrem před / po zahřátí 2 mm / 0,75 mm, které budou přečnívat asi centimetr přes izolaci.
 
-U prototypu bude využíváno rovnou měděné ohebné licny o průřezu 1,5 mm² a drátků do nepájivého pole s průřezem 0,5 mm². Pro kladný pól bude použit červený vodič a pro záporný pól černý vodič.
+U prototypu bude využíváno drátků do nepájivého pole s průřezem 0,5 mm², které jsou zcela dostačující pro proudový odběr tohoto systému.
 
-Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek o průměru 5 mm a přes konektory RJ45 vložen do krabiček.
+Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek o průměru 6 mm a přes konektory RJ45 vložen do krabiček.
 
-Prodloužení vodičů tenzometru zajistí přes prodlužovací WAGO svorky stíněný kabel LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro WAGO svorky příliš tenké (povolený průřez je 0,2 - 4 mm²), tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové WAGO svorkovnice o rozteči 2,5 mm.
+Prodloužení vodičů tenzometru zajistí přes prodlužovací WAGO svorky stíněný kabel LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro WAGO svorky příliš tenké, tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové WAGO svorkovnice o rozteči 2,5 mm.
 
-Oplet, ve formě pocínovaných měděných drátků, bude izolován pomocí smršťovací bužírky s poměrem 2:1 a vnitřním průměrem před / po zahřátí 4 mm / 1,75 mm. Je potřeba oddělit odmotaný oplet, spletený do drátku, od zbylých 4 vodičů a bužírku navléknout až ke kořenu. Přes celý kabel bude potom přetáhnuta bužírka 2:1 7,5 mm / 3,5 mm, která bude přečnívat asi centimetr přes hlavní izolaci.
+Oplet tohoto kabelu, ve formě pocínovaných měděných drátků, bude izolován pomocí smršťovací bužírky s poměrem 2:1 a vnitřním průměrem před / po zahřátí 4 mm / 1,75 mm. Je potřeba oddělit odmotaný oplet, spletený do drátku, od zbylých 4 vodičů a bužírku navléknout až ke kořenu. Přes celý kabel bude potom přetáhnuta bužírka 2:1 7,5 mm / 3,5 mm, která bude přečnívat asi centimetr přes hlavní izolaci.
 
 ### Napájení
-Solární panel o parametrech 6 V / 10 Wp bude svisle připevněný na stěnu pod malou stříšku a orientovaný směrem na jih, případně na východ nebo západ (v mém případě bude panel směřovat na jihozápad). Tím bude zajištěno, že panel bude co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
+Solární panel o parametrech 9 V / 10 Wp bude svisle připevněný na stěnu pod malou stříšku a orientovaný směrem na jih, případně na východ nebo západ (v mém případě bude panel směřovat na jihozápad). Tím bude zajištěno, že panel bude co nejlépe využívat dostupnou sluneční energii. Vertikální montáž omezuje usazování sněhu a nečistot.
 
-Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 7 Ah, umístěným venku ve stínu asi 25 cm pod stříškou (ideálně na severní straně), budou zajišťovat napájení celého systému. Akumulátor LiFePO4 je sice v mnoha ohledech lepší, ale nesmí se nabíjet v zimě pod 0 °C a potřebuje složitější a energeticky náročnější solární regulátor napájení MPPT. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
+Společně s bezúdržbovým olověným AGM akumulátorem o parametrech 6 V / 4 Ah, umístěným venku ve stínu asi 25 cm pod stříškou (ideálně na severní straně), budou zajišťovat napájení celého systému. Akumulátor LiFePO4 je sice v mnoha ohledech lepší, ale nesmí se nabíjet v zimě pod 0 °C a potřebuje složitější a energeticky náročnější solární regulátor napájení MPPT. Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V.
 
 Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonového LDO regulátoru MCP1700. Nízký klidový proud významně prodlužuje provoz z akumulátoru. Tento stabilizátor bude zapojený k baterii a na jeho vstupu bude připojen blokovací keramický kondenzátor o parametrech 1 µF / 50 V. Stejný kondenzátor bude připojen i na výstupu, ale v tomto případě z důvodu vyhlazení napětí. 
 
@@ -138,23 +140,29 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | Sever | 8–14 | 2,0–3,5 |
 | JZ | 26–38 | 6,5–9,5 |
 
+*Poznámka: V Zimě je efektivita výroby energie snížena o 75 %.*
+
 ### Energetická bilance
 
-| Orientace | Léto (mAh/den) | Léto (mWh/den) | Zima (mAh/den) | Zima (mWh/den) |
-|---|---|---|---|---|
-| Jih | +4 995–7 497 | +29 970–44 980 | +1 245–1 872 | +7 470–11 230 |
-| Východ | +3 662–5 331 | +21 970–31 990 | +912–1 331 | +5 470–7 990 |
-| Západ | +3 662–5 331 | +21 970–31 990 | +912–1 331 | +5 470–7 990 |
-| Sever | +1 328–2 331 | +7 970–13 990 | +328–581 | +1 970–3 490 |
-| JZ | +4 328–6 331 | +25 970–37 990 | +1 078–1 581 | +6 470–9 490 |
+| Orientace | Léto (mAh) | Zima (mAh) |
+|---|---|---|
+| Jih | +4 995 až +7 495 | +1 245 až +1 875 |
+| Východ | +3 660 až +5 330 | +915 až +1 330 |
+| Západ | +3 660 až +5 330 | +915 až +1 330 |
+| Sever | +1 330 až +2 330 | +330 až +580 |
+| JZ | +4 330 až +6 330 | +1 080 až +1 580 |
+
+*Poznámka: Přepočteno pro 6 V baterii.*
 
 ### Kapacita baterie
 
 | | Léto | Zima |
 |---|---|---|
-| AGM 6V 7Ah | 7 Ah / 42 Wh | 5,25 Ah / 31,5 Wh |
+| Kapacita baterie | 4 Ah / 24 Wh | 3 Ah / 18 Wh |
 
-*Poznámka: Pokles kapacity v zimě znamená, že systém vydrží kratší dobu bez slunce. Protože je ale spotřeba celého systému téměř zanedbatelná, nepředstavuje to žádný problém.*
+*Poznámka: Zimní kapacita je počítána se snížením dostupné kapacity na 75 %.*
+
+Systém není limitován výrobou energie. Co se týče akumulátoru, tak i při zohlednění poklesu kapacity v zimním období představuje jeho energetická rezerva několik stovek dní provozu. V praxi bude provozní dobu více než spotřeba systému omezovat samovybíjení a přirozené stárnutí akumulátoru.
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini. Ten bude disponovat integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Kvůli zamezení rušení při komunikaci bude řadič umístěn na opačné straně než motor. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT má taktéž vyšší spotřebu. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6. Ten má integrovaný programátor, který bude využit i pro hlavní řadič.
@@ -200,7 +208,7 @@ Po připojení solárního panelu do krabičky K bude využito elektrolytického
 
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o kapacitě 100 nF a jmenovitém napětí 16 V. Dělič bude sloužit ke snímání napětí solárního panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v režimu analog input. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
 
-K solárnímu panelu budou sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS tranzistor bude řízen M. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω pro omezení proudových špiček na výstupu M. Mezi gate a společnou zem bude paralelně připojen pulldown rezistor o hodnotě 10 kΩ, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru, pull-up rezistoru 10 kΩ a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Source bude připojen ke společné zemi. Tato část obvodu bude sloužit jako jednoduchý a velmi úsporný solární regulátor napájení.
+K solárnímu panelu budou sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS tranzistor bude řízen M. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω. Mezi gate a společnou zem bude paralelně připojen pulldown rezistor o hodnotě 10 kΩ, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru přes pull-up rezistor 10 kΩ a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Source bude připojen ke společné zemi. Tato část obvodu bude sloužit jako jednoduchý a velmi úsporný solární regulátor napájení.
 
 Důvodem použití dvou P-MOS tranzistorů namísto jednoho je přítomnost parazitní diody, která je nedílnou součástí jejich vnitřní struktury. Pokud by byl použit pouze jeden tranzistor, protékal by večer i při jeho rozepnutí proud z akumulátoru zpět do solárního panelu prostřednictvím této diody, což by způsobovalo samovolné vybíjení akumulátoru. Pokud nastane výpadek napájení, tak se P-MOS tranzistory automaticky zavřou.
 
@@ -214,7 +222,7 @@ Při pohybu dvířek budou postupně spínány (debounce 50 ms), respektive rozp
 
 M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou umístěny v krabičce K.
 
-Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Stíněný kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude připojeno ke společné zemi, na desce plošných spojů, za účelem odvodu šumu. Převodník bude připojen k Mx.
+Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude připojeno ke společné zemi, na desce plošných spojů, za účelem odvodu šumu. Převodník bude připojen k Mx.
 
 Mx bude pro komunikaci s M prostřednictvím datového kabelu typu UTP využívat sběrnici RS485. První kroucený pár bude sloužit k přenosu napájení pro Mx, přičemž oba vodiče budou zapojeny paralelně. Stejně tak druhý pár, který bude sloužit k přenosu napájení do zbylé elektroniky v krabičce Kx přes tranzistorový spínač. Třetí pár bude stejným způsobem použit pro propojení společné země. Čtvrtý pár bude přenášet data prostřednictvím čipu MAX3485, který bude sloužit jako transceiver sběrnice RS485. Jeden čip bude před M a druhý před Mx.
 
@@ -274,10 +282,8 @@ Uprostřed konstrukce naproti košíku bude vytvořen stavitelný doraz pomocí 
 ## Nákup
 
 **Kabeláž**  
-https://www.gme.cz/v/1511630/solarkabel-xh-400mm2-cerveny (5 m)  
-https://www.gme.cz/v/1511631/solarkabel-xh-400mm2-cerny (5 m)  
-https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko (5 m)  
-https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko (5 m)  
+https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko (5m)  
+https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko (5m)  
 https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko (5m)  
 https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko (5m)  
 
@@ -288,7 +294,7 @@ Willmann Elektro Lipník (5 m)
 **Svorkovnice a svorky**  
 https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina (2 ks)  
 https://www.gme.cz/v/1502753/wago-250-405-svorkovnice-5pol-roztec-25mm-4a-160v-vstup-45-pruzina  
-https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (8 ks)  
+https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (4 ks)  
 
 **Konektor**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (5 ks)  
@@ -300,7 +306,7 @@ Hornbach (cca 20 ks)
 https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek  
 
 **Solární panel**  
-https://www.dexhal.cz/fotovoltaicky-panel-6v-1670ma-10w-solarni-clanek_z2899/  
+https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
 
 **N-MOS**  
 https://www.hadex.cz/p/b441-2n7000-mosfet-n-fet-60v-0-35a-to92 (2 ks)  
@@ -309,7 +315,7 @@ https://www.hadex.cz/p/b441-2n7000-mosfet-n-fet-60v-0-35a-to92 (2 ks)
 https://www.gme.cz/v/1493257/infineon-irf4905pbf-unipolarni-tranzistor (4 ks)  
 
 **Akumulátor**  
-https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-7Ah-d5513.htm  
+https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
 
 **Lineární LDO regulátor**  
 https://ecom.cz/eshop/detail/37332 (2 ks)  
@@ -377,12 +383,12 @@ Hornbach
 |               |             |
 | :---          | :---:       |
 | **OBCHOD**    | **CENA**    |
-| GME           | 850 Kč      |
+| GME           | 400 Kč      |
 | ALZA          | 200 Kč      |
 | HADEX         | 200 Kč      |
 | HORNBACH      | 800 Kč      |
-| DEXHAL        | 375 Kč      |   
-| BATERKY       | 350 Kč      |
+| DEXHAL        | 500 Kč      |   
+| BATERKY       | 300 Kč      |
 | ECOM          | 100 Kč      |
 | LASKAKIT      | 600 Kč      |
 | DRATEK        | 300 Kč      |
@@ -391,6 +397,6 @@ Hornbach
 | LIHNEME       | 1000 Kč     |
 | SOS           | 450 Kč      |
 | REZERVA       | 500 Kč      |
-| **CELKEM**    | **8575 Kč** |
+| **CELKEM**    | **8200 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
