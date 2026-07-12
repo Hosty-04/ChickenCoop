@@ -125,59 +125,34 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | LoRa TX | 17,5 µAh / den | 0,6 % | 17,6 µAh / den | 0,4 % |
 | LoRa RX | 13,4 µAh / den | 0,5 % | 13,5 µAh / den | 0,3 % |
 | Kontrola panelu / baterie | 11 µAh / den | 0,4 % | 14,6 µAh / den | 0,3 % |
-| **Celkem** | **2,75 mAh / den** | 100 % | **4,81 mAh / den** | 100 % |
+| **Celkem (mAh)** | **2,75** | 100 % | **4,81** | 100 % |
+| **Celkem (mWh)** | **15,6** | 100 % | **21,9** | 100 % |
 
-### Tabulka 7 – Výroba energie panelu (1 panel, dle světových stran)
+### Výroba energie
 
-| Orientace | Léto (Wh/den) | Zima (Wh/den) |
+| Orientace | Léto (Wh) | Zima (Wh) |
 |---|---|---|
 | Jih | 30–45 | 7,5–11,25 |
 | Východ | 22–32 | 5,5–8,0 |
 | Západ | 22–32 | 5,5–8,0 |
 | Sever | 8–14 | 2,0–3,5 |
-| JZ (odhad interpolací Jih/Západ) | ~26–38 | ~6,5–9,5 |
+| JZ | 26–38 | 6,5–9,5 |
 
-### Tabulka 8 – Kapacita baterie (25 % derating v zimě)
+### Kapacita baterie
 
 | | Léto | Zima |
 |---|---|---|
-| AGM 6V/7Ah | 7 Ah / 42 Wh | 5,25 Ah / 31,5 Wh |
+| AGM 6V 7Ah | 7 Ah / 42 Wh | 5,25 Ah / 31,5 Wh |
 
-### Tabulka 9 – Energetická bilance (spotřeba: 2,605–3,657 mAh/den = 0,0156–0,0219 Wh/den)
+### Energetická bilance
 
-| Orientace | Bilance léto (mAh/den) | Bilance zima (mAh/den) |
+| Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |---|---|---|
-| Jih | +4 997–7 497 | +1 246–1 871 |
-| Východ | +3 663–5 330 | +913–1 330 |
-| Západ | +3 663–5 330 | +913–1 330 |
-| Sever | +1 330–2 330 | +330–580 |
-| JZ | +4 330–6 330 | +1 080–1 580 |
-
-### Denní harmonogram power módů – M (LoRa-E5, 1 MHz)
-
-| Čas/událost | Mód | Proud (pokoj/max) |
-|---|---|---|
-| Mezi probuzeními | Stop2 mode + RTC | 1,0 / 2,8 µA |
-| Kontrola panelu/baterie (144×) | LPRun @ 1 MHz | 190/245 µA + INA219 aktivní |
-| Koordinace vajec (24×, 20 s/hod) | LPRun @ 1 MHz | 190/245 µA + MAX3485_M aktivní |
-| LoRa TX (SMPS) | LPSleep (CPU) + rádio TX | 35,5/60,0 µA + 21 mA |
-| LoRa RX (SMPS) | LPSleep (CPU) + rádio RX | 35,5/60,0 µA + 4,8 mA |
-| Pohyb dvířek | LPRun @ 1 MHz | 190/245 µA + INA219 + DRV8838 logika |
-
-### Denní harmonogram power módů – Mx (STM32L031, 131 kHz)
-
-| Čas/událost | Mód | Proud (pokoj/max) |
-|---|---|---|
-| Mezi vlastními cykly (většina hodiny) | Stop mode bez RTC (RAM zachována) | 0,38 / 0,99 µA |
-| Vlastní aktivní okno (4 s/hodinu) | LPRun @ 131 kHz | 32/36 µA + tenzometr+HX711 + MAX3485_Mx aktivní |
-
-### Poznámky k ověření hodnot
-
-Ověřeno z datasheetů: proud M ve Stop2+RTC (STM32WLE5, Table 43), proud M v LPSleep (STM32WLE5, Table 42), proud Mx v LPRun @131kHz (STM32L031, Table 29), proud Mx ve Stop bez RTC (STM32L031, Table 31), klidový proud LDO MCP1700, aktivní/shutdown proud INA219, klidový proud DRV8838 nSLEEP (0,34/0,6 µA – bezpředmětný díky spínači 2).
-
-Neověřeno, zůstává jako zadaná/odhadnutá hodnota: proud motoru DRV8838 VM (150/200 mA), proud M v LPRun @1MHz (190/245 µA), proud MAX3485 (1,1/2,2 mA), proud HX711 samotného (1,5 mA) a tenzometr+HX711 dohromady (3,3 mA), airtime LoRa (SF9/BW125/CR4:5, vypočteno teoreticky, neměřeno), doba aktivního okna 4 s/hnízdo (odhad rozpadu, neměřeno).
-
-*Poznámka: Zimní bilance počítá s poklesem efektivity solárního panelu o 75 % a kapacity akumulátoru o 25 % oproti letním hodnotám*
+| Jih | +4 995–7 497 | +1 245–1 872 |
+| Východ | +3 662–5 331 | +912–1 331 |
+| Západ | +3 662–5 331 | +912–1 331 |
+| Sever | +1 328–2 331 | +328–581 |
+| JZ | +4 328–6 331 | +1 078–1 581 |
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini. Ten bude disponovat integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Kvůli zamezení rušení při komunikaci bude řadič umístěn na opačné straně než motor. LoRa modul umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie. NB-IoT má taktéž vyšší spotřebu. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6. Ten má integrovaný programátor, který bude využit i pro hlavní řadič.
@@ -323,7 +298,7 @@ Hornbach (cca 20 ks)
 https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek  
 
 **Solární panel**  
-https://www.dexhal.cz/fotovoltaicky-panel-6v-1670ma-10w-solarni-clanek_z2899/ (2 ks)  
+https://www.dexhal.cz/fotovoltaicky-panel-6v-1670ma-10w-solarni-clanek_z2899/  
 
 **N-MOS**  
 https://www.hadex.cz/p/b441-2n7000-mosfet-n-fet-60v-0-35a-to92 (2 ks)  
@@ -404,7 +379,7 @@ Hornbach
 | ALZA          | 200 Kč      |
 | HADEX         | 200 Kč      |
 | HORNBACH      | 800 Kč      |
-| DEXHAL        | 750 Kč      |   
+| DEXHAL        | 375 Kč      |   
 | BATERKY       | 350 Kč      |
 | ECOM          | 100 Kč      |
 | LASKAKIT      | 600 Kč      |
@@ -414,6 +389,6 @@ Hornbach
 | LIHNEME       | 1000 Kč     |
 | SOS           | 450 Kč      |
 | REZERVA       | 500 Kč      |
-| **CELKEM**    | **8950 Kč** |
+| **CELKEM**    | **8575 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava.*
