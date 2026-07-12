@@ -49,76 +49,83 @@ Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonovéh
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze po dobu několika minut denně, zatímco po zbytek dne by kvůli vlastní spotřebě dosahoval nižší celkové účinnosti než jednoduchý lineární stabilizátor.
 
-### Klidová spotřeba (~24 hodin)
+#### Denní přehled
 
-| Komponenta | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|
-| LDO (MCP1700) | 1,6 / 4 µA | 0,0384 / 0,096 mAh / den |
-| M (Stop2 s RTC) | 1,0 / 26 µA | 0,024 / 0,624 mAh / den |
-| 5 × Mx (Stop bez RTC) | 1,9 / 21 µA | 0,0456 / 0,504 mAh / den |
-| **Celkem** | **4,5 / 51 µA** | **0,108 / 1,22 mAh / den** |
+### Klidová spotřeba (24 hod)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| LDO (MCP1700) | 1,6 µA | 4 µA | 38,4 µAh | 96 µAh |
+| M (Stop2 s RTC) | 1,0 µA | 2,8 µA | 24 µAh | 67,2 µAh |
+| 5 × Mx (Stop bez RTC) | 1,9 µA | 1,9 µA | 45,6 µAh | 45,6 µAh |
+| **Celkem** | **4,5 µA** | **8,7 µA** | **108 µAh** | **209 µAh** |
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola panelu a baterie (co 10 minut 300 ms)
+### Kontrola panelu a baterie (43 s)
 
-| Komponenta | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|
-| M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 mAh / den |
-| INA219 aktivní | 0,7 / 1 mA | 0,0084 / 0,0120 mAh / den |
-| **Celkem** | **0,82 / 1,38 mA** | **0,00984 / 0,0136 mAh / den** |
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,64 µAh | 2,64 µAh |
+| INA219 aktivní | 0,7 mA | 1 mA | 8,4 µAh | 12 µAh |
+| **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
 
-### Pohyb dvířek (40 sekund)
+*Poznámka: Kontrola probíhá každých 10 minut po dobu 300 ms.*
 
-| Komponenta | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|
-| Motor | 150 / 200 mA | 1,667 / 2,222 mAh / den |
-| DRV8838 | 340 / 600 µA | 0,00378 / 0,00667 mAh / den |
-| M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 mAh / den |
-| INA219 | 0,7 / 1 mA | 0,0078 / 0,0111 mAh / den |
-| **Celkem** | **151 / 202 mA** | **1,67 / 2,24 mAh / den** |
+### Pohyb dvířek (40 / 60 s)
 
-### Kontrola vajec (8 minut pro 5 hnízd)
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| Motor | 150 mA | 200 mA | 1,67 mAh / den | 3,33 mAh / den |
+| DRV8838 | 340 µA | 600 µA | 3,78 µAh / den | 6,67 µAh / den |
+| M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,44 µAh / den | 2,44 µAh / den |
+| INA219 | 0,7 mA | 1 mA | 7,78 µAh / den | 11,1 µAh / den |
+| **Celkem** | **151 mA** | **202 mA** | **1,68 mAh / den** | **3,35 mAh / den** |
 
-| Komponenta | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|
-| M (LPRun @ 1 MHz) | 120 / 380 µA | 0,016 / 0,0507 mAh / den |
-| MAX3485 (M) | 1,1 / 2,2 mA | 0,147 / 0,293 mAh / den |
-| MAX3485 (Mx) | 1,1 / 2,2 mA | 0,147 / 0,293 mAh / den |
-| Mx (LPRun @ 131 kHz) | 32 / 42 µA | 0,00427 / 0,00506 mAh / den |
-| HX711 a tenzometr | 1,5 + 3,3 = 4,4 mA | 0,587 / 0,587 mAh / den |
-| **Celkem** | **6,75 / 9,22** | **0,9 / 1,23 mAh / den** |
+*Poznámka: Možnost zaseknutí dvířek je brána v potaz.*
+
+### Kontrola vajec (8 min, 5 hnízd)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| M (LPRun @ 1 MHz) | 220 µA | 220 µA | 29,3 µAh / den | 29,3 µAh / den |
+| MAX3485 (M) | 1,1 mA | 2,2 mA | 0,147 mAh / den | 0,293 mAh / den |
+| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 0,147 mAh / den | 0,293 mAh / den |
+| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh / den | 4,93 µAh / den |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 0,587 mAh / den | 0,587 mAh / den |
+| **Celkem** | **6,85 mA** | **9,06 mA** | **0,914 mAh / den** | **1,21 mAh / den** |
 
 *Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr. Tyto obvody jsou v každé Kx, ale zásluhou chytrého používání tranzistorových spínačů a režimů řadiče se proud tváří, jako kdyby bylo v celém kurníku pouze jedno hnízdo. Trik je v tom že zapnuté je pouze to, co zrovna pracuje. Výsledkem je 5 × nižší spotřeba.*
 
-### LoRa RX (10 sekund)
-| Komponenta | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|
-| Rádio RX (SMPS) | 4,8 mA | 0,0133 mAh / den |
-| CPU (LPSleep) | 44 / 310 µA | 0,000122 / 0,000861 mAh / den |
-| **Celkem** | 4,84 / 5,11 mA | **0,0134 / 0,0142 mAh / den** |
+### LoRa TX (3 s)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| Rádio TX (SMPS) | 21 mA | 21 mA | 17,5 µAh / den | 17,5 µAh / den |
+| CPU (LPSleep) | 44 µA | 69 µA | 0,0367 µAh / den | 0,0575 µAh / den |
+| **Celkem** | **21 mA** | **21,1 mA** | **17,5 µAh / den** | **17,6 µAh / den** |
+
+### LoRa RX (10 s)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|---|---|---|---|---|
+| Rádio RX (SMPS) | 4,8 mA | 4,8 mA | 13,3 µAh / den | 13,3 µAh / den |
+| CPU (LPSleep) | 44 µA | 69 µA | 0,122 µAh / den | 0,192 µAh / den |
+| **Celkem** | **4,84 mA** | **4,87 mA** | **13,4 µAh / den** | **13,5 µAh / den** |
 
 *Poznámka: Odhad délky okna je 200 ms*
 
-### LoRa TX (3 sekundy)
-| Událost | Airtime | Počet | Proud (typ / max) | Spotřeba (typ / max) |
-|---|---|---|---|---|
-| Hodinová zpráva | 120 ms | 24 | 21,044 / 21,310 mA | 0,0168 / 0,0171 mAh / den |
-| Stavová zpráva dvířek | 90 ms | 2 | 21,044 / 21,310 mA | 0,00105 / 0,00107 mAh / den |
-| **Celkem** | | | | **~0,0186 / 0,0186 mAh / den** |
-
-*Poznámka: Stejně jako u LoRa RX je i zde využíváno režimu SMPS*
-
 ### Procentuální rozložení a celková denní spotřeba
+
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |---|---|---|---|---|
-| Pohyb dvířek | 1,67 mAh / den | 61,4 % | 2,24 mAh / den | 47,3 % |
-| Kontrola vajec | 0,901 mAh / den | 33,1 % | 1,229 mAh / den | 25,9 % |
-| Klidový režim | 0,108 mAh / den | 4,0 % | 1,22 mAh / den | 25,7 % |
-| LoRa TX | 0,0186 mAh / den | 0,7 % | 0,0186 mAh / den | 0,4 % |
-| LoRa RX | 0,0134 mAh / den | 0,5 % | 0,0142 mAh / den | 0,3 % |
-| Kontrola panelu / baterie | 0,00984 mAh / den | 0,4 % | 0,0136 mAh / den | 0,3 % |
-| **Celkem** | **2,72 mAh / den** | 100 % | **4,74 mAh / den** | 100 % |
+| Pohyb dvířek | 1,68 mAh / den | 61,2 % | 3,35 mAh / den | 69,6 % |
+| Kontrola vajec | 0,914 mAh / den | 33,3 % | 1,21 mAh / den | 25,1 % |
+| Klidový režim | 0,108 mAh / den | 3,9 % | 0,209 mAh / den | 4,3 % |
+| LoRa TX | 17,5 µAh / den | 0,6 % | 17,6 µAh / den | 0,4 % |
+| LoRa RX | 13,4 µAh / den | 0,5 % | 13,5 µAh / den | 0,3 % |
+| Kontrola panelu / baterie | 11 µAh / den | 0,4 % | 14,6 µAh / den | 0,3 % |
+| **Celkem** | **2,75 mAh / den** | 100 % | **4,81 mAh / den** | 100 % |
 
 ### Tabulka 7 – Výroba energie panelu (1 panel, dle světových stran)
 
