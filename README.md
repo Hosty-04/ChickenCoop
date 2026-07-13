@@ -373,24 +373,24 @@ https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ (4 ks)
 https://www.prumex.cz/matice-din-934-m5-nerez-a2/ (10 ks)  
 https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 ks)  
 
-| OBCHOD         | CENA         |
-| :---           | :---:        |
-| GME            | 650 Kč       |
-| ALZA           | 150 Kč       |
-| WILLMANN       | 175 Kč       |
-| HADEX          | 180 Kč       |
-| HORNBACH       | 710 Kč       |
-| DEXHAL         | 590 Kč       |   
-| BATERKY        | 270 Kč       |
-| HOFMAN         | 125 Kč       |
-| LASKAKIT       | 700 Kč       |
-| DRATEK         | 375 Kč       |
-| BOTLAND        | 1 880 Kč     |
-| ZENIT          | 120 Kč       |
-| LIHNEME        | 1 150 Kč     |
-| SOS            | 450 Kč       |
-| PRUMEX         | 200 Kč       |
-| REZERVA        | 500 Kč       |
-| **CELKEM**     | **8 225 Kč** |
+| OBCHOD | CENA |
+|:---|:---:|
+| GME | 650 Kč |
+| ALZA | 150 Kč |
+| WILLMANN | 175 Kč |
+| HADEX | 180 Kč |
+| HORNBACH | 710 Kč |
+| DEXHAL | 590 Kč |
+| BATERKY | 270 Kč |
+| HOFMAN | 125 Kč |
+| LASKAKIT | 700 Kč |
+| DRATEK | 375 Kč |
+| BOTLAND | 1 880 Kč |
+| ZENIT | 120 Kč |
+| LIHNEME | 1 150 Kč |
+| SOS | 450 Kč |
+| PRUMEX | 200 Kč |
+| REZERVA | 500 Kč |
+| **CELKEM** | **8 225 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
