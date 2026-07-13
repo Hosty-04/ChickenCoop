@@ -240,7 +240,7 @@ V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové
 
 Vedlejší část systému bude umístěna u spádovaných snáškových hnízd s košíkem orientovaných příčně ke stěně.
 
-Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm a stejné tloušťce bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm a tloušťce 12 mm bude sloužit jako zadní stěna.
+Pod kukaně bude pomocí vrutů a hmoždinek připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm a stejné tloušťce bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm a tloušťce 12 mm bude sloužit jako zadní stěna.
 
 Všechny tyto velmi odolné vodovzdorné protiskluzové překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
 
@@ -326,7 +326,7 @@ https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-
 https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm (4 ks)  
 
 **Dvířka**  
-https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/  
+https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/ (2 ks)  
 
 **Hnízdo**  
 https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/ (2 ks)  
@@ -389,10 +389,10 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | LASKAKIT      | 700 Kč      |
 | DRATEK        | 375 Kč      |
 | BOTLAND       | 1880 Kč     |
-| ZENIT         | 100 Kč      |
+| ZENIT         | 120 Kč      |
 | LIHNEME       | 1150 Kč     |
 | SOS           | 450 Kč      |
-| PRUMEX        |  Kč      |
+| PRUMEX        | 200 Kč      |
 | REZERVA       | 500 Kč      |
 | **CELKEM**    | ** Kč** |
 
