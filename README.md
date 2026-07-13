@@ -72,7 +72,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | INA219 aktivní | 0,7 mA | 1 mA | 8,4 µAh | 12 µAh |
 | **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
 
-### Pohyb dvířek (40 / 60 s)
+### Pohyb dvířek (40 s / 60 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |---|---|---|---|---|
