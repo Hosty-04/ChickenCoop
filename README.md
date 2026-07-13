@@ -56,7 +56,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Klidová spotřeba (24 hod)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | M (Stop2 s RTC) | 1,0 µA | 2,8 µA | 24 µAh | 67,2 µAh |
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 1,9 µA | 45,6 µAh | 45,6 µAh |
@@ -67,7 +67,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Kontrola panelu a akumulátoru (43 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,64 µAh | 2,64 µAh |
 | INA219 aktivní | 0,7 mA | 1 mA | 8,4 µAh | 12 µAh |
 | **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
@@ -75,7 +75,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Pohyb dvířek (40 s / 60 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | Motor | 150 mA | 200 mA | 1,67 mAh | 3,33 mAh |
 | DRV8838 | 340 µA | 600 µA | 3,78 µAh | 6,67 µAh |
 | M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,44 µAh | 2,44 µAh |
@@ -87,7 +87,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Kontrola vajec (8 min, 5 hnízd)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | M (LPRun @ 1 MHz) | 220 µA | 220 µA | 29,3 µAh | 29,3 µAh |
 | MAX3485 (M) | 1,1 mA | 2,2 mA | 0,147 mAh | 0,293 mAh |
 | MAX3485 (Mx) | 1,1 mA | 2,2 mA | 0,147 mAh | 0,293 mAh |
@@ -100,7 +100,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### LoRa TX (3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | Rádio TX (SMPS) | 21 mA | 21 mA | 17,5 µAh | 17,5 µAh |
 | CPU (LPSleep) | 44 µA | 69 µA | 0,0367 µAh | 0,0575 µAh |
 | **Celkem** | **21 mA** | **21,1 mA** | **17,5 µAh** | **17,6 µAh** |
@@ -108,7 +108,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### LoRa RX (10 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | Rádio RX (SMPS) | 4,8 mA | 4,8 mA | 13,3 µAh | 13,3 µAh |
 | CPU (LPSleep) | 44 µA | 69 µA | 0,122 µAh | 0,192 µAh |
 | **Celkem** | **4,84 mA** | **4,87 mA** | **13,4 µAh** | **13,5 µAh** |
@@ -118,7 +118,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Procentuální rozložení a celková denní spotřeba
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | Pohyb dvířek | 1,68 mAh | 61,2 % | 3,35 mAh | 69,6 % |
 | Kontrola vajec | 914 µAh | 33,3 % | 1,21 mAh | 25,1 % |
 | Klidový režim | 118 µAh | 3,9 % | 233 µAh | 4,3 % |
@@ -130,7 +130,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Výroba energie
 
 | Orientace | Léto | Zima |
-|---|---|---|
+|:---|:---:|:---:|
 | Jih | 28 Wh | 5 Wh |
 | Východ | 22 Wh | 4 Wh |
 | Západ | 22 Wh | 4 Wh |
@@ -139,11 +139,11 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 ### Energetická bilance
 
 | Orientace panelu | Léto | Zima | Hodnocení |
-|---|---|---|---|
+|:---|:---:|:---:|:---|
 | Jih | +4200 mAh | +730 mAh | Velmi vysoká energetická rezerva |
 | Východ | +3200 mAh | +530 mAh | Spolehlivý celoroční provoz s dostatečnou rezervou |
 | Západ | +3200 mAh | +530 mAh | Spolehlivý celoroční provoz s dostatečnou rezervou |
-| Jihozápad | +3700 mAh | +630 mAh | Spolehlivý celoroční provoz, pouze mírně nižší výroba než při orientaci na jih |
+| Jihozápad | +3700 mAh | +630 mAh | Spolehlivý celoroční provoz |
 
 *Poznámka: Do posledních 2 tabulek byly započteny ztráty neideálního pracovního bodu solárního panelu a jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, samovybíjení a běžné klimatické podmínky v ČR.*
 
@@ -240,9 +240,7 @@ V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové
 
 Vedlejší část systému bude umístěna u spádovaných snáškových hnízd s košíkem orientovaných příčně ke stěně.
 
-Pod kukaně bude pomocí vrutů a hmoždinek připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm a stejné tloušťce bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm a tloušťce 12 mm bude sloužit jako zadní stěna.
-
-Všechny tyto velmi odolné vodovzdorné protiskluzové překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
+Pod kukaně bude pomocí vrutů a hmoždinek připevněna voděodolná OSB 3 deska o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá deska o rozměrech 35 × 26 cm a stejné tloušťce bude tvořit základovou desku a bude připevněna k podlaze kurníku a třetí deska o stejné tloušťce a rozměrech 40 × 50 cm bude sloužit jako zadní stěna.
 
 Mezi horní a spodní překližkou bude u stěny umístěn tenzometr o tloušťce 12,7 mm, orientovaný kratší stranou s vodiči směrem ke stěně. Tenzometr váží s přesností 2 g, což je pro 50-70 g vejce zcela v pořádku. Je dimenzován na zatížení 20 kg. Maximální předpokládané zatížení tvořené dvěma překližkami, hnízdem, dvěma slepicemi a deseti vejci činí přibližně 10 kg.
 
@@ -353,7 +351,7 @@ https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860
 https://dratek.cz/arduino-platforma/1047-univerzalni-plosny-spoj-30mm-x-70mm.html (5 ks)  
 
 **Překližka**  
-Hornbach (4 ks)  
+https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/  
 
 **Červík**  
 https://www.hornbach.cz/p/staveci-sroub-s-vnitrnim-sestihranem-a-hrotem-m5x6-mm-nerez-ocel-a4-1-ks/12120029/ (4 ks)  
@@ -375,25 +373,24 @@ https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ (4 ks)
 https://www.prumex.cz/matice-din-934-m5-nerez-a2/ (10 ks)  
 https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 ks)  
 
-|               |             |
-| :---          | :---:       |
-| **OBCHOD**    | **CENA**    |
-| GME           | 650 Kč      |
-| ALZA          | 150 Kč      |
-| WILLMANN      | 175 Kč      |
-| HADEX         | 180 Kč      |
-| HORNBACH      |  Kč      |
-| DEXHAL        | 590 Kč      |   
-| BATERKY       | 270 Kč      |
-| HOFMAN        | 125 Kč      |
-| LASKAKIT      | 700 Kč      |
-| DRATEK        | 375 Kč      |
-| BOTLAND       | 1880 Kč     |
-| ZENIT         | 120 Kč      |
-| LIHNEME       | 1150 Kč     |
-| SOS           | 450 Kč      |
-| PRUMEX        | 200 Kč      |
-| REZERVA       | 500 Kč      |
-| **CELKEM**    | ** Kč** |
+| OBCHOD         | CENA         |
+| :---           | :---:        |
+| GME            | 650 Kč       |
+| ALZA           | 150 Kč       |
+| WILLMANN       | 175 Kč       |
+| HADEX          | 180 Kč       |
+| HORNBACH       | 710 Kč       |
+| DEXHAL         | 590 Kč       |   
+| BATERKY        | 270 Kč       |
+| HOFMAN         | 125 Kč       |
+| LASKAKIT       | 700 Kč       |
+| DRATEK         | 375 Kč       |
+| BOTLAND        | 1 880 Kč     |
+| ZENIT          | 120 Kč       |
+| LIHNEME        | 1 150 Kč     |
+| SOS            | 450 Kč       |
+| PRUMEX         | 200 Kč       |
+| REZERVA        | 500 Kč       |
+| **CELKEM**     | **8 225 Kč** |
 
-*Poznámka: Cena je orientační a je do ní započtena i doprava.*
+*Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
