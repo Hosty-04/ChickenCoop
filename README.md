@@ -19,7 +19,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ## Popis
 
 ### Krabičky
-Systém bude obsahovat jednu krabičku pro akumulátor o rozměrech × a tloušťce stěny 2,4 mm, dále druhou krabičku (K) o rozměrech × a tloušťce stěny 1,6 mm, jenž bude určena pro mechaniku a elektroniku dvířek a hlavní mikrořadič. Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o rozměrech × a tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat potřebnou elektroniku a mikrořadič.
+Systém bude obsahovat jednu krabičku pro akumulátor o tloušťce stěny 2,4 mm, dále druhou krabičku (K) o tloušťce stěny 1,6 mm, jenž bude určena pro mechaniku a elektroniku dvířek a hlavní mikrořadič. Pro každé snáškové hnízdo bude dále určena samostatná krabička (Kx) o tloušťce stěny 1,6 mm. Každá tato krabička bude obsahovat potřebnou elektroniku a mikrořadič.
 
 Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG. Tento materiál byl zvolen pro jeho vysokou houževnatost a teplotní odolnost. Jejich zadní stěna bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm. V každém rohu této stěny budou vytvořeny otvory pro vruty umožňující upevnění krabiček ke stěně.
 
@@ -30,11 +30,13 @@ Krabička pro akumulátor bude mít ze spodu 2 kruhové otvory o průměru 5 mm.
 Víko bude vytištěno samostatně, s přesahem 2 mm a uprostřed levé hrany bude obsahovat dutou trubičku s průměrem otvoru 2 mm. U všech krabiček budou na každém konci vnější horní hrany levé stěny umístěna trubička se stejným průměrem jako ta na víku. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce budou krátce nahřáty zapalovačem a roztepány tak, aby vytvořily hlavičky. Tím vznikne jednoduchý pant pro uchycení víka. Toto řešení minimalizuje počet součástek a umožňuje výrobu celé krabičky bez dalších kovových dílů.
 
 ### Kabeláž
-Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm² a hřebíkové příchytky o průměru 5 mm. Ta bude pomocí 4 pinové pružinové WAGO svorkovnice o rozteči 5,08 mm připojena k desce plošných spojů a odtamtud povede do akumulátoru. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Kabel bude uložen v chráničce odolné proti UV záření, proto není nutné použití speciálního fotovoltaického kabelu.
+Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm². Ta bude pomocí 4 pinové pružinové WAGO svorkovnice o rozteči 5,08 mm připojena k desce plošných spojů a odtamtud povede do akumulátoru. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí.
 
-Mikrospínače budou připojeny k desce plošných spojů stejným způsobem. Použita bude ale měděná ohebná licna o průřezu 0,5 mm² a hřebíkové příchytky o průměru 4 mm. Spoje této licny s kontakty budou izolovány pomocí smršťovacích bužírek s poměrem 2:1 a vnitřním průměrem před / po zahřátí 2 mm / 0,75 mm. Bužírky budou přečnívat asi centimetr přes izolaci. U prototypu bude využíváno pouze kabelů o průřezu 0,5 mm² a drátků do nepájivého pole se stejným průřezem, který je zcela dostačující pro proudový odběr tohoto systému.
+Mikrospínače budou připojeny k desce plošných spojů stejným způsobem. Použita bude ale měděná ohebná licna o průřezu 0,5 mm². Spoje této licny s kontakty mikrospínače budou izolovány pomocí smršťovacích bužírek s poměrem 2:1 a vnitřním průměrem před / po zahřátí 2 mm / 0,75 mm. Bužírky budou přečnívat asi centimetr přes izolaci. U prototypu bude využíváno pouze kabelů o průřezu 0,5 mm² a drátků do nepájivého pole se stejným průřezem, který je zcela dostačující pro proudový odběr tohoto systému.
 
-Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek o průměru 6 mm a přes konektory RJ45 připojen k desce plošných spojů. Prodloužení vodičů tenzometru zajistí přes prodlužovací pružinové WAGO svorky stíněný kabel LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro svorky příliš tenké, tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové pružinové WAGO svorkovnice o rozteči 2,5 mm.
+Kabely budou uloženy v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm. Je dostatečně prostorná a zároveň minimalistická. Speciální UV lišta není potřeba, protože stěna kurníku směřuje na severozápad. Životnost těchto lišt je odhadována na 5 - 10 let.
+
+Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, který bude ke stěně upevněn pomocí příchytek s vrutem o průměru 6 mm a přes konektory RJ45 připojen k desce plošných spojů. Prodloužení vodičů tenzometru zajistí přes prodlužovací pružinové WAGO svorky stíněný kabel LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro svorky příliš tenké, tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové pružinové WAGO svorkovnice o rozteči 2,5 mm.
 
 Oplet tohoto kabelu, ve formě pocínovaných měděných drátků, bude izolován pomocí smršťovací bužírky s poměrem 2:1 a vnitřním průměrem před / po zahřátí 4 mm / 1,75 mm. Je potřeba oddělit odmotaný oplet, spletený do drátku, od zbylých 4 vodičů a bužírku navléknout až ke kořenu. Přes celý kabel bude potom přetáhnuta bužírka 2:1 7,5 mm / 3,5 mm, která bude přečnívat asi centimetr přes hlavní izolaci.
 
@@ -238,9 +240,9 @@ V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové
 
 Vedlejší část systému bude umístěna u spádovaných snáškových hnízd s košíkem orientovaných příčně ke stěně.
 
-Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm bude sloužit jako zadní stěna.
+Pod kukaně bude pomocí vrutů připevněna březová sítotisková překližka o rozměrech 37 × 28 cm a tloušťce 12 mm. Druhá překližka o rozměrech 35 × 26 cm a stejné tloušťce bude tvořit základovou desku a bude připevněna k podlaze kurníku. Tyto desky budou vyrobeny z jedné nařezané překližky o rozměrech 765 × 317 mm (tolerance započteny). Třetí překližka o rozměrech 40 × 50 cm a tloušťce 12 mm bude sloužit jako zadní stěna.
 
-Všechny tyto velmi odolné překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
+Všechny tyto velmi odolné vodovzdorné protiskluzové překližky budou orientovány hladkou stranou směrem nahoru, respektive směrem ke hnízdu. Jejich řezné hrany budou opatřeny voděodolným lakem z důvodu ochrany proti vlhkosti.
 
 Mezi horní a spodní překližkou bude u stěny umístěn tenzometr o tloušťce 12,7 mm, orientovaný kratší stranou s vodiči směrem ke stěně. Tenzometr váží s přesností 2 g, což je pro 50-70 g vejce zcela v pořádku. Je dimenzován na zatížení 20 kg. Maximální předpokládané zatížení tvořené dvěma překližkami, hnízdem, dvěma slepicemi a deseti vejci činí přibližně 10 kg.
 
@@ -254,7 +256,7 @@ Použité šrouby budou mít délku 25 mm. Mezi deskami a závity tenzometru bud
 
 Ze zbytku první překližky o rozměru 38,5 × 29,5 cm budou vyrobeny lišty. Ty budou pomocí vrutů připevněny ke spodní straně vážicí desky. Lišty budou vysoké 15 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem. Současně musí být zachována vůle alespoň 3 mm.
 
-Do zadní lišty bude vyvrtán otvor, kterým bude protažen již prodloužený kabel od tenzometru. Kabel nesmí být mechanicky namáhán tahem. Dále bude veden vzhůru po stěně do krabičky Kx. Z boku krabičky bude vyveden sdělovací kabel, který povede vysoko po stěně až do krabičky K a bude upevněn pomocí hřebíkových příchytek.
+Do zadní lišty bude vyvrtán otvor, kterým bude protažen již prodloužený kabel od tenzometru. Kabel nesmí být mechanicky namáhán tahem. Dále bude veden vzhůru po stěně do krabičky Kx. Z boku krabičky bude vyveden sdělovací kabel, který povede vysoko po stěně až do krabičky K.
 
 Celá konstrukce musí být od stěny vzdálena natolik, aby se jí nikde nedotýkala a současně za ní zůstal prostor pro vedení kabelu. Zároveň je nutné zabránit přístupu slepic a hlodavců do tohoto prostoru.
 
@@ -272,19 +274,22 @@ https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592131 (5 m)
 
 Willmann Elektro Lipník (5 m)  
 
-**Svorkovnice a svorky**  
+**Lišta**  
+https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ (4 m)  
+
+**Klipy**  
+https://www.hornbach.cz/p/kabelova-prichytka-6-mm-cerna-baleni-30-ks/5562029/  
+
+**Bužírky**  
+https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek  
+
+**Svorkovnice a svorka**  
 https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina (2 ks)  
 https://www.gme.cz/v/1502753/wago-250-405-svorkovnice-5pol-roztec-25mm-4a-160v-vstup-45-pruzina  
 https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (4 ks)  
 
 **Konektor**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (4 ks)  
-
-**Klipy**  
-Hornbach (cca 20 ks)  
-
-**Bužírky**  
-https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek  
 
 **Solární panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
@@ -307,7 +312,7 @@ https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868
 **Slave**  
 https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html (2 ks)  
 
-**Headery**  
+**Header**  
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (4 ks)  
 
 **Proudový a napěťový senzor**  
@@ -335,7 +340,7 @@ https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/ (2 ks)
 https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ (2 ks)  
 
 **Transceiver**  
-https://www.soselectronic.com/cz-cz/products/maxim/max3485esa-1-121397?query=max3485 (3 ks)  
+https://www.soselectronic.com/cz-cz/products/maxim/max3485esa-1-121397 (3 ks)  
 
 **Adaptér**  
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
@@ -361,8 +366,8 @@ Hornbach
 **Očko**  
 Hornbach  
 
-**Šrouby Matice Podložky Vruty**  
-Hornbach (11, 11, 2, sada)  
+**Šrouby Matice Podložky**  
+Hornbach (11, 11, 2)  
 
 **PU tmel**  
 Hornbach  
