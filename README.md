@@ -45,7 +45,7 @@ Systém bude napájen přes bezúdržbový olověný AGM akumulátor o parametre
 
 Před akumulátorem se bude nacházet nízkopříkonový jednoduchý mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Použití MPPT regulátoru nebylo zvoleno z důvodu vyšší složitosti a vlastní spotřeby spínaného měniče. U systému s velmi nízkým denním odběrem by zlepšení účinnosti při nabíjení pouze několik minut denně nepřineslo významný energetický přínos oproti jednoduchému MOSFET odpojovači s téměř nulovou klidovou spotřebou.
 
-Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V. Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonového LDO regulátoru MCP1702 s velmi nízkým klidovým proudem a zcela dostačujícím výstupním proudem 250 mA. Tento stabilizátor bude zapojený k akumulátoru a na jeho vstupu bude připojen blokovací keramický kondenzátor o parametrech 1 µF / 50 V. Stejný kondenzátor bude připojen i na výstupu, ale v tomto případě z důvodu vyhlazení napětí. 
+Silová část bude pracovat s napětím 6 V, zatímco veškerá elektronika bude napájena napětím 3,3 V. Snížení napětí z 6 V na 3,3 V bude realizováno pomocí nízkopříkonového LDO regulátoru MCP1702 s velmi nízkým klidovým proudem a zcela dostačujícím výstupním proudem 250 mA. Tento stabilizátor bude zapojený k akumulátoru a na jeho vstupu bude připojen blokovací keramický kondenzátor o kapacitě 1 µF a jmenovitém napětí 50 V. Stejný kondenzátor bude připojen i na výstupu, ale v tomto případě z důvodu vyhlazení napětí. 
 
 Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti nízkopříkonových variant a velmi malého odběru systému po většinu dne. Jeho vyšší účinnost by se projevila pouze po dobu několika minut denně. Kvůli vlastní spotřebě by pak paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
@@ -183,11 +183,11 @@ Před odpojením napájení VCC různých částí systému je potřeba piny (SC
 Kvůli spotřebě je potřeba odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být při provozu hardwarově odpojen. Pájecí jumpery SB9, SB14, SB2 a SB3 je proto potřeba odpájet. U LoRa-E5 mini je ještě potřeba přepnout piny PA2 a PA3, zodpovědné za ladění, do analogového režimu bez pull rezistoru. Pro programování lze poté programátor připojovat k deskám přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Pozor na plovoucí piny! Nepoužívané piny musejí být uvedeny do analogového režimu bez pull rezistoru. Kvůli správné funkci úsporného režimu je u hlavní řídicí jednotky před uspáním nutné nastavit externí RF switch na logickou nulu a použít LP rádio (vstup i software). U ostatních řídicích jednotek je zase nutné v registrech napájení (PWR) aktivovat ultra-low-power režim (ULP bit) a vypnout fast wakeup.
 
 ### Elektronika
-Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze bude obsahovat jednu hlavní desku plošných spojů a třeba 5 vedlejších desek pro jednotlivá snášková hnízda (v mém případě 2). Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
+Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt a tranzistorových spínačů umístěných na univerzálních deskách plošných spojů. Finální verze bude obsahovat jednu hlavní desku plošných spojů a třeba 5 vedlejších desek pro jednotlivá snášková hnízda (v mém případě 2). Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-Po připojení solárního panelu do krabičky K bude využito elektrolytického kondenzátoru 47 µF / 25 V a keramického kondenzátoru 100 nF / 50 V, zapojených co nejblíže spínacím prvkům. Elektrolytický kondenzátor bude fungovat jako zásobárna energie a keramický bude filtrovat rychlé špičky.
+Po připojení solárního panelu do krabičky K bude využito elektrolytického kondenzátoru 47 µF / 25 V a keramického kondenzátoru 100 nF / 50 V, zapojených co nejblíže spínacím prvkům. Elektrolytický bude fungovat jako zásobárna energie a keramický bude filtrovat rychlé špičky.
 
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o kapacitě 100 nF a jmenovitém napětí 16 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o parametrech 100 nF / 50 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
 
 Dále budou k solárnímu panelu sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS bude řízen přes M. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω. Mezi gate a společnou zem bude paralelně připojen 10 kΩ pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru přes 10 kΩ pull-up rezistor a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Source N-MOS tranzistoru bude připojen ke společné zemi.
 
@@ -201,13 +201,13 @@ Senzor INA219 bude současně využíván jako proudový snímač s 12bitovým r
 
 Při pohybu dvířek budou postupně přes 50 ms debounce spínány, respektive rozpínány dva mikrospínače. Kontakt COM bude připojen k akumulátoru a kontakt NO spolu se silným 1 kΩ externím pulldown rezistorem k M. Koncové spínače představují jednoduché a energeticky nenáročné řešení určování krajních poloh.
 
-M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou umístěny v krabičce K.
+M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem o parametrech 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou umístěny v krabičce K.
 
 Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi, za účelem odvodu šumu. Převodník bude připojen k Mx.
 
 Mx bude pro komunikaci s M prostřednictvím datového kabelu typu UTP využívat sběrnici RS485. První kroucený pár bude sloužit k přenosu napájení pro Mx, přičemž oba vodiče budou zapojeny paralelně. Stejně tak u druhého páru, který bude sloužit k přenosu napájení do zbylé elektroniky v krabičce Kx přes tranzistorový spínač. Třetí pár bude opět přes dva paralelní vodiče použit pro propojení společné země. Čtvrtý pár bude přenášet data prostřednictvím čipu MAX3485, jenž bude sloužit jako transceiver sběrnice RS485. Jeden čip bude před M a druhý před Mx.
 
-Tento čip vytváří diferenciální signál na linkách A a B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Jelikož je to čip, je pro prototyp potřeba použít adaptér SO8 na DIP8 a kolíkové lišty.
+Tento čip vytváří diferenciální signál na linkách A a B, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Jelikož je to čip, je pro prototyp potřeba použít adaptér SO8 na DIP8 a kolíkové lišty. Paralelně k vývodům VCC a GND bude připojen blokovací keramický kondenzátor o parametrech 100 nF / 50 V.
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi hlavní řídicí jednotkou M (master) a několika řídicími jednotkami Mx (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
@@ -346,6 +346,9 @@ https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
 **Pole**  
 https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/  
 
+**Deska**  
+https://dratek.cz/arduino-platforma/1047-univerzalni-plosny-spoj-30mm-x-70mm.html  
+
 **Překližka**  
 Hornbach (4 ks)  
 
@@ -375,7 +378,7 @@ Hornbach
 | BATERKY       | 270 Kč      |
 | HOFMAN        | 125 Kč      |
 | LASKAKIT      | 700 Kč      |
-| DRATEK        | 300 Kč      |
+| DRATEK        | 380 Kč      |
 | BOTLAND       | 1880 Kč     |
 | ZENIT         | 100 Kč      |
 | LIHNEME       | 1150 Kč     |
