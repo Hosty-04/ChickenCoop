@@ -36,7 +36,7 @@ Mikrospínače budou připojeny k desce plošných spojů stejným způsobem. Po
 
 Kabely budou uloženy v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm. Je dostatečně prostorná a zároveň minimalistická. Speciální UV lišta není potřeba, protože stěna kurníku směřuje na severozápad. Životnost těchto lišt je odhadována na 5 - 10 let.
 
-Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. Ke stěně bude upevněn pomocí 6 mm šroubovacích příchytek, vrutu 4 × 20 mm a 6 mm hmoždinky. Přes konektory RJ45 bude připojen k desce plošných spojů. Prodloužení vodičů tenzometru zajistí přes prodlužovací pružinové WAGO svorky stíněný kabel LAPP UNITRONIC LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro svorky příliš tenké, tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové pružinové WAGO svorkovnice o rozteči 2,5 mm.
+Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. Ke stěně bude upevněn pomocí 6 mm šroubovacích příchytek, vrutu 4 × 20 mm a 6 mm hmoždinky. Přes konektory RJ45 bude připojen k desce plošných spojů. Prodloužení vodičů tenzometru zajistí přes prodlužovací pružinové WAGO svorky stíněný kabel LiYCY 4 × 0,25 mm² typu licna. Jelikož jsou vodiče od tenzometru o průřezu 0,14 mm² pro svorky příliš tenké, tak se u odizolovaného konce přehnou napůl na průřez 0,28 mm². K desce plošných spojů bude potom tento kabel spolu se stíněním připojen pomocí 5 pinové pružinové WAGO svorkovnice o rozteči 2,5 mm.
 
 Oplet tohoto kabelu, ve formě pocínovaných měděných drátků, bude izolován pomocí smršťovací bužírky s poměrem 2:1 a vnitřním průměrem před / po zahřátí 4 mm / 1,75 mm. Je potřeba oddělit odmotaný oplet, spletený do drátku, od zbylých 4 vodičů a bužírku navléknout až ke kořenu. Přes celý kabel bude potom přetáhnuta bužírka 2:1 7,5 mm / 3,5 mm, která bude přečnívat asi centimetr přes hlavní izolaci.
 
@@ -189,11 +189,11 @@ Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolí
 
 Po připojení solárního panelu do krabičky K bude využito elektrolytického kondenzátoru 47 µF / 25 V a keramického kondenzátoru 100 nF / 50 V, zapojených co nejblíže spínacím prvkům. Elektrolytický bude fungovat jako zásobárna energie a keramický bude filtrovat rychlé špičky.
 
+Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače. Důvodem je skutečnost, že většina elektronických částí pracuje pouze krátkodobě během měření, komunikace nebo pohybu dvířek. Trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Všechny spínače budou realizovány pomocí P-MOS tranzistorů v horní větvi napájení. Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému. Řízení P-MOS tranzistorů bude realizováno přes pomocný N-MOS tranzistor, protože napětí 3,3 V z výstupu M není vždy dostatečné pro přímé sepnutí P-MOS tranzistoru napájeného z 6V akumulátoru nebo solárního panelu.
+
+Po zapnutí napájení k daným částem systému bude potřeba chvíli počkat, než naběhnou. U INA219 to je 150 µs před odesláním konfigurace a 1,5 ms než je připraven s prvními naměřenými hodnotami. Pro DRV8838 je to 1,5 ms než se nabije nábojová pumpa a MAX3485 potřebuje pouhých 150 µs.
+
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o parametrech 100 nF / 50 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
-
-Dále budou k solárnímu panelu sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS bude řízen přes M. Na jeho gate bude sériově připojen ochraný rezistor o hodnotě 220 Ω. Mezi gate a společnou zem bude paralelně připojen 100 kΩ pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru přes 100 kΩ pull-up rezistor a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Hodnoty pull rezistorů jsou velké, kvůli snížení spotřeby. Source N-MOS tranzistoru bude připojen ke společné zemi.
-
-Důvodem použití dvou P-MOS tranzistorů namísto jednoho je přítomnost parazitní diody, která je nedílnou součástí jejich vnitřní struktury. Pokud by byl použit pouze jeden tranzistor, protékal by večer i při jeho rozepnutí proud z akumulátoru zpět do solárního panelu, což by způsobovalo samovolné vybíjení akumulátoru. Pokud nastane výpadek napájení, tak se P-MOS tranzistory automaticky zavřou.
 
 Modul proudového a napěťového senzoru INA219 bude spolu s vyrovnávacím keramickým kondenzátorem o parametrech 100 nF / 50 V, co nejblíže paralelně zapojeným mezi piny Vin+ a GND, zapojen v krabičce K mezi akumulátor a vstup VM pro napájení motoru u H-bridge. Jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním ze 128 vzorků snímat napětí akumulátoru.
 
@@ -213,11 +213,7 @@ Tento čip vytváří diferenciální signál na linkách A a B, čímž zvyšuj
 
 Vzhledem k použití několika snáškových hnízd bude komunikace probíhat mezi hlavní řídicí jednotkou M (master) a několika řídicími jednotkami Mx (slave), které budou propojeny sériově v topologii Daisy Chain. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory o hodnotě 120 Ω pro impedanční přizpůsobení vedení. Jejich použití by pouze zvyšovalo proudový odběr systému.
 
-Pro dosažení nízké spotřeby bude celý systém řízen několika tranzistorovými spínači. Tyto spínače budou konstruovány stejně jako hlavní spínač, ale jen s jedním PMOS tranzistorem. Přes první z těchto spínačů bude M řídit napájení k INA219. Přes druhý napájení k DRV8838 a třetí bude dodávat napětí k hlavnímu MAX3485 a zároveň do všech krabiček Kx. V každé krabičce Kx budou potom 2 spínače. Přes první z nich bude Mx řídit napájení ke svému MAX3485 a HX711. Ten bude ve výchozím stavu sepnutý. Druhý spínač bude Mx umožňovat poslat napětí do další krabičky Kx. Ten bude ve výchozím stavu rozepnutý. Použití těchto spínačů sníží spotřebu celého systému.
-
-Po zapnutí napájení k daným částem systému bude potřeba chvíli počkat, než naběhnou. U INA219 to je 150 µs před odesláním konfigurace a 1,5 ms než je připraven s prvními naměřenými hodnotami. Pro DRV8838 je to 1,5 ms než se nabije nábojová pumpa a MAX3485 potřebuje pouhých 150 µs. Kvůli pull rezistorům je ale zprvu potřeba počkat 10 ms pro otevření PMOS, což není z hlediska funkčnosti problém.
-
-Všechny části systémů v jednotlivých krabičkách musí být co nejblíže u sebe. Desky plošných spojů budou obsahovat souvislou zemní plochu připojenou k zápornému pólu solárního panelu a akumulátoru.
+Na deskách plošných spojů musí být všechny části systémů v jednotlivých krabičkách co nejblíže u sebe. Silové části a cesty musí být ale oddělené od ostatní elektroniky. Souvislá zemní plocha bude tvořena záporným pólem solárního panelu a akumulátoru.
 
 ### Mechanika
 Hlavní část systému bude umístěna na vnější stěně kurníku, která bude splňovat požadavky na umístění solárního panelu uvedené v kapitole Napájení. Toto řešení zjednoduší montáž a zároveň z velké části eliminuje působení amoniaku ze slepičího trusu na elektroniku.
@@ -294,7 +290,7 @@ https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
 https://www.hadex.cz/p/b441-2n7000-mosfet-n-fet-60v-0-35a-to92 (10 ks)  
 
 **P-MOS**  
-https://www.gme.cz/v/1493257/infineon-irf4905pbf-unipolarni-tranzistor (10 ks)  
+(10 ks)  
 
 **Akumulátor**  
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
