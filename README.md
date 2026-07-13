@@ -64,12 +64,12 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola panelu a akumulátoru (43 s)
+### Kontrola panelu a akumulátoru (45 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,64 µAh | 2,64 µAh |
-| INA219 aktivní | 0,7 mA | 1 mA | 8,4 µAh | 12 µAh |
+| M (LPRun @ 1 MHz) | 220 µA | 220 µA | 2,75 µAh | 2,75 µAh |
+| INA219 aktivní | 0,7 mA | 1 mA | 8,75 µAh | 12,5 µAh |
 | **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
 
 ### Pohyb dvířek (40 s / 60 s)
@@ -191,7 +191,7 @@ Po připojení solárního panelu do krabičky K bude využito elektrolytického
 
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o parametrech 100 nF / 50 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Díky vysoké impedanci bude proudový odběr děliče zanedbatelný.
 
-Dále budou k solárnímu panelu sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS bude řízen přes M. Na jeho gate bude sériově připojen rezistor o hodnotě 220 Ω. Mezi gate a společnou zem bude paralelně připojen 10 kΩ pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru přes 10 kΩ pull-up rezistor a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Source N-MOS tranzistoru bude připojen ke společné zemi.
+Dále budou k solárnímu panelu sériově připojeny dva P-MOS tranzistory s nízkým RDS(on), spojené back-to-back (drainy proti sobě), které budou tvořit hlavní výkonový spínač celého systému. Jejich řízení bude realizováno jedním budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V z M není dostatečné pro jejich přímé sepnutí. N-MOS bude řízen přes M. Na jeho gate bude sériově připojen ochraný rezistor o hodnotě 220 Ω. Mezi gate a společnou zem bude paralelně připojen 100 kΩ pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen k akumulátoru přes 100 kΩ pull-up rezistor a na gate obou P-MOS tranzistorů. P-MOS tranzistory budou tedy spínané 6 V. Hodnoty pull rezistorů jsou velké, kvůli snížení spotřeby. Source N-MOS tranzistoru bude připojen ke společné zemi.
 
 Důvodem použití dvou P-MOS tranzistorů namísto jednoho je přítomnost parazitní diody, která je nedílnou součástí jejich vnitřní struktury. Pokud by byl použit pouze jeden tranzistor, protékal by večer i při jeho rozepnutí proud z akumulátoru zpět do solárního panelu, což by způsobovalo samovolné vybíjení akumulátoru. Pokud nastane výpadek napájení, tak se P-MOS tranzistory automaticky zavřou.
 
@@ -203,7 +203,7 @@ Senzor INA219 bude současně využíván jako proudový snímač s 12bitovým r
 
 Při pohybu dvířek budou postupně přes 50 ms debounce spínány, respektive rozpínány dva mikrospínače. Kontakt COM bude připojen k akumulátoru a kontakt NO spolu se silným 1 kΩ externím pulldown rezistorem k M. Koncové spínače představují jednoduché a energeticky nenáročné řešení určování krajních poloh.
 
-M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem o parametrech 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou umístěny v krabičce K.
+M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem o parametrech 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou v krabičce K umístěny co nejdál od ostatní elektroniky.
 
 Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi, za účelem odvodu šumu. Převodník bude připojen k Mx.
 
@@ -215,7 +215,7 @@ Vzhledem k použití několika snáškových hnízd bude komunikace probíhat me
 
 Pro dosažení nízké spotřeby bude celý systém řízen několika tranzistorovými spínači. Tyto spínače budou konstruovány stejně jako hlavní spínač, ale jen s jedním PMOS tranzistorem. Přes první z těchto spínačů bude M řídit napájení k INA219. Přes druhý napájení k DRV8838 a třetí bude dodávat napětí k hlavnímu MAX3485 a zároveň do všech krabiček Kx. V každé krabičce Kx budou potom 2 spínače. Přes první z nich bude Mx řídit napájení ke svému MAX3485 a HX711. Ten bude ve výchozím stavu sepnutý. Druhý spínač bude Mx umožňovat poslat napětí do další krabičky Kx. Ten bude ve výchozím stavu rozepnutý. Použití těchto spínačů sníží spotřebu celého systému.
 
-Po zapnutí napájení k daným částem systému bude potřeba chvíli počkat, než naběhnou. U INA219 to je 150 µs před odesláním konfigurace a 1,5 ms než je připraven s prvními naměřenými hodnotami. Pro DRV8838 je to 1,5 ms než se nabije nábojová pumpa a MAX3485 potřebuje pouhých 150 µs.
+Po zapnutí napájení k daným částem systému bude potřeba chvíli počkat, než naběhnou. U INA219 to je 150 µs před odesláním konfigurace a 1,5 ms než je připraven s prvními naměřenými hodnotami. Pro DRV8838 je to 1,5 ms než se nabije nábojová pumpa a MAX3485 potřebuje pouhých 150 µs. Kvůli pull rezistorům je ale zprvu potřeba počkat 10 ms pro otevření PMOS, což není z hlediska funkčnosti problém.
 
 Všechny části systémů v jednotlivých krabičkách musí být co nejblíže u sebe. Desky plošných spojů budou obsahovat souvislou zemní plochu připojenou k zápornému pólu solárního panelu a akumulátoru.
 
