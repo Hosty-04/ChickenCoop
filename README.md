@@ -64,7 +64,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola panelu a akumulátoru (25 ms a 8 s)
+### Kontrola panelu a akumulátoru (4 s a 3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -72,7 +72,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | INA219 aktivní | 0,7 mA | 1 mA | 8,75 µAh | 12,5 µAh |
 | **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
 
-### Pohyb dvířek (27 s nebo 41 s)
+### Pohyb dvířek (28 s nebo 42 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -105,7 +105,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | CPU (LPSleep) | 44 µA | 69 µA | 0,0367 µAh | 0,0575 µAh |
 | **Celkem** | **21 mA** | **21,1 mA** | **17,5 µAh** | **17,6 µAh** |
 
-### LoRa RX (10 s)
+### LoRa RX (11 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -152,7 +152,7 @@ Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini 
 
 Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavního řadiče budou astronomické hodiny, které každý den, pomocí RTC hodin, spočítají čas východu a západu slunce. Podle těchto údajů se potom budou automaticky otevírat a zavírat dvířka od kurníku. Přes RTC hodiny bude řadič schopen zjistit také roční období. Použití časovače nebylo zvoleno z důvodu proměnlivé délky dne. Světelný senzor by mohl způsobovat chybné sepnutí motoru dvířek, kvůli zatažené obloze při dešťi a bouřce nebo vlivem pouličního osvětlení či světlometů automobilů. Konfiguraci zajistí STM32CubeMX.
 
-Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut za účelem kontroly stavu solárního panelu a akumulátoru (cca 300 milisekund). Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet 24× denně, tedy každou hodinu, pro sekvenční kontrolu stavu vajec s postupným buzením každého hnízda (24 × 5 hnízd × 4 s na jedno hnízdo = cca 8 minut). Po sběru dat ze všech hnízd proběhne komunikace. Nakonec se bude probouzet ráno a večer, opět pouze s nezbytnými částmi systému, za účelem otevření a zavření dvířek (cca 2 × 20 s). Před zahájením pohybu dvířek budou piny koncových spínačů nastaveny jako digitální vstupy. Po dosažení koncové polohy proběhne komunikace a piny budou přepnuty do analogového režimu bez pull rezistorů, čímž bude eliminován jejich klidový odběr.
+Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut za účelem kontroly stavu solárního panelu a akumulátoru. Dále se bude společně s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu, pro sekvenční kontrolu stavu vajec s postupným buzením každého hnízda. Po sběru dat ze všech hnízd proběhne komunikace. Nakonec se bude probouzet ráno a večer, opět pouze s nezbytnými částmi systému, za účelem otevření a zavření dvířek. Před zahájením pohybu dvířek budou piny koncových spínačů nastaveny jako digitální vstupy. Po dosažení koncové polohy proběhne komunikace a piny budou přepnuty do analogového režimu bez pull rezistorů, čímž bude eliminován jejich klidový odběr.
 
 LoRa anténa bude moci vysílat až po vypnutí všech systémů, kvůli jejímu vyššímu odběru proudu a ochraně před rušením. Po každém vysílání bude mít potom možnost příjmout data, což umožní uživatelské ovládání. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, BW 125 kHz, CR 4 / 5, 2 příjmová okna RX1 + RX2 a délka příjmových oken automaticky podle driftu krystalu.
 
@@ -163,7 +163,7 @@ Data budou z kurníku odesílána pomocí 3+ bajtů. První bajt bude obsahovat 
 Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednotkami bude využit protokol LPUART, který nevyužívá hodinový signál a vyznačuje se nízkou spotřebou energie. Přenosová rychlost bude 9600 Bd, kvůli minimalizaci odrazů. Na aplikační vrstvě bude použit komunikační protokol Modbus RTU a knihovna ModbusRTU-Slave. Protokol Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. LPUART, hardware v řadiči, následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici. Na straně přijímače proběhne opačný proces.
 
 **Stavový automat pro algoritmus detekce snesených vajec**  
-- Probuzení mikrořadiče  
+- Probuzení  
 - Čekání 500 ms na ustálení měření  
 - Odebrání 32 vzorků rychlostí 10 SPS  
 - Výpočet mediánu  
@@ -174,7 +174,7 @@ Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednot
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou  
 - Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, je změna aritmeticky přičtena k uložené hodnotě  
 - Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota  
-- Uspání mikrořadiče  
+- Uspání  
 
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí, že je čas na práci, tak se řadič přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz. Po skončení přenosu bude nutné rádio nastavit do režimu LP Sleep. 
 
@@ -184,22 +184,20 @@ Přechod mikrořadičů mezi úspornými režimy Stop2 / Stop a režimem LPRun t
 
 Před odpojením napájení VCC různých částí systému je potřeba výstupy (SCK, PH, EN, DI, DE, RE) přepsat na logickou nulu. Důvodem je zamezení napájení přes výstupy tomu neurčené (leakage current). Dále budou vypnuty periferie (I²C, UART, ADC) a jejich hodinový signál, který plýtvá energii, i když nic neposílají. Po odpojení VCC je potom třeba nastavit všechny piny, včetně těch pro teď už vypnuté periferie, do analogového režimu bez pull rezistoru.
 
-Kvůli spotřebě je potřeba odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být při provozu hardwarově odpojen. Pájecí jumpery SB9, SB14, SB2 a SB3 je proto potřeba odpájet. U LoRa-E5 mini je ještě potřeba přepnout piny PA2 a PA3, zodpovědné za ladění, do analogového režimu bez pull rezistoru. Pro programování lze poté programátor připojovat k deskám přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Pozor na plovoucí piny! Nepoužívané piny musejí být uvedeny do analogového režimu bez pull rezistoru. Při nepoužívaní rádia je nutné nastavit externí RF switch na logickou nulu. U Mx je zase nutné v registrech napájení (PWR) aktivovat ultra-low-power režim (ULP bit) a vypnout fast wakeup.
+Kvůli spotřebě je potřeba odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být při provozu hardwarově odpojen. Pájecí jumpery SB9, SB14, SB2 a SB3 je proto potřeba odpájet. U LoRa-E5 mini je ještě potřeba přepnout piny PA2 a PA3, zodpovědné za ladění, do analogového režimu bez pull rezistoru. Pro programování lze poté programátor připojovat k deskám přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Pozor na plovoucí piny! Nepoužívané piny musejí být uvedeny do analogového režimu bez pull rezistoru. Při nepoužívaní rádia je nutné nastavit externí RF switch na logickou nulu. U řadičů bez rádia je zase nutné v registrech napájení (PWR) aktivovat ultra-low-power režim (ULP bit) a vypnout fast wakeup.
 
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze bude obsahovat jednu hlavní desku plošných spojů a například 5 vedlejších desek pro jednotlivá snášková hnízda (v mém případě dvě). Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-Co nejblíže k MOSFET odpojovači budou v krabičce K paralelně připojeny 2 kondenzátory. Elektrolytický 47 µF / 25 V a keramický 100 nF / 50 V. Elektrolytický bude fungovat jako zásobárna energie a keramický bude filtrovat vysokofrekvenční elektromagnetické rušení.
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory x o parametrech x, zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu vlivem parazitních diod P-MOS tranzistorů. Tyto tranzistory bude M řídit budicím logic-level N-MOS tranzistorem x o parametrech x, protože napětí 3,3 V není vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate tohoto N-MOS tranzistoru bude sériově připojen ochraný rezistor o hodnotě 220 Ω a mezi gate a společnou zem bude paralelně připojen x Ω pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen na gate obou P-MOS tranzistorů a přes x Ω pull-up rezistor k 9 V panelu. Source N-MOS tranzistoru bude připojen ke společné zemi. Napětí UGS u P-MOS tranzistorů bude tedy při rozepnutí N-MOS tranzistoru nulové a při sepnutí N-MOS tranzistoru bude UGS vždy menší než -4,5 V.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory s nízkým RDS(on), zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu vlivem parazitních diod P-MOS tranzistorů. Tyto tranzistory bude M řídit budicím logic-level N-MOS tranzistorem, protože napětí 3,3 V není vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate tohoto N-MOS tranzistoru bude sériově připojen ochraný rezistor o hodnotě 220 Ω a mezi gate a společnou zem bude paralelně připojen x Ω pull-down rezistor, který zabrání vzniku nedefinovaného logického stavu. Drain bude připojen na gate obou P-MOS tranzistorů a přes x Ω pull-up rezistor k 9 V panelu. Source N-MOS tranzistoru bude připojen ke společné zemi. Napětí UGS u P-MOS tranzistorů bude tedy při rozepnutí N-MOS tranzistoru nulové a při sepnutí N-MOS tranzistoru bude UGS vždy menší než -4,5 V.
+Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně připojeny 2 kondenzátory. Prvním z nich bude elektrolytický 47 µF / 25 V a blokovací keramický kondenzátor o parametrech 100 nF / 50 V. Elektrolytický bude fungovat jako zásobárna energie a keramický bude filtrovat vysokofrekvenční elektromagnetické rušení.
 
 Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače. Důvodem je skutečnost, že většina elektronických částí pracuje pouze krátkodobě během měření, komunikace nebo pohybu dvířek. Trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Tyto spínače budou konstruovány stejně jako MOSFET odpojovač, ale jen s jedním PMOS tranzistorem, x Ω pull-up rezistorem a x Ω pull-down rezistorem. Přes první z těchto spínačů bude M řídit napájení k děliči, přes druhý k INA219, přes třetí k DRV8838 a čtvrtý bude dodávat napětí k hlavnímu MAX3485 a zároveň do všech krabiček Kx. V každé krabičce Kx budou potom další 2 spínače. Přes první z nich bude Mx řídit napájení ke svému MAX3485 a HX711. Ten bude ve výchozím stavu sepnutý. Přes druhý bude dodávat napájení do další krabičky Kx. Ten bude ve výchozím stavu rozepnutý.
 
-Po zapnutí napájení jednotlivých částí systému bude nutné počkat na jejich ustálení. U obvodu INA219 bude použita čekací doba 200 µs, která zahrnuje náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Kondenzátor 100 nF mezi VIN+ a GND slouží pouze k filtrování měřeného vstupu. Při nastavení 12bitového měření a průměrování 32 vzorků trvá vytvoření první hodnoty přibližně 17 ms (32 × 532 µs). Při měření proudu s průměrováním 4 vzorků bude doba vytvoření hodnoty přibližně 2,1 ms. U obvodu MAX3485 bude použita čekací doba 100 µs, která zahrnuje náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND. U budiče DRV8838 bude použita čekací doba 3 ms, která zahrnuje nabití elektrolytického kondenzátoru 47 µF a keramického kondenzátoru 100 nF mezi VM a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení použita čekací doba přibližně 500 ms, která zahrnuje ustálení analogové části převodníku a dokončení prvního převodu. Následně bude možné odečítat stabilní naměřené hodnoty. Při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
+Po zapnutí napájení jednotlivých částí systému bude nutné počkat na jejich ustálení. U obvodu INA219 bude použita čekací doba 200 µs, která zahrnuje náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při nastavení 12bitového měření a průměrování 32 vzorků trvá vytvoření první hodnoty přibližně 17 ms (32 × 532 µs). Při měření proudu s průměrováním 4 vzorků bude doba vytvoření hodnoty přibližně 2,1 ms. U obvodu MAX3485 bude použita čekací doba 100 µs, která zahrnuje náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND. U budiče DRV8838 bude použita čekací doba 3 ms, která zahrnuje nabití elektrolytického kondenzátoru 47 µF a keramického kondenzátoru 100 nF mezi VM a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení použita čekací doba přibližně 500 ms, která zahrnuje ustálení analogové části převodníku a dokončení prvního převodu. Následně bude možné odečítat stabilní naměřené hodnoty. Při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen filtrační keramický kondenzátor o parametrech 10 nF / 50 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Pro zvýšení přesnosti bude provedena kalibrace a výsledek bude aritmetickým průměrem z 16 vzorků. Vysoká impedance děliče zajistí jeho nízkou spotřebu.
-
-Modul proudového a napěťového senzoru INA219 bude spolu s filtračním keramickým kondenzátorem o parametrech 100 nF / 50 V, co nejblíže paralelně zapojeným mezi piny Vin+ a GND, zapojen v krabičce K mezi akumulátor a vstup VM pro napájení motoru u H-bridge. Jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním ze 32 vzorků snímat napětí akumulátoru.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory o hodnotách 1 MΩ a 470 kΩ. Paralelně k rezistoru R2 (470 kΩ) bude připojen blokovací keramický kondenzátor o parametrech 10 nF / 50 V. Dělič bude sloužit ke snímání napětí panelu, přičemž naměřené hodnoty budou odesílány do M přes ADC pin v analogovém režimu. Pro zvýšení přesnosti bude provedena kalibrace a výsledek bude aritmetickým průměrem z 16 vzorků. Vysoká impedance děliče zajistí jeho nízkou spotřebu. Modul proudového a napěťového senzoru INA219 bude zapojen v krabičce K mezi akumulátor a vstup VM pro napájení motoru u H-bridge. Jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním ze 32 vzorků snímat napětí akumulátoru.
 
 Na základě údajů z tohoto modulu a děliče napětí bude M prostřednictvím sběrnice I²C, resp. portu GPIO vyhodnocovat stav akumulátoru a solárního panelu. Pokud bude napětí na akumulátoru limitní, v létě 7,2 V, na jaře / podzim 7,3 V a v zimě 7,5 V, tak odpojí solární panel. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (3 po sobě jdoucí měření), tak M solární panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na hodnotu 5,75 V, přejde M do kritického režimu a bude pouze kontrolovat napětí na panelu a akumulátoru. K obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy bude napětí panelu nižší než napětí na akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu. Toho docílí jeho odpojením. Kvůli nepřesnosti měření bude hladina pro odpojení, resp. připojení panelu zvýšena o 250 mV.
 
@@ -207,7 +205,7 @@ Senzor INA219 bude současně využíván jako proudový snímač s 12bitovým r
 
 M bude dále napřímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, který bude vybaven elektrolytickým kondenzátorem s nízkým ESR o parametrech 47 µF / 25 V zapojeným co nejblíže mezi piny VM a GND, jenž bude potlačovat indukční napěťové špičky vznikající při vypínání motoru. Motor zodpovědný za pohyb dvířek bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF zapojenými mezi jednotlivé vývody a kostru motoru (Faradayova klec). Všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou v krabičce K umístěny co nejdál od ostatní elektroniky.
 
-Při pohybu dvířek budou postupně přes 50 ms debounce spínány, respektive rozpínány dva mikrospínače. Kontakt COM bude připojen k akumulátoru a kontakt NO spolu se silným 10 kΩ externím pull-down rezistorem k M. Silný pull-down rezistor je potřeba kvůli kabelům, které se chovají jako anténa. Koncové spínače představují jednoduché a energeticky nenáročné řešení určování krajních poloh.
+Při pohybu dvířek budou postupně přes 50 ms debounce spínány, respektive rozpínány dva mikrospínače. Kontakt COM bude připojen k akumulátoru a kontakt NO spolu s x pull-down rezistorem k M. Pull-down rezistor je potřeba kvůli kabelům, které se chovají jako anténa. Koncové spínače představují jednoduché a energeticky nenáročné řešení určování krajních poloh.
 
 Měření váhy snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Kabel od tenzometru bude připojen k modulu AČ převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul bude použit z důvodu zesílení velmi nízkého výstupního napětí tenzometru, které se pohybuje v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi, za účelem odvodu šumu. Převodník bude připojen k Mx.
 
@@ -291,10 +289,10 @@ https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (4 ks)
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
 
 **N-MOS**  
-https://www.hadex.cz/p/b441-2n7000-mosfet-n-fet-60v-0-35a-to92 (10 ks)  
+
 
 **P-MOS**  
-(10 ks)  
+
 
 **Akumulátor**  
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
@@ -375,7 +373,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | GME | 650 Kč |
 | ALZA | 150 Kč |
 | WILLMANN | 175 Kč |
-| HADEX | 180 Kč |
+| HADEX | 120 Kč |
 | HORNBACH | 710 Kč |
 | DEXHAL | 590 Kč |
 | BATERKY | 270 Kč |
@@ -388,6 +386,6 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | SOS | 450 Kč |
 | PRUMEX | 200 Kč |
 | REZERVA | 500 Kč |
-| **CELKEM** | **8 150 Kč** |
+| **CELKEM** | **8 090 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
