@@ -64,7 +64,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola panelu a akumulátoru
+### Kontrola panelu a akumulátoru ()
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -72,7 +72,7 @@ Použití spínaného buck měniče není vhodné z důvodu horší dostupnosti 
 | INA219 aktivní | 0,7 mA | 1 mA | 8,75 µAh | 12,5 µAh |
 | **Celkem** | **0,92 mA** | **1,22 mA** | **11 µAh** | **14,6 µAh** |
 
-### Pohyb dvířek
+### Pohyb dvířek ()
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -176,9 +176,11 @@ Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednot
 - Při hmotnosti < 25 g je provedena kontrola driftu. Pokud jsou zaznamenána tři po sobě jdoucí stabilní měření, je aktualizována referenční nulová hodnota  
 - Uspání mikrořadiče  
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí, že je čas na práci, tak se řadič přepne do režimu LPRun (Low Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do LPSleep režimu (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC má mimo jiné možnost udržet logické úrovně a nastavení pinů. Řadič je automaticky taktovaný externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Když ale RTC hodiny zavelí, že je čas na práci, tak se řadič přepne do režimu LPRun (Low-Power Run). V tomto režimu je taktovaný interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX / RX) se CPU přepne do režimu LPSleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms. Rádio poběží automaticky na 32 MHz.
 
 U ostatních řídicích jednotek to bude po většinu dne velmi podobné. Budou se nacházet v úsporném režimu Stop bez RTC, ze stejných důvodů jako hlavní řídicí jednotka a protože je potřeba, aby si uchovaly paměť RAM. Řadiče budou postupně jeden za druhým probouzeny přes hlavní řadič, přesněji přes LPUART. Tudíž nepotřebují RTC hodiny. Po probuzení se daný řadič přepne do režimu LPRun (LSI, 131 kHz) a hned po vykonání úkolu se přepne zpět do režimu Stop bez RTC.
+
+Přechod mikrořadičů mezi úspornými režimy Stop2 / Stop a režimem LPRun trvá řádově stovky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná a není tudíž uvažována.
 
 Před odpojením napájení VCC různých částí systému je potřeba piny (SCK, DT, PH, EN, DI, DE, RE, RO) přepsat na logickou nulu. Důvodem je zamezení napájení přes piny tomu neurčené (leakage current). Dále budou vypnuty periferie (I²C, UART, ADC) a jejich hodinový signál, který plýtvá energii, i když nic neposílají. Po odpojení VCC je potom třeba nastavit všechny piny, včetně těch pro teď už vypnuté periferie, do analogového režimu bez pull rezistoru.
 
