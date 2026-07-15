@@ -208,13 +208,13 @@ Pro dosažení nízké klidové spotřeby budou jednotlivé části systému nap
 
 Po zapnutí napájení jednotlivých částí systému je nutné počkat na jejich ustálení. U obvodu INA219 se použije čekací doba 200 µs, zahrnující náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při 12bitovém měření s průměrováním 32 vzorků trvá vytvoření první hodnoty přibližně 17 ms (32 × 532 µs), při měření proudu s průměrováním 4 vzorků pak přibližně 2,1 ms. U obvodu MAX3485 se použije čekací doba 100 µs (náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND), u budiče DRV8838 pak 3 ms, což zahrnuje nabití elektrolytického kondenzátoru 47 µF a keramického 100 nF mezi VM a GND, a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu — po níž už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený rezistory 1 MΩ a 470 kΩ, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen blokovací keramický kondenzátor 10 nF/50 V. Dělič bude sloužit ke snímání napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje jeho nízkou spotřebu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků snímat napětí akumulátoru.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen blokovací keramický kondenzátor 10 nF/50 V. Dělič bude sloužit ke snímání napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje jeho nízkou spotřebu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků snímat napětí akumulátoru.
 
 Na základě údajů z tohoto modulu a z napěťového děliče bude M přes sběrnici I²C, respektive přes port GPIO, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o  250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
 
 Senzor INA219 bude zároveň sloužit jako proudový snímač s 12bitovým rozlišením a průměrováním 4 vzorků. Při pohybu dvířek bude M monitorovat proud odebíraný z akumulátoru; zvýšení proudu nad 450 mA po dobu 150 ms bude signalizovat zaseknutí dvířek nebo překážku v cestě (typicky slepici). V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána i při nepřetržitém běhu motoru, po dobu vyšší než 25 s — potřebná doba pro změnu stavu dvířek + rezerva. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
-M bude dále přímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, vybavený elektrolytickým kondenzátorem s nízkým ESR (47 µF/25 V) zapojeným co nejblíže mezi piny VM a GND, který potlačí indukční napěťové špičky vznikající při vypínání motoru. Samotný motor bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF mezi jednotlivé vývody a kostru motoru (Faradayova klec); všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou v krabičce K umístěny co nejdále od ostatní elektroniky.
+M bude dále přímo (bez PWM modulace) řídit H-bridge Pololu DRV8838, vybavený elektrolytickým kondenzátorem s nízkým ESR (47 µF/25 V) zapojeným co nejblíže mezi piny VM a GND, který rychle potlačí indukční napěťové špičky vznikající při vypínání motoru. Samotný motor bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF mezi jednotlivé vývody a kostru motoru (Faradayova klec); všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i elektromotor budou v krabičce K umístěny co nejdále od ostatní elektroniky.
 
 Měření hmotnosti snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou a hysterezí. Kabel od tenzometru bude připojen k modulu A/Č převodníku HX711 s nízkým klidovým proudem v řádu jednotek mikroampér, umístěnému v krabičce Kx. Modul zesílí velmi nízké výstupní napětí tenzometru, pohybující se v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Mx.
 
@@ -332,6 +332,7 @@ https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 
 **Kondenzátor**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
+https://www.gme.cz/v/1489496/hitano-ce-47u-25vit-hit-exr-5x11-rm2-bulk-elektrolyticky-kondenzator  
 
 **Pole**  
 https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/  
@@ -361,7 +362,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | OBCHOD | CENA |
 |:---|:---:|
-| GME | 650 Kč |
+| GME | 665 Kč |
 | ALZA | 150 Kč |
 | WILLMANN | 175 Kč |
 | HADEX | 120 Kč |
@@ -377,6 +378,6 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | SOS | 450 Kč |
 | PRUMEX | 200 Kč |
 | REZERVA | 500 Kč |
-| **CELKEM** | **8 090 Kč** |
+| **CELKEM** | **8 105 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
