@@ -83,6 +83,13 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: Možnost zaseknutí dvířek je brána v potaz.*
 
+### Astronomické hodiny (1 ms)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|:---|:---:|:---:|:---:|:---:|
+| M (Run @ 48 MHz) | 3,4 mA | 3,45 mA | | |
+| **Celkem** | **** | **** | **** | **** |
+
 ### Kontrola vajec (8 min)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
@@ -124,6 +131,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | LoRa TX | 23,4 µAh | 1,0 % | 23,4 µAh | 0,6 % |
 | LoRa RX | 14,8 µAh | 0,7 % | 14,9 µAh | 0,4 % |
 | Kontrola panelu / baterie | 0,83 µAh | 0,0 % | 1,08 0,38µAh | 0,0 % |
+| Astronomické hodiny | | | | |
 | **Celkem** | **2,25 mAh** | 100 % | **3,84 mAh** | 100 % |
 
 ### Výrobená energie
@@ -135,7 +143,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Západ | | |
 | Jihozápad | | |
 
-*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR*
+*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR.*
 
 ### Energetická bilance
 
@@ -151,7 +159,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
 
-Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavního řadiče budou astronomické hodiny, které každý den pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes RTC hodiny bude řadič schopen zjistit i roční období. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů. Konfiguraci periferií a hodin zajistí grafický nástroj STM32CubeMX.
+Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavního řadiče budou astronomické hodiny, které každý den ve 12 hodin po kontrole stavu vajec pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes RTC hodiny bude řadič schopen zjistit i roční období. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů. Konfiguraci periferií a hodin zajistí grafický nástroj STM32CubeMX.
 
 Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Dále se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně, hnízdo po hnízdu, provede kontrolu stavu vajec. Nakonec se bude probouzet ráno a večer — opět pouze s nezbytnými částmi systému — kvůli otevření a zavření dvířek. Po sběru dat ze všech hnízd a po změně stavu dvířek následuje komunikace.
 
@@ -177,11 +185,11 @@ Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednot
 - Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Uspání
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá ve přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po dobu jedné milisekundy. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep.
 
 U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů, a protože je potřeba uchovat obsah paměti RAM, se budou nacházet v úsporném režimu Stop bez RTC. Řadiče budou probouzeny postupně, jeden po druhém, přes hlavní řadič a sběrnici LPUART, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC.
 
-Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run trvá řádově stovky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná, a proto se v energetické bilanci neuvažuje.
+Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run / Run trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná, a proto se v energetické bilanci neuvažuje.
 
 Před odpojením napájení VCC jednotlivých částí systému je nutné přepsat výstupy (SCK, PH, EN, DI, DE, RE) na logickou nulu, aby se zamezilo napájení přes výstupy tomu neurčené (tzv. leakage current). Dále je třeba vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když právě nic nepřenáší. Po odpojení VCC je pak nutné nastavit všechny piny — včetně těch pro právě vypnuté periferie — do analogového režimu bez pull rezistoru. Po dosažení koncové polohy dvířek se vstupy pro koncové spínače taktéž přepnou do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr.
 
