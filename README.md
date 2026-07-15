@@ -59,6 +59,8 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 45,6 µAh |
 | **Celkem** | **4,9 µA** | **9,7 µA** | **118 µAh** | **233 µAh** |
 
+*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
+
 ### Kontrola panelu a akumulátoru (4 s a 3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
@@ -78,6 +80,8 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | INA219 | 0,7 mA | 1 mA | 5,44 µAh | 11,7 µAh |
 | **Celkem** | **151 mA** | **202 mA** | **1,18 mAh** | **2,35 mAh** |
 
+*Poznámka: Možnost zaseknutí dvířek je brána v potaz.*
+
 ### Kontrola vajec (8 min)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
@@ -88,6 +92,8 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 4,93 µAh |
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 0,587 mAh | 0,587 mAh |
 | **Celkem** | **6,85 mA** | **9,06 mA** | **0,914 mAh** | **1,21 mAh** |
+
+*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak chová, jako by v kurníku bylo jediné hnízdo, což znamená přibližně pětkrát nižší spotřebu.*
 
 ### LoRa TX (4 s)
 
@@ -104,6 +110,8 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Rádio RX (SMPS) | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
 | CPU (LPSleep) | 44 µA | 310 µA | 0,134 µAh | 0,211 µAh |
 | **Celkem** | **4,84 mA** | **4,87 mA** | **14,8 µAh** | **14,9 µAh** |
+
+*Poznámka: Bezpečný odhad délky okna je 200 ms.*
 
 ### Procentuální rozložení a celková denní spotřeba
 
@@ -126,7 +134,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Západ | | |
 | Jihozápad | | |
 
-*Poznámka: Dodaná do akumulátoru přes oddělovač*
+*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR*
 
 ### Energetická bilance
 
@@ -137,7 +145,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Západ | | | Spolehlivý celoroční provoz s dostatečnou rezervou |
 | Jihozápad | | | Spolehlivý celoroční provoz |
 
-*Poznámka: Do posledních dvou tabulek byly započteny ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, jeho samovybíjení, svislá poloha panelu a běžné klimatické podmínky v ČR.
+*Poznámka: Počítáno je i se samovybíjením akumulátoru.*
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
