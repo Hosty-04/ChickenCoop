@@ -57,7 +57,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
-| M (Stop2 s RTC) | 1,0 µA | 26 µA | 24 µAh | 624 µAh |
+| M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 228 µAh |
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
 
@@ -67,9 +67,9 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 0,133 µAh | 0,433 µAh |
-| Dělič | 4,1 µA | 6,1 µA | 0,0046 µAh | 0,0068 µAh |
-| INA219 aktivní | 0,7 mA | 1 mA | 0,583 µAh | 0,833 µAh |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
+| Dělič | 4,1 µA | 6,1 µA | 4,6 nAh | 6,8 nAh |
+| INA219 aktivní | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
 | **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
 
 ### Pohyb dvířek (32 s nebo 55 s)
@@ -89,11 +89,11 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 52,0 µAh |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16 µAh | 52 µAh |
 | MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 293 µAh |
 | MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 293 µAh |
 | Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 4,93 µAh |
-| HX711 a tenzometr | 4,4 mA | 4,4 mA | 0,587 mAh | 0,587 mAh |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 587 µAh |
 | **Celkem** | **6,75 mA** | **9,23 mA** | **0,901 mAh** | **1,23 mAh** |
 
 *Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak chová, jako by v kurníku bylo jediné hnízdo, což znamená přibližně pětkrát nižší spotřebu.*
@@ -103,7 +103,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | Rádio TX (SMPS) | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
-| CPU (LPSleep) | 44 µA | 310 µA | 0,049 µAh | 0,344 µAh |
+| CPU (LPSleep) | 44 µA | 310 µA | 49 nAh | 344 nAh |
 | **Celkem** | **21,0 mA** | **21,3 mA** | **23,4 µAh** | **23,7 µAh** |
 
 ### LoRa RX (11 s)
@@ -111,10 +111,17 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | Rádio RX (SMPS) | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
-| CPU (LPSleep) | 44 µA | 310 µA | 0,134 µAh | 0,947 µAh |
+| CPU (LPSleep) | 44 µA | 310 µA | 134 nAh | 947 nAh |
 | **Celkem** | **4,84 mA** | **5,11 mA** | **14,8 µAh** | **15,6 µAh** |
 
 *Poznámka: Bezpečný odhad délky okna je 200 ms.*
+
+### Astronomické hodiny (1 ms)
+
+| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
+|:---|:---:|:---:|:---:|:---:|
+| M (Run @ 48 MHz SMPS) | 3,4 mA | 3,45 mA | 0,944 nAh | 0,958 nAh |
+| **Celkem** | **3,4 mA** | **3,45 mA** | **0,944 nAh** | **0,958 nAh** |
 
 ### Procentuální rozložení a celková denní spotřeba
 
@@ -122,10 +129,11 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 |:---|:---:|:---:|:---:|:---:|
 | Pohyb dvířek | 0,901 mAh | 46,0 % | 3,85 mAh | 63,2 % |
 | Kontrola vajec | 0,901 mAh | 46,0 % | 1,23 mAh | 20,2 % |
-| Klidový režim | 118 µAh | 6,0 % | 972 µAh | 16,0 % |
+| Klidový režim | 118 µAh | 6,0 % | 972 µAh | 15,9 % |
 | LoRa TX | 23,4 µAh | 1,2 % | 23,7 µAh | 0,4 % |
 | LoRa RX | 14,8 µAh | 0,8 % | 15,6 µAh | 0,3 % |
 | Kontrola panelu / baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
+| Astronomické hodiny | 0,944 nAh | 0,0 % | 0,958 nAh | 0,0 % |
 | **Celkem** | **1,96 mAh** | 100 % | **6,09 mAh** | 100 % |
 
 ### Výrobená energie
@@ -141,28 +149,16 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 ### Energetická bilance
 
-| Orientace panelu | Léto | Zima | Hodnocení |
-|:---|:---:|:---:|:---|
-| Jih | +2749 mAh | +1468 mAh | Velmi vysoká energetická rezerva |
-| Východ | +2059 mAh | +729 mAh | Spolehlivý celoroční provoz s dostatečnou rezervou |
-| Západ | +2059 mAh | +729 mAh | Spolehlivý celoroční provoz s dostatečnou rezervou |
-| Jihozápad | +2355 mAh | +1222 mAh | Spolehlivý celoroční provoz |
+| Orientace panelu | Léto | Zima |
+|:---|:---:|:---:|
+| Jih | +2749 mAh | +1468 mAh |
+| Východ | +2059 mAh | +729 mAh |
+| Západ | +2059 mAh | +729 mAh |
+| Jihozápad | +2355 mAh | +1222 mAh |
 
 *Poznámka: Počítáno je i se samovybíjením akumulátoru.*
 
-
-
-### Astronomické hodiny (1 ms)
-
-| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|:---|:---:|:---:|:---:|:---:|
-| M (Run @ 48 MHz) | 3,4 mA | 3,45 mA | | |
-| **Celkem** | **** | **** | **** | **** |
-
-
-
-
-
+Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou.
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
