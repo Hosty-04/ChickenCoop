@@ -42,7 +42,7 @@ U prototypu se využijí stejné kabely, svorkovnice a svorky. Průřez drátků
 ### Napájení
 Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen dodat maximálně 1,11 A, tudíž nepřekračuje nejvyšší povolený nabíjecí proud akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
 
-Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost se pohybuje kolem 88 %. I se zohledněním zimního poklesu kapacity o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením 3 % za měsíc a přirozeným stárnutím než samotná spotřeba systému. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
+Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost se pohybuje kolem 88 %, dále trpí samovybíjením 3 % za měsíc a poklesem kapacity v zimě o 30 %. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
 Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Ztráty neidealního pracovního bodu jsou asi 15 % a ztráty použití jednoduchého algoritmu oproti maximálnímu využití dostupné energie jsou spolu se ztrátami na tranzistorech asi 10%.
 
@@ -88,7 +88,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (Run @ 48 MHz SMPS) | 3,4 mA | 3,45 mA | 0,944 nAh | 0,958 nAh |
+| M (Run @ 48 MHz) | 3,4 mA | 3,45 mA | 0,944 nAh | 0,958 nAh |
 | **Celkem** | **3,4 mA** | **3,45 mA** | **0,944 nAh** | **0,958 nAh** |
 
 ### Kontrola vajec (8 min)
@@ -108,7 +108,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Rádio TX (SMPS) | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
+| Rádio TX | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
 | CPU (LPSleep) | 44 µA | 310 µA | 49 nAh | 344 nAh |
 | **Celkem** | **21,0 mA** | **21,3 mA** | **23,4 µAh** | **23,7 µAh** |
 
@@ -116,7 +116,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Rádio RX (SMPS) | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
+| Rádio RX | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
 | CPU (LPSleep) | 44 µA | 310 µA | 134 nAh | 947 nAh |
 | **Celkem** | **4,84 mA** | **5,11 mA** | **14,8 µAh** | **15,6 µAh** |
 
@@ -144,7 +144,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Západ | 2069 mAh | 739 mAh |
 | Jihozápad | 2365 mAh | 1232 mAh |
 
-*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR*
+*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR.*
 
 ### Energetická bilance
 
@@ -157,7 +157,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: Počítáno je i se samovybíjením akumulátoru.*
 
-Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou.
+Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému. 
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
@@ -188,7 +188,7 @@ Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednot
 - Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Uspání
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá ve přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po dobu jedné milisekundy. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá ve přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po dobu jedné milisekundy. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep. Řadič bude využívat SMPS režimu.
 
 U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů, a protože je potřeba uchovat obsah paměti RAM, se budou nacházet v úsporném režimu Stop bez RTC. Řadiče budou probouzeny postupně, jeden po druhém, přes hlavní řadič a sběrnici LPUART, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC.
 
