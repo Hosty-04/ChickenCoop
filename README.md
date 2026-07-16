@@ -11,7 +11,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
 ## Schéma
-<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic.png" alt="block_schematic">
+<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
 
 ## Popis
 
