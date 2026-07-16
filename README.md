@@ -14,7 +14,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 <img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
 
 ## Rozložení
-<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/layout_schematic_white.png" alt="layout">
+<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/layout_white.png" alt="layout">
 
 ## Popis
 
