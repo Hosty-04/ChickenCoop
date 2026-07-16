@@ -72,7 +72,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | INA219 aktivní | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
 | **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
 
-### Pohyb dvířek (32 s nebo 55 s)
+### Pohyb dvířek (32 s / 55 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -104,23 +104,16 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak chová, jako by v kurníku bylo jediné hnízdo, což znamená přibližně pětkrát nižší spotřebu.*
 
-### LoRa TX (4 s)
+### Komunikace (4 s a 11 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Rádio TX | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
-| CPU (LPSleep) | 44 µA | 310 µA | 49 nAh | 344 nAh |
-| **Celkem** | **21,0 mA** | **21,3 mA** | **23,4 µAh** | **23,7 µAh** |
+| LoRa TX | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
+| LoRa RX | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
+| CPU (LPSleep) | 44 µA | 310 µA | 0,186 µAh | 1,29 µAh |
+| **Celkem** | **25,8 mA** | **26,1 mA** | **35,2 µAh** | **39,3 µAh** |
 
-### LoRa RX (11 s)
-
-| Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|:---|:---:|:---:|:---:|:---:|
-| Rádio RX | 4,8 mA | 4,8 mA | 14,7 µAh | 14,7 µAh |
-| CPU (LPSleep) | 44 µA | 310 µA | 134 nAh | 947 nAh |
-| **Celkem** | **4,84 mA** | **5,11 mA** | **14,8 µAh** | **15,6 µAh** |
-
-*Poznámka: Bezpečný odhad délky okna je 200 ms.*
+*Poznámka: Bezpečný odhad délky příjmového okna je 200 ms.*
 
 ### Procentuální rozložení a celková denní spotřeba
 
@@ -129,8 +122,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Pohyb dvířek | 0,9 mAh | 46,0 % | 3,85 mAh | 63,2 % |
 | Kontrola vajec | 0,9 mAh | 46,0 % | 1,23 mAh | 20,2 % |
 | Klidový režim | 118 µAh | 6,0 % | 972 µAh | 15,9 % |
-| LoRa TX | 23,4 µAh | 1,2 % | 23,7 µAh | 0,4 % |
-| LoRa RX | 14,8 µAh | 0,8 % | 15,6 µAh | 0,3 % |
+| Komunikace | 38,2 µAh | 2 % | 39,3 µAh | 0,7 % |
 | Kontrola panelu / baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | Astronomické hodiny | 0,944 nAh | 0,0 % | 0,958 nAh | 0,0 % |
 | **Celkem** | **1,96 mAh** | 100 % | **6,09 mAh** | 100 % |
