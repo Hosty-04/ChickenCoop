@@ -185,9 +185,11 @@ Kvůli spotřebě bude nutné odpájet červenou Power LED diodu a softwarově o
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze bude obsahovat jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor, protože napětí 3,3 V nemusí být vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate N-MOS tranzistoru bude sériově zapojen ochranný rezistor 220 Ω a mezi gate a společnou zem paralelně pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain bude připojen na gate obou P-MOS tranzistorů a přes pull-up rezistor k 9V panelu, source N-MOS tranzistoru pak ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V.
+Za akumulátorem bude do napájecí větve zařazena pomalá trubičková pojistka o jmenovité hodnotě 2 A. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provozními odběru systému, který ani při pohybu dvířek nepřekračuje 252 mA, a pomalá charakteristika zároveň toleruje krátkodobé proudové špičky při rozběhu motoru. Zároveň je nastavena dostatečně nízko na to, aby při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud omezený pouze vnitřní impedancí olověného akumulátoru mohl poškodit kabeláž nebo samotný akumulátor.
 
-Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF/25 V jako zásobárna energie a blokovací keramický 100 nF/50 V pro filtraci vysokofrekvenčního elektromagnetického rušení.
+Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu, což je v rozporu s hlavním cílem nízkého příkonu celého zařízení. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
+
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor, protože napětí 3,3 V nemusí být vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate N-MOS tranzistoru bude sériově zapojen ochranný rezistor 220 Ω a mezi gate a společnou zem paralelně pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain bude připojen na gate obou P-MOS tranzistorů a přes pull-up rezistor k 9V panelu, source N-MOS tranzistoru pak ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF/25 V jako zásobárna energie a blokovací keramický 100 nF/50 V pro filtraci vysokofrekvenčního elektromagnetického rušení.
 
 Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Spínače budou konstruovány stejně jako MOSFET odpojovač, ale jen s jedním P-MOS tranzistorem a odpovídajícími pull-up a pull-down rezistory. Přes první z těchto spínačů bude M řídit napájení k děliči napětí, přes druhý k INA219, přes třetí k DRV8838 a čtvrtý bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou další dva spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě.
 
@@ -275,6 +277,9 @@ https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
 **Akumulátor**  
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
 
+**Pojistka**  
+https://www.gme.cz/v/1511309/schurter-spt-5x20-h-2a-250v-poistka-trubickova-s-keramikou (5 ks)  
+
 **Lineární LDO regulátor**  
 https://www.elektro-hofman.cz/stabilizator-pevneho-napeti-mcp1702-3302et-3-3v-0-25a-low-drop-to92/ (2 ks)  
 
@@ -349,7 +354,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | OBCHOD | CENA |
 |:---|:---:|
-| GME | 665 Kč |
+| GME | 700 Kč |
 | ALZA | 150 Kč |
 | WILLMANN | 175 Kč |
 | HADEX | 120 Kč |
@@ -365,6 +370,6 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | SOS | 450 Kč |
 | PRUMEX | 200 Kč |
 | REZERVA | 500 Kč |
-| **CELKEM** | **8 105 Kč** |
+| **CELKEM** | **8 140 Kč** |
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
