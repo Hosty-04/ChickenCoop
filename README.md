@@ -81,7 +81,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 5,96 µAh |
 | INA219 | 0,7 mA | 1 mA | 6,22 µAh | 15,3 µAh |
 | **Celkem** | **101 mA** | **252 mA** | **0,9 mAh** | **3,85 mAh** |
-  
+
 $$
 O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
 $$
