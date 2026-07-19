@@ -81,48 +81,40 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 5,96 µAh |
 | INA219 | 0,7 mA | 1 mA | 6,22 µAh | 15,3 µAh |
 | **Celkem** | **101 mA** | **252 mA** | **0,9 mAh** | **3,85 mAh** |
-
+  
 $$
-\begin{aligned}
-O_S = \pi \cdot d_S = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
-\end{aligned}
+O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
 $$
 
 $$
-\begin{aligned}
-v_{min} = \frac{15\ \text{rpm}}{60\ \text{s}} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
-\end{aligned}
+v_{min} = \frac{15\ \text{rpm}} 60 \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
 $$
 
 $$
-\begin{aligned}
-v_{max} = \frac{17\ \text{rpm}}{60\ \text{s}} \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}
-\end{aligned}
+v_{max} = \frac{17\ \text{rpm}} 60 \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}
 $$
 
 $$
-\begin{aligned}
-h = 35\ \text{cm}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
 t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{mm/s}} = 2 \cdot 15,7\ \text{s} \approx \mathbf{32\ \text{s}}
-\end{aligned}
 $$
 
 $$
-\begin{aligned}
 t_z = \frac{h}{v_{min}} + 0,5\ \text{s} = \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 0,5\ \text{s} = 18,4\ \text{s}
-\end{aligned}
 $$
 
 $$
-\begin{aligned}
 t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
-\end{aligned}
 $$
+
+kde:
+- $v_{min}$ ... minimální rychlost otáčení špulky
+- $v_{max}$ ... maximální rychlost otáčení špulky
+- $O_s$ ... obvod špulky
+- $d_s$ ... průměr špulky
+- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
+- $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
+- $t_z$ ... zpoždění při zaseknutí dvířek
+- $h$ ... výška dvířek
 
 *Poznámka: Možnost zaseknutí dvířek je brána v potaz. Mikrospínače budou spotřebovávat velmi málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
 
