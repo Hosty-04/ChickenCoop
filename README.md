@@ -63,12 +63,12 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola solárního panelu a akumulátoru (4 s a 3 s)
+### Kontrola fotovoltaického panelu a akumulátoru (4 s a 3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
-| Dělič | 4,1 µA | 6,1 µA | 4,6 nAh | 6,8 nAh |
+| Dělič | 4,1 µA | 6,1 µA | 4,56 nAh | 6,78 nAh |
 | INA219 aktivní | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
 | **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
 
@@ -128,7 +128,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Západ | 2069 mAh | 739 mAh |
 | Jihozápad | 2365 mAh | 1232 mAh |
 
-*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR.*
+*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Bylo uvažováno nabíjecí napětí 6,8 V. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR.*
 
 ### Energetická bilance
 
