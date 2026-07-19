@@ -42,7 +42,7 @@ U prototypu se využijí stejné kabely, svorkovnice a svorky. Průřez drátků
 ### Napájení
 Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen dodat maximálně 1,11 A, tudíž nepřekračuje nejvyšší povolený nabíjecí proud akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
 
-Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost se pohybuje kolem 88 %, dále trpí samovybíjením 3 % za měsíc a poklesem kapacity v zimě o 30 %. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
+Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost se pohybuje kolem 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí až 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
 Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Ztráty neidealního pracovního bodu jsou asi 15 % a ztráty použití jednoduchého algoritmu oproti maximálnímu využití dostupné energie jsou spolu se ztrátami na tranzistorech asi 10%.
 
@@ -63,7 +63,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
-### Kontrola panelu a akumulátoru (4 s a 3 s)
+### Kontrola solárního panelu a akumulátoru (4 s a 3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -116,7 +116,7 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | Kontrola vajec | 0,9 mAh | 46,3 % | 1,23 mAh | 20,2 % |
 | Klidový režim | 118 µAh | 6,1 % | 972 µAh | 16,0 % |
 | Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,5 % |
-| Kontrola panelu / baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
+| Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
 
 ### Výrobená energie
