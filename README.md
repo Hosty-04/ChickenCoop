@@ -11,6 +11,9 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
 ## Schéma
+
+&nbsp;
+
 <img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
 
 ## Popis
@@ -51,6 +54,8 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
 ## Denní přehled (5 hnízd)
+
+&nbsp;
 
 ### Klidová spotřeba (24 hod)
 
