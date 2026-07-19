@@ -55,8 +55,6 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 ## Denní přehled (5 hnízd)
 
-&nbsp;
-
 ### Klidová spotřeba (24 hod)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
@@ -67,8 +65,6 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
-
-&nbsp;
 
 ### Kontrola fotovoltaického panelu a akumulátoru (4 s a 3 s)
 
