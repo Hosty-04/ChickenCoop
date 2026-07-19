@@ -108,6 +108,8 @@ $$
 t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
 $$
 
+&nbsp;
+
 kde:
 - $v_{min}$ ... minimální rychlost otáčení špulky
 - $v_{max}$ ... maximální rychlost otáčení špulky
@@ -143,6 +145,8 @@ $$
 t_c = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
 $$
 
+&nbsp;
+
 kde:
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
@@ -173,6 +177,8 @@ $$
 $$
 t_{p,max} = 2 \cdot 26 \cdot t_{o,max} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \text{s} \approx \mathbf{3\ \text{s}}
 $$
+
+&nbsp;
 
 kde:
 - $t_v$ ... doba vysílání
@@ -299,6 +305,8 @@ Na horní části přední strany dvířek bude umístěno závěsné očko M5 z
 
 Dvířka představují mírně vyšší zátěž, tudíž lze očekávat pokles otáček motoru z 20 na 15-17 za minutu. Je počítáno i s rezervou pro případ mírného drhnutí dvířek v drážkách. Nízkootáčkový motor spolu s větším vnějším průměrem špulky byly zvoleny pro zvýšení síly motoru a snížení rizika přetrhnutí lanka nebo vykolejení dvířek.
 
+&nbsp;
+
 $$
 M = F \cdot r
 $$
@@ -314,6 +322,8 @@ $$
 $$
 F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
+
+&nbsp;
 
 kde:
 
