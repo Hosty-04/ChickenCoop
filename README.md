@@ -233,11 +233,11 @@ F_j = \frac{M_j}{r_s} = \frac{5\ \text{Ncm}}{12,5\ \text{mm}} = 4\ \text{N} \app
 $$
 
 $$
-F_d = \frac{M_d}{r_s} = \frac{4\ \text{Ncm}}{12,5\ \text{mm}} \approx 3,2\ \text{N} = 320\ \text{g tahu}
+F_d = \frac{M_d}{r_s} = \frac{4\ \text{Ncm}}{12,5\ \text{mm}} 3,2\ \text{N} \approx 320\ \text{g tahu}
 $$
 
 $$
-F_k = \frac{M_k}{r_s} = \frac{25\ \text{Ncm}}{12,5\ \text{mm}} = 20\ \text{N} = 2\ \text{kg tahu}
+F_k = \frac{M_k}{r_s} = \frac{25\ \text{Ncm}}{12,5\ \text{mm}} = 20\ \text{N} \approx 2\ \text{kg tahu}
 $$
 
 kde:
