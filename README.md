@@ -76,11 +76,11 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 $$
-\tau = (R_1 \parallel R_2) \cdot C = (1\ \text{M}\Omega \parallel 470\ \text{k}\Omega) \cdot 10\ \text{nF} = 3,2\ \text{s}
+\tau = (R_1 \parallel R_2) \cdot C = (1\ \text{M}\Omega \parallel 470\ \text{k}\Omega) \cdot 10\ \text{nF} = 3,2\ \text{ms}
 $$
 
 $$
-t_i = 5 \cdot \tau = 16\ \text{ms}
+t_i = 5\ \text{ms} \cdot \tau\ \text{ms} = 16\ \text{ms}
 $$
 
 $$
@@ -248,30 +248,30 @@ kde:
 &nbsp;
 
 $$
-P = U_{aku} \cdot I_{mp} = 6,8\ \text{V} \cdot 1,11\ \text{A} = 7,55\ \text{W}
+P = U_{aku} \cdot I_{mp} = 6{,}8\ \text{V} \cdot 1{,}11\ \text{A} = 7{,}55\ \text{W}
 $$
 
 $$
-\eta_{bias} = frac{P}{P_p} = frac{7,55\ \text{W}}{10\ \text{W}} \approx 75\ \text{%}
+\eta_{bias} = \frac{P}{P_p} = \frac{7{,}55\ \text{W}}{10\ \text{W}} = 0{,}755
 $$
 
 $$
-\eta_{mos} = x
+\eta_{mos} = 0{,}97
 $$
 
 $$
-P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,75 \cdot 0,97 \cdot 0,88 = \mathbf{6,4\ \text{W}}
+P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0{,}755 \cdot 0{,}97 \cdot 0{,}88 \approx \mathbf{6{,}45\ \text{W}}
 $$
 
 kde:
-- $P_{ef}$ ... efektivní výkon panelu při plném osvitu
-- $\eta_{bias}$ ... účinnost pracovního bodu
-- $P_p$ ... výkon panelu při plném osvitu
-- $P$ ... reálný výkon panelu při plném osvitu
-- $U_{aku}$ ... průměrné napětí akumulátoru
-- $I_{mp}$ ... proud panelu při plném osvitu
-- $\eta_{mos}$ ... účinnost MOSFET oddělovače
-- $\eta_{bias}$ ... účinnost nabíjení akumulátoru
+- $P_{ef}$ … efektivní výkon panelu při plném osvitu
+- $P_p$ … jmenovitý výkon panelu při plném osvitu
+- $P$ … reálný (dosažený) výkon panelu v pracovním bodě daném akumulátorem
+- $U_{aku}$ … průměrné napětí akumulátoru
+- $I_{mp}$ … proud panelu v bodě maximálního výkonu (MPP) při plném osvitu
+- $\eta_{bias}$ … účinnost pracovního bodu (poměr reálného výkonu k jmenovitému)
+- $\eta_{mos}$ … účinnost MOSFET oddělovače
+- $\eta_{aku}$ … účinnost nabíjení akumulátoru
 
 &nbsp;
 
