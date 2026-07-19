@@ -131,6 +131,20 @@ kde:
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 587 µAh |
 | **Celkem** | **6,75 mA** | **9,23 mA** | **0,9 mAh** | **1,23 mAh** |
 
+$$
+t = t_v + t_i = 3,2\ \text{s} + 0,5\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
+$$
+
+$$
+t_c = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
+$$
+
+kde:
+- $t$ ... doba kontroly jednoho hnízda
+- $t_v$ ... doba vzorkování
+- $t_i$ ... doba inicializace
+- $t_c$ ... celková doba každohodinové kontroly h hnízd
+
 *Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak tváří, jako by v kurníku bylo jediné hnízdo, což znamená pětkrát nižší spotřebu.*
 
 ### Komunikace (4 s a 1-3 s)
@@ -143,7 +157,7 @@ kde:
 | **Celkem** | **25,8 mA** | **26,1 mA** | **24,8 µAh** | **28,6 µAh** |
 
 $$
-t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} = 3,86\ \text{s} \approx \mathbf{4\ \text{s}}
+t_v = 24 \cdot t_{5B} + 2 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} = 3,86\ \text{s} \approx \mathbf{4\ \text{s}}
 $$
 
 $$
@@ -155,7 +169,7 @@ t_{p,max} = 2 \cdot 26 \cdot t_{o,max} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \
 $$
 
 kde:
-- $t_{v}$ ... doba vysílání
+- $t_v$ ... doba vysílání
 - $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
 - $t_{2B}$ ... airtime pro preambuli + 2B + zabezpečení
 - $t_{p,min}$ ... minimální doba přijmu
