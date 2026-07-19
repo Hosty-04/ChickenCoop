@@ -108,8 +108,6 @@ $$
 t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
 $$
 
-&nbsp;
-
 kde:
 - $v_{min}$ ... minimální rychlost otáčení špulky
 - $v_{max}$ ... maximální rychlost otáčení špulky
@@ -123,6 +121,8 @@ kde:
 - $h$ ... výška dvířek
 
 *Poznámka: Mikrospínače budou spotřebovávat velmi málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
+
+&nbsp;
 
 ### Kontrola vajec (8 min)
 
@@ -145,8 +145,6 @@ $$
 t_c = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
 $$
 
-&nbsp;
-
 kde:
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
@@ -154,6 +152,8 @@ kde:
 - $t_c$ ... celková doba každohodinové kontroly h hnízd
 
 *Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak tváří, jako by v kurníku bylo jediné hnízdo, což znamená pětkrát nižší spotřebu.*
+
+&nbsp;
 
 ### Komunikace (4 s a 1-3 s)
 
@@ -178,8 +178,6 @@ $$
 t_{p,max} = 2 \cdot 26 \cdot t_{o,max} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \text{s} \approx \mathbf{3\ \text{s}}
 $$
 
-&nbsp;
-
 kde:
 - $t_v$ ... doba vysílání
 - $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
@@ -188,6 +186,8 @@ kde:
 - $t_{p,max}$ ... maximální doba přijmu
 - $t_{o,min}$ ... minimální doba příjmového okna
 - $t_{o,max}$ ... maximální doba příjmového okna
+
+&nbsp;
 
 ### Procentuální rozložení a celková denní spotřeba
 
@@ -323,8 +323,6 @@ $$
 F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
 
-&nbsp;
-
 kde:
 
 - $F_j$ ... síla při jmenovitém krouticím momentu
@@ -334,6 +332,8 @@ kde:
 - $M_d$ ... krouticí moment při doporučeném dlouhodobém trvalém zatížení
 - $M_k$ ... krouticí moment při maximálním krátkodobém zatížení
 - $r_s$ ... poloměr špulky
+
+&nbsp;
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
