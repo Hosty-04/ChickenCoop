@@ -45,13 +45,11 @@ U prototypu se využijí stejné kabely, svorkovnice a svorky. Průřez drátků
 ### Napájení
 Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen dodat maximálně 1,11 A, tudíž nepřekračuje nejvyšší povolený nabíjecí proud akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
 
-Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost se pohybuje kolem 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí až 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
+Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost dosahuje přibližně 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí přibližně 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
-Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Ztráty neidealního pracovního bodu jsou asi 15 % a ztráty použití jednoduchého algoritmu oproti maximálnímu využití dostupné energie jsou spolu se ztrátami na tranzistorech asi 10%.
+Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje přibližně 80 %, neboť akumulátor stahuje napětí panelu na svou úroveň, a panel tak nepracuje v bodě maximálního výkonu; účinnost MOSFET oddělovače dosahuje 97 %.
 
-Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajistí nízkopříkonový LDO regulátor MCP1702 s velmi nízkým klidovým proudem a dostačujícím výstupním proudem 250 mA. Na jeho vstupu i výstupu bude připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí.
-
-Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
+Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajistí nízkopříkonový LDO regulátor MCP1702 s velmi nízkým klidovým proudem a dostačujícím výstupním proudem 250 mA. Na jeho vstupu i výstupu bude připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí. Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
 ## Denní přehled (5 hnízd)
 
@@ -143,15 +141,15 @@ t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \
 $$
 
 kde:
+- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
+- $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
+- $t_z$ ... zpoždění při zaseknutí dvířek
 - $v_{min}$ ... minimální rychlost otáčení špulky
 - $v_{max}$ ... maximální rychlost otáčení špulky
 - $f_{min}$ ... minimální frekvence otáčení špulky
 - $f_{max}$ ... maximální frekvence otáčení špulky
 - $O_s$ ... obvod špulky
 - $d_s$ ... průměr špulky
-- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
-- $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
-- $t_z$ ... zpoždění při zaseknutí dvířek
 - $h$ ... výška dvířek
 
 &nbsp;
@@ -238,7 +236,7 @@ kde:
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
 
-### Výrobená energie
+### Výroba energie
 
 | Orientace | Léto | Zima |
 |:---|:---:|:---:|
@@ -247,7 +245,36 @@ kde:
 | Západ | 2069 mAh | 739 mAh |
 | Jihozápad | 2365 mAh | 1232 mAh |
 
-*Poznámka: Energie dodávaná do akumulátoru přes oddělovač. Bylo uvažováno nabíjecí napětí 6,8 V. Do výpočtů byly zahrnuty ztráty neideálního pracovního bodu fotovoltaického panelu, použití a ztráty jednoduchého regulátoru, přibližná nabíjecí účinnost akumulátoru, svislá poloha panelu a běžné klimatické podmínky v ČR.*
+&nbsp;
+
+$$
+P = U_{aku} \cdot I_{mp} = 6,8\ \text{V} \cdot 1,11\ \text{A} = 7,55\ \text{W}
+$$
+
+$$
+\eta_{bias} = frac{P}{P_p} = frac{7,55\ \text{W}}{10\ \text{W}} \approx 75\ \text{%}
+$$
+
+$$
+\eta_{mos} = x
+
+$$
+P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,75 \cdot 0,97 \cdot 0,88 = \mathbf{6,4\ \text{W}}
+$$
+
+kde:
+- $P_{ef}$ ... efektivní výkon panelu při plném osvitu
+- $\eta_{bias}$ ... účinnost pracovního bodu
+- $P_p$ ... výkon panelu při plném osvitu
+- $P$ ... reálný výkon panelu při plném osvitu
+- $U_{aku}$ ... průměrné napětí akumulátoru
+- $I_{mp}$ ... proud panelu při plném osvitu
+- $\eta_{mos}$ ... účinnost MOSFET oddělovače
+- $\eta_{bias}$ ... účinnost nabíjení akumulátoru
+
+nbsp;
+
+*Poznámka: Energie dodávaná do akumulátoru přes MOSFET oddělovač. Pro dobu plného osvitu fotovoltaického panelu byla použita data pro Prahu, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V*
 
 ### Energetická bilance
 
@@ -257,8 +284,6 @@ kde:
 | Východ | +2059 mAh | +729 mAh |
 | Západ | +2059 mAh | +729 mAh |
 | Jihozápad | +2355 mAh | +1222 mAh |
-
-*Poznámka: Počítáno je i se samovybíjením akumulátoru.*
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému. 
 
@@ -416,7 +441,7 @@ https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2
 **Konektor**  
 https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (4 ks)  
 
-**Solární panel**  
+**Fotovoltaický panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
 
 **N-MOS**  
