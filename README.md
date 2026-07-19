@@ -233,7 +233,7 @@ F_j = \frac{M_j}{r_s} = \frac{5\ \text{Ncm}}{12,5\ \text{mm}} = 4\ \text{N} \app
 $$
 
 $$
-F_d = \frac{M_d}{r_s} = \frac{4\ \text{Ncm}}{12,5\ \text{mm}} 3,2\ \text{N} \approx 320\ \text{g tahu}
+F_d = \frac{M_d}{r_s} = \frac{4\ \text{Ncm}}{12,5\ \text{mm}} = 3,2\ \text{N} \approx 320\ \text{g tahu}
 $$
 
 $$
@@ -245,6 +245,9 @@ kde:
 - $F_j$ ... síla při jmenovitém krouticím momentu
 - $F_d$ ... síla při doporučeném dlouhodobém trvalém zatížení
 - $F_k$ ... síla při maximálním krátkodobém zatížení
+- $M_j$ ... jmenovitý krouticí moment
+- $M_d$ ... krouticí moment při doporučeném dlouhodobém trvalém zatížení
+- $M_k$ ... krouticí moment při maximálním krátkodobém zatížení
 - $r_s$ ... poloměr špulky
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
