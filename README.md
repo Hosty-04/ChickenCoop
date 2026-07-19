@@ -224,6 +224,29 @@ Na horní části přední strany dvířek bude umístěno závěsné očko M5 z
 
 Dvířka představují mírně vyšší zátěž, tudíž lze očekávat pokles otáček motoru z 20 na 15-17 za minutu. Je počítáno i s rezervou pro případ mírného drhnutí dvířek v drážkách. Nízkootáčkový motor spolu s větším vnějším průměrem špulky byly zvoleny pro zvýšení síly motoru a snížení rizika přetrhnutí lanka nebo vykolejení dvířek.
 
+$$
+M = F \cdot r
+$$
+
+$$
+F_j = \frac{M_j}{r_S} = \frac{5\,\text{Ncm}}{12,5\,\text{cm}} = 4\,\text{N} \approx 400\,\text{g tahu}
+$$
+
+$$
+F_d = \frac{M_d}{r_S} = \frac{4\,\text{Ncm}}{12,5\,\text{cm}} \approx 3,2\,\text{N} = 320\,\text{g tahu}
+$$
+
+$$
+F_k = \frac{M_k}{r_S} = \frac{25\,\text{Ncm}}{12,5\,\text{cm}} = 20\,\text{N} = 2\,\text{kg tahu}
+$$
+
+kde:
+
+- $F_j$ ... síla při jmenovitém krouticím momentu
+- $F_d$ ... síla při doporučeném dlouhodobém trvalém zatížení
+- $F_k$ ... síla při maximálním krátkodobém zatížení
+- $r_S$ ... poloměr špulky
+
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
 V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku kvůli vývodu pinů. Spínače budou upevněny vruty o průměru 2 mm; otvory je třeba předvrtat, aby se dřevo při vrtání nedeformovalo. Koncové spínače představují jednoduché řešení určování krajních poloh dvířek.
