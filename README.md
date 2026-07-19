@@ -78,8 +78,14 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 &nbsp;
 
 $$
-\tau = (R_1 || R_2) \cdot C = (1\ \text{M\ohm} + 470\ \text{k\ohm}) \cdot 10\ \text{nF} = 3,2\ \text{s}
+\tau = (R_1 \parallel R_2) \cdot C = (1\ \text{M}\Omega \parallel 470\ \text{k}\Omega) \cdot 10\ \text{nF} = 3,2\ \text{s}
+$$
+
+$$
 t_i = 5 \cdot \tau = 16\ \text{ms}
+$$
+
+$$
 t_p = 144 \cdot (t_i + t_v) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
 $$
 
