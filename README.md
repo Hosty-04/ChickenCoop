@@ -86,12 +86,23 @@ t_i = 5 \cdot \tau = 16\ \text{ms}
 $$
 
 $$
-t_p = 144 \cdot (t_i + t_{p,v}) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
+t_{p,c} = 144 \cdot (t_i + t_{p,v}) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
 $$
 
 $$
-t_a = c \cdot t_{a,v}) = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
+t_{a,c} = 144 \cdot t_{a,v}) = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
 $$
+
+kde:
+- $R_1$ ... první rezistor napěťového děliče
+- $R_2$ ... druhý rezistor napěťového děliče
+- $C$ ... kondenzátor děliče
+- $\tau$ ... časová konstanta děliče
+- $t_i$ ... doba inicializace děliče
+- $t_{p,v}$ ... doba vzorkování napětí na panelu
+- $t_{p,c}$ ... celková doba měření napětí na panelu
+- $t_{a,v}$ ... doba vzorkování napětí na akumulátoru
+- $t_{a,c}$ ... celková doba měření napětí na akumulátoru
 
 &nbsp;
 
