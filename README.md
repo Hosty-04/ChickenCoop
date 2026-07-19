@@ -142,6 +142,25 @@ kde:
 | CPU (LPSleep) | 44 µA | 310 µA | 0,183 µAh | 1,29 µAh |
 | **Celkem** | **25,8 mA** | **26,1 mA** | **24,8 µAh** | **28,6 µAh** |
 
+$$
+t_{TX} = 24 \cdot t_{5B} + 2 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} = 3,86\ \text{s} \approx \mathbf{4\ \text{s}}
+$$
+
+$$
+t_{RXmin} = 26 \cdot t_{Omin} = 26 \cdot 30\ \text{ms} = 0,78\ \text{s} \approx \mathbf{1\ \text{s}}
+$$
+
+$$
+t_{RXmax} = 2 \cdot 26 \cdot t_{Omax} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \text{s} \approx \mathbf{3\ \text{s}}
+$$
+
+kde:
+- $t_{TX}$ ... doba vysílání
+- $t_{rz\,min}$ ... minimální doba přijmu
+- $t_{rz\,max}$ ... maximální doba přijmutí
+- $t_{O\,min}$ ... minimální doba přijmutí okna
+- $t_{O\,max}$ ... maximální doba přijmutí okna
+
 *Poznámka: Do airtime je započítána i preambule a zabezpečení. Bezpečný odhad délky příjmového okna je 30-50 ms.*
 
 ### Procentuální rozložení a celková denní spotřeba
