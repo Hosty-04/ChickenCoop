@@ -257,6 +257,7 @@ $$
 
 $$
 \eta_{mos} = x
+$$
 
 $$
 P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,75 \cdot 0,97 \cdot 0,88 = \mathbf{6,4\ \text{W}}
@@ -272,7 +273,7 @@ kde:
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
 - $\eta_{bias}$ ... účinnost nabíjení akumulátoru
 
-nbsp;
+&nbsp;
 
 *Poznámka: Energie dodávaná do akumulátoru přes MOSFET oddělovač. Pro dobu plného osvitu fotovoltaického panelu byla použita data pro Prahu, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V*
 
