@@ -86,11 +86,11 @@ t_i = 5 \cdot \tau = 16\ \text{ms}
 $$
 
 $$
-t_p = 144 \cdot (t_i + t_p,v) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
+t_p = 144 \cdot (t_i + t_{p,v}) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
 $$
 
 $$
-t_a = c \cdot t_a,v) = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
+t_a = c \cdot t_{a,v}) = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
 $$
 
 &nbsp;
@@ -163,7 +163,7 @@ kde:
 &nbsp;
 
 $$
-t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10 Hz} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
+t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
 $$
 
 $$
