@@ -236,55 +236,72 @@ kde:
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
 
-### Výroba energie
+### Energie dodávaná do baterie přes oddělovač
 
 | Orientace | Léto | Zima |
 |:---|:---:|:---:|
-| Jih | 2759 mAh | 1478 mAh |
-| Východ | 2069 mAh | 739 mAh |
-| Západ | 2069 mAh | 739 mAh |
-| Jihozápad | 2365 mAh | 1232 mAh |
+| Jih | 2656 mAh/den | 1423 mAh/den |
+| Východ | 2030 mAh/den | 711 mAh/den |
+| Západ | 2030 mAh/den | 711 mAh/den |
+| Jihozápad | 2314 mAh/den | 1186 mAh/den |
 
 &nbsp;
 
 $$
-P = U_{aku} \cdot I_{mp} = 6{,}8\ \text{V} \cdot 1{,}11\ \text{A} = 7{,}55\ \text{W}
+P = U_{aku} \cdot I_{mpp} = 6,8\ \text{V} \cdot 1,11\ \text{A} = 7,55\ \text{W}
 $$
 
 $$
-\eta_{bias} = \frac{P}{P_p} = \frac{7{,}55\ \text{W}}{10\ \text{W}} = 0{,}755
+\eta_{bias} = \frac{P}{P_p} = \frac{7,55\ \text{W}}{10\ \text{W}} = 0,755
 $$
 
 $$
-\eta_{mos} = 0{,}97
+\eta_{mos} = 0,97
 $$
 
 $$
-P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0{,}755 \cdot 0{,}97 \cdot 0{,}88 \approx \mathbf{6{,}45\ \text{W}}
+P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,755 \cdot 0,97 \cdot 0,88 \approx \mathbf{6,45\ \text{W}}
 $$
 
 kde:
-- $P_{ef}$ … efektivní výkon panelu při plném osvitu
-- $P_p$ … jmenovitý výkon panelu při plném osvitu
-- $P$ … reálný (dosažený) výkon panelu v pracovním bodě daném akumulátorem
-- $U_{aku}$ … průměrné napětí akumulátoru
-- $I_{mp}$ … proud panelu v bodě maximálního výkonu (MPP) při plném osvitu
-- $\eta_{bias}$ … účinnost pracovního bodu (poměr reálného výkonu k jmenovitému)
-- $\eta_{mos}$ … účinnost MOSFET oddělovače
-- $\eta_{aku}$ … účinnost nabíjení akumulátoru
+- $P_{ef} ... efektivní výkon panelu při plném osvitu
+- $P_p$ ... jmenovitý výkon panelu při plném osvitu
+- $P$ ... dosažený výkon panelu v pracovním bodě daném akumulátorem
+- $U_{aku}$ ... průměrné napětí akumulátoru
+- $I_{mpp}$ ... proud panelu v bodě maximálního výkonu (MPP) při plném osvitu
+- $\eta_{bias}$ ... účinnost pracovního bodu
+- $\eta_{mos}$ ... účinnost MOSFET oddělovače
+- $\eta_{aku}$ ... účinnost nabíjení akumulátoru
 
 &nbsp;
 
-*Poznámka: Energie dodávaná do akumulátoru přes MOSFET oddělovač. Pro dobu plného osvitu fotovoltaického panelu byla použita data pro Prahu, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V*
+*Poznámka: Pro dobu plného osvitu fotovoltaického panelu byla použita data pro Prahu, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V.*
+
+&nbsp;
 
 ### Energetická bilance
 
 | Orientace panelu | Léto | Zima |
 |:---|:---:|:---:|
-| Jih | +2749 mAh | +1468 mAh |
-| Východ | +2059 mAh | +729 mAh |
-| Západ | +2059 mAh | +729 mAh |
-| Jihozápad | +2355 mAh | +1222 mAh |
+| Jih | +2646 mAh/den | +1413 mAh/den |
+| Východ | +2020 mAh/den | +701 mAh/den |
+| Západ | +2020 mAh/den | +701 mAh/den |
+| Jihozápad | +2304 mAh/den | +1176 mAh/den |
+
+&nbsp;
+
+$$
+Q_{ztr} = Q_{aku} \cdot frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot frac{3\ \text{%}}{30} = 4\ \text{mAh/den}
+$$
+
+kde:
+- $Q_{ztr}$ ... náboj ztracený samovybíjením akumulátoru
+
+&nbsp;
+
+*Poznámka: Energetická bilance je energie dodávaná do baterie přes oddělovač - maximální denní spotřeba - náboj ztracený samovybíjením akumulátoru.*
+
+&nbsp;
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému. 
 
