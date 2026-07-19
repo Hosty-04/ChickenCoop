@@ -229,15 +229,15 @@ M = F \cdot r
 $$
 
 $$
-F_j = \frac{M_j}{r_s} = \frac{5\ \N \cdot cm}{12,5\ \text{mm}} = 4\ \text{N} \approx 400\ \text{g tahu}
+F_j = \frac{M_j}{r_s} = \frac{5 N \cdot cm}{12,5\ \text{mm}} = 4\ \text{N} \approx 400\ \text{g tahu}
 $$
 
 $$
-F_d = \frac{M_d}{r_s} = \frac{4\ \N \cdot cm}{12,5\ \text{mm}} = 3,2\ \text{N} \approx 320\ \text{g tahu}
+F_d = \frac{M_d}{r_s} = \frac{4 N \cdot cm}{12,5\ \text{mm}} = 3,2\ \text{N} \approx 320\ \text{g tahu}
 $$
 
 $$
-F_k = \frac{M_k}{r_s} = \frac{25\ \N \cdot cm}{12,5\ \text{mm}} = 20\ \text{N} \approx 2\ \text{kg tahu}
+F_k = \frac{M_k}{r_s} = \frac{25 N \cdot cm}{12,5\ \text{mm}} = 20\ \text{N} \approx 2\ \text{kg tahu}
 $$
 
 kde:
