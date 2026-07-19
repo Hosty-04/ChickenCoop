@@ -90,12 +90,12 @@ t_{p,c} = 144 \cdot (t_i + t_{p,v}) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) =
 $$
 
 $$
-t_{a,c} = 144 \cdot t_{a,v}) = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
+t_{a,c} = 144 \cdot t_{a,v} = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
 $$
 
 kde:
-- $R_1$ ... první rezistor napěťového děliče
-- $R_2$ ... druhý rezistor napěťového děliče
+- $R_1$ ... první rezistor děliče
+- $R_2$ ... druhý rezistor děliče
 - $C$ ... kondenzátor děliče
 - $\tau$ ... časová konstanta děliče
 - $t_i$ ... doba inicializace děliče
