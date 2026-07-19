@@ -83,15 +83,15 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 | **Celkem** | **101 mA** | **252 mA** | **0,9 mAh** | **3,85 mAh** |
 
 $$
-O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
+O_S = \pi \cdot d_S = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
 $$
 
 $$
-v_{min} = f_{min} \cdot O_s = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
+v_{min} = f_{min} \cdot O_S = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
 $$
 
 $$
-v_{max} = f_{max} \cdot O_s = \frac{17\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}
+v_{max} = f_{max} \cdot O_S = \frac{17\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}
 $$
 
 $$
@@ -111,8 +111,8 @@ kde:
 - $v_{max}$ ... maximální rychlost otáčení špulky
 - $f_{min}$ ... minimální frekvence otáčení špulky
 - $f_{max}$ ... maximální frekvence otáčení špulky
-- $O_s$ ... obvod špulky
-- $d_s$ ... průměr špulky
+- $O_S$ ... obvod špulky
+- $d_S$ ... průměr špulky
 - $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $t_z$ ... zpoždění při zaseknutí dvířek
@@ -265,15 +265,15 @@ M = F \cdot r
 $$
 
 $$
-F_j = \frac{M_j}{r_s} = \frac{5\ \text{N·cm}}{12,5\ \text{mm}} = 4\ \text{N} \approx \mathbf{400\ \text{g tahu}}
+F_j = \frac{M_j}{r_S} = \frac{5\ \text{N·cm}}{12,5\ \text{mm}} = 4\ \text{N} \approx \mathbf{400\ \text{g tahu}}
 $$
 
 $$
-F_d = \frac{M_d}{r_s} = \frac{4\ \text{N·cm}}{12,5\ \text{mm}} = 3,2\ \text{N} \approx \mathbf{320\ \text{g tahu}}
+F_d = \frac{M_d}{r_S} = \frac{4\ \text{N·cm}}{12,5\ \text{mm}} = 3,2\ \text{N} \approx \mathbf{320\ \text{g tahu}}
 $$
 
 $$
-F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
+F_k = \frac{M_k}{r_S} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
 
 kde:
@@ -284,7 +284,7 @@ kde:
 - $M_j$ ... jmenovitý krouticí moment
 - $M_d$ ... krouticí moment při doporučeném dlouhodobém trvalém zatížení
 - $M_k$ ... krouticí moment při maximálním krátkodobém zatížení
-- $r_s$ ... poloměr špulky
+- $r_S$ ... poloměr špulky
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
