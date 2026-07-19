@@ -118,7 +118,7 @@ kde:
 - $t_z$ ... zpoždění při zaseknutí dvířek
 - $h$ ... výška dvířek
 
-*Poznámka: Možnost zaseknutí dvířek je brána v potaz. Mikrospínače budou spotřebovávat velmi málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
+*Poznámka: Mikrospínače budou spotřebovávat velmi málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
 
 ### Kontrola vajec (8 min)
 
@@ -131,7 +131,7 @@ kde:
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 587 µAh |
 | **Celkem** | **6,75 mA** | **9,23 mA** | **0,9 mAh** | **1,23 mAh** |
 
-*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak chová, jako by v kurníku bylo jediné hnízdo, což znamená přibližně pětkrát nižší spotřebu.*
+*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — proudový odběr se tak tváří, jako by v kurníku bylo jediné hnízdo, což znamená pětkrát nižší spotřebu.*
 
 ### Komunikace (4 s a 1-3 s)
 
@@ -156,12 +156,12 @@ $$
 
 kde:
 - $t_{v}$ ... doba vysílání
+- $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
+- $t_{2B}$ ... airtime pro preambuli + 2B + zabezpečení
 - $t_{p,min}$ ... minimální doba přijmu
 - $t_{p,max}$ ... maximální doba přijmu
-- $t_{o\,min}$ ... minimální doba příjmového okna
-- $t_{o\,max}$ ... maximální doba příjmového okna
-
-*Poznámka: Do airtime je započítána i preambule a zabezpečení. Bezpečný odhad délky příjmového okna je 30-50 ms.*
+- $t_{o,min}$ ... minimální doba příjmového okna
+- $t_{o,max}$ ... maximální doba příjmového okna
 
 ### Procentuální rozložení a celková denní spotřeba
 
