@@ -80,7 +80,7 @@ $$
 $$
 
 $$
-t_i = 5\ \text{ms} \cdot \tau\ \text{ms} = 16\ \text{ms}
+t_i = 5 \cdot \tau = 16\ \text{ms}
 $$
 
 $$
