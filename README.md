@@ -63,6 +63,8 @@ Použití spínaného buck měniče není vhodné kvůli horší dostupnosti ní
 
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
+&nbsp;
+
 ### Kontrola fotovoltaického panelu a akumulátoru (4 s a 3 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
