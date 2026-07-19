@@ -142,7 +142,7 @@ kde:
 | CPU (LPSleep) | 44 µA | 310 µA | 0,183 µAh | 1,29 µAh |
 | **Celkem** | **25,8 mA** | **26,1 mA** | **24,8 µAh** | **28,6 µAh** |
 
-*Poznámka: Bezpečný odhad délky příjmového okna je 30-50 ms.*
+*Poznámka: Do airtime je započítána i preambule a zabezpečení. Bezpečný odhad délky příjmového okna je 30-50 ms.*
 
 ### Procentuální rozložení a celková denní spotřeba
 
