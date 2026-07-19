@@ -256,10 +256,6 @@ $$
 $$
 
 $$
-\eta_{mos} = 0,97
-$$
-
-$$
 P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,755 \cdot 0,97 \cdot 0,88 \approx \mathbf{6,45\ \text{W}}
 $$
 
@@ -291,7 +287,7 @@ kde:
 &nbsp;
 
 $$
-Q_{ztr} = Q_{aku} \cdot frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot frac{3\ \text{%}}{30} = 4\ \text{mAh/den}
+Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = 4\ \text{mAh/den}
 $$
 
 kde:
@@ -303,7 +299,9 @@ kde:
 
 &nbsp;
 
-Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému. 
+Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému.
+
+&nbsp;
 
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
