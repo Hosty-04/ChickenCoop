@@ -114,13 +114,13 @@ $$
 
 $$
 \begin{aligned}
-t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
+t_z = \frac{h}{v_{min}} + 0,5\ \text{s} = \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 0,5\ \text{s} = 18,4\ \text{s}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-t_z = \frac{h}{v_{min}} + 0,5\ \text{s} = \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 0,5\ \text{s} = \mathbf{18,4\ \text{s}}
+t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
 \end{aligned}
 $$
 
@@ -271,15 +271,15 @@ M = F \cdot r
 $$
 
 $$
-F_j = \frac{M_j}{r_s} = \frac{5\ \text{N·cm}}{12,5\ \text{mm}} = \mathbf{4\ \text{N} \approx 400\ \text{g tahu}}
+F_j = \frac{M_j}{r_s} = \frac{5\ \text{N·cm}}{12,5\ \text{mm}} = 4\ \text{N} \approx \mathbf{400\ \text{g tahu}}
 $$
 
 $$
-F_d = \frac{M_d}{r_s} = \frac{4\ \text{N·cm}}{12,5\ \text{mm}} = \mathbf{3,2\ \text{N} \approx 320\ \text{g tahu}}
+F_d = \frac{M_d}{r_s} = \frac{4\ \text{N·cm}}{12,5\ \text{mm}} = 3,2\ \text{N} \approx \mathbf{320\ \text{g tahu}}
 $$
 
 $$
-F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = \mathbf{20\ \text{N} \approx 2\ \text{kg tahu}}
+F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
 
 kde:
