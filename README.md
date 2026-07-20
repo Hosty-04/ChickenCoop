@@ -296,7 +296,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Energetická bilance je energie dodávaná do baterie přes oddělovač - maximální denní spotřeba - náboj ztracený samovybíjením akumulátoru.*
+*Poznámka: Energetická bilance je rozdíl energie dodávané do baterie přes oddělovač a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.*
 
 &nbsp;
 
