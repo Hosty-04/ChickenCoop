@@ -49,7 +49,7 @@ Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle 
 
 Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost dosahuje přibližně 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí přibližně 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbé venkovního umístění a jednoduchého nabíjecího systému, je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
-Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje přibližně 80 %, neboť akumulátor stahuje napětí panelu na svou úroveň, a panel tak nepracuje v bodě maximálního výkonu; účinnost MOSFET oddělovače dosahuje 97 %.
+Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje přibližně 75 %, neboť akumulátor stahuje napětí panelu na svou úroveň, a panel tak nepracuje v bodě maximálního výkonu; účinnost MOSFET oddělovače dosahuje 97 %.
 
 Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajistí nízkopříkonový LDO regulátor MCP1702 s velmi nízkým klidovým proudem a dostačujícím výstupním proudem 250 mA. Na jeho vstupu i výstupu bude připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí. Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
@@ -238,7 +238,7 @@ kde:
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
 
-### Energie dodávaná do baterie přes oddělovač
+### Energie dodávaná do akumulátoru
 
 | Orientace | Léto | Zima |
 |:---|:---:|:---:|
@@ -262,11 +262,11 @@ P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} 
 $$
 
 kde:
-- $P_{ef} ... efektivní výkon panelu při plném osvitu
+- $P_{ef}$ ... efektivní výkon panelu při plném osvitu
 - $P_p$ ... jmenovitý výkon panelu při plném osvitu
 - $P$ ... dosažený výkon panelu v pracovním bodě daném akumulátorem
 - $U_{aku}$ ... průměrné napětí akumulátoru
-- $I_{mpp}$ ... proud panelu v bodě maximálního výkonu (MPP) při plném osvitu
+- $I_{mpp}$ ... proud panelu v bodě maximálního výkonu při plném osvitu
 - $\eta_{bias}$ ... účinnost pracovního bodu
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
@@ -298,11 +298,11 @@ kde:
 
 &nbsp;
 
-*Poznámka: Energetická bilance je rozdíl energie dodávané do baterie přes oddělovač a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.*
+*Poznámka: Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.*
 
 &nbsp;
 
-Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci se samovybíjením a přirozeným stárnutím akumulátoru než samotná spotřeba systému.
+Systém nabízí spolehlivý celoroční provoz s obrovskou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho energetická rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru.
 
 &nbsp;
 
