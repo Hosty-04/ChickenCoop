@@ -292,6 +292,7 @@ $$
 
 kde:
 - $Q_{ztr}$ ... náboj ztracený samovybíjením akumulátoru
+- $Q_{aku}$ ... náboj akumulátoru
 
 &nbsp;
 
