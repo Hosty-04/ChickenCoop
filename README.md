@@ -36,7 +36,9 @@ Stejným způsobem budou k desce plošných spojů připojeny mikrospínače, av
 
 Kabely povedou v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm — dostatečně prostorné, a přitom minimalistické. Speciální UV odolná lišta není potřeba, protože stěna kurníku směřuje na severozápad; životnost běžné lišty se odhaduje na 5 až 10 let.
 
-Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, upevněný ke stěně pomocí 6mm šroubovacích příchytek, vrutu 4 × 20 mm a 6mm hmoždinky, a k desce plošných spojů připojený přes konektory RJ45. Prodloužení vodičů tenzometru zajistí stíněný kabel LiYCY 4 × 0,25 mm² typu licna, spojený přes prodlužovací pružinové WAGO svorky. Protože jsou vodiče od tenzometru (průřez 0,14 mm²) pro tyto svorky příliš tenké, přehnou se u odizolovaného konce napůl, čímž se jejich efektivní průřez zdvojnásobí na 0,28 mm². K desce plošných spojů bude tento kabel spolu se stíněním připojen přes 6pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm.
+Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna, upevněný ke stěně pomocí 6mm šroubovacích příchytek, vrutu 4 × 20 mm a 6mm hmoždinky, a k desce plošných spojů připojený přes konektory RJ45.
+
+Prodloužení vodičů tenzometru zajistí stíněný kabel LiYCY 4 × 0,25 mm² typu licna, spojený přes prodlužovací pružinové WAGO svorky. Protože jsou vodiče od tenzometru (průřez 0,14 mm²) pro tyto svorky příliš tenké, přehnou se u odizolovaného konce napůl, čímž se jejich efektivní průřez zdvojnásobí na 0,28 mm². K desce plošných spojů bude tento kabel spolu se stíněním připojen přes 6pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm.
 
 Oplet kabelu (pocínované měděné drátky) se izoluje smršťovací bužírkou 2:1 o vnitřním průměru 4 mm / 1,75 mm. Odmotaný a spletený oplet je potřeba oddělit od zbylých čtyř vodičů a bužírku navléknout až ke kořenu; přes celý kabel se pak přetáhne bužírka 2:1 o rozměru 7,5 mm / 3,5 mm, přečnívající asi centimetr přes hlavní izolaci.
 
