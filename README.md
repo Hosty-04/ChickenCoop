@@ -1,7 +1,13 @@
-# Bakalářská práce
+# Kurník
+
 Systém pro automatizaci kurníku s detekcí snesených vajec
 
+&nbsp;
+
 ## Zadání
+
+&nbsp;
+
 - Prostudujte možnosti automatizace uzavírání kurníku, možné metody detekce snesených vajec a dostupné možnosti komunikace a připojení zařízení do IoT sítě (např. NB-IoT, WiFi, LoRaWAN).
 - Navrhněte systém pro automatické otevírání a uzavírání dvířek kurníku s možností rozšíření o jednotky se senzory ve snáškových hnízdech (min. 5 hnízd). Prostudujte možnosti napájení z akumulátoru nebo fotovoltaického panelu. Proveďte analýzu možnosti přenosu dat do cloudu a jejich zobrazení uživateli včetně historie snášek a možnosti vzdáleného ovládání, například skrze aplikaci.
 - Na základě analýzy navrhněte způsob vzdálené uživatelské interakce pro zobrazení stavu dvířek, manuální ovládání a počítání snesených vajec.
@@ -10,13 +16,19 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
+&nbsp;
+
 ## Schéma
 
 &nbsp;
 
 <img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
 
+&nbsp;
+
 ## Popis
+
+&nbsp;
 
 ### Krabičky
 Systém bude obsahovat jednu krabičku pro akumulátor o tloušťce stěny 2,4 mm a jednu krabičku (K) o tloušťce stěny 1,6 mm určenou pro mechaniku a elektroniku dvířek a hlavní mikrořadič. Pro každé snáškové hnízdo je dále vyhrazena samostatná krabička (Kx), rovněž s tloušťkou stěny 1,6 mm, obsahující potřebnou elektroniku a mikrořadič.
@@ -28,6 +40,8 @@ Na krabičkách K a Kx budou dále u víka vytvořeny nízké drážky ve tvaru 
 Krabička pro akumulátor bude mít ve spodní části dva kruhové otvory o průměru 5 mm určené pro průchod napájecích kabelů. Krabička Kx bude mít zespodu jeden otvor o průměru 6 mm pro průchod kabelu od tenzometru, krabička K pak otvor o průměru 3 mm pro lanko. U krabičky pro akumulátor budou navíc dva větrací otvory o průměru 4 mm, umístěné v horní a spodní části tak, aby uvnitř mohl cirkulovat vzduch.
 
 Víko bude vytištěno samostatně s přesahem 2 mm; uprostřed jeho levé hrany bude dutá trubička o průměru otvoru 2 mm. Stejná trubička bude na obou koncích vnější horní hrany levé stěny u všech krabiček. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce se krátce nahřejí zapalovačem a roztepou do podoby hlaviček. Tím vznikne jednoduchý pant pro uchycení víka — řešení, které minimalizuje počet součástek a umožňuje vyrobit celou krabičku bez dalších kovových dílů.
+
+&nbsp;
 
 ### Kabeláž
 Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů a odtud dále k akumulátoru. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí.
@@ -44,6 +58,8 @@ Oplet kabelu (pocínované měděné drátky) se izoluje smršťovací bužírko
 
 U prototypu se využijí stejné kabely, svorkovnice a svorky. Průřez drátků do nepájivého pole (0,5 mm²) plně vyhovuje proudovému odběru systému.
 
+&nbsp;
+
 ### Napájení
 Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen dodat maximálně 1,11 A, tudíž nepřekračuje nejvyšší povolený nabíjecí proud akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
 
@@ -53,9 +69,15 @@ Před akumulátorem bude zapojen nízkopříkonový, mikrořadičem řízený MO
 
 Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajistí nízkopříkonový LDO regulátor MCP1702 s velmi nízkým klidovým proudem a dostačujícím výstupním proudem 250 mA. Na jeho vstupu i výstupu bude připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí. Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
+&nbsp;
+
 ## Denní přehled (5 hnízd)
 
+&nbsp;
+
 ### Klidová spotřeba (24 hod)
+
+&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -64,15 +86,21 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 228 µAh |
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
 
+&nbsp;
+
 *Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
 
+&nbsp;
+
 ### Kontrola fotovoltaického panelu a akumulátoru (4 s a 3 s)
+
+&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
 | Dělič | 4,1 µA | 6,1 µA | 4,56 nAh | 6,78 nAh |
-| INA219 aktivní | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
+| INA219 | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
 | **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
 
 &nbsp;
@@ -93,6 +121,8 @@ $$
 t_{a,c} = 144 \cdot t_{a,v} = 144 \cdot (32 \cdot 532\ \mu\text{s}) = 144 \cdot 17\ \text{ms} \approx \mathbf{3\ \text{s}}
 $$
 
+&nbsp;
+
 kde:
 - $R_1$ ... první rezistor děliče
 - $R_2$ ... druhý rezistor děliče
@@ -107,6 +137,8 @@ kde:
 &nbsp;
 
 ### Pohyb dvířek (32-55 s)
+
+&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -162,6 +194,8 @@ kde:
 
 ### Kontrola vajec (8 min)
 
+&nbsp;
+
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16 µAh | 52 µAh |
@@ -194,6 +228,8 @@ kde:
 &nbsp;
 
 ### Komunikace (4 s a 1-3 s)
+
+&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -229,6 +265,8 @@ kde:
 
 ### Procentuální rozložení a celková denní spotřeba
 
+&nbsp;
+
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
 | Pohyb dvířek | 0,9 mAh | 46,3 % | 3,85 mAh | 63,3 % |
@@ -238,7 +276,11 @@ kde:
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
 
+&nbsp;
+
 ### Energie dodávaná do akumulátoru
+
+&nbsp;
 
 | Orientace | Léto | Zima |
 |:---|:---:|:---:|
@@ -278,6 +320,8 @@ kde:
 &nbsp;
 
 ### Energetická bilance
+
+&nbsp;
 
 | Orientace panelu | Léto | Zima |
 |:---|:---:|:---:|
@@ -321,7 +365,22 @@ Data budou z kurníku odesílána ve třech a více bajtech. První bajt ponese 
 
 Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednotkami bude použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Přenosová rychlost bude 9600 Bd kvůli minimalizaci odrazů. Na aplikační vrstvě poslouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave — Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v řadiči následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici; na straně přijímače proběhne opačný proces.
 
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá ve přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po dobu jedné milisekundy. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep. Řadič bude využívat SMPS režimu.
+
+U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů, a protože je potřeba uchovat obsah paměti RAM, se budou nacházet v úsporném režimu Stop bez RTC. Řadiče budou probouzeny postupně, jeden po druhém, přes hlavní řadič a sběrnici LPUART, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC.
+
+Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run / Run trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná, a proto se v energetické bilanci neuvažuje.
+
+Před odpojením napájení VCC jednotlivých částí systému je nutné přepsat výstupy (SCK, PH, EN, DI, DE, /RE) na logickou nulu, aby se zamezilo napájení přes výstupy tomu neurčené (tzv. leakage current). Dále je třeba vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když právě nic nepřenáší. Po odpojení VCC je nutné všechny piny — včetně těch pro právě vypnuté periferie — přepnout do analogového režimu bez pull rezistoru. Stejný postup se použije i u vstupů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr.
+
+Kvůli spotřebě bude nutné odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být za provozu hardwarově odpojen, proto je potřeba odpájet pájecí jumpery SB9, SB14, SB2 a SB3. U LoRa-E5 mini je navíc nutné přepnout piny PA2 a PA3, určené k ladění, do analogového režimu bez pull rezistoru. Pro programování lze pak programátor k deskám připojovat přes klasické Dupont kabely, a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Při nepoužívání rádia je nutné nastavit externí RF switch na logickou nulu; u řadičů bez rádia je zase potřeba v registrech napájení (PWR) aktivovat ultra-low-power režim (bit ULP) a vypnout fast wakeup.
+
+&nbsp;
+
 **Stavový automat pro algoritmus detekce snesených vajec**
+
+&nbsp;
+
 - Start
 - Čekání 500 ms na ustálení měření
 - Odebrání 32 vzorků rychlostí 10 SPS (3,2 s)
@@ -335,15 +394,7 @@ Pro přenos dat mezi hlavní řídicí jednotkou a ostatními řídicími jednot
 - Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Konec
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá ve přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po dobu jedné milisekundy. V průběhu LoRa přenosu (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru `lorawan_conf.h` zvýšit `RADIO_WAKEUP_TIME` z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu bude nutné jej nastavit do režimu LP Sleep. Řadič bude využívat SMPS režimu.
-
-U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů, a protože je potřeba uchovat obsah paměti RAM, se budou nacházet v úsporném režimu Stop bez RTC. Řadiče budou probouzeny postupně, jeden po druhém, přes hlavní řadič a sběrnici LPUART, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC.
-
-Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run / Run trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná, a proto se v energetické bilanci neuvažuje.
-
-Před odpojením napájení VCC jednotlivých částí systému je nutné přepsat výstupy (SCK, PH, EN, DI, DE, /RE) na logickou nulu, aby se zamezilo napájení přes výstupy tomu neurčené (tzv. leakage current). Dále je třeba vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když právě nic nepřenáší. Po odpojení VCC je nutné všechny piny — včetně těch pro právě vypnuté periferie — přepnout do analogového režimu bez pull rezistoru. Stejný postup se použije i u vstupů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr.
-
-Kvůli spotřebě bude nutné odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být za provozu hardwarově odpojen, proto je potřeba odpájet pájecí jumpery SB9, SB14, SB2 a SB3. U LoRa-E5 mini je navíc nutné přepnout piny PA2 a PA3, určené k ladění, do analogového režimu bez pull rezistoru. Pro programování lze pak programátor k deskám připojovat přes klasické Dupont kabely, a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Při nepoužívání rádia je nutné nastavit externí RF switch na logickou nulu; u řadičů bez rádia je zase potřeba v registrech napájení (PWR) aktivovat ultra-low-power režim (bit ULP) a vypnout fast wakeup.
+&nbsp;
 
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze bude obsahovat jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
@@ -378,14 +429,18 @@ Vzhledem k použití více snáškových hnízd bude komunikace probíhat mezi h
 
 Na deskách plošných spojů musí být všechny části systému v jednotlivých krabičkách co nejblíže u sebe, silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu bude tvořit záporný pól solárního panelu a akumulátoru.
 
+&nbsp;
+
 ### Mechanika
 Hlavní část systému bude umístěna na vnější stěně kurníku, splňující požadavky na umístění solárního panelu popsané v kapitole Napájení. Toto řešení zjednoduší montáž a zároveň z velké části eliminuje vliv amoniaku ze slepičího trusu na elektroniku.
 
 Na stěnu budou pomocí vrutů do dřeva připevněny svislé dřevěné hranolky, k jejichž bočním stranám budou vruty upevněny hliníkové U-profily s vnitřním rozměrem 10 mm. U-profily zajistí přesné vedení dvířek při minimálním tření. V těchto profilech se budou ve svislém směru pohybovat bílá pěněná PVC dvířka o rozměrech 24 × 35 cm a tloušťce 8 mm (pozor na výrobní tolerance). Hmotnost těchto dvířek bude 350 g. Při vrtání otvorů do PVC je nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno pro nízkou hmotnost, odolnost proti vlhkosti a snadnou obrobitelnost.
 
-Na horní části přední strany dvířek bude umístěno závěsné očko M5 z nerezové oceli A2, upevněné podložkou a samojistnou maticí stejného typu; očko bude procházet otvorem odpovídajícího průměru jako jeho metrický závit. Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, zajištěné dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti. Lanko povede kolmo vzhůru do krabičky K, kde bude navinuto na špulku vytištěnou z materiálu PETG (šířka 2 cm, vnější průměr 2,5 cm). Otvorem o průměru 3 mm na okraji špulky, dále od motoru, bude lanko provlečeno a upevněno osmičkovým uzlem, rovněž zakápnutým vteřinovým lepidlem; uzel bude zapuštěn 8 mm hluboko do záhlubení o průměru 10 mm, s vývodem lanka na okraji záhlubení směrem k okraji špulky. Ta bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového stejnosměrného motoru s kovovou převodovkou (6 V), ze strany, kde vstupuje lanko. 
+Na horní části přední strany dvířek bude umístěno závěsné očko M5 z nerezové oceli A2, upevněné podložkou a samojistnou maticí stejného typu; očko bude procházet otvorem odpovídajícího průměru jako jeho metrický závit. Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, zajištěné dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti. Lanko povede kolmo vzhůru do krabičky K, kde bude navinuto na špulku vytištěnou z materiálu PETG (šířka 2 cm, vnější průměr 2,5 cm). Otvorem o průměru 3 mm na okraji špulky, dále od motoru, bude lanko provlečeno a upevněno osmičkovým uzlem, rovněž zakápnutým vteřinovým lepidlem; uzel bude zapuštěn 8 mm hluboko do záhlubení o průměru 10 mm, s vývodem lanka na okraji záhlubení směrem k okraji špulky. Ta bude opatřena otvorem s D-profilem o průměru 3 mm a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), ze strany, kde vstupuje lanko.
 
-Dvířka představují mírně vyšší zátěž, tudíž lze očekávat pokles otáček motoru z 20 na 15-17 za minutu. Je počítáno i s rezervou pro případ mírného drhnutí dvířek v drážkách. Nízkootáčkový motor spolu s větším vnějším průměrem špulky byly zvoleny pro zvýšení síly motoru a snížení rizika přetrhnutí lanka nebo vykolejení dvířek.
+&nbsp;
+
+**Výpočet tahu motoru pro různé kroutící momenty**
 
 &nbsp;
 
@@ -405,6 +460,8 @@ $$
 F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
 
+&nbsp;
+
 kde:
 
 - $F_j$ ... síla při jmenovitém krouticím momentu
@@ -416,6 +473,8 @@ kde:
 - $r_s$ ... poloměr špulky
 
 &nbsp;
+
+Dvířka o hmotnosti 350 g představují mírně vyšší zátěž, tudíž lze očekávat pokles otáček motoru na 15-17 za minutu. Je počítáno i s rezervou pro případ mírného drhnutí dvířek v drážkách. Nízkootáčkový motor spolu s větším vnějším průměrem špulky byly zvoleny pro zvýšení síly motoru a snížení rizika přetrhnutí lanka nebo vykolejení dvířek.
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
@@ -431,7 +490,11 @@ Ze zbytku první desky (rozměr 38,5 × 29,5 cm) budou vyrobeny lišty, přišro
 
 Uprostřed konstrukce, naproti košíku, bude vytvořen stavitelný doraz pomocí zápustného imbusového šroubu M5 z nerezové oceli A2 (délka 30 mm), procházejícího spodní deskou skrz otvor o průměru 4,5 mm a zapuštěného do záhlubení o průměru 10 mm a hloubce 6 mm. Doraz bude tvořit mosazná kloboučková matice M5 (délka 10 mm, závit 7,5 mm), zvolená kvůli omezení ulpívání nečistot. Optimální vůle dorazu je 0,8 mm, což odpovídá jednomu otočení šroubu M5 nebo přibližně tloušťce běžné platební karty.
 
+&nbsp;
+
 ## Nákup
+
+&nbsp;
 
 **Kabeláž**  
 https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko (5m)  
@@ -548,6 +611,12 @@ https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ (4 ks)
 https://www.prumex.cz/matice-din-934-m5-nerez-a2/ (10 ks)  
 https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 ks)  
 
+&nbsp;
+
+### Cenový přehled
+
+&nbsp;
+
 | OBCHOD | CENA |
 |:---|:---:|
 | GME | 720 Kč |
@@ -567,5 +636,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | PRUMEX | 200 Kč |
 | REZERVA | 500 Kč |
 | **CELKEM** | **8 160 Kč** |
+
+&nbsp;
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
