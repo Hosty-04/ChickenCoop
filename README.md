@@ -626,7 +626,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 150 Kč |
-| SOS | 450 Kč |
+| SOS elektro | 450 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
 | **Celkem** | **8 160 Kč** |
