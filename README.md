@@ -379,8 +379,8 @@ Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power L
 
 &nbsp;
 
-- Start
-- Čekání 500 ms na ustálení měření
+- Probuzení mikrořadičů a připojení napájení k potřebným částem systému
+- Čekání 500 ms na dokončení inicializace
 - Odebrání 32 vzorků rychlostí 10 SPS (3,2 s)
 - Výpočet mediánu
 - Výběr 16 vzorků s nejmenší odchylkou od mediánu
@@ -388,9 +388,10 @@ Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power L
 - Pokud hmotnost překročí 1 kg (v hnízdu je slepice), měření se zahodí
 - Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou
-- Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě
-- Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
-- Konec
+- Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě a spočítá se počet vajec v hnízdě
+- Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
+- Odeslání informace o počtu vajec v jednotlivých hnízdech
+- Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
 &nbsp;
 
