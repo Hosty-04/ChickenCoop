@@ -174,6 +174,8 @@ $$
 t_{max} = 2 \cdot \frac{h}{v_{min}} + 2 \cdot t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 2 \cdot 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 2 \cdot 18,4\ \text{s} \approx \mathbf{73\ \text{s}}
 $$
 
+&nbsp;
+
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $t_z$ ... zpoždění při zaseknutí dvířek
@@ -223,6 +225,8 @@ $$
 t_max = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{512\ \text{s}}
 $$
 
+&nbsp;
+
 kde:
 - $t_max$ ... maximální doba každohodinové kontroly h hnízd
 - $t_r$ ... doba pro potvrzení aktualizace referenční nulové hodnoty t tenzometrů
@@ -261,6 +265,8 @@ $$
 $$
 t_{p,max} = 2 \cdot 26 \cdot t_{o,max} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \text{s} \approx \mathbf{3\ \text{s}}
 $$
+
+&nbsp;
 
 kde:
 - $t_v$ ... doba vysílání
@@ -313,6 +319,8 @@ $$
 P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,755 \cdot 0,97 \cdot 0,88 \approx \mathbf{6,45\ \text{W}}
 $$
 
+&nbsp;
+
 kde:
 - $P_{ef}$ ... efektivní výkon panelu při plném osvitu
 - $P_p$ ... jmenovitý výkon panelu při plném osvitu
@@ -345,6 +353,8 @@ kde:
 $$
 Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = 4\ \text{mAh/den}
 $$
+
+&nbsp;
 
 kde:
 - $Q_{ztr}$ ... náboj ztracený samovybíjením akumulátoru
