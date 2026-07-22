@@ -366,7 +366,7 @@ kde:
 
 &nbsp;
 
-Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat pouze několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru.
+Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou nehledě na orientaci fotovoltaického panelu. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi bude provozní dobu omezovat spíše několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru než samotná spotřeba systému a samovybíjení.
 
 &nbsp;
 
