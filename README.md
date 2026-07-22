@@ -218,7 +218,7 @@ t_{min} = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{480\ \text
 $$
 
 $$
-t_r = 2 \cdot t \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
+t_r = 2 \cdot h \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
 $$
 
 $$
@@ -229,7 +229,7 @@ $$
 
 kde:
 - $t_{max}$ ... maximální doba každohodinové kontroly h hnízd
-- $t_r$ ... doba pro potvrzení aktualizace referenční nulové hodnoty t tenzometrů
+- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů
 - $t_{min}$ ... minimální doba každohodinové kontroly h hnízd
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
