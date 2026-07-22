@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/Bachelors_Theses/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
 
 &nbsp;
 
@@ -409,6 +409,12 @@ Pro dosažení nízké klidové spotřeby budou jednotlivé části systému nap
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen blokovací keramický kondenzátor 10 nF/50 V. Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje jeho nízkou spotřebu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků monitorovat napětí akumulátoru.
 
 Na základě údajů z tohoto modulu a z napěťového děliče bude M přes sběrnici I²C, respektive přes ADC, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o  250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart">
+
+&nbsp;
 
 Další funkce snímače INA219 bude s 12bitovým rozlišením a průměrováním 4 vzorků monitorovat proud při pohybu dvířek; zvýšení proudu nad 450 mA po dobu 150 ms bude signalizovat zaseknutí dvířek nebo překážku v cestě (typicky slepici). V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána i při nepřetržitém běhu motoru, po dobu vyšší než 25 s — potřebná doba pro změnu stavu dvířek + rezerva. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
