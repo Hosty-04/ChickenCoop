@@ -35,11 +35,13 @@ Systém bude obsahovat jednu krabičku pro akumulátor o tloušťce stěny 2,4 m
 
 Všechny krabičky budou vytištěny na 3D tiskárně z materiálu PETG, zvoleného pro vysokou houževnatost a teplotní odolnost. Zadní stěna krabiček bude ve svislém směru prodloužena a bude mít tloušťku 3,5 mm; v každém rohu této stěny vzniknou otvory pro vruty, které umožní upevnění krabiček ke stěně kurníku.
 
+Víko bude vytištěno samostatně s přesahem 2 mm; uprostřed jeho levé hrany bude dutá trubička o průměru otvoru 2 mm. Stejná trubička bude na obou koncích vnější horní hrany levé stěny u všech krabiček. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce se krátce nahřejí zapalovačem a roztepou do podoby hlaviček. Tím vznikne jednoduchý pant pro uchycení víka.
+
 Na krabičkách K a Kx budou dále u víka vytvořeny nízké drážky ve tvaru písmene U s mírně zaoblenými rohy, sloužící k protažení kabelů. Pro kabel o průřezu 1,5 mm² budou mít šířku 4,5 mm, hloubku 3 mm a zaoblení dna i hran 1 mm; pro kabel o průřezu 0,5 mm² šířku 3,5 mm, hloubku 2 mm a zaoblení dna i hran 0,75 mm; pro datový kabel pak šířku 6 mm, hloubku 3,5 mm a stejné zaoblení jako u prvního kabelu.
 
-Krabička pro akumulátor bude mít zespodu dva kruhové otvory o průměru 5 mm určené pro průchod napájecích kabelů. Krabička Kx bude mít zespodu jeden otvor o průměru 6 mm pro průchod kabelu od tenzometru, krabička K pak otvor o průměru 3 mm pro lanko. U krabičky pro akumulátor budou navíc dva větrací otvory o průměru 4 mm, umístěné v horní a spodní části tak, aby uvnitř mohl cirkulovat vzduch.
+Krabička Kx bude mít zespodu jeden otvor o průměru 6 mm pro průchod kabelu od tenzometru, krabička K pak otvor o průměru 3 mm pro lanko.
 
-Víko bude vytištěno samostatně s přesahem 2 mm; uprostřed jeho levé hrany bude dutá trubička o průměru otvoru 2 mm. Stejná trubička bude na obou koncích vnější horní hrany levé stěny u všech krabiček. Po vytištění bude všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce se krátce nahřejí zapalovačem a roztepou do podoby hlaviček. Tím vznikne jednoduchý pant pro uchycení víka — řešení, které minimalizuje počet součástek a umožňuje vyrobit celou krabičku bez dalších kovových dílů.
+U krabičky pro akumulátor budou zespodu dva kruhové otvory o průměru 5 mm určené pro průchod napájecích kabelů a dva větrací otvory o průměru 4 mm, umístěné v horní a spodní části tak, aby mohl uvnitř cirkulovat vzduch.
 
 &nbsp;
 
