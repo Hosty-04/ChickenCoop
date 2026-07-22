@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_white.png" alt="block_schematic" height="1080px">
 
 &nbsp;
 
@@ -412,7 +412,7 @@ Na základě údajů z tohoto modulu a z napěťového děliče bude M přes sb�
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" height="1080px">
 
 &nbsp;
 
