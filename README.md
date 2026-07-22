@@ -324,7 +324,7 @@ $$
 kde:
 - $P_{ef}$ ... efektivní výkon panelu při plném osvitu
 - $P_p$ ... jmenovitý výkon panelu při plném osvitu
-- $P$ ... dosažený výkon panelu v pracovním bodě daném akumulátorem
+- $P$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
 - $U_{aku}$ ... průměrné napětí akumulátoru
 - $I_{mpp}$ ... proud panelu v bodě maximálního výkonu při plném osvitu
 - $\eta_{bias}$ ... účinnost pracovního bodu
@@ -333,7 +333,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro dobu plného osvitu fotovoltaického panelu byla použita data pro Prahu, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V.*
+*Poznámka: Pro stanovení doby plného osvitu fotovoltaického panelu byla využita data odpovídající podmínkám v Praze, která byla přepočítána pro svislou polohu a různé orientace panelu; pro přepočet Wh na mAh bylo použito průměrné napětí akumulátoru 6,8 V.*
 
 &nbsp;
 
