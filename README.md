@@ -98,9 +98,9 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
 | Dělič | 4,1 µA | 6,1 µA | 4,56 nAh | 6,78 nAh |
 | INA219 | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
 | **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
 
 &nbsp;
