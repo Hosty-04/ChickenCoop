@@ -124,29 +124,29 @@ $$
 &nbsp;
 
 kde:
+- $t_{p,c}$ ... celková doba měření napětí na panelu
+- $t_{p,v}$ ... doba vzorkování napětí na panelu
+- $t_i$ ... doba inicializace děliče
+- $\tau$ ... časová konstanta děliče
 - $R_1$ ... první rezistor děliče
 - $R_2$ ... druhý rezistor děliče
 - $C$ ... kondenzátor děliče
-- $\tau$ ... časová konstanta děliče
-- $t_i$ ... doba inicializace děliče
-- $t_{p,v}$ ... doba vzorkování napětí na panelu
-- $t_{p,c}$ ... celková doba měření napětí na panelu
-- $t_{a,v}$ ... doba vzorkování napětí na akumulátoru
 - $t_{a,c}$ ... celková doba měření napětí na akumulátoru
+- $t_{a,v}$ ... doba vzorkování napětí na akumulátoru
 
 &nbsp;
 
-### Pohyb dvířek (32-55 s)
+### Pohyb dvířek (32-73 s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Motor | 100 mA | 250 mA | 0,889 mAh | 3,82 mAh |
-| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 9,17 µAh |
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 5,96 µAh |
-| INA219 | 0,7 mA | 1 mA | 6,22 µAh | 15,3 µAh |
-| **Celkem** | **101 mA** | **252 mA** | **0,9 mAh** | **3,85 mAh** |
+| Motor | 100 mA | 250 mA | 0,889 mAh | 5,07 mAh |
+| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 12,2 µAh |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
+| INA219 | 0,7 mA | 1 mA | 6,22 µAh | 20,3 µAh |
+| **Celkem** | **101 mA** | **252 mA** | **0,9 mAh** | **5,11 mAh** |
 
 &nbsp;
 
@@ -171,17 +171,17 @@ t_z = \frac{h}{v_{min}} + 0,5\ \text{s} = \frac{35\ \text{cm}}{19,6\ \text{mm/s}
 $$
 
 $$
-t_{max} = 2 \cdot \frac{h}{v_{min}} + t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 18,4\ \text{s} \approx \mathbf{55\ \text{s}}
+t_{max} = 2 \cdot \frac{h}{v_{min}} + 2 \cdot t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 2 \cdot 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 2 \cdot 18,4\ \text{s} \approx \mathbf{73\ \text{s}}
 $$
 
 kde:
-- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $t_z$ ... zpoždění při zaseknutí dvířek
-- $v_{min}$ ... minimální rychlost otáčení špulky
+- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
-- $f_{min}$ ... minimální frekvence otáčení špulky
+- $v_{min}$ ... minimální rychlost otáčení špulky
 - $f_{max}$ ... maximální frekvence otáčení špulky
+- $f_{min}$ ... minimální frekvence otáčení špulky
 - $O_s$ ... obvod špulky
 - $d_s$ ... průměr špulky
 - $h$ ... výška dvířek
@@ -192,18 +192,18 @@ kde:
 
 &nbsp;
 
-### Kontrola vajec (512 s)
+### Kontrola vajec (480-512 s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 17.1 µAh | 55,5 µAh |
-| MAX3485 (M) | 1,1 mA | 2,2 mA | 157 µAh | 313 µAh |
-| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 157 µAh | 313 µAh |
-| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,56 µAh | 5,26 µAh |
-| HX711 a tenzometr | 4,4 mA | 4,4 mA | 626 µAh | 626 µAh |
-| **Celkem** | **6,75 mA** | **9,23 mA** | **0,961 mAh** | **1,31 mAh** |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 55,5 µAh |
+| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
+| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
+| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,26 µAh |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 626 µAh |
+| **Celkem** | **6,75 mA** | **9,23 mA** | **0,9 mAh** | **1,31 mAh** |
 
 &nbsp;
 
@@ -212,19 +212,24 @@ t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 
 $$
 
 $$
+t_min = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{480\ \text{s}}
+$$
+
+$$
 t_r = 2 \cdot t \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
 $$
 
 $$
-t_c = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{512\ \text{s}}
+t_max = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{512\ \text{s}}
 $$
 
 kde:
+- $t_max$ ... maximální doba každohodinové kontroly h hnízd
+- $t_r$ ... doba pro potvrzení aktualizace referenční nulové hodnoty t tenzometrů
+- $t_min$ ... minimální doba každohodinové kontroly h hnízd
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
 - $t_v$ ... doba vzorkování
-- $t_r$ ... doba pro potvrzení aktualizace referenční nulové hodnoty t tenzometrů
-- $t_c$ ... celková doba každohodinové kontroly h hnízd
 
 &nbsp;
 
@@ -274,12 +279,12 @@ kde:
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Pohyb dvířek | 0,9 mAh | 45,0 % | 3,85 mAh | 62,5 % |
-| Kontrola vajec | 0,961 mAh | 48,0 % | 1,31 mAh | 21,3 % |
-| Klidový režim | 118 µAh | 5,90 % | 972 µAh | 15,8 % |
-| Komunikace | 24,8 µAh | 1,24 % | 28,6 µAh | 0,5 % |
+| Pohyb dvířek | 0,9 mAh | 46,3 % | 5,11 mAh | 68,9 % |
+| Kontrola vajec | 0,9 mAh | 46,3 % | 1,31 mAh | 17,7 % |
+| Klidový režim | 118 µAh | 6,1 % | 972 µAh | 13,1 % |
+| Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,4 % |
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
-| **Celkem** | **2,00 mAh** | **100 %** | **6,16 mAh** | **100 %** |
+| **Celkem** | **1,94 mAh** | **100 %** | **7,42 mAh** | **100 %** |
 
 &nbsp;
 
@@ -330,10 +335,10 @@ kde:
 
 | Orientace panelu | Léto | Zima |
 |:---|:---:|:---:|
-| Jih | +2646 mAh/den | +1413 mAh/den |
-| Východ | +2020 mAh/den | +701 mAh/den |
-| Západ | +2020 mAh/den | +701 mAh/den |
-| Jihozápad | +2304 mAh/den | +1176 mAh/den |
+| Jih | +2644 mAh/den | +1411 mAh/den |
+| Východ | +2018 mAh/den | +699 mAh/den |
+| Západ | +2018 mAh/den | +699 mAh/den |
+| Jihozápad | +2302 mAh/den | +1174 mAh/den |
 
 &nbsp;
 
