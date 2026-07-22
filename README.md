@@ -192,18 +192,18 @@ kde:
 
 &nbsp;
 
-### Kontrola vajec (8 min)
+### Kontrola vajec (512 s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16 µAh | 52 µAh |
-| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 293 µAh |
-| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 293 µAh |
-| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 4,93 µAh |
-| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 587 µAh |
-| **Celkem** | **6,75 mA** | **9,23 mA** | **0,9 mAh** | **1,23 mAh** |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 17.1 µAh | 55,5 µAh |
+| MAX3485 (M) | 1,1 mA | 2,2 mA | 157 µAh | 313 µAh |
+| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 157 µAh | 313 µAh |
+| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,56 µAh | 5,26 µAh |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 626 µAh | 626 µAh |
+| **Celkem** | **6,75 mA** | **9,23 mA** | **0,961 mAh** | **1,31 mAh** |
 
 &nbsp;
 
@@ -212,13 +212,18 @@ t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 
 $$
 
 $$
-t_c = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
+t_r = 2 \cdot t \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
+$$
+
+$$
+t_c = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{512\ \text{s}}
 $$
 
 kde:
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
 - $t_v$ ... doba vzorkování
+- $t_r$ ... doba pro potvrzení aktualizace referenční nulové hodnoty t tenzometrů
 - $t_c$ ... celková doba každohodinové kontroly h hnízd
 
 &nbsp;
@@ -269,12 +274,12 @@ kde:
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Pohyb dvířek | 0,9 mAh | 46,3 % | 3,85 mAh | 63,3 % |
-| Kontrola vajec | 0,9 mAh | 46,3 % | 1,23 mAh | 20,2 % |
-| Klidový režim | 118 µAh | 6,1 % | 972 µAh | 16,0 % |
-| Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,5 % |
+| Pohyb dvířek | 0,9 mAh | 45,0 % | 3,85 mAh | 62,5 % |
+| Kontrola vajec | 0,961 mAh | 48,0 % | 1,31 mAh | 21,3 % |
+| Klidový režim | 118 µAh | 5,90 % | 972 µAh | 15,8 % |
+| Komunikace | 24,8 µAh | 1,24 % | 28,6 µAh | 0,5 % |
 | Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
-| **Celkem** | **1,94 mAh** | 100 % | **6,08 mAh** | 100 % |
+| **Celkem** | **2,00 mAh** | **100 %** | **6,16 mAh** | **100 %** |
 
 &nbsp;
 
@@ -355,7 +360,7 @@ Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini 
 
 Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavního řadiče budou astronomické hodiny, které každý den ve 12 hodin po kontrole solárního panelu a akumulátoru pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes RTC hodiny bude řadič schopen zjistit i roční období. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů. Konfiguraci periferií a hodin zajistí grafický nástroj STM32CubeMX.
 
-Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Dále se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu pět minut před celou, kdy postupně, hnízdo po hnízdu, provede kontrolu stavu vajec. Nakonec se bude probouzet ráno a večer mimo ostatní aktivity — opět pouze s nezbytnými částmi systému — kvůli otevření a zavření dvířek. Po sběru dat ze všech hnízd a po změně stavu dvířek následuje komunikace.
+Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Dále se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu pět minut před celou, kdy postupně, hnízdo po hnízdu, provede kontrolu stavu vajec. Nakonec se bude probouzet ráno a večer mimo ostatní aktivity — opět pouze s nezbytnými částmi systému — kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, tak bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Po sběru dat ze všech hnízd nebo po změně stavu dvířek následuje komunikace.
 
 LoRa anténa bude moci vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jejímu vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání bude mít možnost přijímat data, což umožní uživatelské ovládání. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A - primární příjmové okno RX1 a záložní okno RX2. V domě bude umístěna LoRaWAN gateway, plnící funkci internetové brány přes Wi-Fi. Veškerá přijatá data budou odeslána do cloudu (TTN) a odtud přes MQTT na backend (Node.js), který je uloží do databáze (InfluxDB) a zobrazí na frontendu. Při odesílání dat z gateway do kurníku probíhá proces obráceně.
 
@@ -389,7 +394,7 @@ Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power L
 - Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou
 - Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě a spočítá se počet vajec v hnízdě
-- Při hmotnosti menší než 25 g proběhne kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
+- Při hmotnosti menší než 25 g proběhne nanejvíš jednou denně kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
