@@ -61,7 +61,7 @@ U prototypu budou využity stejné kabely, svorkovnice a svorky. Dále budou pou
 &nbsp;
 
 ### Napájení
-Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen dodat maximálně 1,11 A, tudíž nepřekračuje nejvyšší povolený nabíjecí proud akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
+Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká.
 
 Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost dosahuje přibližně 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí přibližně 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbě venkovního umístění a jednoduchého nabíjecího systému je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
@@ -325,15 +325,15 @@ kde:
 &nbsp;
 
 $$
-P = U_{aku} \cdot I_{mpp} = 6,8\ \text{V} \cdot 1,11\ \text{A} = 7,55\ \text{W}
+P = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
 $$
 
 $$
-\eta_{bias} = \frac{P}{P_p} = \frac{7,55\ \text{W}}{10\ \text{W}} = 0,755
+\eta_{bias} = \frac{P}{P_p} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
 $$
 
 $$
-P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,755 \cdot 0,97 \cdot 0,88 \approx \mathbf{6,45\ \text{W}}
+P_{ef} = P_p \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 10\ \text{W} \cdot 0,816 \cdot 0,97 \cdot 0,88 \approx \mathbf{6,97\ \text{W}}
 $$
 
 &nbsp;
@@ -343,7 +343,7 @@ kde:
 - $P_p$ ... jmenovitý výkon panelu při plném osvitu
 - $P$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
 - $U_{aku}$ ... průměrné napětí akumulátoru
-- $I_{mpp}$ ... proud panelu v bodě maximálního výkonu při plném osvitu
+- $I_{max}$ ... maximální proud panelu při plném osvitu
 - $\eta_{bias}$ ... účinnost pracovního bodu
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
@@ -514,7 +514,7 @@ Dvířka o hmotnosti 350 g představují mírně vyšší zátěž, tudíž lze 
 
 Otvor pro mosaznou závitovou vložku bude mít průměr 8 mm a v posledních 6,5 mm směrem ke hřídeli se zúží na 6,5 mm. Vložka se do otvoru zavede pomocí 16mm šroubu M5; jakmile narazí na zúženou část otvoru, hlava šroubu se nahřeje mikropájkou, plast se v místě zúžení roztaví a umožní zalisování vložky. Po odejmutí pájky plast opět ztuhne a vložku pevně ukotví.
 
-V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku; sloužit budou k vývodu kontaktů. Spínače budou upevněny vruty o průměru 2 mm; otvory je třeba předvrtat, aby se dřevo při vrtání nedeformovalo. Koncové spínače představují jednoduché řešení určování krajních poloh dvířek.
+V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku; sloužit budou k vývodu kontaktů. Spínače budou upevněny vruty o průměru 2 mm. Koncové spínače představují jednoduché řešení určování krajních poloh dvířek.
 
 Vedlejší část systému bude umístěna u spádovaných snáškových hnízd s košíkem, orientovaných příčně ke stěně. Celá konstrukce musí být od stěny vzdálena natolik, aby se jí nikde nedotýkala a zároveň za ní zůstal prostor pro vedení kabelu; současně je nutné zabránit přístupu slepic a hlodavců do tohoto prostoru.
 
