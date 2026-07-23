@@ -329,10 +329,14 @@ P = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
 $$
 
 $$
-\eta_{bias} = \frac{P}{P_max} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
+\eta_{bias} = \frac{P}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
 $$
 
+&nbsp;
+
 **Příklad výpočtu pro léto, jih**
+
+&nbsp;
 
 $$
 E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} \approx 26,1\ \text{Wh/den}
@@ -350,7 +354,7 @@ $$
 
 kde:
 - $P_{ef}$ ... efektivní výkon panelu při plném osvitu
-- $P_max$ ... maximální výkon panelu při plném osvitu
+- $P_{max}$ ... maximální výkon panelu při plném osvitu
 - $P$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
 - $U_{aku}$ ... průměrné napětí akumulátoru
 - $I_{max}$ ... maximální proud panelu při plném osvitu
@@ -378,7 +382,7 @@ kde:
 &nbsp;
 
 $$
-Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{30 dní} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = \mathbf{4\ \text{mAh/den}}
+Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{\text{30 dní}} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = \mathbf{4\ \text{mAh/den}}
 $$
 
 &nbsp;
