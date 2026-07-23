@@ -106,11 +106,11 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 $$
-I_{typ} = \frac{U_{typ}}{R_1 + R_2} = \frac{6,8\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = mathbf{4,63\ \text{µA}}
+I_{typ} = \frac{U_{typ}}{R_1 + R_2} = \frac{6,8\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{4,63\ \text{µA}}
 $$
 
 $$
-I_{max} = \frac{U_{max}}{R_1 + R_2} = \frac{9\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = mathbf{6,12\ \text{µA}}
+I_{max} = \frac{U_{max}}{R_1 + R_2} = \frac{9\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{6,12\ \text{µA}}
 $$
 
 $$
