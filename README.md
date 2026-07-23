@@ -106,6 +106,10 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 $$
+U_{r} = U_{max} \cdot \frac{R_2}}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V}}
+$$
+
+$$
 I_{typ} = \frac{U_{typ}}{R_1 + R_2} = \frac{6,8\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{4,63\ \text{µA}}
 $$
 
@@ -132,10 +136,11 @@ $$
 &nbsp;
 
 kde:
-- $I_{typ}$ ... typický proud děličem
-- $I_{max}$ ... maximální proud děličem
-- $U_{typ}$ ... typické napětí panelu
+- $U_r$ ... maximální napětí na řadiči
 - $U_{max}$ ... maximální napětí panelu
+- $I_{typ}$ ... typický proud děličem
+- $U_{typ}$ ... typické napětí panelu
+- $I_{max}$ ... maximální proud děličem
 - $t_{p,c}$ ... celková doba měření napětí na panelu
 - $t_{p,v}$ ... doba vzorkování napětí na panelu
 - $t_i$ ... doba inicializace děliče
@@ -202,7 +207,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Mikrospínače budou spotřebovávat velmi málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
+*Poznámka: Mikrospínače budou spotřebovávat málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
 
 &nbsp;
 
@@ -363,7 +368,7 @@ kde:
 &nbsp;
 
 $$
-Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = 4\ \text{mAh/den}
+Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = \mathbf{4\ \text{mAh/den}}
 $$
 
 &nbsp;
@@ -434,7 +439,7 @@ Za akumulátorem bude do napájecí větve zařazena pomalá trubičková pojist
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor, protože napětí 3,3 V nemusí být vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate N-MOS tranzistoru bude sériově zapojen ochranný rezistor 220 Ω a mezi gate a společnou zem paralelně pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes pull-up rezistor k 9V panelu, source pak ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF/25 V jako zásobárna energie a blokovací keramický 100 nF/50 V.
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor, protože napětí 3,3 V nemusí být vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate N-MOS tranzistoru bude sériově zapojen rezistor 220 Ω pro snížení nabíjecího proudu gate při sepnutí a mezi gate a společnou zem paralelně pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes pull-up rezistor k 9V panelu, source pak ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF/25 V jako zásobárna energie a blokovací keramický 100 nF/50 V.
 
 Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Spínače budou konstruovány stejně jako MOSFET odpojovač, ale jen s jedním P-MOS tranzistorem a odpovídajícími pull-up a pull-down rezistory. Přes první z těchto spínačů bude M řídit napájení k děliči napětí, přes druhý k INA219, přes třetí k DRV8838 a čtvrtý bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě.
 
