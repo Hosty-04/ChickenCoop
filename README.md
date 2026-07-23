@@ -106,7 +106,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 $$
-U_{r} = U_{max} \cdot \frac{R_2}}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V}}
+U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V}}
 $$
 
 $$
