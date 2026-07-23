@@ -137,10 +137,10 @@ $$
 
 kde:
 - $U_r$ ... maximální napětí na řadiči
-- $U_{max}$ ... maximální napětí panelu
 - $I_{typ}$ ... typický proud děličem
 - $U_{typ}$ ... typické napětí panelu
 - $I_{max}$ ... maximální proud děličem
+- $U_{max}$ ... maximální napětí panelu
 - $t_{p,c}$ ... celková doba měření napětí na panelu
 - $t_{p,v}$ ... doba vzorkování napětí na panelu
 - $t_i$ ... doba inicializace děliče
@@ -315,12 +315,12 @@ kde:
 
 &nbsp;
 
-| Orientace | Léto | Zima |
+| Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | 2656 mAh/den | 1423 mAh/den |
-| Východ | 2030 mAh/den | 711 mAh/den |
-| Západ | 2030 mAh/den | 711 mAh/den |
-| Jihozápad | 2314 mAh/den | 1186 mAh/den |
+| Jih | 2674 | 1594 |
+| Východ | 2561 | 455 |
+| Západ | 2674 | 570 |
+| Jihozápad | 2784 | 1252 |
 
 &nbsp;
 
@@ -353,14 +353,17 @@ $$
 &nbsp;
 
 kde:
-- $P_{ef}$ ... efektivní výkon panelu při plném osvitu
+- $E_{den}$ ... energie vyrobená za jeden den
+- $E_{měsíc}$ ... energie vyrobená za daný měsíc
+- $E_{aku}$ ... energie nabíjející akumulátor
+- $\eta_{bias}$ ... účinnost pracovního bodu
 - $P_{max}$ ... maximální výkon panelu při plném osvitu
 - $P$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
-- $U_{aku}$ ... průměrné napětí akumulátoru
 - $I_{max}$ ... maximální proud panelu při plném osvitu
-- $\eta_{bias}$ ... účinnost pracovního bodu
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
+- $Q_{aku}$ ... náboj nabíjející akumulátor
+- $U_{aku}$ ... průměrné napětí akumulátoru
 
 &nbsp;
 
@@ -372,12 +375,12 @@ kde:
 
 &nbsp;
 
-| Orientace panelu | Léto | Zima |
+| Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2644 mAh/den | +1411 mAh/den |
-| Východ | +2018 mAh/den | +699 mAh/den |
-| Západ | +2018 mAh/den | +699 mAh/den |
-| Jihozápad | +2302 mAh/den | +1174 mAh/den |
+| Jih | +2662 | +1582 |
+| Východ | +2549 | +443 |
+| Západ | +2662 | +558 |
+| Jihozápad | +2772 | +1240 |
 
 &nbsp;
 
