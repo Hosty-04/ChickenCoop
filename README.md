@@ -468,7 +468,7 @@ kde:
 - $I_m$ ... mezní proud
 - $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
 - $U_m$ ... napětí motoru
-- $U_aku$ ... aktuální napětí akumulátoru (zde průměrné)
+- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
 
 &nbsp;
 
