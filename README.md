@@ -452,6 +452,26 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 Další funkce proudového senzoru bude s 12bitovým rozlišením a průměrováním 16 vzorků (dostatečná přesnost pro detekci překročení prahové hodnoty) monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu po dobu 150 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána i při nepřetržitém běhu motoru, po dobu vyšší než 25 s — potřebná doba pro změnu stavu dvířek + rezerva. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
+&nbsp;
+
+**Mezní proud motoru**
+
+&nbsp;
+
+$$
+I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
+$$
+
+&nbsp;
+
+kde:
+- $I_m$ ... mezní proud
+- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
+- $U_m$ ... napětí motoru
+- $U_aku$ ... aktuální napětí akumulátoru (zde průměrné)
+
+&nbsp;
+
 Modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru, aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření proudu modulem INA219 (cca 8,5 ms) proběhne při této frekvenci přes 170 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
 
 H-bridge bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny VM a GND, který slouží jako energetický zásobník pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu VM. Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA219, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (cca 16,5 mV), a proudová rezerva korálky (1,55 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat.
