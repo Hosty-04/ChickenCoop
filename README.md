@@ -623,7 +623,7 @@ https://www.soselectronic.com/cz-cz/products/maxim/max3485esa-1-121397 (3 ks)
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
 **Kondenzátor**  
-https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (4 ks)  
+https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (8 ks)  
 https://www.gme.cz/v/1489496/hitano-ce-47u-25vit-hit-exr-5x11-rm2-bulk-elektrolyticky-kondenzator  
 
 **Pole**  
@@ -660,7 +660,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| GM electronic | 720 Kč |
+| GM electronic | 740 Kč |
 | Alza | 150 Kč |
 | Wilmann Elektro | 175 Kč |
 | Hadex | 120 Kč |
@@ -676,7 +676,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | SOS elektro | 450 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 160 Kč** |
+| **Celkem** | **8 180 Kč** |
 
 &nbsp;
 
