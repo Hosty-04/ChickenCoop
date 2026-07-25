@@ -79,41 +79,20 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 
 &nbsp;
 
-### Kontrola fotovoltaického panelu a akumulátoru (4 s a 3 s)
+### Kontrola fotovoltaického panelu a akumulátoru (1 s a 3 s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Dělič | 4,63 µA | 6,12 µA | 5,14 nAh | 6,8 nAh |
 | INA219 | 0,7 mA | 1 mA | 583 nAh | 833 nAh |
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 133 nAh | 433 nAh |
-| **Celkem** | **0,824 mA** | **1,40 mA** | **0,721 µAh** | **1,27 µAh** |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 100 nAh | 325 nAh |
+| **Celkem** | **0,82 mA** | **1,39 mA** | **0,683 µAh** | **1,16 µAh** |
 
 &nbsp;
 
 $$
-U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V}}
-$$
-
-$$
-I_{typ} = \frac{U_{typ}}{R_1 + R_2} = \frac{6,8\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{4,63\ \text{µA}}
-$$
-
-$$
-I_{max} = \frac{U_{max}}{R_1 + R_2} = \frac{9\ \text{V}}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{6,12\ \text{µA}}
-$$
-
-$$
-\tau = (R_1 \parallel R_2) \cdot C = (1\ \text{M}\Omega \parallel 470\ \text{k}\Omega) \cdot 10\ \text{nF} = 3,2\ \text{ms}
-$$
-
-$$
-t_i = 5 \cdot \tau = 16\ \text{ms}
-$$
-
-$$
-t_{p,c} = 144 \cdot (t_i + t_{p,v}) = 144 \cdot (16\ \text{ms} + 5\ \text{ms}) = 144 \cdot 21\ \text{ms} \approx \mathbf{4\ \text{s}}
+t_{p,c} = 144 \cdot t_{p,v} = 144 \cdot 5\ \text{ms} \approx \mathbf{1\ \text{s}}
 $$
 
 $$
@@ -123,18 +102,8 @@ $$
 &nbsp;
 
 kde:
-- $U_r$ ... maximální napětí na řadiči
-- $I_{typ}$ ... typický proud děličem
-- $U_{typ}$ ... typické napětí panelu
-- $I_{max}$ ... maximální proud děličem
-- $U_{max}$ ... maximální napětí panelu
 - $t_{p,c}$ ... celková doba měření napětí na panelu
 - $t_{p,v}$ ... doba vzorkování napětí na panelu
-- $t_i$ ... doba inicializace děliče
-- $\tau$ ... časová konstanta děliče
-- $R_1$ ... první rezistor děliče
-- $R_2$ ... druhý rezistor děliče
-- $C$ ... kondenzátor děliče
 - $t_{a,c}$ ... celková doba měření napětí na akumulátoru
 - $t_{a,v}$ ... doba vzorkování napětí na akumulátoru
 
@@ -293,7 +262,7 @@ kde:
 | Kontrola vajec | 0,9 mAh | 46,3 % | 1,31 mAh | 17,7 % |
 | Klidový režim | 118 µAh | 6,1 % | 972 µAh | 13,1 % |
 | Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,4 % |
-| Kontrola panelu a baterie | 0,721 µAh | 0,0 % | 1,27 µAh | 0,0 % |
+| Kontrola panelu a baterie | 0,683 µAh | 0,0 % | 1,16 µAh | 0,0 % |
 | **Celkem** | **1,94 mAh** | **100 %** | **7,42 mAh** | **100 %** |
 
 &nbsp;
@@ -447,9 +416,33 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back
 
 Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Spínače budou konstruovány stejně jako MOSFET odpojovač, ale jen s jedním P-MOS tranzistorem a odpovídajícími pull-up a pull-down rezistory. Přes první z těchto spínačů bude M řídit napájení k děliči napětí, přes druhý k INA219, přes třetí k DRV8838 a čtvrtý bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě.
 
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen keramický kondenzátor 10 nF/50 V, kvůli vysoké časové konstantě rezistorů děliče a interního vzorkovacího kondenzátoru M. Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje jeho nízkou spotřebu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků monitorovat napětí akumulátoru.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen blokovací keramický kondenzátor 10 nF/50 V. Ten slouží k pufrování náboje mezi vysokou výstupní impedancí děliče a interním vzorkovacím kondenzátorem M, jehož malá kapacita by se přes tak vysoký zdrojový odpor nabíjela příliš pomalu na spolehlivé vzorkování. Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC vstup v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků monitorovat napětí akumulátoru.
 
-Na základě údajů z tohoto modulu a z napěťového děliče bude M přes sběrnici I²C, respektive přes ADC, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
+&nbsp;
+
+**Napěťový rozsah děliče**
+
+&nbsp;
+
+$$
+U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V} < 3,3\ \text{V}}
+$$
+
+&nbsp;
+
+kde:
+- $U_r$ ... maximální napětí na řadiči
+- $U_{max}$ ... maximální napětí panelu
+- $R_1$ ... první rezistor děliče
+- $R_2$ ... druhý rezistor děliče
+
+&nbsp;
+
+I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC vstupu napájecí napětí M. Napětí na ADC vstupu se bude tudíž pohybovat v bezpečných mezích pro M.
+
+&nbsp;
+
+Na základě údajů z tohoto modulu a z napěťového děliče bude M přes sběrnici I²C, respektive přes ADC vstup, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
 
 &nbsp;
 
