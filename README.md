@@ -412,9 +412,21 @@ Za akumulátorem bude do napájecí větve zařazena pomalá trubičková pojist
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor, protože napětí 3,3 V nemusí být vždy dostatečné pro ovládání P-MOS tranzistoru napájeného z 9V solárního panelu. Na gate N-MOS tranzistoru bude sériově zapojen rezistor 220 Ω pro snížení nabíjecího proudu gate při sepnutí a ochranu M před zpětným proudem při rozepnutí. Mezi gate a společnou zem bude paralelně zapojen pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes pull-up rezistor (omezení proudu a odvedení šumu) k 9V panelu. Source bude připojen ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory IRF4905 zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude řídit budicí logic-level N-MOS tranzistor 2N7000, protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Na gate N-MOS tranzistoru bude sériově zapojen rezistor 220 Ω pro snížení potřebného nabíjecího proudu gate při sepnutí a ochranu M před zpětným proudem při rozepnutí. Mezi gate a společnou zem bude paralelně zapojen 470 kΩ pull-down rezistor, zabraňující vzniku nedefinovaného logického stavu. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor (omezení proudu a odvedení šumu) k 9V panelu. Source bude připojen ke společné zemi. Napětí U<sub>GS</sub> u P-MOS tranzistorů tak bude při rozepnutém N-MOS tranzistoru nulové, při sepnutém vždy nižší než −4,5 V. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/main_separator_schematic_white.png" alt="main_separator_schematic" height="0px">
+
+&nbsp;
 
 Pro dosažení nízké klidové spotřeby budou jednotlivé části systému napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by způsobovalo zbytečný odběr energie z akumulátoru. Spínače budou konstruovány stejně jako MOSFET odpojovač, ale jen s jedním P-MOS tranzistorem a odpovídajícími pull-up a pull-down rezistory. Přes první z těchto spínačů bude M řídit napájení k INA219, přes druhý k DRV8838 a třetí bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/peripheral_separator_schematic_white.png" alt="peripheral_separator_schematic" height="0px">
+
+&nbsp;
 
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen blokovací keramický kondenzátor 100 nF / 50 V. Ten slouží k pufrování náboje mezi vysokou výstupní impedancí děliče a interním vzorkovacím kondenzátorem M, jehož malá kapacita by se přes tak vysoký zdrojový odpor nabíjela příliš pomalu na spolehlivé vzorkování. Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC vstup v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků. Vysoká impedance děliče zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Modul proudového a napěťového senzoru INA219 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 12bitovým rozlišením a průměrováním 32 vzorků monitorovat napětí akumulátoru.
 
@@ -442,7 +454,7 @@ I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC v
 
 &nbsp;
 
-Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC vstup, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
+Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC vstup, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli úbytku napětí na MOSFET oddělovači a nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
 
 &nbsp;
 
@@ -451,6 +463,10 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 &nbsp;
 
 Další funkce proudového senzoru bude s 12bitovým rozlišením a průměrováním 16 vzorků (dostatečná přesnost pro detekci překročení prahové hodnoty) monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu po dobu 150 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána i při nepřetržitém běhu motoru, po dobu vyšší než 25 s — potřebná doba pro změnu stavu dvířek + rezerva. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/motor_flowchart_white.png" alt="motor_flowchart" height="0px">
 
 &nbsp;
 
@@ -480,7 +496,7 @@ Co se týče samotného motoru, ten bude odrušen keramickým kondenzátorem 100
 
 Měření hmotnosti snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou (vůči rozeznávání slepičích vajec) a hysterezí, díky které zůstane kalibrace váhy dlouhodobě stabilní i při neustálém zatěžování. Kabel od tenzometru bude připojen k modulu A/D převodníku HX711 umístěnému v krabičce Kx. Modul zesílí velmi nízké výstupní napětí tenzometru, pohybující se v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Mx. Ten bude pro komunikaci s M přes datový kabel typu UTP využívat sběrnici RS485. První kroucený pár povede napájení pro Mx, oba vodiče zapojené paralelně; stejně tak druhý pár, který přes tranzistorový spínač povede napájení ke zbylé elektronice v krabičkách Kx. Třetí pár, opět přes dva paralelní vodiče, propojí společnou zem. Čtvrtý pár přenese data prostřednictvím čipu MAX3485, který slouží jako transceiver sběrnice RS485 — jeden čip bude před M, druhý před Mx. Tento čip je napájen 3,3 V a vytváří diferenciální signál na dvou linkách, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Protože jde o čip bez vývodů pro nepájivé pole, bude pro prototyp potřeba adaptér SO8 na DIP8 a kolíkové lišty. Paralelně k vývodům VCC a GND bude připojen blokovací keramický kondenzátor 100 nF / 50 V.
 
-Na deskách plošných spojů musí být vše v jednotlivých krabičkách co nejblíže u sebe a kondenzátory musí být zapojeny co nejblíže k pinům, silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu bude tvořit záporný pól solárního panelu a akumulátoru.
+Na deskách plošných spojů musí být všechny součástky v jednotlivých krabičkách co nejblíže u sebe a kondenzátory musí být zapojeny co nejblíže k příslušným pinům, silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu bude tvořit záporný pól solárního panelu a akumulátoru.
 
 &nbsp;
 
@@ -505,7 +521,7 @@ Ta bude opatřena otvorem s D-profilem (průměr 3 mm, hloubka 10 mm) a pomocí 
 
 &nbsp;
 
-**Výpočet tahu motoru pro různé kroutící momenty**
+**Tah motoru pro různé kroutící momenty**
 
 &nbsp;
 
