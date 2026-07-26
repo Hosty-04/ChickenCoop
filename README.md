@@ -429,6 +429,28 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
+**Vliv R<sub>DSon</sub> u N-MOS spínače na otevření P-MOS**
+
+&nbsp;
+
+$$
+U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{10\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV} < U{th}}
+$$
+
+&nbsp;
+
+kde:
+- $U_{g}$ ... napětí na gate P-MOS tranzistoru
+- $U_{max}$ ... maximální napětí panelu
+- $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
+- $R_{DSon}$ ... vnitřní odpor N-MOS tranzistoru mezi drain a source v sepnutém stavu
+
+&nbsp;
+
+I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC vstupu napájecí napětí M. Napětí na ADC vstupu se bude tudíž pohybovat v bezpečných mezích pro M.
+
+&nbsp;
+
 Pro dosažení nízké klidové spotřeby budou 3,3 V větve napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Přes první z těchto spínačů bude M řídit napájení k INA219, přes druhý k DRV8838 a třetí bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. Tyto spínače bude tvořit pouze jeden přímo řízený P-MOS tranzistor AO3401A, jehož source bude připojen na lineární LDO regulátor; mezi GPIO pin a gate bude, ze stejného důvodu jako u MOSFET oddělovače, sériově zapojen 220 Ω rezistor, za kterým bude mezi gate tranzistoru a lineární LDO regulátor zapojen 100 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude řídit napájení další krabičky Kx v řadě. U prvního z těchto dvou spínačů bude v každé krabičce Kx pull-up rezistor nahrazen pull-down rezistorem o stejné hodnotě. Pro sepnutí těchto spínačů bude potřeba na řídicí pin přivést logickou nulu a pro rozepnutí logickou jedničku. Typ N-MOS (low-side spínání) nebyl zvolen, protože by u komponent v krabičkách Kx hrozilo uzemnění přes cesty, které k tomu nejsou určeny. R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je 1 mA. Q<sub>g</sub> bude maximálně 7-9,4 nC. Mezi source a společnou zem spínačů pro komponenty v krabičce K bude připojen keramický kondenzátor o parametrech 100 nF / 50 V; u spínačů pro komponenty v krabičce Kx budou parametry kondenzátoru 1 uF / 50 V — buffer proti odběru při sepnutí, ochrana sdílené 3,3V větve před propadem. Nabití kondenzátoru proběhne přes R<sub>DSon</sub> za zanedbatelnou dobu < 1 us.
 
 &nbsp;
@@ -452,7 +474,7 @@ $$
 &nbsp;
 
 kde:
-- $U_r$ ... maximální napětí na řadiči
+- $U_r$ ... maximální napětí řadiče
 - $U_{max}$ ... maximální napětí panelu
 - $R_1$ ... první rezistor děliče
 - $R_2$ ... druhý rezistor děliče
