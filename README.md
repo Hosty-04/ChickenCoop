@@ -429,12 +429,12 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-**Vliv R<sub>DSon</sub> u N-MOS spínače na otevření P-MOS**
+**Ověření funkčnosti**
 
 &nbsp;
 
 $$
-U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{10\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV} < U{th}}
+U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{5\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV} < U{th}}
 $$
 
 &nbsp;
@@ -447,7 +447,7 @@ kde:
 
 &nbsp;
 
-
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě otevřít P-MOS tranzistor.
 
 &nbsp;
 
