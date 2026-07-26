@@ -281,11 +281,19 @@ kde:
 &nbsp;
 
 $$
-P = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
+P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
 $$
 
 $$
-\eta_{bias} = \frac{P}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
+P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ \text{mΩ} = 288\ \text{mW}
+$$
+
+$$
+\eta_{bias} = \frac{P_{vst}}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
+$$
+
+$$
+\eta_{mos} = \frac{P_{vst} - P_{ztr}}{P_{vst}} = \frac{8,16\ \text{W} - 288\ \text{mW}}{8,16\ \text{W}} = 0,965
 $$
 
 &nbsp;
@@ -313,10 +321,11 @@ kde:
 - $E_{měsíc}$ ... energie vyrobená za daný měsíc
 - $E_{aku}$ ... energie nabíjející akumulátor
 - $\eta_{bias}$ ... účinnost pracovního bodu
-- $P_{max}$ ... maximální výkon panelu při plném osvitu
-- $P$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
-- $I_{max}$ ... maximální proud panelu při plném osvitu
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
+- $P_{max}$ ... maximální výkon panelu při plném osvitu
+- $P_{vst}$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
+- $P_{ztr}$ ... ztrátový výkon MOSFET oddělovače
+- $I_{max}$ ... maximální proud panelu při plném osvitu
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
 - $Q_{aku}$ ... náboj nabíjející akumulátor
 - $U_{aku}$ ... průměrné napětí akumulátoru
@@ -420,7 +429,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-Pro dosažení nízké klidové spotřeby budou 3,3 V větve napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Spínače bude tvořit pouze jeden přímo řízený P-MOS tranzistor AO3401A. Mezi GPIO pin a gate bude, ze stejného důvodu jako u MOSFET oddělovače, sériově zapojen 220 Ω rezistor a mezi gate tranzistoru a lineární LDO regulátor bude zapojen 10 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu. R<sub>DSon</sub> bude maximálně 80-150 mΩ a Q<sub>g</sub> maximálně 7 nC. Přes první z těchto spínačů bude M řídit napájení k INA219, přes druhý k DRV8838 a třetí bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě. U těchto 
+Pro dosažení nízké klidové spotřeby budou 3,3 V větve napájeny přes tranzistorové spínače — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Spínače bude tvořit pouze jeden přímo řízený P-MOS tranzistor AO3401A. Mezi GPIO pin a gate bude, ze stejného důvodu jako u MOSFET oddělovače, sériově zapojen 220 Ω rezistor a mezi gate tranzistoru a lineární LDO regulátor bude zapojen 10 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu. R<sub>DSon</sub> bude maximálně 80-150 mΩ a Q<sub>g</sub> bude maximálně 7-9,4 nC. Přes první z těchto spínačů bude M řídit napájení k INA219, přes druhý k DRV8838 a třetí bude napájet hlavní MAX3485 a zároveň všechny krabičky Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude napájet další krabičku Kx v řadě. Mezi source a společnou zem spínačů pro komponenty v krabičce K bude připojen keramický kondenzátor o parametrech 100 nF / 50 V; u spínačů pro komponenty v krabičce Kx budou parametry kondenzátoru 1 uF / 50 V — buffer proti odběru při sepnutí, ochrana sdílené 3,3V větve před propadem. Nabití kondenzátoru proběhne přes R<sub>DSon</sub> za zanedbatelnou dobu < 1 us.
 
 &nbsp;
 
@@ -454,7 +463,7 @@ I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC v
 
 &nbsp;
 
-Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC vstup, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli úbytku napětí na MOSFET oddělovači a nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
+Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC vstup, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M solární panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli úbytku napětí na MOSFET oddělovači (max 120 mV) a nepřesnosti měření bude hladina pro odpojení, respektive opětovné připojení panelu zvýšena o 250 mV.
 
 &nbsp;
 
