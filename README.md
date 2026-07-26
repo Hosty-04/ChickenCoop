@@ -429,12 +429,12 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-**Ověření funkčnosti**
+**N-MOS**
 
 &nbsp;
 
 $$
-U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{5\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV} < U{th}}
+U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{5\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV}}
 $$
 
 &nbsp;
@@ -447,7 +447,25 @@ kde:
 
 &nbsp;
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě otevřít P-MOS tranzistor.
+I při větším R<sub>DSon</sub> dokáže kvůli velkému pull-up rezistoru spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít.
+
+&nbsp;
+
+$$
+R_{ekv} = \frac{U_{aku} + U_{ztr}}{I_{max}} = \frac{6,8\ \text{V} + 0,24\ \text{V}}{1,2\ \text{A}} = \mathbf{5,87\ \\Omega}
+$$
+
+&nbsp;
+
+kde:
+- $R_{ekv}$ ... ekvivalentní odpor zatěžující panel
+- $U_{aku}$ ... průměrné napětí akumulátoru
+- $U_{ztr}$ ... úbytek napětí na P-MOS tranzistoru
+- $I_{max}$ ... maximální proud panelu při plném osvitu
+
+&nbsp;
+
+
 
 &nbsp;
 
