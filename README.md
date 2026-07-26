@@ -434,20 +434,26 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 &nbsp;
 
 $$
-U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV}}
+U_{G} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV}}
+$$
+
+$$
+U_{G} = I_{leak} \cdot R_{pulldown} = 100\ \text{nA} \cdot 470\ \text{k}\Omega = \mathbf{47\ \text{mV} < 0,8\ \text{V}}
 $$
 
 &nbsp;
 
 kde:
-- $U_{g}$ ... napětí na gate P-MOS tranzistoru
+- $U_{G}$ ... napětí na gate P-MOS tranzistoru
 - $U_{max}$ ... maximální napětí panelu
+- $I_{leak}$ ... svodový proud gate
 - $R_{DSon}$ ... maximální vnitřní odpor sepnutého N-MOS tranzistoru
 - $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
+- $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
 
 &nbsp;
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít.
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít; slabší pulldown dokáže udržet spínač s N-MOS tranzistorem rozepnutý.
 
 &nbsp;
 
