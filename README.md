@@ -273,10 +273,10 @@ kde:
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | 2674 | 1594 |
-| Východ | 2561 | 455 |
-| Západ | 2674 | 570 |
-| Jihozápad | 2784 | 1252 |
+| Jih | 2662 | 1588 |
+| Východ | 2547 | 453 |
+| Západ | 2662 | 567 |
+| Jihozápad | 2772 | 1248 |
 
 &nbsp;
 
@@ -307,11 +307,11 @@ E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac
 $$
 
 $$
-E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,97 \cdot 0,88 \approx \mathbf{18,2\ \text{Wh/den}}
+E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,965 \cdot 0,88 \approx \mathbf{18,1\ \text{Wh/den}}
 $$
 
 $$
-Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,2\ \text{Wh/den}}{6,8\ \text{V}} \approx \mathbf{2677\ \text{mAh/den}}
+Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} \approx \mathbf{2662\ \text{mAh/den}}
 $$
 
 &nbsp;
@@ -342,10 +342,10 @@ kde:
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2662 | +1582 |
-| Východ | +2549 | +443 |
-| Západ | +2662 | +558 |
-| Jihozápad | +2772 | +1240 |
+| Jih | +2650 | +1576 |
+| Východ | +2535 | +441 |
+| Západ | +2650 | +555 |
+| Jihozápad | +2760 | +1236 |
 
 &nbsp;
 
