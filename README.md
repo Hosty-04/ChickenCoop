@@ -332,7 +332,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS.*
+*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Vliv pull-up rezistoru pro P-MOS tranzistor a vniřního odporu N-MOS tranzistoru na účinnnost pracovního bodu panelu a MOSFET oddělovače je zanedbatelný.*
 
 &nbsp;
 
@@ -384,7 +384,7 @@ Pro přenos dat mezi hlavní řídicí jednotkou (master) a ostatními řídicí
 
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, přepne se řadič do režimu LP Run (Low-Power Run), taktovaného interním krystalem LSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (MSI, 48 MHz) po velmi krátkou dobu jedné milisekundy. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (LSI, 1 MHz). Kvůli nízké taktovací frekvenci je potřeba v souboru lorawan_conf.h zvýšit RADIO_WAKEUP_TIME z 2 na 5 ms; rádio poběží automaticky na 32 MHz a po skončení přenosu jej bude nutné nastavit do režimu LP Sleep. Tento řadič bude využívat SMPS režimu.
 
-U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů a protože je potřeba uchovat obsah paměti RAM. Tentokrát to ale bude režim Stop bez RTC. Řadiče budou postupně probouzeny a uspávány pomocí sběrnice LPUART přes hlavní řadič, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC. Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run / Run trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná, a proto se v energetické bilanci neuvažuje.
+U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů a protože je potřeba uchovat obsah paměti RAM. Tentokrát to ale bude režim Stop bez RTC. Řadiče budou postupně probouzeny a uspávány pomocí sběrnice LPUART přes hlavní řadič, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (LSI, 131 kHz) a ihned po vykonání úkolu se vrátí zpět do režimu Stop bez RTC. Přechod mikrořadičů mezi úspornými režimy (Stop2/Stop) a režimem LP Run / Run trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná.
 
 Po připojení napájení VCC k jednotlivým částem systému je nutné počkat na jejich ustálení. U obvodu INA219 se použije čekací doba 200 µs, zahrnující náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při 12bitovém měření s průměrováním 32 vzorků trvá vytvoření první hodnoty přibližně 17 ms (32 × 532 µs), při měření proudu s průměrováním 16 vzorků pak přibližně 8,5 ms. U obvodu MAX3485 se použije čekací doba 100 µs (náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND), u budiče DRV8838 pak 3 ms, což zahrnuje nabití elektrolytického kondenzátoru 47 µF mezi VM a GND, keramického 100 nF mezi VCC a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms. Kromě posledního zmíněného obvodu nebude inicializační doba zahrnuta do výpočtu denní spotřeby systému.
 
@@ -434,7 +434,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 &nbsp;
 
 $$
-U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{5\ \\Omega + 100\ \text{k}\Omega} = \mathbf{450\ \text{µV}}
+U_{g} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV}}
 $$
 
 &nbsp;
@@ -442,30 +442,12 @@ $$
 kde:
 - $U_{g}$ ... napětí na gate P-MOS tranzistoru
 - $U_{max}$ ... maximální napětí panelu
+- $R_{DSon}$ ... maximální vnitřní odpor sepnutého N-MOS tranzistoru
 - $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
-- $R_{DSon}$ ... vnitřní odpor N-MOS tranzistoru mezi drain a source v sepnutém stavu
 
 &nbsp;
 
 I při větším R<sub>DSon</sub> dokáže kvůli velkému pull-up rezistoru spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít.
-
-&nbsp;
-
-$$
-R_{ekv} = \frac{U_{aku} + U_{ztr}}{I_{max}} = \frac{6,8\ \text{V} + 0,24\ \text{V}}{1,2\ \text{A}} = \mathbf{5,87\ \\Omega}
-$$
-
-&nbsp;
-
-kde:
-- $R_{ekv}$ ... ekvivalentní odpor zatěžující panel
-- $U_{aku}$ ... průměrné napětí akumulátoru
-- $U_{ztr}$ ... úbytek napětí na P-MOS tranzistoru
-- $I_{max}$ ... maximální proud panelu při plném osvitu
-
-&nbsp;
-
-
 
 &nbsp;
 
