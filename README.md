@@ -289,6 +289,10 @@ P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ 
 $$
 
 $$
+U_{ztr} = I_{max} \cdot 2 \cdot R_{DSon} = 1,2\ \text{A} \cdot 2 \cdot 100\ \text{mΩ} = 240\ \text{mV}
+$$
+
+$$
 \eta_{bias} = \frac{P_{vst}}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
 $$
 
@@ -324,6 +328,7 @@ kde:
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
 - $P_{vst}$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
 - $P_{ztr}$ ... ztrátový výkon MOSFET oddělovače
+- $U_{ztr}$ ... úbytek napětí MOSFET oddělovače
 - $P_{max}$ ... maximální výkon panelu při plném osvitu
 - $I_{max}$ ... maximální proud panelu při plném osvitu
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
@@ -332,7 +337,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Vliv pull-up rezistoru pro P-MOS tranzistor a vniřního odporu N-MOS tranzistoru na účinnnost pracovního bodu panelu a MOSFET oddělovače je zanedbatelný.*
+*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Svodový proud drainu P-MOS i N-MOS tranzistoru je zanedbatelný a teče pouze když jsou spínače rozepnuty.*
 
 &nbsp;
 
