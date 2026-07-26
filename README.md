@@ -426,7 +426,7 @@ Za akumulátorem bude do napájecí větve zařazena rychlá trubičková pojist
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude M řídit přes budicí logic-level N-MOS tranzistor BSS138, protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Na gate N-MOS tranzistoru bude sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení gate kapacity. Mezi gate a společnou zem bude paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor k 9V panelu. Source bude připojen ke společné zemi. Na P-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutém N-MOS tranzistoru vždy nižší než −4,5 V a při rozepnutém nulové. Z toho vyplývá, že R<sub>DSon</sub> bude maximálně 50-100 mΩ. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude M řídit přes budicí logic-level N-MOS tranzistor BSS138, protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Na gate N-MOS tranzistoru bude sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení gate kapacity. Mezi gate a společnou zem bude paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain N-MOS tranzistoru bude připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor k 9V panelu. Source bude připojen ke společné zemi. Na P-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutém N-MOS tranzistoru vždy nižší než −4,5 V a při rozepnutém nulové. Z toho vyplývá, že R<sub>DSon</sub> bude maximálně 50-100 mΩ. Na N-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> bude maximálně 5 Ω. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
 
 &nbsp;
 
@@ -439,36 +439,77 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 &nbsp;
 
 $$
-U_{G} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV}}
+U_{G,P} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV} \approx 0\ \text{V}} 
 $$
 
 $$
-U_{G} = I_{leak} \cdot R_{pulldown} = 100\ \text{nA} \cdot 470\ \text{k}\Omega = \mathbf{47\ \text{mV} < 0,8\ \text{V}}
+U_{G,N} = I_{leak} \cdot R_{pulldown} = 100\ \text{nA} \cdot 470\ \text{k}\Omega = \mathbf{47\ \text{mV} < 0,8\ \text{V}}
 $$
 
 &nbsp;
 
 kde:
-- $U_{G}$ ... napětí na gate P-MOS tranzistoru
+- $U_{G,P}$ ... napětí na gate P-MOS tranzistoru
+- $U_{G,N}$ ... napětí na gate N-MOS tranzistoru
 - $U_{max}$ ... maximální napětí panelu
 - $I_{leak}$ ... svodový proud gate
-- $R_{DSon}$ ... maximální vnitřní odpor sepnutého N-MOS tranzistoru
+- $R_{DSon}$ ... vnitřní odpor sepnutého tranzistoru
 - $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
 - $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
 
 &nbsp;
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít; slabší pulldown dokáže udržet spínač s N-MOS tranzistorem rozepnutý.
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pulldown dokáže i přes tok svodového proudu gate udržet spínač s N-MOS tranzistorem rozepnutý, u PMOS tranzistoru je silnější pull-up/pull-down rezistor a stejný svodový proud gate; U<sub>th</sub> je u N-MOS tranzistoru 0,8-1,5 V a u PMOS tranzistoru -1,3 až -0,5 V.
 
 &nbsp;
 
-Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu vajec napájena přes tranzistorové spínače, senzor INA219 bude využívat režimu power-down a driver DRV8838 bude využívat režimu spánku (z modulu Pololu je nutné odpájet nSLEEP pullup rezistor) — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Přes hlavní z těchto spínačů bude M řídit napájení k hlavnímu MAX3485 a zároveň ke všem krabičkám Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude řídit napájení další krabičky Kx v řadě. Tyto spínače bude tvořit pouze jeden přímo řízený P-MOS tranzistor AO3401A, jehož source bude připojen na lineární LDO regulátor; mezi GPIO pin a gate bude, ze stejného důvodu jako u MOSFET oddělovače, sériově zapojen 220 Ω rezistor, za kterým bude mezi gate tranzistoru a lineární LDO regulátor zapojen 100 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí.
-
-U ve výchozím stavu sepnutého spínače bude v každé krabičce Kx pull-up rezistor nahrazen pull-down rezistorem o stejné hodnotě. Pro sepnutí těchto spínačů bude potřeba na řídicí pin přivést logickou nulu a pro rozepnutí logickou jedničku. Typ N-MOS (low-side spínání) nebyl zvolen, protože by u komponent v krabičkách Kx hrozilo uzemnění přes cesty, které k tomu nejsou určeny. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je zanedbatelný (1 mV). Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru bude zanedbatelná (1 µs). Mezi source a společnou zem spínačů bude připojen kondenzátor o parametrech 1 µF / 50 V — buffer proti odběru při sepnutí, ochrana sdílené 3,3 V větve před propadem. Nabití kondenzátoru proběhne přes R<sub>DSon</sub> za zanedbatelnou dobu < 1 us.
+Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu vajec napájena přes tranzistorové spínače, senzor INA219 bude využívat režimu power-down a driver DRV8838 bude využívat režimu spánku (z modulu Pololu je nutné odpájet nSLEEP pullup rezistor) — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Přes hlavní z těchto spínačů bude M řídit napájení k hlavnímu MAX3485 a zároveň ke všem krabičkám Kx. V každé krabičce Kx budou pak dva další spínače: první, ve výchozím stavu sepnutý, bude přes Mx napájet místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý, bude řídit napájení další krabičky Kx v řadě. Tyto spínače bude tvořit pouze jeden přímo řízený P-MOS tranzistor AO3401A, jehož source bude připojen na lineární LDO regulátor; mezi GPIO pin a gate bude, ze stejného důvodu jako u MOSFET oddělovače, sériově zapojen 220 Ω rezistor, za kterým bude mezi gate tranzistoru a lineární LDO regulátor zapojen 100 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Ve výchozím stavu sepnuté spínače budou mít místo pull-up rezistoru pull-down o stejné hodnotě. Typ N-MOS (low-side spínání) nebyl zvolen, protože by u komponent v krabičkách Kx hrozilo uzemnění přes cesty, které k tomu nejsou určeny. Mezi source a společnou zem spínačů bude připojen kondenzátor o parametrech 1 µF / 50 V — buffer proti odběru při sepnutí, ochrana sdílené 3,3V větve před propadem.
 
 &nbsp;
 
 <img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/peripheral_separator_schematic_white.png" alt="peripheral_separators_schematic" height="0px">
+
+&nbsp;
+
+**P-MOS**
+
+&nbsp;
+
+$$
+U_{ztr} = I_{max} \cdot R_{DSon} = 33\ \text{mA} \cdot 150\ \text{m}\Omega \approx \mathbf{5\ \text{mV}}
+$$
+
+$$
+I_G = \frac{U_G - U_{plateau}}{R_G} = \frac{3,3\ \text{V} - 1,4\ \text{V}}{220\ \\Omega} = \mathbf{8,64\ \text{mA}}
+$$
+
+$$
+t_s = \frac{Q_G}{I_G} = \frac{9,4\ \text{nC}}{8,64\ \text{mA}} \approx \mathbf{1,5\ \text{µs}}
+$$
+
+$$
+t_n = 5 \cdot \tau = 5 \cdot R_{DSon} \cdot C = 5 \cdot 150\ \text{mΩ} \cdot 1\ \text{µF} \approx \mathbf{1\ \text{µs}}
+$$
+
+&nbsp;
+
+kde:
+- $U_{ztr}$ ... maximální možný úbytek napětí na spínači
+- $I_{max}$ ... maximální proud spínačem pro 5 hnízd
+- $R_{DSon}$ ... maximální vnitřní odpor sepnutého tranzistoru
+- $I_G$ ... proud nabíjející gate
+- $U_G$ ... napětí na gate
+- $U_{plateau}$ ... Millerova plošina
+- $R_G$ ... rezistor přes který se nabíjí gate
+- $t_s$ ... čas sepnutí a běžného rozepnutí
+- $Q_G$ ... náboj gate
+- $t_n$ ... čas nabití/vybití kondenzátoru
+- $\tau$ ... časová konstanta
+- $C$ ... kapacita kondenzátoru
+
+&nbsp;
+
+Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru (rezerva kvůli odporu pinu M a hradla — přibližně 25 Ω) je stejně jako doba nabití kondenzátoru zanedbatelná.
 
 &nbsp;
 
