@@ -303,15 +303,15 @@ $$
 &nbsp;
 
 $$
-E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} \approx 26,1\ \text{Wh/den}
+E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} = 26,1\ \text{Wh/den}
 $$
 
 $$
-E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,965 \cdot 0,88 \approx \mathbf{18,1\ \text{Wh/den}}
+E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,965 \cdot 0,88 = \mathbf{18,1\ \text{Wh/den}}
 $$
 
 $$
-Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} \approx \mathbf{2662\ \text{mAh/den}}
+Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} = \mathbf{2662\ \text{mAh/den}}
 $$
 
 &nbsp;
@@ -322,9 +322,9 @@ kde:
 - $E_{aku}$ ... energie nabíjející akumulátor
 - $\eta_{bias}$ ... účinnost pracovního bodu
 - $\eta_{mos}$ ... účinnost MOSFET oddělovače
-- $P_{max}$ ... maximální výkon panelu při plném osvitu
 - $P_{vst}$ ... dosažitelný výkon panelu při plném osvitu v pracovním bodě daném akumulátorem
 - $P_{ztr}$ ... ztrátový výkon MOSFET oddělovače
+- $P_{max}$ ... maximální výkon panelu při plném osvitu
 - $I_{max}$ ... maximální proud panelu při plném osvitu
 - $\eta_{aku}$ ... účinnost nabíjení akumulátoru
 - $Q_{aku}$ ... náboj nabíjející akumulátor
