@@ -62,7 +62,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 
 &nbsp;
 
-### Klidová spotřeba (24 hod / 24 min / 16 min)
+### Klidová spotřeba (24 hod / 2-10 hod / 24 min / 16 min)
 
 &nbsp;
 
@@ -71,25 +71,26 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | INA216 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
+| Spínač (N) | 7,1 µA | 7,1 µA | 14,2 µAh | 71 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
+| Spínače (leak) | 5 × 1,1 µA | 5 × 5,1 µA | 5 × 26,4 µAh | 5 × 122 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
-| Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
-| 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 228 µAh |
+| Mx (Stop bez RTC) | 5 × 0,38 µA | 5 × 1,9 µA | 5 × 9,12 µAh | 5 × 45,6 µAh |
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
 
 &nbsp;
 
 $$
-I_{P} = \frac{U_{nap}}{R_{pulldown} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}
+I_N = \frac{U_{nap}}{R_{470} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
+$$
+
+$$
+I_P = \frac{U_{nap}}{R_{100} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}
 $$
 
 $$
 t_{P,pu} = 24 \cdot t_{pu,on} = 24 \cdot (20\ \text{s} + 16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{24\ \text{min}}
-$$
-
-$$
-t_{P,pd} = 24 \cdot t_{P,pd,off} = 24 \cdot (16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{16\ \text{min}}
 $$
 
 $$
@@ -100,21 +101,32 @@ $$
 I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
 $$
 
+$$
+t_{P,pd} = 24 \cdot t_{P,pd,off} = 24 \cdot (16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{16\ \text{min}}
+$$
+
 &nbsp;
 
 kde:
-- $I_{P}$ ... proud tekoucí pull-down/pull-up rezistorem spínačemi s P-MOS tranzistorem
+- $I_N$ ... proud tekoucí pull-down rezistorem spínačem s N-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
-- $R_{pulldown}$ ... pull-down rezistor
+- $R_{470}$ ... pull-down rezistor o hodnotě 470 kΩ
+- $I_P$ ... proud tekoucí pull-down/pull-up rezistorem spínači s P-MOS tranzistorem
+- $R_{100}$ ... pull-down rezistor o hodnotě 100 kΩ
 - $R_G$ ... rezistor připojený sériově za M
 - $t_{P,pu}$ ... čas po který teče pull-up a ochrannými rezistory spínačů s P-MOS tranzistorem proud
 - $t_{P,pu,on}$ ... čas po který jsou spínače s P-MOS tranzistorem s pull-up rezistorem sepnuty
 - $t_{P,pd}$ ... čas po který teče pull-down a ochrannými rezistory spínačů s P-MOS tranzistorem proud
 - $t_{P,pd,off}$ ... čas po který jsou spínače s P-MOS tranzistorem s pull-down rezistorem rozepnuty
+- $I_{leak,min}$ ... minimální svodový proud spínačů s P-MOS tranzistorem
+- $I_{leak,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem
+- $I_{DSS,min}$ ... minimální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
+- $I_{DSS,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
+- $I_{GSS}$ ... svodový proud tekoucí přes gate
 
 &nbsp;
 
-*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače. 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho); svodové proudy jimi tečou při jejich rozepnutí — téměř celý den; ty tekoucí přes gate jsou při sepnutí zanedbatelné. Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho); svodové proudy jimi tečou pouze při přívodu napájecího napětí — zanedbatelná doba.*
+*Poznámka: U MOSFET oddělovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru po 2-10 hodin denně, kvůli nabíjení akumulátoru, a svodový proud tekoucí do gate N-MOS tranzistoru po celý den. Ostatní části systému jsou odpojovány přes tranzistorové spínače — 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho); svodové proudy jim tečou přes gate celý den a přes drain při jejich rozepnutí (téměř celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho); svodové proudy jimi tečou pouze při přívodu napájecího napětí — zanedbatelná doba. Přes ochranné rezistory teče proud pouze po velmi krátkou dobu při změně stavu spínače.*
 
 &nbsp;
 
