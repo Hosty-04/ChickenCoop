@@ -62,23 +62,39 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 
 &nbsp;
 
-### Klidová spotřeba (24 hod)
+### Klidová spotřeba (24 hod, 384s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
-| INA216 (shutdown) | 0,6 µA | 2,5 µA | 48 µAh | 120 µAh |
-| DRV8838 (shutdown) | 80 nA | 120 nA | 48 µAh | 120 µAh |
+| INA216 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
+| DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 228 µAh |
-| Spínače | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
 
 &nbsp;
 
-*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače.*
+$$
+I_{P,d} = \frac{U_{nap}}{R_{pulldown}} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega} = \mathbf{33\ \text{µA}}
+$$
+
+$$
+t_{P,d} = 24 \cdot t_{P,d,off} = 24 \cdot 16\ \text{s} = \mathbf{384\ \text{s}}
+$$
+
+&nbsp;
+
+kde:
+- $I_{P,d}$ ... proud tekoucí pull-down rezistorem spínače s P-MOS tranzistorem
+- $t_{P,d}$ ... čas po který teče pull-down rezistorem spínače s P-MOS tranzistorem proud
+- $t_{P,d,off}$ ... čas po který je spínač s P-MOS tranzistorem a pull-down rezistorem rozepnutý
+
+&nbsp;
+
+*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače — 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Ty s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty.*
 
 &nbsp;
 
@@ -729,7 +745,7 @@ https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-komp
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (4 ks)  
 
 **Proudový a napěťový senzor**  
-https://dratek.cz/arduino-platforma/1437-ina219-proudovy-snimac-obousmerny.html  
+https://www.laskakit.cz/en/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/  
 
 **H-bridge**  
 https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html  
@@ -804,15 +820,15 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Dexhal | 590 Kč |
 | Levne-Baterky | 270 Kč |
 | Hofman Elektro | 125 Kč |
-| LaskaKit | 700 Kč |
-| Dratek | 300 Kč |
+| LaskaKit | 820 Kč |
+| Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 150 Kč |
 | SOS elektro | 450 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 200 Kč** |
+| **Celkem** | **8 220 Kč** |
 
 &nbsp;
 
