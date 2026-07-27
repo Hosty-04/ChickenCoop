@@ -481,7 +481,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/main_separator_schematic_white.png" alt="main_separator_schematic" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_schematic_white.png" alt="separator_schematic" height="0px">
 
 &nbsp;
 
@@ -524,7 +524,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/peripheral_separator_schematic_white.png" alt="peripheral_separators_schematic" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" height="0px">
 
 &nbsp;
 
@@ -614,7 +614,7 @@ Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrová
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="motor_flowchart" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" height="1080px">
 
 &nbsp;
 
