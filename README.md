@@ -73,11 +73,11 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
 | Spínač (N) | 7,1 µA | 7,1 µA | 14,2 µAh | 71 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
-| Spínače (leak) | 5 × 1,1 µA | 5 × 5,1 µA | 5 × 26,4 µAh | 5 × 122 µAh |
+| Spínače (leak) | 6 × 1,1 µA | 6 × 5,1 µA | 6 × 26,4 µAh | 6 × 122 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | Mx (Stop bez RTC) | 5 × 0,38 µA | 5 × 1,9 µA | 5 × 9,12 µAh | 5 × 45,6 µAh |
-| **Celkem** | **84,2 µA** | **142 µA** | **302 µAh** | **1,74 mAh** |
+| **Celkem** | **85,3 µA** | **147 µA** | **329 µAh** | **1,86 mAh** |
 
 &nbsp;
 
@@ -170,7 +170,7 @@ kde:
 | DRV8838 | 340 µA | 600 µA | 3,02 µAh | 12,2 µAh |
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 8,52 µAh |
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
-| **Celkem** | **100,8 mA** | **251 mA** | **0,896 mAh** | **5,10 mAh** |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **5,10 mAh** |
 
 &nbsp;
 
@@ -261,7 +261,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — to znamená pětkrát nižší spotřebu.*
+*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — to znamená několikrát nižší spotřebu. Bez použití spínačů by se v nejlepším možném případě a bez započtení klidového odběru spotřeba zvedla více jak 4× oproti nejhoršímu možnému případu architektury se spínači.*
 
 &nbsp;
 
@@ -309,12 +309,12 @@ kde:
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |---|---|---|---|---|
-| Pohyb dvířek | 0,896 mAh | 42,2 % | 5,1 mAh | 62,4 % |
-| Kontrola vajec | 0,9 mAh | 42,4 % | 1,31 mAh | 16,0 % |
-| Klidový režim | 302 µAh | 14,2 % | 1,74 mAh | 21,3 % |
+| Kontrola vajec | 0,9 mAh | 41,8 % | 1,31 mAh | 15,8 % |
+| Pohyb dvířek | 0,896 mAh | 41,7 % | 5,1 mAh | 61,4 % |
+| Klidový režim | 329 µAh | 15,3 % | 1,86 mAh | 22,4 % |
 | Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,3 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **2,124 mAh** | **100 %** | **8,180 mAh** | **100 %** |
+| **Celkem** | **2,150 mAh** | **100 %** | **8,300 mAh** | **100 %** |
 
 &nbsp;
 
@@ -473,7 +473,7 @@ Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power L
 ### Elektronika
 Prototyp bude sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze bude obsahovat jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách budou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-Za akumulátorem bude do napájecí větve zařazena rychlá trubičková pojistka v pouzdře o jmenovité hodnotě 1 A. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provoznímu odběru systému, který ani při pohybu dvířek nepřekračuje 252 mA a toleruje krátkodobé proudové špičky do 550 mA při rozběhu nebo zaseknutí motoru. Taktéž je ale nastavena dostatečně nízko na to, aby při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud mohl cokoliv poškodit.
+Za akumulátorem bude do napájecí větve zařazena rychlá trubičková pojistka v pouzdře o jmenovité hodnotě 1 A. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provoznímu odběru systému, který při pohybu dvířek dosahuje pouhých 250 mA a toleruje krátkodobé proudové špičky do 550 mA při rozběhu nebo zaseknutí motoru. Taktéž je ale nastavena dostatečně nízko na to, aby při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud mohl cokoliv poškodit.
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
