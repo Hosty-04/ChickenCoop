@@ -113,7 +113,7 @@ kde:
 - $R_{470}$ ... pull-down rezistor o hodnotě 470 kΩ
 - $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
 - $R_{100}$ ... pull-down rezistor o hodnotě 100 kΩ
-- $R_G$ ... rezistor připojený sériově za M
+- $R_G$ ... ochranný rezistor
 - $t_{P,pu}$ ... čas po který teče pull-up a ochrannými rezistory spínačů s P-MOS tranzistorem proud
 - $t_{P,pu,on}$ ... čas po který jsou spínače s P-MOS tranzistorem s pull-up rezistorem sepnuty
 - $t_{P,pd}$ ... čas po který teče pull-down a ochrannými rezistory spínačů s P-MOS tranzistorem proud
@@ -512,7 +512,7 @@ kde:
 - $I_{leak}$ ... svodový proud tekoucí přes gate
 - $U_r$ ... napětí řadiče
 - $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
-- $R_G$ ... rezistor připojený sériově za M
+- $R_G$ ... ochranný rezistor
 
 &nbsp;
 
@@ -562,7 +562,7 @@ kde:
 - $I_{max}$ ... maximální proud spínačem pro 5 hnízd
 - $I_G$ ... proud nabíjející gate
 - $U_{plateau}$ ... Millerova plošina
-- $R_G$ ... rezistor připojený sériově za M
+- $R_G$ ... ochranný rezistor
 - $t_s$ ... čas sepnutí a běžného rozepnutí
 - $Q_G$ ... náboj gate
 - $t_n$ ... čas nabití/vybití kondenzátoru
