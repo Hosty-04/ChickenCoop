@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="350mm"
+   height="700mm"
+   viewBox="0 0 350 700"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="separator_flowchart.svg"
+   inkscape:export-filename="egg_detection_flowchart_black.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.26677458"
+     inkscape:cx="-303.62713"
+     inkscape:cy="1280.107"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g12">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-9"
+         width="25.728895"
+         height="11.873983"
+         x="56.501209"
+         y="60.873886"
+         ry="3.7072425" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="64.552361"
+         y="68.322174"
+         id="text1918"><tspan
+           sodipodi:role="line"
+           id="tspan1916"
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+           x="64.552361"
+           y="68.322174">Start</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.07721;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-91-6"
+         width="1"
+         height="83.064728"
+         x="231.59717"
+         y="199.00677"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.50429;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-7"
+         width="1"
+         height="161.98982"
+         x="281.67548"
+         y="-232.59842"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.672398;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2"
+         width="1"
+         height="32.36499"
+         x="68.865654"
+         y="265.99298"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0"
+         width="1"
+         height="6.7536106"
+         x="-89.864967"
+         y="-293.43417"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30"
+         width="1"
+         height="6.7536106"
+         x="-210.0099"
+         y="-224.06862"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2"
+         width="1"
+         height="15.621484"
+         x="68.824844"
+         y="340.97562"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-4"
+         width="1"
+         height="6.7536106"
+         x="-118.76148"
+         y="-343.48459"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-44"
+         width="1"
+         height="6.7536106"
+         x="-238.90634"
+         y="-274.11896"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-9-7"
+         width="25.728895"
+         height="11.873983"
+         x="56.625187"
+         y="620.43665"
+         ry="3.7072425" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="63.24548"
+         y="627.86377"
+         id="text1918-1"><tspan
+           sodipodi:role="line"
+           id="tspan1916-7"
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+           x="63.24548"
+           y="627.86377">Konec</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="47.663486"
+         y="318.98831"
+         id="text2898"><tspan
+           sodipodi:role="line"
+           id="tspan2896"
+           style="stroke-width:1"
+           x="47.663486"
+           y="318.98831">Je napětí akumulátoru</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="47.663486"
+           y="324.27997"
+           id="tspan1">             limitní?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058"
+         width="37.579678"
+         height="37.579678"
+         x="307.94238"
+         y="224.08965"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="101.34499"
+         y="316.35947"
+         id="text14933"><tspan
+           sodipodi:role="line"
+           id="tspan14931"
+           style="stroke-width:1"
+           x="101.34499"
+           y="316.35947">NE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="78.30732"
+         y="344.84848"
+         id="text14937"><tspan
+           sodipodi:role="line"
+           id="tspan14935"
+           style="stroke-width:1"
+           x="78.30732"
+           y="344.84848">ANO</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.894976;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-29"
+         width="1"
+         height="57.338436"
+         x="157.06564"
+         y="341.2359"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-1"
+         width="1"
+         height="15.621484"
+         x="157.0654"
+         y="499.18411"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-2"
+         width="1"
+         height="6.7536106"
+         x="-121.61074"
+         y="-524.81909"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-7"
+         width="1"
+         height="6.7536106"
+         x="-394.52237"
+         y="-367.2533"
+         transform="rotate(-150)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="133.71295"
+         y="421.28979"
+         id="text2898-2"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="133.71295"
+           y="421.28979"
+           id="tspan5">Je překonaná hystereze?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-9"
+         width="37.579678"
+         height="37.579678"
+         x="450.36203"
+         y="259.88861"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="189.58873"
+         y="416.49387"
+         id="text14933-37"><tspan
+           sodipodi:role="line"
+           id="tspan14931-5"
+           style="stroke-width:1"
+           x="189.58873"
+           y="416.49387">NE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="164.10056"
+         y="444.98288"
+         id="text14937-9"><tspan
+           sodipodi:role="line"
+           id="tspan14935-2"
+           style="stroke-width:1"
+           x="164.10056"
+           y="444.98288">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="141.95099"
+         y="476.98672"
+         id="text2898-2-8"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="141.95099"
+           y="476.98672"
+           id="tspan7">Je tomu tak už 3</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="141.95099"
+           y="482.27838"
+           id="tspan8"> měření v řadě?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-9-2"
+         width="37.579678"
+         height="37.579678"
+         x="501.85556"
+         y="311.38214"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="189.58873"
+         y="474.35822"
+         id="text14933-37-3"><tspan
+           sodipodi:role="line"
+           id="tspan14931-5-6"
+           style="stroke-width:1"
+           x="189.58873"
+           y="474.35822">NE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="164.10056"
+         y="502.84726"
+         id="text14937-9-1"><tspan
+           sodipodi:role="line"
+           id="tspan14935-2-2"
+           style="stroke-width:1"
+           x="164.10056"
+           y="502.84726">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="132.93825"
+         y="321.15576"
+         id="text2898-3"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="132.93825"
+           y="321.15576"
+           id="tspan1-6">Je solární panel odpojen?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-9-9"
+         width="37.579678"
+         height="37.579678"
+         x="361.25272"
+         y="170.77931"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="189.58873"
+         y="316.62509"
+         id="text14933-37-31"><tspan
+           sodipodi:role="line"
+           id="tspan14931-5-9"
+           style="stroke-width:1"
+           x="189.58873"
+           y="316.62509">NE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="164.10056"
+         y="345.11411"
+         id="text14937-9-4"><tspan
+           sodipodi:role="line"
+           id="tspan14935-2-7"
+           style="stroke-width:1"
+           x="164.10056"
+           y="345.11411">ANO</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-29-4"
+         width="1"
+         height="15.621484"
+         x="157.02466"
+         y="441.164"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-4-0-5"
+         width="1"
+         height="6.7536106"
+         x="-92.472054"
+         y="-474.34988"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-44-9-0"
+         width="1"
+         height="6.7536106"
+         x="-365.38382"
+         y="-316.78427"
+         transform="rotate(-150)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="144.40424"
+         y="525.10352"
+         id="text1114-3-3"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="144.40424"
+           y="525.10352"
+           sodipodi:role="line"
+           id="tspan2-1">Připoj solární</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="144.40424"
+           y="530.3952"
+           sodipodi:role="line"
+           id="tspan9">       panel</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-0"
+         width="37.202827"
+         height="22.155048"
+         x="138.96423"
+         y="515.55847" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-5"
+         width="1"
+         height="15.621484"
+         x="68.865646"
+         y="150.16753"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-5"
+         width="1"
+         height="6.7536106"
+         x="-23.485571"
+         y="-178.46184"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-4"
+         width="1"
+         height="6.7536106"
+         x="-143.63043"
+         y="-109.09617"
+         transform="rotate(-150)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="55.141666"
+         y="243.31348"
+         id="text2898-32"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="55.141666"
+           y="243.31348"
+           id="tspan1-61">Je akumulátor</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="55.141666"
+           y="248.60513"
+           id="tspan10">kriticky vybitý?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-6"
+         width="37.579678"
+         height="37.579678"
+         x="241.02498"
+         y="157.17226"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="101.75559"
+         y="241.16315"
+         id="text14933-7"><tspan
+           sodipodi:role="line"
+           id="tspan14931-6"
+           style="stroke-width:1"
+           x="101.75559"
+           y="241.16315">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="78.968056"
+         y="269.65216"
+         id="text14937-5"><tspan
+           sodipodi:role="line"
+           id="tspan14935-6"
+           style="stroke-width:1"
+           x="78.968056"
+           y="269.65216">NE</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="143.61351"
+         y="245.96866"
+         id="text1114-3"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="143.61351"
+           y="245.96866"
+           sodipodi:role="line"
+           id="tspan11">Kritický režim</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7"
+         width="37.202827"
+         height="22.155048"
+         x="138.3873"
+         y="233.77777" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7"
+         width="1"
+         height="25.513462"
+         x="319.54245"
+         y="-126.04477"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2"
+         width="1"
+         height="6.7536106"
+         x="-340.72867"
+         y="50.873207"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4"
+         width="1"
+         height="6.7536106"
+         x="213.60109"
+         y="-269.16922"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.719759;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-2"
+         width="1"
+         height="37.084892"
+         x="244.35529"
+         y="-137.78581"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-6"
+         width="1"
+         height="6.7536106"
+         x="-281.52036"
+         y="3.050772"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-6"
+         width="1"
+         height="6.7536106"
+         x="142.58145"
+         y="-241.8044"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.08284;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-91-6-6-4"
+         width="1"
+         height="310.54913"
+         x="301.1185"
+         y="244.35677"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.72977;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-3-9"
+         width="1"
+         height="214.18886"
+         x="553.90692"
+         y="-301.98511"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-4-5"
+         width="1"
+         height="6.7536106"
+         x="523.79211"
+         y="-200.63132"
+         transform="matrix(0.5,0.8660254,0.8660254,-0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-6-0"
+         width="1"
+         height="6.7536106"
+         x="-436.46942"
+         y="353.7756"
+         transform="rotate(-60)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="56.074215"
+         y="366.4679"
+         id="text1114-3-3-7"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="56.074215"
+           y="366.4679"
+           sodipodi:role="line"
+           id="tspan2-1-1">Odpoj solární</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="56.074215"
+           y="371.75955"
+           sodipodi:role="line"
+           id="tspan9-7">       panel</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-0-2"
+         width="37.202827"
+         height="22.155048"
+         x="50.76424"
+         y="356.7565" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-17"
+         width="1"
+         height="15.621484"
+         x="68.865677"
+         y="208.30498"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-7"
+         width="1"
+         height="6.7536106"
+         x="-52.554268"
+         y="-228.8103"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-1"
+         width="1"
+         height="6.7536106"
+         x="-172.69911"
+         y="-159.44464"
+         transform="rotate(-150)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="48.980061"
+         y="186.45618"
+         id="text2898-32-5"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="48.980061"
+           y="186.45618"
+           id="tspan10-7">Je systém v kritickém</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="48.980061"
+           y="191.74783"
+           id="tspan13">           režimu?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-6-1"
+         width="37.579678"
+         height="37.579678"
+         x="190.00195"
+         y="106.14922"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="101.75559"
+         y="183.8275"
+         id="text14933-7-7"><tspan
+           sodipodi:role="line"
+           id="tspan14931-6-6"
+           style="stroke-width:1"
+           x="101.75559"
+           y="183.8275">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="78.913307"
+         y="212.31651"
+         id="text14937-5-7"><tspan
+           sodipodi:role="line"
+           id="tspan14935-6-3"
+           style="stroke-width:1"
+           x="78.913307"
+           y="212.31651">NE</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-2-6"
+         width="1"
+         height="25.513462"
+         x="187.01964"
+         y="-125.63045"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-6-5"
+         width="1"
+         height="6.7536106"
+         x="-225.75336"
+         y="-15.029428"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-6-6"
+         width="1"
+         height="6.7536106"
+         x="99.04007"
+         y="-202.54898"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.583367;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-17-1-6"
+         width="1"
+         height="24.361599"
+         x="156.42476"
+         y="208.5255"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-7-2-3"
+         width="1"
+         height="6.7536106"
+         x="18.700861"
+         y="-280.51105"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-1-9-8"
+         width="1"
+         height="6.7536106"
+         x="-253.10086"
+         y="-123.58627"
+         transform="rotate(-150)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="135.28654"
+         y="186.03215"
+         id="text2898-9"><tspan
+           sodipodi:role="line"
+           id="tspan2896-4"
+           style="stroke-width:1"
+           x="135.28654"
+           y="186.03215">Je napětí akumulátoru</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="135.28654"
+           y="191.32381"
+           id="tspan1-8">      výšší než 6,1 V?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-3"
+         width="37.579678"
+         height="37.579678"
+         x="243.01195"
+         y="53.235981"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="189.39389"
+         y="184.57489"
+         id="text14933-7-7-9-5"><tspan
+           sodipodi:role="line"
+           id="tspan14931-6-6-0-6"
+           style="stroke-width:1"
+           x="189.39389"
+           y="184.57489">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="163.37656"
+         y="213.0639"
+         id="text14937-5-7-8-1"><tspan
+           sodipodi:role="line"
+           id="tspan14935-6-3-8-1"
+           style="stroke-width:1"
+           x="163.37656"
+           y="213.0639">NE</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-2-6-5-5"
+         width="1"
+         height="25.513462"
+         x="187.06468"
+         y="-213.26868"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-6-5-0-9"
+         width="1"
+         height="6.7536106"
+         x="-269.61148"
+         y="-90.903778"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-6-6-9-8"
+         width="1"
+         height="6.7536106"
+         x="55.259983"
+         y="-278.46844"
+         transform="rotate(120)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="218.9548"
+         y="186.51898"
+         id="text1114-3-4"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="218.9548"
+           y="186.51898"
+           sodipodi:role="line"
+           id="tspan11-0">Vypni kritický</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="218.9548"
+           y="191.81064"
+           sodipodi:role="line"
+           id="tspan15">       režim</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-3"
+         width="37.202827"
+         height="22.155048"
+         x="213.49576"
+         y="176.48709" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-6-5-04"
+         width="1"
+         height="6.7536106"
+         x="278.74496"
+         y="-80.602837"
+         transform="matrix(0.5,0.8660254,0.8660254,-0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-6-6-4"
+         width="1"
+         height="6.7536106"
+         x="-209.9973"
+         y="201.57262"
+         transform="rotate(-60)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.26007;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-7-4-4"
+         width="1"
+         height="113.66113"
+         x="419.67642"
+         y="-301.505"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.25738;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-7-4-4-7"
+         width="1"
+         height="113.17715"
+         x="477.5408"
+         y="-301.50732"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-7"
+         width="1"
+         height="6.7536106"
+         x="-515.11896"
+         y="-50.912331"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-5"
+         width="1"
+         height="6.7536106"
+         x="212.64787"
+         y="-471.08896"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-7-9"
+         width="1"
+         height="6.7536106"
+         x="-428.27463"
+         y="-100.7615"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-5-3"
+         width="1"
+         height="6.7536106"
+         x="126.05507"
+         y="-420.80417"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-9"
+         width="1"
+         height="6.7536106"
+         x="-565.01013"
+         y="-21.596292"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-62"
+         width="1"
+         height="6.7536106"
+         x="262.98083"
+         y="-499.63724"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.51665;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-8"
+         width="1"
+         height="164.66388"
+         x="68.865654"
+         y="378.9581"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-4-9"
+         width="1"
+         height="6.7536106"
+         x="-211.987"
+         y="-504.95599"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-44-6"
+         width="1"
+         height="6.7536106"
+         x="-332.13187"
+         y="-435.59033"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-1-4"
+         width="1"
+         height="15.621484"
+         x="157.06526"
+         y="538.10956"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-2-3"
+         width="1"
+         height="6.7536106"
+         x="-141.07367"
+         y="-558.52954"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-7-3"
+         width="1"
+         height="6.7536106"
+         x="-413.98535"
+         y="-400.96387"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.61779;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-29-5"
+         width="1"
+         height="27.321461"
+         x="244.63585"
+         y="341.104"
+         ry="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="224.29732"
+         y="318.98831"
+         id="text2898-3-3-3"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="224.29732"
+           y="318.98831"
+           id="tspan2">Je napětí panelu nižší</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="224.29732"
+           y="324.27997"
+           id="tspan12"> než mezní hodnota?</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1058-6-1-3-7-9"
+         width="37.579678"
+         height="37.579678"
+         x="414.1824"
+         y="117.84963"
+         transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="251.67068"
+         y="345.11411"
+         id="text14937-5-7-8-8-6"><tspan
+           sodipodi:role="line"
+           id="tspan14935-6-3-8-5-4"
+           style="stroke-width:1"
+           x="251.67068"
+           y="345.11411">ANO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="276.79288"
+         y="316.62509"
+         id="text14933-37-31-6"><tspan
+           sodipodi:role="line"
+           id="tspan14931-5-9-9"
+           style="stroke-width:1"
+           x="276.79288"
+           y="316.62509">NE</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-4-0"
+         width="1"
+         height="6.7536106"
+         x="-63.606819"
+         y="-424.35416"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-44-9"
+         width="1"
+         height="6.7536106"
+         x="-336.51855"
+         y="-266.78851"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.47936;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-7-4-7"
+         width="1"
+         height="156.66617"
+         x="367.42435"
+         y="-245.15764"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.902279;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-6-5-04-5"
+         width="0.98906183"
+         height="6.5294867"
+         x="360.3313"
+         y="-100.26485"
+         transform="matrix(0.4830316,0.87560292,0.85588727,-0.51716243,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.902279;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-6-6-4-4"
+         width="0.98906183"
+         height="6.5294867"
+         x="-269.80716"
+         y="255.36238"
+         transform="matrix(0.4830316,-0.87560292,0.85588727,0.51716243,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-1"
+         width="1"
+         height="25.513462"
+         x="319.54245"
+         y="-213.75542"
+         ry="0"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-92-2-2"
+         width="1"
+         height="6.7536106"
+         x="-384.58398"
+         y="-25.086458"
+         transform="matrix(-0.5,-0.8660254,-0.8660254,0.5,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-5-4-8"
+         width="1"
+         height="6.7536106"
+         x="169.74574"
+         y="-345.12888"
+         transform="rotate(120)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.605751;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-1-9"
+         width="1"
+         height="26.266987"
+         x="319.54245"
+         y="-302.11795"
+         ry="0"
+         transform="rotate(90)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="59.523167"
+         y="137.35161"
+         id="text1114-3-7"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="59.523167"
+           y="137.35161"
+           sodipodi:role="line"
+           id="tspan11-8">Navzorkuj</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="59.523167"
+           y="142.64328"
+           sodipodi:role="line"
+           id="tspan3">   napětí</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-4"
+         width="37.202827"
+         height="22.155048"
+         x="50.764248"
+         y="127.81925" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="58.33572"
+         y="98.702904"
+         id="text1114-3-7-0"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="58.33572"
+           y="98.702904"
+           sodipodi:role="line"
+           id="tspan3-6">Probuď vše</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="58.33572"
+           y="103.99457"
+           sodipodi:role="line"
+           id="tspan4"> potřebné</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-4-1"
+         width="37.202827"
+         height="22.155048"
+         x="50.764248"
+         y="89.157845" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="59.401608"
+         y="591.26025"
+         id="text1114-3-7-0-0"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="59.401608"
+           y="591.26025"
+           sodipodi:role="line"
+           id="tspan4-3">  Uspi vše</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="59.401608"
+           y="596.55194"
+           sodipodi:role="line"
+           id="tspan6">používané</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-4-1-2"
+         width="37.202827"
+         height="22.155048"
+         x="50.888218"
+         y="581.71521" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
+         x="58.286129"
+         y="556.00708"
+         id="text1114-3-7-0-0-0"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
+           x="58.286129"
+           y="556.00708"
+           sodipodi:role="line"
+           id="tspan6-1">Odešli data</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
+         id="rect234-2-3-7-4-1-2-5"
+         width="37.202827"
+         height="22.155048"
+         x="50.888218"
+         y="543.32935" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-5-4"
+         width="1"
+         height="15.621484"
+         x="68.865646"
+         y="111.50542"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-5-7"
+         width="1"
+         height="6.7536106"
+         x="-4.1545238"
+         y="-144.97946"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-4-6"
+         width="1"
+         height="6.7536106"
+         x="-124.29937"
+         y="-75.613815"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-5-4-6"
+         width="1"
+         height="15.621484"
+         x="68.865646"
+         y="73.140839"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-5-7-9"
+         width="1"
+         height="6.7536106"
+         x="15.027773"
+         y="-111.75476"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-4-6-3"
+         width="1"
+         height="6.7536106"
+         x="-105.11707"
+         y="-42.389103"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-5-4-4"
+         width="1"
+         height="15.621484"
+         x="68.989624"
+         y="565.79492"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-5-7-5"
+         width="1"
+         height="6.7536106"
+         x="-231.19193"
+         y="-538.46771"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-4-6-2"
+         width="1"
+         height="6.7536106"
+         x="-351.55151"
+         y="-468.97809"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-5-4-7"
+         width="1"
+         height="15.621484"
+         x="68.989624"
+         y="604.15942"
+         ry="0" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-0-5-7-4"
+         width="1"
+         height="6.7536106"
+         x="-250.37416"
+         y="-571.69244"
+         transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+         id="rect14158-9-30-4-6-4"
+         width="1"
+         height="6.7536106"
+         x="-370.73376"
+         y="-502.20276"
+         transform="rotate(-150)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.3292;stroke-dasharray:none;stroke-opacity:1"
+         id="rect13415-2-7-2-2-6-1-4-7-7-1-4"
+         width="1"
+         height="126.4742"
+         x="244.3553"
+         y="-301.92657"
+         ry="0"
+         transform="rotate(90)" />
+    </g>
+  </g>
+</svg>
