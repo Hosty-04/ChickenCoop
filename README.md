@@ -62,7 +62,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 
 &nbsp;
 
-### Klidová spotřeba (24 hod, 384s)
+### Klidová spotřeba (24 hod / 24 min / 16 min)
 
 &nbsp;
 
@@ -78,25 +78,40 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 $$
-I_{P,d} = \frac{U_{nap}}{R_{pulldown}} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega} = \mathbf{33\ \text{µA}}
+I_{P} = \frac{U_{nap}}{R_{pulldown} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\Omega} \approx \mathbf{33\ \text{µA}}
 $$
 
 $$
-t_{P,d} = 24 \cdot t_{P,d,off} = 24 \cdot 16\ \text{s} = \mathbf{384\ \text{s}}
+I_{leak,min} = I_{DSS,min} + I_{GSS} = 1\ \mu\text{A} + 100\ \text{nA} = \mathbf{1,1\ \mu\text{A}}
+$$
+
+$$
+I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
+$$
+
+$$
+t_{pu} = 24 \cdot t_{pu,on} = 24 \cdot (20\ \text{s} + 16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{24\ \text{min}}
+$$
+
+$$
+t_{P,pd} = 24 \cdot t_{P,pd,off} = 24 \cdot (16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{16\ \text{min}}
 $$
 
 &nbsp;
 
 kde:
-- $I_{P,d}$ ... proud tekoucí pull-down rezistorem spínače s P-MOS tranzistorem
+- $I_{P}$ ... proud tekoucí pull-down/pull-up rezistorem spínačemi s P-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
 - $R_{pulldown}$ ... pull-down rezistor
-- $t_{P,d}$ ... čas po který teče pull-down rezistorem spínače s P-MOS tranzistorem proud
-- $t_{P,d,off}$ ... čas po který je spínač s P-MOS tranzistorem a pull-down rezistorem rozepnutý
+- $R_G$ ... rezistor připojený sériově za M
+- $t_{pu}$ ... čas po který teče pull-up a ochrannými rezistory spínačů s P-MOS tranzistorem proud
+- $t_{pu,on}$ ... čas po který jsou spínače s P-MOS tranzistorem a pull-up rezistorem sepnuty
+- $t_{P,pd}$ ... čas po který teče pull-down a ochrannými rezistory spínačů s P-MOS tranzistorem proud
+- $t_{P,pd,off}$ ... čas po který jsou spínače s P-MOS tranzistorem a pull-down rezistorem rozepnuty
 
 &nbsp;
 
-*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače — 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Ty s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty; svodové proudy jimi tečou pouze při přívodu napájecího napětí, tudíž po velmi krátkou dobu.*
+*Poznámka: Ostatní části systému jsou odpojovány přes tranzistorové spínače — 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho); svodové proudy jimi tečou celý den, ale pouze při jejich rozepnutí; ty tekoucí přes gate jsou při sepnutí zanedbatelné. Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho); svodové proudy jimi tečou pouze při přívodu napájecího napětí, tudíž po velmi krátkou dobu.*
 
 &nbsp;
 
@@ -612,7 +627,7 @@ H-bridge bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 2
 
 Co se týče samotného motoru, ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF mezi jednotlivými vývody a kostrou motoru (Faradayova klec); všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i motor budou v krabičce K umístěny co nejdále od ostatní elektroniky. U obou koncových spínačů sloužících k určení polohy dvířek bude kontakt COM připojen k lineárnímu LDO regulátoru a kontakt NO k M spolu s interním pull-down rezistorem 40 kΩ — ten je potřeba kvůli kabelům, které se chovají jako anténa. Tyto spínače budou umístěny tak, aby mohly jejich kabely vést co nejdále od silové části a cest krabičky K.
 
-Měření hmotnosti snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou (vůči rozeznávání slepičích vajec) a hysterezí, díky které zůstane kalibrace váhy dlouhodobě stabilní i při neustálém zatěžování. Kabel od tenzometru bude připojen k modulu A/D převodníku HX711 umístěnému v krabičce Kx. Modul zesílí velmi nízké výstupní napětí tenzometru, pohybující se v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Mx. Ten bude pro komunikaci s M přes datový kabel typu UTP využívat sběrnici RS485. První kroucený pár povede napájení pro Mx, oba vodiče zapojené paralelně; stejně tak druhý pár, který přes tranzistorový spínač povede napájení ke zbylé elektronice v krabičkách Kx. Třetí pár, opět přes dva paralelní vodiče, propojí společnou zem. Čtvrtý pár přenese data prostřednictvím čipu MAX3485, který slouží jako transceiver sběrnice RS485 — jeden čip bude před M, druhý před Mx. Tento čip je napájen 3,3 V a vytváří diferenciální signál na dvou linkách, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Protože jde o čip bez vývodů pro nepájivé pole, bude pro prototyp potřeba adaptér SO8 na DIP8 a kolíkové lišty. Paralelně k vývodům VCC a GND bude připojen blokovací keramický kondenzátor 100 nF / 50 V.
+Měření hmotnosti snáškového hnízda bude zprostředkovávat tenzometr se zanedbatelnou nelinearitou (vůči rozeznávání slepičích vajec) a hysterezí, díky které zůstane kalibrace váhy dlouhodobě stabilní i při neustálém zatěžování. Kabel od tenzometru bude připojen k modulu A/D převodníku HX711 umístěnému v krabičce Kx. Modul zesílí velmi nízké výstupní napětí tenzometru, pohybující se v řádu jednotek milivoltů. Stínění kabelu bude na desce plošných spojů připojeno ke společné zemi za účelem odvodu šumu. Převodník bude připojen k Mx. Ten bude pro komunikaci s M přes datový kabel typu UTP využívat sběrnici RS485. První kroucený pár povede napájení pro Mx a spínače s P-MOS tranzistorem s pull-up rezistorem, oba vodiče zapojené paralelně; stejně tak druhý pár, který přes tranzistorový spínač povede napájení ke zbylé elektronice v krabičkách Kx. Třetí pár, opět přes dva paralelní vodiče, propojí společnou zem. Čtvrtý pár přenese data prostřednictvím čipu MAX3485, který slouží jako transceiver sběrnice RS485 — jeden čip bude před M, druhý před Mx. Tento čip je napájen 3,3 V a vytváří diferenciální signál na dvou linkách, čímž zvyšuje odolnost komunikace proti elektromagnetickému rušení. Protože jde o čip bez vývodů pro nepájivé pole, bude pro prototyp potřeba adaptér SO8 na DIP8 a kolíkové lišty. Paralelně k vývodům VCC a GND bude připojen blokovací keramický kondenzátor 100 nF / 50 V.
 
 Na deskách plošných spojů musí být všechny součástky v jednotlivých krabičkách co nejblíže u sebe a kondenzátory musí být zapojeny co nejblíže k příslušným pinům, silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu bude tvořit záporný pól solárního panelu a akumulátoru.
 
