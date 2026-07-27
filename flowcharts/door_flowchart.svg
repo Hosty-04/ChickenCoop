@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.1767767"
-     inkscape:cx="-398.80821"
-     inkscape:cy="2095.8644"
+     inkscape:zoom="0.125"
+     inkscape:cx="-132"
+     inkscape:cy="1324"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -43,7 +43,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g5">
+       id="g2">
       <rect
          style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect234-9"
@@ -1478,6 +1478,26 @@
          x="-445.5123"
          y="-608.00958"
          transform="rotate(-150)" />
+      <g
+         id="g1"
+         transform="translate(41.821563,42.581007)">
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+           id="rect14158-0-2-3-4-3-4-4-3"
+           width="1"
+           height="6.7536106"
+           x="-121.91784"
+           y="-614.26733"
+           transform="matrix(0.8660254,-0.5,-0.5,-0.8660254,0,0)" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
+           id="rect14158-9-30-7-3-8-0-7-8-6"
+           width="1"
+           height="6.7536106"
+           x="-471.83557"
+           y="-412.24594"
+           transform="rotate(-150)" />
+      </g>
     </g>
   </g>
 </svg>
