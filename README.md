@@ -90,7 +90,7 @@ I_P = \frac{U_{nap}}{R_{100} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega +
 $$
 
 $$
-t_{P,pu} = 24 \cdot t_{pu,on} = 24 \cdot (20\ \text{s} + 16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{24\ \text{min}}
+t_{P,pu} = 24 \cdot t_{P,pu,on} = 24 \cdot (20\ \text{s} + 16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{24\ \text{min}}
 $$
 
 $$
