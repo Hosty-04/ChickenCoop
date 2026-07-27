@@ -465,7 +465,7 @@ kde:
 
 &nbsp;
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pulldown dokáže i přes tok svodového proudu přes gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8-1,5 V. Pokles napětí na gate N-MOS tranzistoru, kvůli ochrannému rezistoru před M, je zanedbatelný.
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pulldown dokáže i přes tok svodového proudu přes gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8-1,5 V. Pokles napětí na gate N-MOS tranzistoru při jeho spínání, kvůli ochrannému rezistoru před M, je zanedbatelný.
 
 &nbsp;
 
@@ -521,7 +521,7 @@ kde:
 
 &nbsp;
 
-I s ochranným rezistorem před M dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí stejně jako výše, že pokles napětí na gate, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru (rezerva kvůli odporu pinu M a hradla — přibližně 25 Ω) je stejně jako doba nabití kondenzátoru zanedbatelná.
+I s ochranným rezistorem před M dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí, že pokles napětí na gate při jejich rozpínání, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — nejvyšší možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru, ke které byla přičtena rezerva kvůli odporu pinu a hradla — přibližně 25 Ω, je stejně jako doba nabití kondenzátoru zanedbatelná.
 
 &nbsp;
 
