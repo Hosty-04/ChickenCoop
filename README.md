@@ -108,10 +108,10 @@ $$
 &nbsp;
 
 kde:
-- $I_N$ ... proud tekoucí pull-down rezistorem spínačem s N-MOS tranzistorem
+- $I_N$ ... proud tekoucí pull-down rezistorem u spínače s N-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
 - $R_{470}$ ... pull-down rezistor o hodnotě 470 kΩ
-- $I_P$ ... proud tekoucí pull-down/pull-up rezistorem spínači s P-MOS tranzistorem
+- $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
 - $R_{100}$ ... pull-down rezistor o hodnotě 100 kΩ
 - $R_G$ ... rezistor připojený sériově za M
 - $t_{P,pu}$ ... čas po který teče pull-up a ochrannými rezistory spínačů s P-MOS tranzistorem proud
