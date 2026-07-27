@@ -614,7 +614,7 @@ Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrová
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/motor_flowchart_white.png" alt="motor_flowchart" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="motor_flowchart" height="0px">
 
 &nbsp;
 
