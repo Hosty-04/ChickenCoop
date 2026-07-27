@@ -337,7 +337,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.*
+*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je vůči napájecímu proudu z panelu zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.*
 
 &nbsp;
 
