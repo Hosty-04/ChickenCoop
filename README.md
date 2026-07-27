@@ -314,7 +314,7 @@ kde:
 | Klidový režim | 329 µAh | 15,3 % | 1,86 mAh | 22,4 % |
 | Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,3 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **2,150 mAh** | **100 %** | **8,300 mAh** | **100 %** |
+| **Celkem** | **2,15 mAh** | **100 %** | **8,3 mAh** | **100 %** |
 
 &nbsp;
 
