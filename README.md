@@ -477,7 +477,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-**P-MOS**
+**Funkce a parametry spínačů**
 
 &nbsp;
 
