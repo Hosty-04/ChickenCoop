@@ -509,7 +509,6 @@ kde:
 - $R_{pullup}$ ... pull-up rezistor
 - $U_{ztr}$ ... maximální možný úbytek napětí na spínači
 - $I_{max}$ ... maximální proud spínačem pro 5 hnízd
-- $R_{DSon}$ ... maximální vnitřní odpor sepnutého tranzistoru
 - $I_G$ ... proud nabíjející gate
 - $U_{plateau}$ ... Millerova plošina
 - $R_G$ ... rezistor připojený sériově za M
@@ -517,6 +516,7 @@ kde:
 - $Q_G$ ... náboj gate
 - $t_n$ ... čas nabití/vybití kondenzátoru
 - $\tau$ ... časová konstanta
+- $R_{DSon}$ ... maximální vnitřní odpor sepnutého tranzistoru
 - $C$ ... kapacita kondenzátoru
 
 &nbsp;
