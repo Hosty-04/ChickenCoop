@@ -67,7 +67,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | INA216 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
@@ -308,7 +308,7 @@ kde:
 &nbsp;
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
-|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|
 | Kontrola vajec | 0,9 mAh | 41,8 % | 1,31 mAh | 15,8 % |
 | Pohyb dvířek | 0,896 mAh | 41,7 % | 5,1 mAh | 61,4 % |
 | Klidový režim | 329 µAh | 15,3 % | 1,86 mAh | 22,4 % |
