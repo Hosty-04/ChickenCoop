@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="layout_schematic.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.5"
+     inkscape:cx="366"
+     inkscape:cy="553"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g6">
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1"
+         width="131.76512"
+         height="131.76512"
+         x="8.0609941"
+         y="12.818312" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0"
+         width="22.436556"
+         height="21.169931"
+         x="49.477982"
+         y="26.782639" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6"
+         width="22.436556"
+         height="21.169931"
+         x="49.477982"
+         y="59.260571" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-2"
+         width="22.041405"
+         height="41.944851"
+         x="49.67556"
+         y="91.73851" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-3"
+         width="22.436556"
+         height="21.169931"
+         x="145.65289"
+         y="26.782639" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.00004;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-26"
+         width="60.722485"
+         height="131.76431"
+         x="139.82701"
+         y="12.819101" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.957492;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2"
+         width="1"
+         height="122.28125"
+         x="174.71544"
+         y="22.291885" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.438964;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2"
+         width="1"
+         height="25.70079"
+         x="22.292435"
+         y="-200.46364"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.296374;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-5"
+         width="1"
+         height="11.715741"
+         x="60.196259"
+         y="80.086304" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.296374;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-5-1"
+         width="1"
+         height="11.715741"
+         x="60.196259"
+         y="47.856506" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.300218;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2"
+         width="1"
+         height="12.021593"
+         x="69.345535"
+         y="-84.115189"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.500015;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-5-1-5"
+         width="1"
+         height="33.347061"
+         x="83.115982"
+         y="36.868458" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.683397;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2-6"
+         width="1"
+         height="62.292427"
+         x="36.867603"
+         y="-145.72354"
+         transform="rotate(90)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="54.303936"
+         y="114.31114"
+         id="text11696"><tspan
+           sodipodi:role="line"
+           id="tspan11694"
+           style="stroke-width:1"
+           x="54.303936"
+           y="114.31114">Dvířka</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="52.151287"
+         y="71.445732"
+         id="text11696-1"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0"
+           style="stroke-width:1"
+           x="52.151287"
+           y="71.445732">Krabička</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="53.463615"
+         y="38.906418"
+         id="text11696-9"><tspan
+           sodipodi:role="line"
+           id="tspan11694-4"
+           style="stroke-width:1"
+           x="53.463615"
+           y="38.906418">Baterie</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="149.94121"
+         y="35.83514"
+         id="text11696-17"><tspan
+           sodipodi:role="line"
+           id="tspan11694-7"
+           style="stroke-width:1"
+           x="149.94121"
+           y="35.83514">Solární</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="149.94121"
+           y="41.126801"
+           id="tspan2"> panel</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="181.99893"
+         y="80.28875"
+         id="text11696-97"><tspan
+           sodipodi:role="line"
+           id="tspan11694-76"
+           style="stroke-width:1"
+           x="181.99893"
+           y="80.28875">Vchod</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1-7"
+         width="192.489"
+         height="131.55753"
+         x="8.0607519"
+         y="153.34042" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.928035;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-2"
+         width="1"
+         height="114.87326"
+         x="35.616947"
+         y="170.28955" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.928037;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-2-4"
+         width="1"
+         height="114.87345"
+         x="79.110428"
+         y="170.28932" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.575808;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-9"
+         width="1"
+         height="44.222569"
+         x="170.29034"
+         y="-79.886932"
+         transform="rotate(90)" />
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-3-3"
+         width="22.436556"
+         height="21.169931"
+         x="132.79184"
+         y="176.18332" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.300218;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2-4"
+         width="1"
+         height="12.021593"
+         x="186.2683"
+         y="-167.19989"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13116;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2-4-6"
+         width="1"
+         height="170.66446"
+         x="159.41154"
+         y="-178.60197"
+         transform="rotate(90)" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.384459;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-5-1-5-0"
+         width="1"
+         height="19.714705"
+         x="177.90578"
+         y="197.31139" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.356735;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-5-1-5-0-1"
+         width="1"
+         height="16.973948"
+         x="177.90578"
+         y="159.41322" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="136.9193"
+         y="188.36848"
+         id="text11696-1-9"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0-0"
+           style="stroke-width:1"
+           x="136.9193"
+           y="188.36848">Hnízdo</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="51.821472"
+         y="231.42979"
+         id="text11696-1-56"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0-11"
+           style="stroke-width:1"
+           x="51.821472"
+           y="231.42979">Vchod</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-7"
+         width="22.436556"
+         height="21.169931"
+         x="167.1875"
+         y="176.1834" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="169.86081"
+         y="188.36856"
+         id="text11696-1-6"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0-3"
+           style="stroke-width:1"
+           x="169.86081"
+           y="188.36856">Krabička</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-3-3-9"
+         width="22.436556"
+         height="21.169931"
+         x="132.79178"
+         y="217.19379" />
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.300218;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2-4-62"
+         width="1"
+         height="12.021593"
+         x="227.27876"
+         y="-167.19983"
+         transform="rotate(90)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="136.91924"
+         y="229.37895"
+         id="text11696-1-9-1"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0-0-7"
+           style="stroke-width:1"
+           x="136.91924"
+           y="229.37895">Hnízdo</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0-6-7-5"
+         width="22.436556"
+         height="21.169931"
+         x="167.1875"
+         y="217.1938" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         x="169.86081"
+         y="229.37897"
+         id="text11696-1-6-7"><tspan
+           sodipodi:role="line"
+           id="tspan11694-0-3-4"
+           style="stroke-width:1"
+           x="169.86081"
+           y="229.37897">Krabička</tspan></text>
+    </g>
+  </g>
+</svg>
