@@ -71,8 +71,9 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | INA216 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
-| Spínače (pu) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
-| Spínače (P,pd) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
+| Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
+| Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
+| Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | 5 × Mx (Stop bez RTC) | 1,9 µA | 9,5 µA | 45,6 µAh | 228 µAh |
 | **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
