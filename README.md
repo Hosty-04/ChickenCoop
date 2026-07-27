@@ -50,7 +50,11 @@ U prototypu budou využity stejné kabely, svorkovnice a svorky. Dále budou pou
 ### Napájení
 Výrobu energie zajistí fotovoltaický panel o parametrech 9 V / 10 Wp, svisle připevněný na stěnu mimo výběh pod malou stříšku a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž mimo výběh zároveň omezí usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká. Účinnost panelu je přibližně 95 %, z důvodu teplotních ztrát a nepatrného úbytku napětí na krátké kabeláži.
 
+&nbsp;
+
 <img src="https://github.com/Hosty-04/ChickenCoop/blob/main/graphs/panel_characteristic_white.png" alt="panel_characteristic" height="0px">
+
+&nbsp;
 
 Systém bude napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost dosahuje přibližně 88 %, samovybíjení dosahuje 3 % měsíčně a v zimě ztrácí přibližně 30 % kapacity. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet v zimě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k volbě venkovního umístění a jednoduchého nabíjecího systému je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a 15 % ztrátu kapacity ročně.
 
@@ -479,7 +483,7 @@ Za akumulátorem bude do napájecí větve zařazena rychlá trubičková pojist
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování nebude do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavní řídicí jednotkou, která při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekročí bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak přinášela jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, solární panel) jsou realizovány pevnými šroubovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
-MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude M řídit přes budicí logic-level N-MOS tranzistor BSS138 (sepnutí odpojovače probíhá nastavením logické jedničky na gate N-MOS), protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Za M bude sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení gate kapacity. Mezi gate a společnou zem N-MOS tranzistoru bude paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain bude připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor k 9V panelu. Source bude připojen ke společné zemi. Na P-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutém N-MOS tranzistoru vždy nižší než −4,5 V a při rozepnutém nulové. Z toho vyplývá, že R<sub>DSon</sub> bude maximálně 50-100 mΩ. Na N-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> bude maximálně 5 Ω. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně mezi výstupní napájecí větev a společnou zem zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
+MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory bude M řídit přes budicí logic-level N-MOS tranzistor BSS138 (sepnutí odpojovače probíhá nastavením logické jedničky na gate N-MOS), protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Za M bude sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení gate kapacity. Mezi gate a společnou zem N-MOS tranzistoru bude paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain bude připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor k 9V panelu. Source bude připojen ke společné zemi. Na P-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutém N-MOS tranzistoru vždy nižší než −4,5 V a při rozepnutém nulové. Z toho vyplývá, že R<sub>DSon</sub> bude maximálně 50-100 mΩ. Na N-MOS tranzistorech bude napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> bude maximálně 5 Ω. Jelikož jsou tranzistory typu SMD, bude pro prototyp potřeba SMD adaptér SOT23 a kolíkové lišty. Co nejblíže za MOSFET odpojovačem budou v krabičce K paralelně mezi výstupní napájecí větev a společnou zem zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
 
 &nbsp;
 
@@ -640,7 +644,7 @@ kde:
 
 Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru, aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření proudu modulem INA226 (17,6 ms) proběhne při této frekvenci přes 350 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
 
-H-bridge bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny VM a GND, který slouží jako zásobárna energie pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu VM. Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA226, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (16,5 mV), a proudová rezerva korálky (3 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat.
+H-bridge bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny VM a GND, který slouží jako zásobárna energie pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu VM (u prototypu budou SMD korálce připájeny nožičky). Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA226, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (16,5 mV), a proudová rezerva korálky (3 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat.
 
 Co se týče samotného motoru, ten bude odrušen keramickým kondenzátorem 100 nF zapojeným přímo mezi jeho vývody a dvěma keramickými kondenzátory 47 nF mezi jednotlivými vývody a kostrou motoru (Faradayova klec); všechny kondenzátory budou dimenzovány na napětí 50 V. Toto odrušení je nezbytné pro omezení jiskření kartáčků a potlačení vysokofrekvenčního elektromagnetického rušení. H-bridge i motor budou v krabičce K umístěny co nejdále od ostatní elektroniky. U obou koncových spínačů sloužících k určení polohy dvířek bude kontakt COM připojen k lineárnímu LDO regulátoru a kontakt NO k M spolu s interním pull-down rezistorem 40 kΩ — ten je potřeba kvůli kabelům, které se chovají jako anténa. Tyto spínače budou umístěny tak, aby mohly jejich kabely vést co nejdále od silové části a cest krabičky K.
 
@@ -754,10 +758,10 @@ https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (4 ks)
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
 
 **N-MOS**  
-
+https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor (5 ks)  
 
 **P-MOS**  
-
+https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ (20 ks)  
 
 **Akumulátor**  
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
@@ -776,13 +780,16 @@ https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868
 https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html (2 ks)  
 
 **Header**  
-https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (4 ks)  
+https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (5 ks)  
 
 **Proudový a napěťový senzor**  
 https://www.laskakit.cz/en/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/  
 
 **H-bridge**  
 https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html  
+
+**Feritová korálka**  
+https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/ (5 ks)  
 
 **Motor**  
 https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html  
@@ -805,15 +812,16 @@ https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ (2 ks)
 **Transceiver**  
 https://www.soselectronic.com/cz-cz/products/maxim/max3485esa-1-121397 (3 ks)  
 
-**Adaptér**  
-https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
-
-**Kondenzátor**  
+**Kondenzátory**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (10 ks)  
 https://www.gme.cz/v/1489496/hitano-ce-47u-25vit-hit-exr-5x11-rm2-bulk-elektrolyticky-kondenzator  
 
 **Pole**  
 https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/  
+
+**Adaptéry**  
+https://www.hezkyden.cz/shop/smd-adapter-sot23/ (15 ks)  
+https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
 **Deska**  
 https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/  
@@ -846,23 +854,25 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| GM electronic | 760 Kč |
+| GM electronic | 775 Kč |
 | Alza | 150 Kč |
 | Wilmann Elektro | 175 Kč |
 | Hadex | 120 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
+| TME | 285 Kč |
 | Levne-Baterky | 270 Kč |
 | Hofman Elektro | 125 Kč |
-| LaskaKit | 820 Kč |
+| LaskaKit | 825 Kč |
 | Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 150 Kč |
 | SOS elektro | 450 Kč |
+| Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 220 Kč** |
+| **Celkem** | **8 825 Kč** |
 
 &nbsp;
 
