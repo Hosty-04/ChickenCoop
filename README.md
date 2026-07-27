@@ -606,7 +606,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" height="1080px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
 
 &nbsp;
 
@@ -614,7 +614,7 @@ Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrová
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" height="1080px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
 
 &nbsp;
 
