@@ -67,7 +67,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
-|:---|:---:|:---:|:---:|:---:|
+|---|---|---|---|---|
 | LDO (MCP1702) | 2 µA | 5 µA | 48 µAh | 120 µAh |
 | INA216 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
@@ -77,7 +77,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | Mx (Stop bez RTC) | 5 × 0,38 µA | 5 × 1,9 µA | 5 × 9,12 µAh | 5 × 45,6 µAh |
-| **Celkem** | **4,9 µA** | **40,5 µA** | **118 µAh** | **972 µAh** |
+| **Celkem** | **84,2 µA** | **142 µA** | **302 µAh** | **1,74 mAh** |
 
 &nbsp;
 
@@ -308,13 +308,13 @@ kde:
 &nbsp;
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
-|:---|:---:|:---:|:---:|:---:|
-| Pohyb dvířek | 0,896 mAh | 46,2 % | 5,1 mAh | 68,8 % |
-| Kontrola vajec | 0,9 mAh | 46,4 % | 1,31 mAh | 17,7 % |
-| Klidový režim | 118 µAh | 6,1 % | 972 µAh | 13,1 % |
-| Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,4 % |
+|---|---|---|---|---|
+| Pohyb dvířek | 0,896 mAh | 42,2 % | 5,1 mAh | 62,4 % |
+| Kontrola vajec | 0,9 mAh | 42,4 % | 1,31 mAh | 16,0 % |
+| Klidový režim | 302 µAh | 14,2 % | 1,74 mAh | 21,3 % |
+| Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,3 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **1,94 mAh** | **100 %** | **7,41 mAh** | **100 %** |
+| **Celkem** | **2,124 mAh** | **100 %** | **8,180 mAh** | **100 %** |
 
 &nbsp;
 
@@ -398,10 +398,10 @@ kde:
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2650 | +1576 |
-| Východ | +2535 | +441 |
-| Západ | +2650 | +555 |
-| Jihozápad | +2760 | +1236 |
+| Jih | +2647 | +1573 |
+| Východ | +2532 | +438 |
+| Západ | +2647 | +552 |
+| Jihozápad | +2757 | +1233 |
 
 &nbsp;
 
