@@ -337,7 +337,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Svodový proud drainu P-MOS i N-MOS tranzistoru je zanedbatelný a teče pouze když jsou spínače rozepnuty.*
+*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.*
 
 &nbsp;
 
@@ -458,14 +458,14 @@ kde:
 - $R_{DSon}$ ... vnitřní odpor sepnutého tranzistoru
 - $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
 - $U_{G,N}$ ... napětí na gate N-MOS tranzistoru
-- $I_{leak}$ ... svodový proud gate
+- $I_{leak}$ ... svodový proud tekoucí přes gate
 - $U_r$ ... napětí řadiče
 - $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
 - $R_G$ ... rezistor připojený sériově za M
 
 &nbsp;
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pulldown dokáže i přes tok svodového proudu gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8-1,5 V. Pokles napětí na gate N-MOS tranzistoru, kvůli ochrannému rezistoru před M, je zanedbatelný.
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pulldown dokáže i přes tok svodového proudu přes gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8-1,5 V. Pokles napětí na gate N-MOS tranzistoru, kvůli ochrannému rezistoru před M, je zanedbatelný.
 
 &nbsp;
 
@@ -521,7 +521,7 @@ kde:
 
 &nbsp;
 
-I s ochranným rezistorem před M dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí stejně jako výše, že pokles napětí na gate, kvůli tomuto rezistoru, je zanedbatelný. U spínačů s nejen pull-down rezistorem je stejný svodový proud gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru (rezerva kvůli odporu pinu M a hradla — přibližně 25 Ω) je stejně jako doba nabití kondenzátoru zanedbatelná.
+I s ochranným rezistorem před M dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí stejně jako výše, že pokles napětí na gate, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — maximální možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru (rezerva kvůli odporu pinu M a hradla — přibližně 25 Ω) je stejně jako doba nabití kondenzátoru zanedbatelná.
 
 &nbsp;
 
