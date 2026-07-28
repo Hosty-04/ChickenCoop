@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg1"
-   sodipodi:docname="layout_schematic.svg"
+   sodipodi:docname="layout.svg"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.5"
-     inkscape:cx="366"
-     inkscape:cy="553"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="83.4386"
+     inkscape:cy="445.47727"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -39,7 +39,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g6">
+       id="g1">
       <rect
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect1"
@@ -49,25 +49,18 @@
          y="12.818312" />
       <rect
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         id="rect3870-3-9-3-2-0"
-         width="22.436556"
-         height="21.169931"
-         x="49.477982"
-         y="26.782639" />
-      <rect
-         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect3870-3-9-3-2-0-6"
          width="22.436556"
          height="21.169931"
-         x="49.477982"
-         y="59.260571" />
+         x="56.886322"
+         y="65.081406" />
       <rect
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect3870-3-9-3-2-0-6-2"
          width="22.041405"
          height="41.944851"
-         x="49.67556"
-         y="91.73851" />
+         x="57.0839"
+         y="97.559349" />
       <rect
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect3870-3-9-3-2-0-6-3"
@@ -102,70 +95,69 @@
          id="rect2-5"
          width="1"
          height="11.715741"
-         x="60.196259"
-         y="80.086304" />
+         x="67.604599"
+         y="85.907143" />
       <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.296374;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.462321;stroke-dasharray:none;stroke-opacity:1"
          id="rect2-5-1"
          width="1"
-         height="11.715741"
-         x="60.196259"
-         y="47.856506" />
+         height="28.508785"
+         x="25.271229"
+         y="47.658077" />
       <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.300218;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.762262;stroke-dasharray:none;stroke-opacity:1"
          id="rect2-3-2-2"
          width="1"
-         height="12.021593"
-         x="69.345535"
-         y="-84.115189"
+         height="77.499092"
+         x="75.166374"
+         y="-157.00104"
          transform="rotate(90)" />
       <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.500015;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.463197;stroke-dasharray:none;stroke-opacity:1"
          id="rect2-5-1-5"
          width="1"
-         height="33.347061"
-         x="83.115982"
-         y="36.868458" />
-      <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.683397;stroke-dasharray:none;stroke-opacity:1"
-         id="rect2-3-2-2-6"
-         width="1"
-         height="62.292427"
-         x="36.867603"
-         y="-145.72354"
-         transform="rotate(90)" />
+         height="28.616898"
+         x="156.37117"
+         y="47.55175" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="54.303936"
-         y="114.31114"
+         x="61.712276"
+         y="120.13198"
          id="text11696"><tspan
            sodipodi:role="line"
            id="tspan11694"
            style="stroke-width:1"
-           x="54.303936"
-           y="114.31114">Dvířka</tspan></text>
+           x="61.712276"
+           y="120.13198">Dvířka</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="52.151287"
-         y="71.445732"
+         x="59.559628"
+         y="77.266571"
          id="text11696-1"><tspan
            sodipodi:role="line"
            id="tspan11694-0"
            style="stroke-width:1"
-           x="52.151287"
-           y="71.445732">Krabička</tspan></text>
+           x="59.559628"
+           y="77.266571">Krabička</tspan></text>
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3870-3-9-3-2-0"
+         width="22.436556"
+         height="21.169931"
+         x="14.552951"
+         y="26.782639" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="53.463615"
+         x="18.538582"
          y="38.906418"
          id="text11696-9"><tspan
            sodipodi:role="line"
            id="tspan11694-4"
            style="stroke-width:1"
-           x="53.463615"
+           x="18.538582"
            y="38.906418">Baterie</tspan></text>
       <text
          xml:space="preserve"
@@ -344,6 +336,14 @@
            style="stroke-width:1"
            x="169.86081"
            y="229.37897">Krabička</tspan></text>
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.479999;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2-3-2-2-5"
+         width="1"
+         height="30.730461"
+         x="75.166374"
+         y="-56.841206"
+         transform="rotate(90)" />
     </g>
   </g>
 </svg>
