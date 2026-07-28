@@ -52,7 +52,7 @@ Výrobu energie zajistí fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/graphs/panel_characteristic_white.png" alt="panel_characteristic" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/graphs/panel_characteristic_white.png" alt="panel_characteristic">
 
 &nbsp;
 
