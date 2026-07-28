@@ -316,7 +316,7 @@ kde:
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
 | Kontrola vajec | 0,9 mAh | 41,8 % | 1,31 mAh | 15,8 % |
-| Pohyb dvířek | 0,896 mAh | 41,7 % | 5,1 mAh | 61,4 % |
+| Pohyb dvířek | 896 µAh | 41,7 % | 5,1 mAh | 61,4 % |
 | Klidový režim | 329 µAh | 15,3 % | 1,86 mAh | 22,4 % |
 | Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,3 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
