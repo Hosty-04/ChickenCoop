@@ -487,7 +487,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/separator_schematic_white.png" alt="separator_schematic" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/separator_schematic_white.png" alt="separator_schematic">
 
 &nbsp;
 
@@ -530,7 +530,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" height="0px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic">
 
 &nbsp;
 
