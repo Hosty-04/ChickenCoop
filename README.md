@@ -132,7 +132,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: U MOSFET oddělovače přispívá do spotřeby pull-down rezistor, a to při sepnutí N-MOS tranzistoru po dobu 2-10 hodin denně, kvůli nabíjení akumulátoru; dalším malým příspěvkem je svodový proud tekoucí do gate N-MOS tranzistoru po celý den. Ostatní části systému jsou odpojovány přes tranzistorové spínače — 6 spínačů s P-MOS tranzistorem a pull-up rezistorem a 5 s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho); svodové proudy jim tečou přes gate celý den a přes drain při jejich rozepnutí (téměř celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho); svodové proudy jimi tečou pouze při přívodu napájecího napětí — zanedbatelná doba. Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače.*
+U MOSFET oddělovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2-10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den). U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 s P-MOS tranzistorem s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho); největší část jejich spotřeby tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho); svodové proudy jimi tečou pouze při přívodu napájecího napětí — zanedbatelná doba. Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače.
 
 &nbsp;
 
@@ -220,7 +220,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Mikrospínače budou spotřebovávat málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.*
+Mikrospínače budou spotřebovávat málo energie po velmi krátkou dobu; výpočet astronomických hodin bude trvat pouze jednu milisekundu.
 
 &nbsp;
 
@@ -267,7 +267,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — to znamená několikrát nižší spotřebu. Bez použití spínačů by se v nejlepším možném případě a bez započtení klidového odběru spotřeba zvedla více jak 4× oproti nejhoršímu možnému případu architektury se spínači.*
+STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů a režimů řadiče je zapnuté vždy jen to, co zrovna pracuje — to znamená několikrát nižší spotřebu. Bez použití spínačů by se v nejlepším možném případě a bez započtení klidového odběru spotřeba zvedla více jak 4× oproti nejhoršímu možnému případu architektury se spínači.
 
 &nbsp;
 
@@ -394,7 +394,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je vůči napájecímu proudu z panelu zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.*
+Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je vůči napájecímu proudu z panelu zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.
 
 &nbsp;
 
@@ -423,7 +423,7 @@ kde:
 
 &nbsp;
 
-*Poznámka: Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.*
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.
 
 &nbsp;
 
