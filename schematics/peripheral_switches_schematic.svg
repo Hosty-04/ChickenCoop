@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.5"
-     inkscape:cx="543"
-     inkscape:cy="391"
+     inkscape:cx="505"
+     inkscape:cy="133"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -39,287 +39,10 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g5">
-      <g
-         id="g4">
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.441842"
-           id="rect1-2"
-           width="1"
-           height="44.314598"
-           x="-248.76549"
-           y="-90.835304"
-           transform="scale(-1)" />
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.370403"
-           id="rect1-2-5"
-           width="1"
-           height="31.143156"
-           x="-248.76549"
-           y="-129.50957"
-           transform="scale(-1)" />
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.243871"
-           id="rect1-2-5-4"
-           width="1"
-           height="13.5"
-           x="-248.76549"
-           y="-142.79558"
-           transform="scale(-1)" />
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.349891"
-           id="rect1-5-3-9-1"
-           width="1"
-           height="27.789764"
-           x="98.479919"
-           y="-234.75722"
-           transform="rotate(90)" />
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.209891"
-           id="rect1-20"
-           width="1"
-           height="10"
-           x="221.65578"
-           y="98.88958" />
-        <g
-           id="g11"
-           transform="translate(154.47002,0.98735)"
-           style="fill:#000000;fill-opacity:1">
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
-             id="rect1-5-3-9-1-5"
-             width="1"
-             height="5.3391242"
-             x="107.63314"
-             y="-70.355331"
-             transform="rotate(90)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
-             id="rect1-20-5"
-             width="1"
-             height="10.859601"
-             x="65.016205"
-             y="107.63314" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
-             id="rect1-20-5-7"
-             width="1"
-             height="10.859601"
-             x="69.355331"
-             y="107.63314" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
-             id="rect1-5-3-9-1-5-5"
-             width="1"
-             height="5.3391242"
-             x="117.49274"
-             y="-70.355331"
-             transform="rotate(90)" />
-        </g>
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.341447"
-           id="rect1-5-3-9-1-8"
-           width="1"
-           height="26.464903"
-           x="128.82211"
-           y="-248.11781"
-           transform="rotate(90)" />
-        <circle
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.96429;stroke-dasharray:none;stroke-opacity:1"
-           id="path3"
-           cx="222.15579"
-           cy="98.979912"
-           r="1.2862346" />
-        <g
-           id="g10"
-           transform="translate(154.47002,-3.24599)"
-           style="fill:#000000;fill-opacity:1">
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
-             id="rect1-5-3-9-1-5-2"
-             width="1"
-             height="5.3391242"
-             x="-53.019821"
-             y="-104.89551"
-             transform="scale(-1)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
-             id="rect1-20-5-6"
-             width="1"
-             height="10.859601"
-             x="99.556389"
-             y="-53.019821"
-             transform="rotate(90)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
-             id="rect1-20-5-7-6"
-             width="1"
-             height="10.859601"
-             x="103.89551"
-             y="-53.019821"
-             transform="rotate(90)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
-             id="rect1-5-3-9-1-5-5-4"
-             width="1"
-             height="5.3391242"
-             x="-43.160217"
-             y="-104.89551"
-             transform="scale(-1)" />
-        </g>
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.220587"
-           id="rect1-5-3-9-1-85"
-           width="1"
-           height="11.045328"
-           x="98.479889"
-           y="-197.07646"
-           transform="rotate(90)" />
-        <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           id="path3-38"
-           cx="184.46355"
-           cy="98.979881"
-           r="1.2862346" />
-        <g
-           id="g19"
-           transform="translate(125.27752,-9.33955)"
-           style="fill:#000000;fill-opacity:1">
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.277192"
-             id="rect1-6"
-             width="1"
-             height="17.441111"
-             x="108.47921"
-             y="91.366577" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
-             id="rect1-5-2-2"
-             width="1"
-             height="5.4326677"
-             x="112.88842"
-             y="97.470032" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.204297"
-             id="rect1-5-3-17"
-             width="1"
-             height="9.4742117"
-             x="91.668015"
-             y="-122.8922"
-             transform="rotate(90)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.208501"
-             id="rect1-5-3-9-8"
-             width="1"
-             height="9.8681412"
-             x="99.686356"
-             y="-123.48491"
-             transform="rotate(90)" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.205098"
-             id="rect1-5-3-4-5"
-             width="1"
-             height="9.5486183"
-             x="107.7047"
-             y="-122.96661"
-             transform="rotate(90)" />
-          <g
-             id="g15"
-             transform="matrix(1,0,0,-1,-2.3812505,168.07104)"
-             style="fill:#000000;fill-opacity:1">
-            <path
-               id="rect1-4-4"
-               style="fill:#000000;fill-opacity:1;stroke-width:0.113865"
-               d="m 120.10591,66.056015 -0.87224,-0.506356 -8.5e-4,0.555952 v 3.469336 l -9.4e-4,0.644757 0.90011,-0.539365 z"
-               sodipodi:nodetypes="ccccccc" />
-            <path
-               id="rect1-4-8-1"
-               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.921166;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
-               d="m 121.88429,67.369117 -2.03212,-0.51263 v 2.002948 l 2.04038,-0.454753 z"
-               sodipodi:nodetypes="ccccc" />
-            <path
-               id="rect1-5-3-9-177-5"
-               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.848305;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
-               d="m 119.25867,69.209904 0.42415,0.734654 2.94933,-1.702795 -0.42415,-0.734654 z" />
-            <path
-               id="rect1-5-3-9-177-9-9"
-               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.848305;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
-               d="m 119.68282,65.810912 -0.42415,0.734654 2.94933,1.702794 0.42415,-0.734654 z" />
-          </g>
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
-             id="rect1-5-2-7-7"
-             width="1"
-             height="5.4326677"
-             x="112.88842"
-             y="89.451675" />
-          <rect
-             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
-             id="rect1-5-2-6-5"
-             width="1"
-             height="5.4326677"
-             x="112.88842"
-             y="105.48837" />
-        </g>
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.209891"
-           id="rect1-20-8"
-           width="1"
-           height="10"
-           x="221.65578"
-           y="119.16431" />
-        <circle
-           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.96429;stroke-dasharray:none;stroke-opacity:1"
-           id="path3-5-8"
-           cx="248.26549"
-           cy="129.3221"
-           r="1.2862346" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           x="227.69559"
-           y="124.92995"
-           id="text20"><tspan
-             sodipodi:role="line"
-             id="tspan20"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-             x="227.69559"
-             y="124.92995">Rpd</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           x="199.41632"
-           y="92.632271"
-           id="text20-41"><tspan
-             sodipodi:role="line"
-             id="tspan20-2"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-             x="199.41632"
-             y="92.632271">Rg</tspan></text>
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           x="167.28856"
-           y="100.49329"
-           id="text20-2-8"><tspan
-             sodipodi:role="line"
-             id="tspan20-8-3"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-             x="167.28856"
-             y="100.49329">GPIO</tspan></text>
-        <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           id="path3-38-5"
-           cx="248.26549"
-           cy="144.37422"
-           r="1.2862346" />
-        <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           id="path3-38-5-2"
-           cx="248.26549"
-           cy="45.001579"
-           r="1.2862346" />
-      </g>
+       id="g5"
+       inkscape:export-filename="peripheral_switches_schematic_black.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <g
          id="g3">
         <rect
@@ -458,13 +181,13 @@
              transform="rotate(90)" />
         </g>
         <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
            id="path3-38-0"
            cx="122.85271"
            cy="44.979156"
            r="1.2862346" />
         <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
            id="path3-38-0-7"
            cx="122.85271"
            cy="144.39664"
@@ -570,7 +293,7 @@
            y="-71.664246"
            transform="rotate(90)" />
         <circle
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
            id="path3-38-2"
            cx="59.051319"
            cy="99.1623"
@@ -597,6 +320,315 @@
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
              x="41.87632"
              y="100.67571">GPIO</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           x="129.49979"
+           y="46.492573"
+           id="text20-2-5"><tspan
+             sodipodi:role="line"
+             id="tspan20-8-35"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+             x="129.49979"
+             y="46.492573">LDO</tspan></text>
+      </g>
+      <g
+         id="g4">
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.441842"
+           id="rect1-2"
+           width="1"
+           height="44.314598"
+           x="-248.76549"
+           y="-90.835304"
+           transform="scale(-1)" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.370403"
+           id="rect1-2-5"
+           width="1"
+           height="31.143156"
+           x="-248.76549"
+           y="-129.50957"
+           transform="scale(-1)" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.243871"
+           id="rect1-2-5-4"
+           width="1"
+           height="13.5"
+           x="-248.76549"
+           y="-142.79558"
+           transform="scale(-1)" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.349891"
+           id="rect1-5-3-9-1"
+           width="1"
+           height="27.789764"
+           x="98.479919"
+           y="-234.75722"
+           transform="rotate(90)" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.209891"
+           id="rect1-20"
+           width="1"
+           height="10"
+           x="221.65578"
+           y="98.88958" />
+        <g
+           id="g11"
+           transform="translate(154.47002,0.98735)"
+           style="fill:#000000;fill-opacity:1">
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
+             id="rect1-5-3-9-1-5"
+             width="1"
+             height="5.3391242"
+             x="107.63314"
+             y="-70.355331"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
+             id="rect1-20-5"
+             width="1"
+             height="10.859601"
+             x="65.016205"
+             y="107.63314" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
+             id="rect1-20-5-7"
+             width="1"
+             height="10.859601"
+             x="69.355331"
+             y="107.63314" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
+             id="rect1-5-3-9-1-5-5"
+             width="1"
+             height="5.3391242"
+             x="117.49274"
+             y="-70.355331"
+             transform="rotate(90)" />
+        </g>
+        <circle
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.96429;stroke-dasharray:none;stroke-opacity:1"
+           id="path3"
+           cx="222.15579"
+           cy="98.979912"
+           r="1.2862346" />
+        <g
+           id="g10"
+           transform="translate(154.47002,-3.24599)"
+           style="fill:#000000;fill-opacity:1">
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
+             id="rect1-5-3-9-1-5-2"
+             width="1"
+             height="5.3391242"
+             x="-53.019821"
+             y="-104.89551"
+             transform="scale(-1)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
+             id="rect1-20-5-6"
+             width="1"
+             height="10.859601"
+             x="99.556389"
+             y="-53.019821"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.218726"
+             id="rect1-20-5-7-6"
+             width="1"
+             height="10.859601"
+             x="103.89551"
+             y="-53.019821"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153364"
+             id="rect1-5-3-9-1-5-5-4"
+             width="1"
+             height="5.3391242"
+             x="-43.160217"
+             y="-104.89551"
+             transform="scale(-1)" />
+        </g>
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.220587"
+           id="rect1-5-3-9-1-85"
+           width="1"
+           height="11.045328"
+           x="98.479889"
+           y="-197.07646"
+           transform="rotate(90)" />
+        <circle
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           id="path3-38"
+           cx="184.46355"
+           cy="98.979881"
+           r="1.2862346" />
+        <g
+           id="g19"
+           transform="translate(125.27752,-9.33955)"
+           style="fill:#000000;fill-opacity:1">
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.277192"
+             id="rect1-6"
+             width="1"
+             height="17.441111"
+             x="108.47921"
+             y="91.366577" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
+             id="rect1-5-2-2"
+             width="1"
+             height="5.4326677"
+             x="112.88842"
+             y="97.470032" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.204297"
+             id="rect1-5-3-17"
+             width="1"
+             height="9.4742117"
+             x="91.668015"
+             y="-122.8922"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.208501"
+             id="rect1-5-3-9-8"
+             width="1"
+             height="9.8681412"
+             x="99.686356"
+             y="-123.48491"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.205098"
+             id="rect1-5-3-4-5"
+             width="1"
+             height="9.5486183"
+             x="107.7047"
+             y="-122.96661"
+             transform="rotate(90)" />
+          <g
+             id="g15"
+             transform="matrix(1,0,0,-1,-2.3812505,168.07104)"
+             style="fill:#000000;fill-opacity:1">
+            <path
+               id="rect1-4-4"
+               style="fill:#000000;fill-opacity:1;stroke-width:0.113865"
+               d="m 120.10591,66.056015 -0.87224,-0.506356 -8.5e-4,0.555952 v 3.469336 l -9.4e-4,0.644757 0.90011,-0.539365 z"
+               sodipodi:nodetypes="ccccccc" />
+            <path
+               id="rect1-4-8-1"
+               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.921166;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+               d="m 121.88429,67.369117 -2.03212,-0.51263 v 2.002948 l 2.04038,-0.454753 z"
+               sodipodi:nodetypes="ccccc" />
+            <path
+               id="rect1-5-3-9-177-5"
+               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.848305;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+               d="m 119.25867,69.209904 0.42415,0.734654 2.94933,-1.702795 -0.42415,-0.734654 z" />
+            <path
+               id="rect1-5-3-9-177-9-9"
+               style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.848305;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+               d="m 119.68282,65.810912 -0.42415,0.734654 2.94933,1.702794 0.42415,-0.734654 z" />
+          </g>
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
+             id="rect1-5-2-7-7"
+             width="1"
+             height="5.4326677"
+             x="112.88842"
+             y="89.451675" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.154703"
+             id="rect1-5-2-6-5"
+             width="1"
+             height="5.4326677"
+             x="112.88842"
+             y="105.48837" />
+        </g>
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.209891"
+           id="rect1-20-8"
+           width="1"
+           height="10"
+           x="221.65578"
+           y="119.16431" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           x="230.07683"
+           y="115.15096"
+           id="text20"><tspan
+             sodipodi:role="line"
+             id="tspan20"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+             x="230.07683"
+             y="115.15096">Rpd</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           x="199.41632"
+           y="92.632271"
+           id="text20-41"><tspan
+             sodipodi:role="line"
+             id="tspan20-2"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+             x="199.41632"
+             y="92.632271">Rg</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           x="167.28856"
+           y="100.49329"
+           id="text20-2-8"><tspan
+             sodipodi:role="line"
+             id="tspan20-8-3"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+             x="167.28856"
+             y="100.49329">GPIO</tspan></text>
+        <circle
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           id="path3-38-5"
+           cx="248.26549"
+           cy="144.37422"
+           r="1.2862346" />
+        <circle
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           id="path3-38-5-2"
+           cx="248.26549"
+           cy="45.001579"
+           r="1.2862346" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           x="254.91212"
+           y="46.514996"
+           id="text20-2-5-1"><tspan
+             sodipodi:role="line"
+             id="tspan20-8-35-2"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+             x="254.91212"
+             y="46.514996">LDO</tspan></text>
+        <g
+           id="g13"
+           transform="translate(128.36032,4.8677453)"
+           style="fill:#000000;fill-opacity:1">
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.153363"
+             id="rect1-5-3-9-1-8-9"
+             width="1"
+             height="5.3390002"
+             x="123.93249"
+             y="-96.464958"
+             transform="rotate(90)" />
+          <rect
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.118499"
+             id="rect1-5-3-9-1-8-4-2"
+             width="1"
+             height="3.1874807"
+             x="125.67572"
+             y="-95.389198"
+             transform="rotate(90)" />
+        </g>
       </g>
     </g>
   </g>
