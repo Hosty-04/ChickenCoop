@@ -530,7 +530,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="1000px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
 
 &nbsp;
 
