@@ -761,7 +761,7 @@ https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
 https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor (5 ks)  
 
 **P-MOS**  
-https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ (20 ks)  
+https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ (15 ks)  
 
 **Akumulátor**  
 https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm  
@@ -772,7 +772,7 @@ https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps (2 
 https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro (2 ks)  
 
 **Lineární LDO regulátor**  
-https://www.elektro-hofman.cz/stabilizator-pevneho-napeti-mcp1702-3302et-3-3v-0-25a-low-drop-to92/ (2 ks)  
+https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/ (2 ks)  
 
 **Master**  
 https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html  
@@ -811,7 +811,7 @@ https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/ (2 ks)
 https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ (2 ks)  
 
 **Transceiver**  
-https://www.soselectronic.com/cz-cz/products/maxim/max3485esa-1-121397 (3 ks)  
+https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/ (3 ks)  
 
 **Kondenzátory**  
 https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator (10 ks)  
@@ -855,25 +855,23 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| GM electronic | 780 Kč |
+| GME | 780 Kč |
 | Alza | 210 Kč |
 | Wilmann Elektro | 175 Kč |
 | Hadex | 120 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
-| TME | 285 Kč |
+| TME | 645 Kč |
 | Levne-Baterky | 270 Kč |
-| Hofman Elektro | 125 Kč |
 | LaskaKit | 825 Kč |
 | Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 150 Kč |
-| SOS elektro | 450 Kč |
 | Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 890 Kč** |
+| **Celkem** | **8 675 Kč** |
 
 &nbsp;
 
