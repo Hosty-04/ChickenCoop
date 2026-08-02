@@ -452,7 +452,7 @@ Po připojení napájení VCC k jednotlivým částem systému nebo jejich probu
 
 Před odpojením napájení VCC od jednotlivých částí systému je kvůli snížení spotřeby a leakage nutné vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
 
-Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být za provozu hardwarově odpojen, proto je potřeba odpájet pájecí jumpery SB9, SB14, SB2 a SB3. U LoRa-E5 mini je navíc nutné přepnout piny PA2 a PA3, určené k ladění, do analogového režimu bez pull rezistoru. Pro programování lze pak programátor k deskám připojovat přes klasické Dupont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Při nepoužívání rádia je nutné nastavit externí RF switch na logickou nulu; u řadičů bez rádia je zase potřeba v registrech napájení (PWR) aktivovat ultra-low-power režim (bit ULP) a vypnout fast wakeup.
+Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power LED diodu a softwarově odpojit všechny zelené User LED diody. Programátor ST-Link musí být za provozu hardwarově odpojen, proto je potřeba odpájet pájecí jumpery SB9, SB14, SB2 a SB3. U LoRa-E5 mini je navíc nutné přepnout piny PA2 a PA3, určené k ladění, do analogového režimu bez pull rezistoru. Pro programování lze pak programátor k deskám připojovat přes klasické DuPont kabely a u LoRa-E5 mini vrátit piny PA2 a PA3 do původního stavu. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Při nepoužívání rádia je nutné nastavit externí RF switch na logickou nulu; u řadičů bez rádia je zase potřeba v registrech napájení (PWR) aktivovat ultra-low-power režim (bit ULP) a vypnout fast wakeup.
 
 &nbsp;
 
@@ -752,7 +752,7 @@ https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-
 https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (4 ks)  
 
 **Konektor**  
-https://www.hadex.cz/p/d626-zdirka-rj45-do-dps-8p8c (4 ks)  
+https://www.hezkyden.cz/shop/adapter-rj45/ (4 ks)  
 
 **Fotovoltaický panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
@@ -821,7 +821,7 @@ https://www.gme.cz/v/1489496/hitano-ce-47u-25vit-hit-exr-5x11-rm2-bulk-elektroly
 https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/  
 
 **Adaptéry**  
-https://www.hezkyden.cz/shop/smd-adapter-sot23/ (15 ks)  
+https://www.hezkyden.cz/shop/smd-adapter-sot23/ (10 ks)  
 https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html (3ks)  
 
 **Deska**  
@@ -867,11 +867,11 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
-| Lihneme | 1 150 Kč |
+| Lihneme | 1 120 Kč |
 | Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 675 Kč** |
+| **Celkem** | **8 645 Kč** |
 
 &nbsp;
 
