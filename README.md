@@ -855,7 +855,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| TME | 1355 Kč |
+| TME | 1 355 Kč |
 | Lihneme | 1 120 Kč |
 | LaskaKit | 815 Kč |
 | Botland | 805 Kč |
