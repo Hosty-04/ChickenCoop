@@ -855,22 +855,21 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
+| TME | 1355 Kč |
+| Lihneme | 1 120 Kč |
+| LaskaKit | 815 Kč |
+| Botland | 805 Kč |
 | GME | 780 Kč |
-| Alza | 210 Kč |
-| Wilmann Elektro | 175 Kč |
-| Hezky Den | 300 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
-| TME | 1355 Kč |
+| Hezky Den | 300 Kč |
 | Levne-Baterky | 270 Kč |
-| LaskaKit | 815 Kč |
-| Dratek | 200 Kč |
-| Botland | 805 Kč |
-| Zenit | 120 Kč |
-| Lihneme | 1 120 Kč |
+| Alza | 210 Kč |
 | Prumex | 205 Kč |
-| Rezerva | 500 Kč |
-| **Celkem** | **8 155 Kč** |
+| Dratek | 200 Kč |
+| Wilmann Elektro | 175 Kč |
+| Zenit | 120 Kč |
+| **Celkem** | **7 655 Kč** |
 
 &nbsp;
 
