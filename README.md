@@ -769,6 +769,7 @@ https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm
 **Pojistka**  
 https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou (5 ks)  
 https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps (2 ks)  
+https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro (2 ks)  
 
 **Lineární LDO regulátor**  
 https://www.elektro-hofman.cz/stabilizator-pevneho-napeti-mcp1702-3302et-3-3v-0-25a-low-drop-to92/ (2 ks)  
@@ -854,7 +855,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| GM electronic | 775 Kč |
+| GM electronic | 780 Kč |
 | Alza | 150 Kč |
 | Wilmann Elektro | 175 Kč |
 | Hadex | 120 Kč |
@@ -872,7 +873,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 825 Kč** |
+| **Celkem** | **8 830 Kč** |
 
 &nbsp;
 
