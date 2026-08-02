@@ -784,7 +784,7 @@ https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-komp
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (5 ks)  
 
 **Proudový a napěťový senzor**  
-https://www.laskakit.cz/en/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/  
+https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/  
 
 **H-bridge**  
 https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html  
@@ -863,14 +863,14 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Dexhal | 590 Kč |
 | TME | 645 Kč |
 | Levne-Baterky | 270 Kč |
-| LaskaKit | 873 Kč |
+| LaskaKit | 815 Kč |
 | Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 120 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 573 Kč** |
+| **Celkem** | **8 515 Kč** |
 
 &nbsp;
 
