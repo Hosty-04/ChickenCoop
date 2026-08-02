@@ -796,7 +796,7 @@ https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/ (5 ks)
 https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html  
 
 **Mikrospínač**  
-https://www.hadex.cz/p/l405a-mikrospinac-kw11-3z-on-on-1pol-250v-5a-s-packou-13mm (4 ks)  
+https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/ (2 ks)  
 
 **Dvířka**  
 https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/ (2 ks)  
@@ -858,20 +858,19 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | GME | 780 Kč |
 | Alza | 210 Kč |
 | Wilmann Elektro | 175 Kč |
-| Hadex | 120 Kč |
+| Hezky Den | 300 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
 | TME | 645 Kč |
 | Levne-Baterky | 270 Kč |
-| LaskaKit | 825 Kč |
+| LaskaKit | 873 Kč |
 | Dratek | 200 Kč |
 | Botland | 1 880 Kč |
 | Zenit | 120 Kč |
 | Lihneme | 1 120 Kč |
-| Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 645 Kč** |
+| **Celkem** | **8 573 Kč** |
 
 &nbsp;
 
