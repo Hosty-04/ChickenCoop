@@ -733,7 +733,7 @@ https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-
 https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko (5m)  
 https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko (5m)  
 
-https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 (3 m)  
+https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 (3 m a 0,25 m)  
 
 Willmann Elektro Lipník (2 m)  
 
@@ -856,7 +856,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Obchod | Cena |
 |:---|:---:|
 | GM electronic | 780 Kč |
-| Alza | 150 Kč |
+| Alza | 210 Kč |
 | Wilmann Elektro | 175 Kč |
 | Hadex | 120 Kč |
 | Hornbach | 710 Kč |
@@ -873,7 +873,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Hezky Den | 300 Kč |
 | Prumex | 200 Kč |
 | Rezerva | 500 Kč |
-| **Celkem** | **8 830 Kč** |
+| **Celkem** | **8 890 Kč** |
 
 &nbsp;
 
