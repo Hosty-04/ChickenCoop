@@ -736,13 +736,13 @@ https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-
 https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 (3 m)  
 https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 (0,5 m)  
 
-Willmann Elektro Lipník (2 m)  
+https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ (2 m)  
 
 **Lišta**  
 https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ (4 m)  
 
 **Klipy**  
-Willmann Elektro Lipník (10 ks)  
+https://www.emas.cz/kopos-6706s-prichytka-jednostranna (10 ks)  
 
 **Bužírky**  
 https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek  
@@ -800,7 +800,7 @@ https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-
 https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/ (2 ks)  
 
 **Dvířka**  
-https://eshop.zenit.cz/desky/pvc-penene-desky/palight-print-8mm/variant/2030-3050/ (2 ks)  
+https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198  
 
 **Hnízdo**  
 https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/ (2 ks)  
@@ -856,21 +856,21 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Obchod | Cena |
 |:---|:---:|
-| TME | 1 355 Kč |
+| TME | 1 465 Kč |
 | Lihneme | 1 120 Kč |
 | LaskaKit | 815 Kč |
 | Botland | 805 Kč |
 | GME | 780 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
-| Hezky Den | 300 Kč |
+| HezkyDen | 300 Kč |
 | Levne-Baterky | 270 Kč |
 | Alza | 240 Kč |
 | Prumex | 205 Kč |
 | Dratek | 200 Kč |
-| Wilmann Elektro | 175 Kč |
-| Zenit | 120 Kč |
-| **Celkem** | **7 685 Kč** |
+| EMAS | 155 Kč |
+| Allegro | 140 Kč |
+| **Celkem** | **7 795 Kč** |
 
 &nbsp;
 
