@@ -733,7 +733,8 @@ https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-
 https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko (5m)  
 https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko (5m)  
 
-https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 (3 m a 0,25 m)  
+https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 (3 m)  
+https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 (0,5 m)  
 
 Willmann Elektro Lipník (2 m)  
 
@@ -864,12 +865,12 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Dexhal | 590 Kč |
 | Hezky Den | 300 Kč |
 | Levne-Baterky | 270 Kč |
-| Alza | 210 Kč |
+| Alza | 240 Kč |
 | Prumex | 205 Kč |
 | Dratek | 200 Kč |
 | Wilmann Elektro | 175 Kč |
 | Zenit | 120 Kč |
-| **Celkem** | **7 655 Kč** |
+| **Celkem** | **7 685 Kč** |
 
 &nbsp;
 
