@@ -81,7 +81,7 @@ Silová část systému bude pracovat s napětím 6 V, veškerá elektronika pak
 | Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | Mx (Stop bez RTC) | 5 × 0,38 µA | 5 × 1,9 µA | 5 × 9,12 µAh | 5 × 45,6 µAh |
-| **Celkem** | **85,3 µA** | **147 µA** | **329 µAh** | **1,86 mAh** |
+| **Celkem** | **13,8 µA** | **55,3 µA** | **175 µAh** | **1,23 mAh** |
 
 &nbsp;
 
@@ -217,7 +217,7 @@ Mikrospínače budou spotřebovávat málo energie po velmi krátkou dobu; výpo
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 626 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
-| **Celkem** | **6,75 mA** | **9,23 mA** | **0,9 mAh** | **1,31 mAh** |
+| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,34 mAh** |
 
 &nbsp;
 
@@ -317,12 +317,12 @@ kde:
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 0,9 mAh | 41,8 % | 1,31 mAh | 15,8 % |
-| Pohyb dvířek | 896 µAh | 41,7 % | 5,1 mAh | 61,4 % |
-| Klidový režim | 329 µAh | 15,3 % | 1,86 mAh | 22,4 % |
-| Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,3 % |
+| Kontrola vajec | 923 µAh | 45,7 % | 1,34 mAh | 17,4 % |
+| Pohyb dvířek | 896 µAh | 44,4 % | 5,1 mAh | 66,2 % |
+| Klidový režim | 175 µAh | 8,7 % | 1,23 mAh | 16 % |
+| Komunikace | 24,8 µAh | 1,2 % | 28,6 µAh | 0,4 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **2,15 mAh** | **100 %** | **8,3 mAh** | **100 %** |
+| **Celkem** | **2,02 mAh** | **100 %** | **7,7 mAh** | **100 %** |
 
 &nbsp;
 
@@ -425,7 +425,7 @@ kde:
 
 &nbsp;
 
-Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru.
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 15 mAh).
 
 &nbsp;
 
