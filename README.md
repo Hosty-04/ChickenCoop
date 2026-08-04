@@ -468,10 +468,11 @@ Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power L
 - Výpočet mediánu
 - Výběr 16 vzorků s nejmenší odchylkou od mediánu
 - Výpočet aritmetického průměru, aktuální hmotnosti (odečet referenční nulové hodnoty) a směrodatné odchylky
-- Pokud hmotnost překročí 1 kg (v hnízdu je slepice), měření se zahodí
+- Pokud hmotnost překročí 1,25 kg, v hnízdu je slepice a měření se zahodí; po třech a více takových po sobě jdoucích měřeních bude v GUI hnízdo znázorněno jako obsazené — kvočna
 - Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou
 - Odpovídá-li rozdíl hmotnosti přibližné váze jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě a spočítá se počet vajec v hnízdě
+- Pokud hmotnost překročí 600 g, tak bude v GUI košík zobrazen jako plný
 - Při hmotnosti menší než 25 g proběhne nanejvíš jednou denně kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
