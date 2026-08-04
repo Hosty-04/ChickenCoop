@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_whit.png" alt="block_schematic">
 
 &nbsp;
 
