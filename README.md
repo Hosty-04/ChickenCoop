@@ -755,8 +755,9 @@ https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v
 https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina  
 https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 (4 ks)  
 
-**Konektor**  
+**Konektory**  
 https://www.hezkyden.cz/shop/adapter-rj45/ (4 ks)  
+https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm (4 ks)  
 
 **Fotovoltaický panel**  
 https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/  
