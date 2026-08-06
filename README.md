@@ -864,7 +864,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Lihneme | 1 120 Kč |
 | LaskaKit | 815 Kč |
 | Botland | 805 Kč |
-| GME | 780 Kč |
+| GME | 795 Kč |
 | Hornbach | 710 Kč |
 | Dexhal | 590 Kč |
 | HezkyDen | 300 Kč |
@@ -874,7 +874,7 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Dratek | 200 Kč |
 | EMAS | 155 Kč |
 | Allegro | 140 Kč |
-| **Celkem** | **7 795 Kč** |
+| **Celkem** | **7 810 Kč** |
 
 &nbsp;
 
