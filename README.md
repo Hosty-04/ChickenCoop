@@ -783,7 +783,7 @@ https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane
 https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html  
 
 **Slave**  
-https://www.tme.eu/cz/en/details/nucleo-l031k6/stm-development-kits/stmicroelectronics/ (2 ks)  
+https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html (2 ks)  
 
 **Header**  
 https://www.laskakit.cz/dupont-40pin-2-54-mm-pinovy-pas/ (5 ks)  
