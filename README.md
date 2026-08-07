@@ -896,22 +896,21 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | WAGO svorkovnice 4pól | 2 ks | GME | https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina | 74,38 Kč | 90 Kč |
 | WAGO svorkovnice 6pól | 1 ks | GME | https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina | 64,46 | 78 Kč |
 | WAGO svorka | 4 ks | GME | https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 | 56,20 Kč | 68 Kč |
-| Konektor RJ45 | 4 ks | HEZKÝ DEN | https://www.hezkyden.cz/shop/adapter-rj45/ | 79 Kč | 100 Kč |
+| Konektor RJ45 | 4 ks | HEZKY-DEN | https://www.hezkyden.cz/shop/adapter-rj45/ | 79 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | GME | https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | DEXHAL | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 497,34 Kč | 580 Kč |
 | N-MOSFET | 5 ks | GME | https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor | 10,05 Kč | 12,15 Kč |
 | P-MOSFET | 15 ks | TME | https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ | 61,01 Kč | 73,82 Kč |
-| Akumulátor | 1 ks | LEVNÉ BATERKY | https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm | 156 Kč | 189 Kč |
+| Akumulátor | 1 ks | LEVNE-BATERKY | https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm | 156 Kč | 189 Kč |
 | Pojistka | 5 ks | GME | https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou | 33,05 Kč | 40 Kč |
 | Pojistkové pouzdro | 2 ks | GME | https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps | 15,2 Kč | 18,4 Kč |
 | Pojistková krytka | 2 ks | GME | https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro | 8,26 Kč | 10 Kč |
 | Lineární LDO regulátor | 2 ks | TME | https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/ | 33,48 Kč | 40,51 Kč |
 | Master LoRa-E5 mini | 1 ks | BOTLAND | https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html | 525,62 Kč | 636 Kč |
 | Slave | 2 ks | BOTLAND | https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html | 813,22 Kč | 984 Kč |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Senzor INA226 | 1 ks | LASKAKIT | https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/ | 97,50 Kč | 118 Kč |
+| H-bridge Pololu DRV8838 | 1 ks | BOTLAND | https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html | 81,82 Kč | 99 Kč |
+| Feritový korálek | 5 ks | TME | https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/ | 13,42 Kč | 16,24 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
