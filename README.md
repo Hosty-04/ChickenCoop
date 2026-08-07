@@ -747,8 +747,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580 Kč |
-| N-MOSFET | 5 ks | [Odkaz][n-mosfet] | 10,05 Kč | 12,15 Kč |
-| P-MOSFET | 15 ks | [Odkaz][p-mosfet] | 61,01 Kč | 73,82 Kč |
+| N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
+| P-MOS tranzistor | 15 ks | [Odkaz][p-mos] | 61,01 Kč | 73,82 Kč |
 | Akumulátor | 1 ks | [Odkaz][akumulator] | 156 Kč | 189 Kč |
 | Pojistka | 5 ks | [Odkaz][pojistka] | 33,05 Kč | 40 Kč |
 | Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,2 Kč | 18,4 Kč |
@@ -756,24 +756,24 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Lineární LDO regulátor | 2 ks | [Odkaz][ldo] | 33,48 Kč | 40,51 Kč |
 | Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636 Kč |
 | Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984 Kč |
-| Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118 Kč |
 | H-bridge DRV8838 | 1 ks | [Odkaz][h-bridge] | 81,82 Kč | 99 Kč |
 | Feritový korálek | 5 ks | [Odkaz][ferit] | 13,42 Kč | 16,24 Kč |
 | Motor | 1 ks | [Odkaz][motor] | 88 Kč | 107 Kč |
 | Koncový spínač | 2 ks | [Odkaz][spinac] | 39,60 Kč | 48 Kč |
-| Dvířka z pěněného PVC | 1 ks | [Odkaz][pvc-dvirka] | 61,98 Kč | 75 Kč |
-| Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998 Kč |
+| Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118 Kč |
 | Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256 Kč |
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48 Kč |
 | Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258 Kč | 312,18 Kč |
-| Kondenzátor 1 µF / 50 V | 10 ks | [Odkaz][kond-1u] | 4,46 Kč | 5,40 Kč |
-| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | [Odkaz][kond-47u] | 23,44 Kč | 28,36 Kč |
+| Kondenzátor 1 µF / 50 V | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
+| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | [Odkaz][kondik-47u] | 23,44 Kč | 28,36 Kč |
+| Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
+| Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
-| DPS adapter SO8 na DIP8 | 3 ks | [Odkaz][dps-so8] | 9,92 Kč | 12 Kč |
-| SMD adapter SOT23 | 10 ks | [Odkaz][smd-sot23] | 66,12 Kč | 80 Kč |
-| OSB 3 deska | 1 ks | [Odkaz][osb] | 433,88 Kč | 525 Kč |
-| Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97 Kč |
+| Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
+| Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97 Kč |
+| Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998 Kč |
+| OSB 3 deska | 1 ks | [Odkaz][osb] | 433,88 Kč | 525 Kč |
 | Šroub M5x30 | 2 ks | [Odkaz][sroub-m5x30] | 3,24 Kč | 3,92 Kč |
 | Šroub M5x25 | 10 ks | [Odkaz][sroub-m5x25] | 12,98 Kč | 15,70 Kč |
 | Šroub M5x16 | 1 ks | [Odkaz][sroub-m5x16] | 1,08 Kč | 1,31 Kč |
@@ -799,8 +799,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [rj45]: https://www.hezkyden.cz/shop/adapter-rj45/
 [faston]: https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm
 [solar]: https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
-[n-mosfet]: https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor
-[p-mosfet]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
+[n-mos]: https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor
+[p-mos]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
 [akumulator]: https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm
 [pojistka]: https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou
 [pouzdro]: https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps
@@ -813,16 +813,16 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [ferit]: https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/
 [motor]: https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html
 [spinac]: https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/
-[pvc-dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
+[dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
 [hnizdo]: https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
 [tenzometr]: https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/
 [hx711]: https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 [max3485]: https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/
-[kond-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
-[kond-47u]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
+[kondik-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
+[kondik-47u]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
 [pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
-[dps-so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
-[smd-sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
+[so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
+[sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
 [osb]: https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/
 [provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
