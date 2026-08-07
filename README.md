@@ -764,8 +764,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256 Kč |
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48 Kč |
 | Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258 Kč | 312,18 Kč |
-| Kondenzátor 1 µF / 50 V | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
-| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | [Odkaz][kondik-47u] | 23,44 Kč | 28,36 Kč |
+| Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
+| Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-47u] | 23,44 Kč | 28,36 Kč |
 | Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
