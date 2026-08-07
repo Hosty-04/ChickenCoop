@@ -898,3 +898,30 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | WAGO svorka | 4 ks | GME | https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 | 56,20 Kč | 68 Kč |
 | Konektor RJ45 | 4 ks | HEZKÝ DEN | https://www.hezkyden.cz/shop/adapter-rj45/ | 79 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | GME | https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm | 10,92 Kč | 13,20 Kč |
+| Solární panel | 1 ks | DEXHAL | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 497,34 Kč | 580 Kč |
+| N-MOSFET | 5 ks | GME | https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor | 10,05 Kč | 12,15 Kč |
+| P-MOSFET | 15 ks | TME | https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ | 61,01 Kč | 73,82 Kč |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
