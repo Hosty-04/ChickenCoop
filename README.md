@@ -918,8 +918,8 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Tenzometr | 2 ks | LASKAKIT | https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/ | 211,60 Kč | 256 Kč |
 | Převodník HX711 | 2 ks | LASKAKIT | https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ | 39,60 Kč | 48 Kč |
 | Tranceiver MAX3485 | 3 ks | TME | https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/ | 258 Kč | 312,18 Kč |
-| Kondenzátor 1 µF | 10 ks |  |  |  |  |
-| Kondenzátor 47 uF low-ESR | 2 ks |  |  |  |  |
+| Kondenzátor 1 µF / 50 V | 10 ks | GME | https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator | 4,46 Kč | 5,40 Kč |
+| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | TME | https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/ | 23,44 Kč | 28,36 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
