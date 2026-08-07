@@ -905,9 +905,9 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Pojistka | 5 ks | GME | https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou | 33,05 Kč | 40 Kč |
 | Pojistkové pouzdro | 2 ks | GME | https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps | 15,2 Kč | 18,4 Kč |
 | Pojistková krytka | 2 ks | GME | https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro | 8,26 Kč | 10 Kč |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Lineární LDO regulátor | 2 ks | TME | https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/ | 33,48 Kč | 40,51 Kč |
+| Master LoRa-E5 mini | 1 ks | BOTLAND | https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html | 525,62 Kč | 636 Kč |
+| Slave | 2 ks | BOTLAND | https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html | 813,22 Kč | 984 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
