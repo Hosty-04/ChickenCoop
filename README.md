@@ -879,3 +879,25 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 &nbsp;
 
 *Poznámka: Cena je orientační a je do ní započtena i doprava. Položky z Hornbachu budou zakoupeny osobně.*
+
+&nbsp;
+
+| Položka | Množství | Obchod | Odkaz | Cena (bez DPH) | Cena (s DPH) |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| ELEKTROKABEL CYA 1x1,5 červený H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| ELEKTROKABEL CYA 1x1,5 černý H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| ELEKTROKABEL CYA 1x0,5 červený H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| ELEKTROKABEL CYA 1x0,5 černý H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+
+&nbsp;
