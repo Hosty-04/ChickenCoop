@@ -884,13 +884,13 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Položka | Množství | Obchod | Odkaz | Cena (bez DPH) | Cena (s DPH) |
 |:---|:---:|:---:|:---|:---:|:---:|
-| Kabel CYA 1 x 1,5 mm² červený | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
-| Kabel CYA 1 x 1,5 mm² černý | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
-| Kabel CYA 1 x 0,5 mm² červený | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
-| Kabel CYA 1 x 0,5 mm² černý | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel CYA 1x1,5 červený | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| Kabel CYA 1x1,5 černý | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| Kabel CYA 1x0,5 červený | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel CYA 1x0,5 černý | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
 | Kabel UTP CAT5e 3 m | 1 ks | ALZA | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
 | Kabel UTP CAT5e 0,5 m | 1 ks | ALZA | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | 70 Kč | 85 Kč |
-| Kabel LiYCY 4 x 0,25 mm² | 2 m | TME | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | 39,42 Kč |
+| Kabel LiYCY 4x0,25 | 2 m | TME | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | 39,42 Kč |
 | Lišty | 4 m | HORNBACH | https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ | 46,28 Kč | 56 Kč |
 | Klipy | 10 ks | EMAS | https://www.emas.cz/kopos-6706s-prichytka-jednostranna | 45,8 Kč | 55,4 Kč |
 | WAGO svorkovnice 4pól | 2 ks | GME | https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina | 74,38 Kč | 90 Kč |
@@ -924,9 +924,14 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | DPS adapter SO8 na DIP8 | 3 ks | DRATEK | https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html | 9,92 Kč | 12 Kč |
 | SMD adapter SOT23 | 10 ks | HEZKY-DEN | https://www.hezkyden.cz/shop/smd-adapter-sot23/ | 66,12 Kč | 80 Kč |
 | OSB 3 deska | 1 ks | HORNBACH | https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/ | 433,88 Kč | 525 Kč |
-| Červík | 4 ks | HORNBACH | https://www.hornbach.cz/p/staveci-sroub-s-vnitrnim-sestihranem-a-hrotem-m5x6-mm-nerez-ocel-a4-1-ks/12120029/ | 2,98 Kč | 3,60 Kč |
 | Stavební provázek | 1 ks | HORNBACH | https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/ | 80,17 Kč | 97 Kč |
 | Oko se závitem | 2 ks | HORNBACH | https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/ | 11,07 Kč | 13,40 Kč |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Šroub M5x30 | 2 ks | PRUMEX | https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x30-nerez-a2/ | 3,24 Kč | 3,92 Kč |
+| Šroub M5x25 | 10 ks | PRUMEX | https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x25-nerez-a2/ | 12,98 Kč | 15,70 Kč |
+| Šroub M5x16 | 1 ks | PRUMEX | https://www.prumex.cz/sroub-sestihranny-cely-zavit-din-933-m5x16-nerez-a2-70/ | 1,08 Kč | 1,31 Kč |
+| Červík | 4 ks | HORNBACH | https://www.hornbach.cz/p/staveci-sroub-s-vnitrnim-sestihranem-a-hrotem-m5x6-mm-nerez-ocel-a4-1-ks/12120029/ | 2,98 Kč | 3,60 Kč |
+| Matice M5 | 10 ks | PRUMEX | https://www.prumex.cz/matice-din-934-m5-nerez-a2/ | 3,80 Kč | 4,60 Kč |
+| Matice M5 samojistná | 2 ks | PRUMEX | https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ | 1,12 Kč | 1,36 Kč |
+| Matice M5 klobouková | 2 ks | HORNBACH | https://www.hornbach.cz/p/kloboukova-matice-din-1587-m5-mosaz-1-ks/3830903/ | 7,52 Kč | 9,10 Kč |
+| Podložka M5 | 4 ks | PRUMEX | https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ | 0,89 Kč | 1,08 Kč |
+| **Celkem** | | | | **** | **** |
