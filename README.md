@@ -901,10 +901,10 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Solární panel | 1 ks | DEXHAL | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 497,34 Kč | 580 Kč |
 | N-MOSFET | 5 ks | GME | https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor | 10,05 Kč | 12,15 Kč |
 | P-MOSFET | 15 ks | TME | https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ | 61,01 Kč | 73,82 Kč |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Akumulátor | 1 ks | LEVNÉ BATERKY | https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm | 156 Kč | 189 Kč |
+| Pojistka | 5 ks | GME | https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou | 33,05 Kč | 40 Kč |
+| Pojistkové pouzdro | 2 ks | GME | https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps | 15,2 Kč | 18,4 Kč |
+| Pojistková krytka | 2 ks | GME | https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro | 8,26 Kč | 10 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
