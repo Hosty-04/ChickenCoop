@@ -934,4 +934,4 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Matice M5 samojistná | 2 ks | PRUMEX | https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | HORNBACH | https://www.hornbach.cz/p/kloboukova-matice-din-1587-m5-mosaz-1-ks/3830903/ | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | PRUMEX | https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | | **** | **** |
+| **Celkem** | | | | **5430 Kč** | **6570 Kč** |
