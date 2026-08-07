@@ -765,7 +765,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48 Kč |
 | Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258 Kč | 312,18 Kč |
 | Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
-| Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-47u] | 23,44 Kč | 28,36 Kč |
+| Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
 | Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
@@ -817,7 +817,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [hx711]: https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 [max3485]: https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/
 [kondik-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
-[kondik-47u]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
+[kondik-esr]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
 [so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
 [pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
