@@ -884,18 +884,17 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Položka | Množství | Obchod | Odkaz | Cena (bez DPH) | Cena (s DPH) |
 |:---|:---:|:---:|:---|:---:|:---:|
-| Kabel CYA 1x1,5 červený H07V-K izolovaný vodič-lanko | <nobr>5 m</nobr> | <nobr>GME</nobr> | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | <nobr>39,19 Kč</nobr> | <nobr>45 Kč</nobr> |
-| Kabel CYA 1x1,5 černý H07V-K izolovaný vodič-lanko | <nobr>5 m</nobr> | <nobr>GME</nobr> | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | <nobr>39,19 Kč</nobr> | <nobr>45 Kč</nobr> |
-| Kabel CYA 1x0,5 červený H07V-K izolovaný vodič-lanko | <nobr>5 m</nobr> | <nobr>GME</nobr> | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | <nobr>14,46 Kč</nobr> | <nobr>17,50 Kč</nobr> |
-| Kabel CYA 1x0,5 černý H07V-K izolovaný vodič-lanko | <nobr>5 m</nobr> | <nobr>GME</nobr> | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | <nobr>14,46 Kč</nobr> | <nobr>17,50 Kč</nobr> |
-| AlzaPower Patch CAT5e UTP 3m bílý | <nobr>1 ks</nobr> | <nobr>Alza</nobr> | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | <nobr>82 Kč</nobr> | <nobr>99 Kč</nobr> |
-| AlzaPower Patch CAT5e UTP 0.5m bílý | <nobr>1 ks</nobr> | <nobr>Alza</nobr> | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | <nobr>70 Kč</nobr> | <nobr>85 Kč</nobr> |
-| Kabel LAPP UNITRONIC LiYCY; 4x0,25mm2; PVC; šedá | <nobr>2 m</nobr> | <nobr>TME</nobr> | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | <nobr>32,58 Kč</nobr> | <nobr>39,42 Kč</nobr> |
-| Lišta na kabely Malpro 15x10 mm 2m, bílá | <nobr>4 m</nobr> | <nobr>Hornbach</nobr> | https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ | <nobr>46,28 Kč</nobr> | <nobr>56 Kč</nobr> |
-| Příchytka ocelová jednostranná pro kabel pr. 6 mm. KOPOS 6706_S | <nobr>10 ks</nobr> | <nobr>EMAS</nobr> | https://www.emas.cz/kopos-6706s-prichytka-jednostranna | <nobr>45,8 Kč</nobr> | <nobr>55,4 Kč</nobr> |
-| Sada smršťovacích bužírek KSS VS-100BK | <nobr>1 ks</nobr> | <nobr>GME</nobr> | https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek | <nobr>111,57 Kč</nobr> | <nobr>135 Kč</nobr> |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Kabel CYA 1 x 1,5 mm² červený | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| Kabel CYA 1 x 1,5 mm² černý | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| Kabel CYA 1 x 0,5 mm² červený | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel CYA 1 x 0,5 mm² černý | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel UTP CAT5e 3 m | 1 ks | Alza | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
+| Kabel UTP CAT5e 0,5 m | 1 ks | Alza | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | 70 Kč | 85 Kč |
+| Kabel LAPP UNITRONIC LiYCY 4 x 0,25 mm² | 2 m | TME | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | 39,42 Kč |
+| Lišty | 4 m | Hornbach | https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ | 46,28 Kč | 56 Kč |
+| Klipy | 10 ks | EMAS | https://www.emas.cz/kopos-6706s-prichytka-jednostranna | 45,8 Kč | 55,4 Kč |
+| WAGO svorkovnice 4pól | 2 ks | GME | https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina | 74,38 Kč | 90 Kč |
+| WAGO svorkovnice 6pól | 1 ks | GME | https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina | 64,46 | 78 Kč |
+| WAGO svorka | 4 ks | GME | https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 | 56,20 Kč | 68 Kč |
+| Konektor RJ45 | 4 ks | Hezky Den | https://www.hezkyden.cz/shop/adapter-rj45/ | 79 Kč | 100 Kč |
+| Konektor Faston F1 | 4 ks | GME | https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm | 10,92 Kč | 13,20 Kč |
