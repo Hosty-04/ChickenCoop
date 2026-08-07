@@ -888,12 +888,12 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Kabel CYA 1x1,5 černý H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
 | Kabel CYA 1x0,5 červený H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
 | Kabel CYA 1x0,5 černý H07V-K izolovaný vodič-lanko | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
-| AlzaPower Patch CAT5E UTP 3m bílý | 1 ks | Alza | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
-| AlzaPower Patch CAT5E UTP 0.5m bílý | 1 ks | Alza | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | 70 Kč | 85 Kč |
-| Kabel LAPP UNITRONIC LiYCY; 4x0,25mm2; PVC; šedá |  |  | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | - |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| AlzaPower Patch CAT5e UTP 3m bílý | 1 ks | Alza | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
+| AlzaPower Patch CAT5e UTP 0.5m bílý | 1 ks | Alza | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | 70 Kč | 85 Kč |
+| Kabel LAPP UNITRONIC LiYCY; 4x0,25mm2; PVC; šedá | 2 m | TME | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | 39,42 Kč |
+| Lišta na kabely Malpro 15x10 mm 2m, bílá | 4 m | Hornbach | https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ | 46,28 Kč | 56 Kč |
+| Příchytka ocelová jednostranná pro kabel pr. 6 mm. KOPOS 6706_S | 10 ks | EMAS | https://www.emas.cz/kopos-6706s-prichytka-jednostranna | 45,8 Kč | 55,4 Kč |
+| Sada smršťovacích bužírek KSS VS-100BK | 1 ks | GME | https://www.gme.cz/v/1483738/kss-vs-100bk-sada-smrstovacich-buzirek | 111,57 Kč | 135 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
