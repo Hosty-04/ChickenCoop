@@ -731,7 +731,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 &nbsp;
 
 | Položka | Množství | Odkaz | Cena (bez DPH) | Cena (s DPH) |
-|:---:|:---:|:---:|:---:|:---:|
+|:---|:---:|:---:|:---:|:---:|
 | Kabel CYA 1x1,5 červený | 5 m | [Odkaz][cya-15-cerveny] | 37,19 Kč | 45 Kč |
 | Kabel CYA 1x1,5 černý | 5 m | [Odkaz][cya-15-cerny] | 37,19 Kč | 45 Kč |
 | Kabel CYA 1x0,5 červený | 5 m | [Odkaz][cya-05-cerveny] | 14,46 Kč | 17,50 Kč |
@@ -808,24 +808,24 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [ldo]: https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/
 [master]: https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html
 [slave]: https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html
-[ina226]: https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/
 [h-bridge]: https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html
 [ferit]: https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/
 [motor]: https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html
 [spinac]: https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/
-[dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
-[hnizdo]: https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
+[ina226]: https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/
 [tenzometr]: https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/
 [hx711]: https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 [max3485]: https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/
 [kondik-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
 [kondik-47u]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
-[pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
 [so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
-[osb]: https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/
-[provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
+[pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
+[dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
+[provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
+[hnizdo]: https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
+[osb]: https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/
 [sroub-m5x30]: https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x30-nerez-a2/
 [sroub-m5x25]: https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x25-nerez-a2/
 [sroub-m5x16]: https://www.prumex.cz/sroub-sestihranny-cely-zavit-din-933-m5x16-nerez-a2-70/
