@@ -884,8 +884,8 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 
 | Položka | Množství | Obchod | Odkaz | Cena (bez DPH) | Cena (s DPH) |
 |:---|:---:|:---:|:---|:---:|:---:|
-| Kabel CYA 1x1,5 červený | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
-| Kabel CYA 1x1,5 černý | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 39,19 Kč | 45 Kč |
+| Kabel CYA 1x1,5 červený | 5 m | GME | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 37,19 Kč | 45 Kč |
+| Kabel CYA 1x1,5 černý | 5 m | GME | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 37,19 Kč | 45 Kč |
 | Kabel CYA 1x0,5 červený | 5 m | GME | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
 | Kabel CYA 1x0,5 černý | 5 m | GME | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
 | Kabel UTP CAT5e 3 m | 1 ks | ALZA | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
@@ -896,9 +896,9 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | WAGO svorkovnice 4pól | 2 ks | GME | https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina | 74,38 Kč | 90 Kč |
 | WAGO svorkovnice 6pól | 1 ks | GME | https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina | 64,46 | 78 Kč |
 | WAGO svorka | 4 ks | GME | https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 | 56,20 Kč | 68 Kč |
-| Konektor RJ45 | 4 ks | HEZKY-DEN | https://www.hezkyden.cz/shop/adapter-rj45/ | 79 Kč | 100 Kč |
+| Konektor RJ45 | 4 ks | HEZKY-DEN | https://www.hezkyden.cz/shop/adapter-rj45/ | 82,64 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | GME | https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm | 10,92 Kč | 13,20 Kč |
-| Solární panel | 1 ks | DEXHAL | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 497,34 Kč | 580 Kč |
+| Solární panel | 1 ks | DEXHAL | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 479,34 Kč | 580 Kč |
 | N-MOSFET | 5 ks | GME | https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor | 10,05 Kč | 12,15 Kč |
 | P-MOSFET | 15 ks | TME | https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ | 61,01 Kč | 73,82 Kč |
 | Akumulátor | 1 ks | LEVNE-BATERKY | https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm | 156 Kč | 189 Kč |
