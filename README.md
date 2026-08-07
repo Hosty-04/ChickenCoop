@@ -670,7 +670,7 @@ Na betonovou stěnu budou pomocí vrutů a hmoždinek připevněny svislé dřev
 
 V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku; sloužit budou k vývodu kontaktů. Spínače budou upevněny vruty o průměru 2 mm. Tohle provedení představuje jednoduché řešení určování krajních poloh dvířek.
 
-Na horní části přední strany dvířek bude umístěno závěsné očko M5 z nerezové oceli A2, upevněné podložkou a samojistnou maticí stejného typu; očko bude procházet otvorem odpovídajícího průměru jako jeho metrický závit. Očkem bude protaženo syntetické lanko (zednická stavební šňůra) o průměru 2 mm, zajištěné dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti.
+Na horní části přední strany dvířek bude umístěno závěsné očko M5 z nerezové oceli A2, upevněné podložkou a samojistnou maticí stejného typu; očko bude procházet otvorem odpovídajícího průměru jako jeho metrický závit. Očkem bude protaženo syntetické lanko (zednická šňůra) o průměru 2 mm, zajištěné dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti.
 
 Lanko povede kolmo vzhůru do krabičky K, kde bude navíjeno na špulku vytištěnou z materiálu PETG (šířka 2 cm, vnější průměr 2,5 cm). Otvorem o průměru 3 mm na okraji špulky, dále od motoru, bude lanko provlečeno a upevněno osmičkovým uzlem, rovněž zakápnutým vteřinovým lepidlem; uzel bude zapuštěn 8 mm hluboko do záhlubení o průměru 10 mm, s vývodem lanka na okraji záhlubení směrem k okraji špulky.
 
@@ -920,7 +920,13 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Tranceiver MAX3485 | 3 ks | TME | https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/ | 258 Kč | 312,18 Kč |
 | Kondenzátor 1 µF / 50 V | 10 ks | GME | https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator | 4,46 Kč | 5,40 Kč |
 | Kondenzátor 47 uF / 25 V low-ESR | 20 ks | TME | https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/ | 23,44 Kč | 28,36 Kč |
-|  |  |  |  |  |  |
+| Nepájivé pole | 1 ks | LASKAKIT | https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/ | 246,30 Kč | 298 Kč |
+| DPS adapter SO8 na DIP8 | 3 ks | DRATEK | https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html | 9,92 Kč | 12 Kč |
+| SMD adapter SOT23 | 10 ks | HEZKY-DEN | https://www.hezkyden.cz/shop/smd-adapter-sot23/ | 66,12 Kč | 80 Kč |
+| OSB 3 deska | 1 ks | HORNBACH | https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/ | 433,88 Kč | 525 Kč |
+| Červík | 4 ks | HORNBACH | https://www.hornbach.cz/p/staveci-sroub-s-vnitrnim-sestihranem-a-hrotem-m5x6-mm-nerez-ocel-a4-1-ks/12120029/ | 2,98 Kč | 3,60 Kč |
+| Stavební provázek | 1 ks | HORNBACH | https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/ | 80,17 Kč | 97 Kč |
+| Oko se závitem | 2 ks | HORNBACH | https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/ | 11,07 Kč | 13,40 Kč |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
