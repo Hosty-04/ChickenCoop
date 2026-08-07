@@ -731,55 +731,55 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 &nbsp;
 
 | Položka | Množství | Odkaz | Cena (bez DPH) | Cena (s DPH) |
-|:---|:---:|:---|:---:|:---:|
-| Kabel CYA 1x1,5 červený | 5 m | https://gme.cz | 37,19 Kč | 45 Kč |
-| Kabel CYA 1x1,5 černý | 5 m | https://gme.cz | 37,19 Kč | 45 Kč |
-| Kabel CYA 1x0,5 červený | 5 m | https://gme.cz | 14,46 Kč | 17,50 Kč |
-| Kabel CYA 1x0,5 černý | 5 m | https://gme.cz | 14,46 Kč | 17,50 Kč |
-| Kabel UTP CAT5e 3 m | 1 ks | https://alza.cz | 82 Kč | 99 Kč |
-| Kabel UTP CAT5e 0,5 m | 1 ks | https://alza.cz | 70 Kč | 85 Kč |
-| Kabel LiYCY 4x0,25 | 2 m | https://tme.eu | 32,58 Kč | 39,42 Kč |
-| Lišty | 4 m | https://hornbach.cz | 46,28 Kč | 56 Kč |
-| Klipy | 10 ks | https://emas.cz | 45,8 Kč | 55,4 Kč |
-| WAGO svorkovnice 4pól | 2 ks | https://gme.cz | 74,38 Kč | 90 Kč |
-| WAGO svorkovnice 6pól | 1 ks | https://gme.cz | 64,46 | 78 Kč |
-| WAGO svorka | 4 ks | https://gme.cz | 56,20 Kč | 68 Kč |
-| Konektor RJ45 | 4 ks | https://hezkyden.cz | 82,64 Kč | 100 Kč |
-| Konektor Faston F1 | 4 ks | https://gme.cz | 10,92 Kč | 13,20 Kč |
-| Solární panel | 1 ks | https://dexhal.cz | 479,34 Kč | 580 Kč |
-| N-MOSFET | 5 ks | https://gme.cz | 10,05 Kč | 12,15 Kč |
-| P-MOSFET | 15 ks | https://tme.eu | 61,01 Kč | 73,82 Kč |
-| Akumulátor | 1 ks | https://levne-baterky.cz | 156 Kč | 189 Kč |
-| Pojistka | 5 ks | https://gme.cz | 33,05 Kč | 40 Kč |
-| Pojistkové pouzdro | 2 ks | https://gme.cz | 15,2 Kč | 18,4 Kč |
-| Pojistková krytka | 2 ks | https://gme.cz | 8,26 Kč | 10 Kč |
-| Lineární LDO regulátor | 2 ks | https://tme.eu | 33,48 Kč | 40,51 Kč |
-| Master | 1 ks | https://botland.cz | 525,62 Kč | 636 Kč |
-| Slave | 2 ks | https://botland.cz | 813,22 Kč | 984 Kč |
-| Senzor INA226 | 1 ks | https://laskakit.cz | 97,50 Kč | 118 Kč |
-| H-bridge DRV8838 | 1 ks | https://botland.cz | 81,82 Kč | 99 Kč |
-| Feritový korálek | 5 ks | https://tme.eu | 13,42 Kč | 16,24 Kč |
-| Motor | 1 ks | https://dratek.cz | 88 Kč | 107 Kč |
-| Koncový spínač | 2 ks | https://laskakit.cz | 39,60 Kč | 48 Kč |
-| Dvířka z pěněného PVC | 1 ks | https://allegro.cz | 61,98 Kč | 75 Kč |
-| Snáškové hnízdo | 2 ks | https://lihneme.cz | 824,79 Kč | 998 Kč |
-| Tenzometr | 2 ks | https://laskakit.cz | 211,60 Kč | 256 Kč |
-| Převodník HX711 | 2 ks | https://laskakit.cz | 39,60 Kč | 48 Kč |
-| Tranceiver MAX3485 | 3 ks | https://tme.eu | 258 Kč | 312,18 Kč |
-| Kondenzátor 1 µF / 50 V | 10 ks | https://gme.cz | 4,46 Kč | 5,40 Kč |
-| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | https://tme.eu | 23,44 Kč | 28,36 Kč |
-| Nepájivé pole | 1 ks | https://laskakit.cz | 246,30 Kč | 298 Kč |
-| DPS adapter SO8 na DIP8 | 3 ks | https://dratek.cz | 9,92 Kč | 12 Kč |
-| SMD adapter SOT23 | 10 ks | https://hezkyden.cz | 66,12 Kč | 80 Kč |
-| OSB 3 deska | 1 ks | https://hornbach.cz | 433,88 Kč | 525 Kč |
-| Stavební provázek | 1 ks | https://hornbach.cz | 80,17 Kč | 97 Kč |
-| Oko se závitem | 2 ks | https://hornbach.cz | 11,07 Kč | 13,40 Kč |
-| Šroub M5x30 | 2 ks | https://prumex.cz | 3,24 Kč | 3,92 Kč |
-| Šroub M5x25 | 10 ks | https://prumex.cz | 12,98 Kč | 15,70 Kč |
-| Šroub M5x16 | 1 ks | https://prumex.cz | 1,08 Kč | 1,31 Kč |
-| Červík | 4 ks | https://hornbach.cz | 2,98 Kč | 3,60 Kč |
-| Matice M5 | 10 ks | https://prumex.cz | 3,80 Kč | 4,60 Kč |
-| Matice M5 samojistná | 2 ks | https://prumex.cz | 1,12 Kč | 1,36 Kč |
-| Matice M5 klobouková | 2 ks | https://hornbach.cz | 7,52 Kč | 9,10 Kč |
-| Podložka M5 | 4 ks | https://prumex.cz | 0,89 Kč | 1,08 Kč |
+|:---:|:---:|:---:|:---:|:---:|
+| Kabel CYA 1x1,5 červený | 5 m | https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko | 37,19 Kč | 45 Kč |
+| Kabel CYA 1x1,5 černý | 5 m | https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko | 37,19 Kč | 45 Kč |
+| Kabel CYA 1x0,5 červený | 5 m | https://www.gme.cz/v/1512382/elektrokabel-cya-1x05-cerveny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel CYA 1x0,5 černý | 5 m | https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko | 14,46 Kč | 17,50 Kč |
+| Kabel UTP CAT5e 3 m | 1 ks | https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175 | 82 Kč | 99 Kč |
+| Kabel UTP CAT5e 0,5 m | 1 ks | https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172 | 70 Kč | 85 Kč |
+| Kabel LiYCY 4x0,25 | 2 m | https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/ | 32,58 Kč | 39,42 Kč |
+| Lišty | 4 m | https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/ | 46,28 Kč | 56 Kč |
+| Klipy | 10 ks | https://www.emas.cz/kopos-6706s-prichytka-jednostranna | 45,8 Kč | 55,4 Kč |
+| WAGO svorkovnice 4pól | 2 ks | https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina | 74,38 Kč | 90 Kč |
+| WAGO svorkovnice 6pól | 1 ks | https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina | 64,46 | 78 Kč |
+| WAGO svorka | 4 ks | https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2 | 56,20 Kč | 68 Kč |
+| Konektor RJ45 | 4 ks | https://www.hezkyden.cz/shop/adapter-rj45/ | 82,64 Kč | 100 Kč |
+| Konektor Faston F1 | 4 ks | https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm | 10,92 Kč | 13,20 Kč |
+| Solární panel | 1 ks | https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/ | 479,34 Kč | 580 Kč |
+| N-MOSFET | 5 ks | https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor | 10,05 Kč | 12,15 Kč |
+| P-MOSFET | 15 ks | https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/ | 61,01 Kč | 73,82 Kč |
+| Akumulátor | 1 ks | https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm | 156 Kč | 189 Kč |
+| Pojistka | 5 ks | https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou | 33,05 Kč | 40 Kč |
+| Pojistkové pouzdro | 2 ks | https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps | 15,2 Kč | 18,4 Kč |
+| Pojistková krytka | 2 ks | https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro | 8,26 Kč | 10 Kč |
+| Lineární LDO regulátor | 2 ks | https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/ | 33,48 Kč | 40,51 Kč |
+| Master | 1 ks | https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html | 525,62 Kč | 636 Kč |
+| Slave | 2 ks | https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html | 813,22 Kč | 984 Kč |
+| Senzor INA226 | 1 ks | https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/ | 97,50 Kč | 118 Kč |
+| H-bridge DRV8838 | 1 ks | https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html | 81,82 Kč | 99 Kč |
+| Feritový korálek | 5 ks | https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/ | 13,42 Kč | 16,24 Kč |
+| Motor | 1 ks | https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html | 88 Kč | 107 Kč |
+| Koncový spínač | 2 ks | https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/ | 39,60 Kč | 48 Kč |
+| Dvířka z pěněného PVC | 1 ks | https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198 | 61,98 Kč | 75 Kč |
+| Snáškové hnízdo | 2 ks | https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/ | 824,79 Kč | 998 Kč |
+| Tenzometr | 2 ks | https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/ | 211,60 Kč | 256 Kč |
+| Převodník HX711 | 2 ks | https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ | 39,60 Kč | 48 Kč |
+| Tranceiver MAX3485 | 3 ks | https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/ | 258 Kč | 312,18 Kč |
+| Kondenzátor 1 µF / 50 V | 10 ks | https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator | 4,46 Kč | 5,40 Kč |
+| Kondenzátor 47 uF / 25 V low-ESR | 20 ks | https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/ | 23,44 Kč | 28,36 Kč |
+| Nepájivé pole | 1 ks | https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/ | 246,30 Kč | 298 Kč |
+| DPS adapter SO8 na DIP8 | 3 ks | https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html | 9,92 Kč | 12 Kč |
+| SMD adapter SOT23 | 10 ks | https://www.hezkyden.cz/shop/smd-adapter-sot23/ | 66,12 Kč | 80 Kč |
+| OSB 3 deska | 1 ks | https://www.hornbach.cz/conf/osb-deska-kronospan-osb-3-f0-12-x-1250-x-2500-mm-nebrousena/3880511/ | 433,88 Kč | 525 Kč |
+| Stavební provázek | 1 ks | https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/ | 80,17 Kč | 97 Kč |
+| Oko se závitem | 2 ks | https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/ | 11,07 Kč | 13,40 Kč |
+| Šroub M5x30 | 2 ks | https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x30-nerez-a2/ | 3,24 Kč | 3,92 Kč |
+| Šroub M5x25 | 10 ks | https://www.prumex.cz/sroub-zapustny-inbus-din-7991-m5x25-nerez-a2/ | 12,98 Kč | 15,70 Kč |
+| Šroub M5x16 | 1 ks | https://www.prumex.cz/sroub-sestihranny-cely-zavit-din-933-m5x16-nerez-a2-70/ | 1,08 Kč | 1,31 Kč |
+| Červík | 4 ks | https://www.hornbach.cz/p/staveci-sroub-s-vnitrnim-sestihranem-a-hrotem-m5x6-mm-nerez-ocel-a4-1-ks/12120029/ | 2,98 Kč | 3,60 Kč |
+| Matice M5 | 10 ks | https://www.prumex.cz/matice-din-934-m5-nerez-a2/ | 3,80 Kč | 4,60 Kč |
+| Matice M5 samojistná | 2 ks | https://www.prumex.cz/matice-samojistna-nizka-din-985-m5-nerez-a2/ | 1,12 Kč | 1,36 Kč |
+| Matice M5 klobouková | 2 ks | https://www.hornbach.cz/p/kloboukova-matice-din-1587-m5-mosaz-1-ks/3830903/ | 7,52 Kč | 9,10 Kč |
+| Podložka M5 | 4 ks | https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ | 0,89 Kč | 1,08 Kč |
 | **CELKEM** | | | **5430 Kč** | **6570 Kč** |
