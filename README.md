@@ -911,15 +911,15 @@ https://www.prumex.cz/podlozka-plocha-din-125a-m5-nerezova-ocel-a2-5-3x10x1/ (4 
 | Senzor INA226 | 1 ks | LASKAKIT | https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/ | 97,50 Kč | 118 Kč |
 | H-bridge Pololu DRV8838 | 1 ks | BOTLAND | https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html | 81,82 Kč | 99 Kč |
 | Feritový korálek | 5 ks | TME | https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/ | 13,42 Kč | 16,24 Kč |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+| Motor | 1 ks | DRATEK | https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html | 88 Kč | 107 Kč |
+| Koncový spínač | 2 ks | LASKAKIT | https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/ | 39,60 Kč | 48 Kč |
+| Dvířka z pěněného PVC | 1 ks | Allegro | https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198 | 61,98 Kč | 75 Kč |
+| Snáškové hnízdo | 2 ks | LIHNEME | https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/ | 824,79 Kč | 998 Kč |
+| Tenzometr | 2 ks | LASKAKIT | https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/ | 211,60 Kč | 256 Kč |
+| Převodník HX711 | 2 ks | LASKAKIT | https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/ | 39,60 Kč | 48 Kč |
+| Tranceiver MAX3485 | 3 ks | TME | https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/ | 258 Kč | 312,18 Kč |
+| Kondenzátor 1 µF | 10 ks |  |  |  |  |
+| Kondenzátor 47 uF low-ESR | 2 ks |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
