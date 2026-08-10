@@ -756,6 +756,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Lineární LDO regulátor | 2 ks | [Odkaz][ldo] | 33,48 Kč | 40,51 Kč |
 | Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636 Kč |
 | Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984 Kč |
+| Programátor | 1 ks | [Odkaz][programmer] | 114,10 Kč | 138 Kč |
 | H-bridge DRV8838 | 1 ks | [Odkaz][h-bridge] | 81,82 Kč | 99 Kč |
 | Feritový korálek | 5 ks | [Odkaz][ferit] | 13,42 Kč | 16,24 Kč |
 | Motor | 1 ks | [Odkaz][motor] | 88 Kč | 107 Kč |
@@ -781,7 +782,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5183 Kč** | **6272 Kč** |
+| **Celkem** | | | **5297 Kč** | **6410 Kč** |
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
 [cya-15-cerny]: https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko
@@ -807,6 +808,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [ldo]: https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/
 [master]: https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html
 [slave]: https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html
+[programmer]: https://www.laskakit.cz/st-link-v2-programator-stm8-stm32/
 [h-bridge]: https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html
 [ferit]: https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/
 [motor]: https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html
