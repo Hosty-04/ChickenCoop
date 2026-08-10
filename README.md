@@ -434,7 +434,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 &nbsp;
 
 ### Řízení
-Hlavní řídicí jednotkou systému bude mikrořadič STM32WLE5JC LoRa-E5 mini (M) s integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn další mikrořadič STM32 NUCLEO-L031K6 (Mx), který má integrovaný programátor využitelný i pro hlavní řadič.
+Hlavní řídicí jednotkou systému bude mikrořadič LoRa-E5 mini (M) s STM32WLE5JC a integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn mikrořadič STM32 NUCLEO-L031K6 (Mx). Pro programování bude využito programátoru ST-LINK V2. Před programováním je potřeba programátor přes klasické DuPont kabely připojit k dané desce — stačí propojit piny SWCLK, SWDIO, GND a nRST.
 
 Firmware bude vyvíjen v prostředí STM32CubeIDE. Součástí firmwaru hlavního řadiče budou astronomické hodiny, které každý den ve 12 hodin po kontrole solárního panelu a akumulátoru pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes RTC hodiny bude řadič schopen zjistit i roční období. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů. Konfiguraci periferií a hodin zajistí grafický nástroj STM32CubeMX.
 
@@ -454,7 +454,7 @@ Po připojení napájení VCC k jednotlivým částem systému nebo jejich probu
 
 Před odpojením napájení VCC od jednotlivých částí systému je kvůli snížení spotřeby a leakage nutné vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
 
-Kvůli nízkopříkonové povaze systému bude nutné odpájet červenou Power LED diodu, zelené User LED diody, TX a RX LED diody, shottkyho diodu a lineární LDO regulátor. Programátor ST-Link musí být za provozu odpojen. Pro programování lze programátor k deskám připojovat přes klasické DuPont kabely — stačí propojit napájení, zem a SWCLK připojit na PA14 a SWDIO na PA13. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba v power registrech (PWR) zapnout ultra low power režim (ULP bit), vypnout fast wakeup (FWU bit) a při nepoužívání rádia je nutné nastavit externí RF switch (PA4 a PA5 piny) na logickou nulu.
+Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet zelenou User LED diodu, TX LED didou, RX LED diodu, shottkyho diodu a lineární LDO regulátor. Programátor ST-Link musí být za provozu odpojen. Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba v power registrech (PWR) zapnout ultra low power režim (ULP bit), vypnout fast wakeup (FWU bit) a u LoRa-E5 mini nastavit TCXO oscilátor (pin PB0) a při nepoužívání rádia externí RF switch (piny PA4 a PA5) na logickou nulu.
 
 &nbsp;
 
@@ -768,7 +768,6 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
 | Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
-| Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
 | Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
 | Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97 Kč |
@@ -782,7 +781,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5430 Kč** | **6570 Kč** |
+| **Celkem** | | | **5183 Kč** | **6272 Kč** |
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
 [cya-15-cerny]: https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko
@@ -820,7 +819,6 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [kondik-esr]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
 [so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
-[pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
 [dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
 [provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
