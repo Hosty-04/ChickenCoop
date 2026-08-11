@@ -129,20 +129,29 @@ U MOSFET oddělovače přispívá do spotřeby pouze pull-down rezistor při sep
 &nbsp;
 
 $$
-t_{p,c} = 144 \cdot t_{p,v} = 144 \cdot 5\ \text{ms} \approx \mathbf{1\ \text{s}}
+t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{500\ \text{kHz}} = 16 \cdot 346\ \text{µs} = 5,54\ \text{ms}
 $$
 
 $$
-t_{a,c} = 144 \cdot t_{a,v} = 144 \cdot 75\ \text{ms} \approx \mathbf{11\ \text{s}}
+t_p = 144 \cdot t_{p,v} = 144 \cdot 5,54\ \text{ms} \approx \mathbf{1\ \text{s}}
+$$
+
+$$
+t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} = 144 \cdot 75\ \text{ms} \approx \mathbf{11\ \text{s}}
 $$
 
 &nbsp;
 
 kde:
-- $t_{p,c}$ ... celková doba měření napětí na panelu
+- $t_p$ ... doba měření napětí na panelu
 - $t_{p,v}$ ... doba vzorkování napětí na panelu
-- $t_{a,c}$ ... celková doba měření napětí na akumulátoru
-- $t_{a,v}$ ... doba vzorkování napětí na akumulátoru
+- $n_{p,v}$ ... počet vzorků napětí na panelu
+- $n_{c,v}$ ... počet cyklů procesoru pro odebrání vzorku
+- $n_{c,p}$ ... počet cyklů procesoru pro převod
+- $f_{clk}$ ... frekvence ADC hodin
+- $t_a$ ... doba měření napětí na akumulátoru
+- $t_{a,v}$ ... čas na vzorek napětí na akumulátoru
+- $n_{a,v}$ ... počet vzorků napětí na akumulátoru
 
 &nbsp;
 
@@ -585,7 +594,7 @@ I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzisto
 
 &nbsp;
 
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie, kvůli vysoké výstupní impedanci děliče přes kterou se nabíjí interní vzorkovací kondenzátor uvnitř M, jehož malá kapacita by se tak nabíjela příliš pomalu na spolehlivé vzorkování. Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý leakage do M zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie, kvůli vysoké výstupní impedanci děliče přes kterou se nabíjí interní vzorkovací kondenzátor uvnitř M, jehož malá kapacita by se tak nabíjela příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů procesoru (160,5). Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý leakage do M zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
 &nbsp;
 
