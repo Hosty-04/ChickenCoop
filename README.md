@@ -749,7 +749,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Kabel UTP CAT5e 0,5 m | 1 ks | [Odkaz][utp-05m] | 70 Kč | 85 Kč |
 | Kabel LiYCY 4x0,25 | 2 m | [Odkaz][liycy-4x025] | 32,58 Kč | 39,42 Kč |
 | Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56 Kč |
-| Klipy | 10 ks | [Odkaz][klipy] | 45,8 Kč | 55,4 Kč |
+| Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90 Kč |
 | WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 | 78 Kč |
 | WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68 Kč |
