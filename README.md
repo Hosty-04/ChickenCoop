@@ -778,6 +778,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
 | Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
+| Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
 | Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
 | Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97 Kč |
@@ -791,7 +792,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5297 Kč** | **6410 Kč** |
+| **Celkem** | | | **5543 Kč** | **6708 Kč** |
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
 [cya-15-cerny]: https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko
@@ -830,6 +831,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [kondik-esr]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
 [so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
+[pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
 [dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
 [provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
