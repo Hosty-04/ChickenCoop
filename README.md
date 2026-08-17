@@ -741,49 +741,49 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 
 | Položka | Množství | Odkaz | Cena (bez DPH) | Cena (s DPH) |
 |:---|:---:|:---:|:---:|:---:|
-| Kabel CYA 1x1,5 červený | 5 m | [Odkaz][cya-15-cerveny] | 37,19 Kč | 45 Kč |
-| Kabel CYA 1x1,5 černý | 5 m | [Odkaz][cya-15-cerny] | 37,19 Kč | 45 Kč |
+| Kabel CYA 1x1,5 červený | 5 m | [Odkaz][cya-15-cerveny] | 37,19 Kč | 45,00 Kč |
+| Kabel CYA 1x1,5 černý | 5 m | [Odkaz][cya-15-cerny] | 37,19 Kč | 45,00 Kč |
 | Kabel CYA 1x0,5 červený | 5 m | [Odkaz][cya-05-cerveny] | 14,46 Kč | 17,50 Kč |
 | Kabel CYA 1x0,5 černý | 5 m | [Odkaz][cya-05-cerny] | 14,46 Kč | 17,50 Kč |
-| Kabel UTP CAT5e 3 m | 1 ks | [Odkaz][utp-3m] | 82 Kč | 99 Kč |
-| Kabel UTP CAT5e 0,5 m | 1 ks | [Odkaz][utp-05m] | 70 Kč | 85 Kč |
+| Kabel UTP CAT5e 3 m | 1 ks | [Odkaz][utp-3m] | 82,00 Kč | 99,00 Kč |
+| Kabel UTP CAT5e 0,5 m | 1 ks | [Odkaz][utp-05m] | 70,00 Kč | 85,00 Kč |
 | Kabel LiYCY 4x0,25 | 2 m | [Odkaz][liycy-4x025] | 32,58 Kč | 39,42 Kč |
-| Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56 Kč |
+| Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56,00 Kč |
 | Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
-| WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90 Kč |
-| WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 | 78 Kč |
+| WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
+| WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 | 78,00 Kč |
 | WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68 Kč |
 | Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580 Kč |
 | N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
 | P-MOS tranzistor | 15 ks | [Odkaz][p-mos] | 61,01 Kč | 73,82 Kč |
-| Akumulátor | 1 ks | [Odkaz][akumulator] | 156 Kč | 189 Kč |
-| Pojistka | 5 ks | [Odkaz][pojistka] | 33,05 Kč | 40 Kč |
-| Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,2 Kč | 18,4 Kč |
-| Pojistková krytka | 2 ks | [Odkaz][krytka] | 8,26 Kč | 10 Kč |
+| Akumulátor | 1 ks | [Odkaz][akumulator] | 156,00 Kč | 189,00 Kč |
+| Pojistka | 5 ks | [Odkaz][pojistka] | 33,05 Kč | 40,00 Kč |
+| Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,20 Kč | 18,40 Kč |
+| Pojistková krytka | 2 ks | [Odkaz][krytka] | 8,26 Kč | 10,00 Kč |
 | Lineární LDO regulátor | 2 ks | [Odkaz][ldo] | 33,48 Kč | 40,51 Kč |
-| Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636 Kč |
-| Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984 Kč |
-| Programátor | 1 ks | [Odkaz][programmer] | 114,10 Kč | 138 Kč |
-| H-bridge DRV8838 | 1 ks | [Odkaz][h-bridge] | 81,82 Kč | 99 Kč |
+| Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636,00 Kč |
+| Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984,00 Kč |
+| Programátor | 1 ks | [Odkaz][programmer] | 114,10 Kč | 138,00 Kč |
+| H-bridge DRV8838 | 1 ks | [Odkaz][h-bridge] | 81,82 Kč | 99,00 Kč |
 | Feritový korálek | 5 ks | [Odkaz][ferit] | 13,42 Kč | 16,24 Kč |
-| Motor | 1 ks | [Odkaz][motor] | 88 Kč | 107 Kč |
-| Koncový spínač | 2 ks | [Odkaz][spinac] | 39,60 Kč | 48 Kč |
-| Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118 Kč |
-| Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256 Kč |
-| Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48 Kč |
-| Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258 Kč | 312,18 Kč |
+| Motor | 1 ks | [Odkaz][motor] | 88,00 Kč | 107,00 Kč |
+| Koncový spínač | 2 ks | [Odkaz][spinac] | 39,60 Kč | 48,00 Kč |
+| Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118,00 Kč |
+| Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256,00 Kč |
+| Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48,00 Kč |
+| Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258,00 Kč | 312,18 Kč |
 | Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
 | Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
-| Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12 Kč |
-| Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80 Kč |
-| Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298 Kč |
-| Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75 Kč |
+| Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12,00 Kč |
+| Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80,00 Kč |
+| Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298,00 Kč |
+| Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75,00 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
-| Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97 Kč |
-| Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998 Kč |
-| OSB 3 deska | 1 ks | [Odkaz][osb] | 433,88 Kč | 525 Kč |
+| Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97,00 Kč |
+| Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998,00 Kč |
+| OSB 3 deska | 1 ks | [Odkaz][osb] | 433,88 Kč | 525,00 Kč |
 | Šroub M5x30 | 2 ks | [Odkaz][sroub-m5x30] | 3,24 Kč | 3,92 Kč |
 | Šroub M5x25 | 10 ks | [Odkaz][sroub-m5x25] | 12,98 Kč | 15,70 Kč |
 | Šroub M5x16 | 1 ks | [Odkaz][sroub-m5x16] | 1,08 Kč | 1,31 Kč |
