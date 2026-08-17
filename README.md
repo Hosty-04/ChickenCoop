@@ -751,7 +751,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56,00 Kč |
 | Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
-| WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 | 78,00 Kč |
+| WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 Kč | 78,00 Kč |
 | WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68 Kč |
 | Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100 Kč |
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
