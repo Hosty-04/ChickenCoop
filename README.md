@@ -752,10 +752,10 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
 | WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 Kč | 78,00 Kč |
-| WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68 Kč |
-| Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100 Kč |
+| WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68,00 Kč |
+| Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100,00 Kč |
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
-| Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580 Kč |
+| Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580,00 Kč |
 | N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
 | P-MOS tranzistor | 15 ks | [Odkaz][p-mos] | 61,01 Kč | 73,82 Kč |
 | Akumulátor | 1 ks | [Odkaz][akumulator] | 156,00 Kč | 189,00 Kč |
