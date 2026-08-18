@@ -453,18 +453,6 @@ LoRa anténa bude moci vysílat teprve po vypnutí všech ostatních systémů, 
 
 Data budou z kurníku odesílána ve třech a více bajtech. První bajt ponese 1 bit pro indikaci zapnutí/vypnutí systému a 7 bitů pro napětí solárního panelu (rozsah 0–9 V, krok 70 mV). Druhý bajt bude obsahovat 6 bitů pro napětí akumulátoru (5,75–8 V, krok 35 mV) a 2 bity pro stav dvířek (otevřeno / zavřeno / porucha). Další bajty budou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech (0–10 vajec na hnízdo). Kurník bude data přenášet každou hodinu po kontrole stavu hnízd a dvakrát denně při změně stavu dvířek — v tom případě odešle pouze první dva bajty. Manuální ovládání využije jediný bajt: jeden bit pro vypnutí/zapnutí systému, druhý pro vypnutí/zapnutí kritického režimu (nízké napětí na akumulátoru) a poslední pro ovládání dvířek (zavřít/otevřít).
 
-Pro přenos dat mezi hlavní řídicí jednotkou (master) a ostatními řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, bude použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost bude kvůli minimalizaci odrazů 9600 Bd. Na aplikační vrstvě poslouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v řadiči následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici; na straně přijímače proběhne opačný proces.
-
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu jedné milisekundy. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu bude nastaveno do režimu LP Sleep. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run a LP Sleep je potřeba snížit napětí interního regulátoru — HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2). Tento řadič bude využívat úsporného SMPS napájecího režimu — HAL_PWREx_ConfigSupply(PWR_SMPS_SUPPLY).
-
-U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů a protože je potřeba uchovat obsah paměti RAM. Tentokrát budou ale po většinu dne v režimu Stop bez RTC. Řadiče budou postupně probouzeny a uspávány pomocí sběrnice LPUART přes hlavní řadič, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí zpět do režimu Stop bez RTC. Napětí interního regulátoru bude možno kvůli nízké taktovací frekvenci trvale snížit na nižší hodnotu (Voltage Scale 2). Přechod mikrořadičů mezi režimy trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná.
-
-Po připojení napájení VCC k jednotlivým částem systému nebo jejich probuzení je nutné počkat na jejich ustálení. U obvodu INA226 se použije čekací doba 200 µs, zahrnující náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek trvá vytvoření hodnoty přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. U obvodu MAX3485 se použije čekací doba 100 µs (náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND), u budiče DRV8838 pak 3 ms, což zahrnuje nabití elektrolytického kondenzátoru 47 µF mezi VM a GND, keramického 100 nF mezi VCC a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms. Kromě posledního zmíněného obvodu nebude inicializační doba zahrnuta do výpočtu denní spotřeby systému.
-
-Před odpojením napájení VCC od jednotlivých částí systému je kvůli snížení spotřeby a leakage nutné vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
-
-Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, shottkyho diodu a lineární LDO regulátor; u ostatních řadičů bude nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba u LoRa-E5 mini nastavit TCXO oscilátor (pin PB0) a při nepoužívání rádia externí RF switch (piny PA4 a PA5) na logickou nulu a u ostatních řadičů v power registrech (PWR) zapnout ultra low power režim (ULP bit) a vypnout fast wakeup (FWU bit).
-
 &nbsp;
 
 **Stavový automat pro algoritmus detekce snesených vajec**
@@ -485,6 +473,80 @@ Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet ze
 - Při hmotnosti menší než 25 g proběhne nanejvíš jednou denně kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
+
+&nbsp;
+
+Pro přenos dat mezi hlavní řídicí jednotkou (master) a ostatními řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, bude použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost bude kvůli minimalizaci odrazů 9600 Bd. Na aplikační vrstvě poslouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v řadiči následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici; na straně přijímače proběhne opačný proces.
+
+K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie, kvůli vysoké výstupní impedanci děliče přes kterou se nabíjí interní vzorkovací kondenzátor uvnitř M, jehož malá kapacita by se tak nabíjela příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů procesoru (160,5). Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý leakage do M zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
+
+&nbsp;
+
+**Napěťový rozsah děliče**
+
+&nbsp;
+
+$$
+U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V} < 3,3\ \text{V}}
+$$
+
+&nbsp;
+
+kde:
+- $U_r$ ... maximální napětí na řadiči
+- $U_{max}$ ... maximální napětí panelu
+- $R_1$ ... první rezistor děliče
+- $R_2$ ... druhý rezistor děliče
+
+&nbsp;
+
+I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC pinu napájecí napětí M. Napětí na ADC pinu se bude tudíž pohybovat v bezpečných mezích pro M.
+
+&nbsp;
+
+Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru + úbytek napětí na MOSFET oddělovači, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude zavedena hystereze 250 mV.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
+
+&nbsp;
+
+Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek (dostatečná přesnost pro detekci překročení prahové hodnoty) monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu po dobu 150 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+
+&nbsp;
+
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
+
+&nbsp;
+
+**Mezní proud motoru**
+
+&nbsp;
+
+$$
+I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
+$$
+
+&nbsp;
+
+kde:
+- $I_m$ ... mezní proud
+- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
+- $U_m$ ... napětí motoru
+- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
+
+&nbsp;
+
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu jedné milisekundy. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu bude nastaveno do režimu LP Sleep. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run a LP Sleep je potřeba snížit napětí interního regulátoru — HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2). Tento řadič bude využívat úsporného SMPS napájecího režimu — HAL_PWREx_ConfigSupply(PWR_SMPS_SUPPLY).
+
+U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů a protože je potřeba uchovat obsah paměti RAM. Tentokrát budou ale po většinu dne v režimu Stop bez RTC. Řadiče budou postupně probouzeny a uspávány pomocí sběrnice LPUART přes hlavní řadič, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí zpět do režimu Stop bez RTC. Napětí interního regulátoru bude možno kvůli nízké taktovací frekvenci trvale snížit na nižší hodnotu (Voltage Scale 2). Přechod mikrořadičů mezi režimy trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná.
+
+Po připojení napájení VCC k jednotlivým částem systému nebo jejich probuzení je nutné počkat na jejich ustálení. U obvodu INA226 se použije čekací doba 200 µs, zahrnující náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek trvá vytvoření hodnoty přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. U obvodu MAX3485 se použije čekací doba 100 µs (náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND), u budiče DRV8838 pak 3 ms, což zahrnuje nabití elektrolytického kondenzátoru 47 µF mezi VM a GND, keramického 100 nF mezi VCC a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms. Kromě posledního zmíněného obvodu nebude inicializační doba zahrnuta do výpočtu denní spotřeby systému.
+
+Před odpojením napájení VCC od jednotlivých částí systému je kvůli snížení spotřeby a leakage nutné vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
+
+Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, shottkyho diodu a lineární LDO regulátor; u ostatních řadičů bude nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba u LoRa-E5 mini nastavit TCXO oscilátor (pin PB0) a při nepoužívání rádia externí RF switch (piny PA4 a PA5) na logickou nulu a u ostatních řadičů v power registrech (PWR) zapnout ultra low power režim (ULP bit) a vypnout fast wakeup (FWU bit).
 
 &nbsp;
 
@@ -591,66 +653,6 @@ kde:
 &nbsp;
 
 I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí, že pokles napětí na gate při jejich rozpínání, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — nejvyšší možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru, ke které byla přičtena rezerva kvůli odporu pinu a hradla — přibližně 25 Ω, je stejně jako doba nabití kondenzátoru zanedbatelná.
-
-&nbsp;
-
-K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 470 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (470 kΩ) bude zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie, kvůli vysoké výstupní impedanci děliče přes kterou se nabíjí interní vzorkovací kondenzátor uvnitř M, jehož malá kapacita by se tak nabíjela příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů procesoru (160,5). Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý leakage do M zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 bude v krabičce K zapojen mezi akumulátor a vstup VM pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
-
-&nbsp;
-
-**Napěťový rozsah děliče**
-
-&nbsp;
-
-$$
-U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 9\ \text{V} \cdot \frac{470\ \text{k}\Omega}{1\ \text{M}\Omega + 470\ \text{k}\Omega} = \mathbf{2,88\ \text{V} < 3,3\ \text{V}}
-$$
-
-&nbsp;
-
-kde:
-- $U_r$ ... maximální napětí na řadiči
-- $U_{max}$ ... maximální napětí panelu
-- $R_1$ ... první rezistor děliče
-- $R_2$ ... druhý rezistor děliče
-
-&nbsp;
-
-I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC pinu napájecí napětí M. Napětí na ADC pinu se bude tudíž pohybovat v bezpečných mezích pro M.
-
-&nbsp;
-
-Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při kritickém vybití akumulátoru, kdy jeho napětí klesne na 5,75 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru + úbytek napětí na MOSFET oddělovači, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude zavedena hystereze 250 mV.
-
-&nbsp;
-
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
-
-&nbsp;
-
-Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek (dostatečná přesnost pro detekci překročení prahové hodnoty) monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu po dobu 150 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
-
-&nbsp;
-
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
-
-&nbsp;
-
-**Mezní proud motoru**
-
-&nbsp;
-
-$$
-I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
-$$
-
-&nbsp;
-
-kde:
-- $I_m$ ... mezní proud
-- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
-- $U_m$ ... napětí motoru
-- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
 
 &nbsp;
 
@@ -793,6 +795,10 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
 | **Celkem** | | | **5543 Kč** | **6708 Kč** |
+
+&nbsp;
+
+*Poznámka: Do celkové ceny není započtena doprava.*
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
 [cya-15-cerny]: https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko
