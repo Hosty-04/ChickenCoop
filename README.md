@@ -680,9 +680,9 @@ Konstrukce bude obsahovat jednu krabičku pro akumulátor o tloušťce stěny 2,
 
 V krabičkách K a Kx budou desky plošných spojů připevněny ke dnu (šroub povede zespodu) přes odřezek plastového brčka a u jejich víka budou vytvořeny nízké drážky ve tvaru písmene U s mírně zaoblenými rohy, sloužící k protažení kabelů. Pro kabel o průřezu 1,5 mm² budou mít šířku 4,5 mm, hloubku 3 mm a zaoblení dna i hran 1 mm; pro kabel o průřezu 0,5 mm² šířku 3,5 mm, hloubku 2 mm a zaoblení dna i hran 0,75 mm; pro datový kabel pak šířku 6 mm, hloubku 3,5 mm a stejné zaoblení jako u prvního kabelu. U krabičky pro akumulátor budou zespodu dva kruhové otvory o průměru 5 mm určené pro průchod napájecích kabelů a dva větrací otvory o průměru 4 mm, umístěné v horní a spodní části tak, aby mohl uvnitř cirkulovat vzduch. Krabička Kx bude mít zespodu jeden otvor o průměru 6 mm pro průchod kabelu od tenzometru, krabička K pak otvor o průměru 3 mm pro lanko.
 
-Na betonovou stěnu budou pomocí vrutů a hmoždinek připevněny svislé dřevěné hranolky, k jejichž bočním stěnám budou zapuštěnými vruty upevněny hliníkové U-profily s vnitřním rozměrem 10 mm. U-profily zajistí přesné vedení dvířek při minimálním tření. V těchto profilech se budou ve svislém směru pohybovat nalakovaná pěněná PVC dvířka o rozměrech 24 × 35 cm a tloušťce 8 mm (pozor na výrobní tolerance). Hmotnost těchto dvířek je 350 g. Při vrtání otvorů do PVC je nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno pro nízkou hmotnost, odolnost proti vlhkosti a snadnou obrobitelnost.
+Na betonovou stěnu budou pomocí vrutů a hmoždinek přes koncové spínače připevněny svislé dřevěné hranolky, k jejichž bočním stěnám budou přes vruty upevněny hliníkové U-profily s šířkou dna 15 mm, výškou bočních stěn 15 mm, tloušťkou 1,5 mm a délkou 1 m. První vrut bude umístěn na horní pozici, nad kterou se dvířka nikdy nedostanou, a druhý vrut na dolní pozici, kam dvířka nikdy nedojedou. U-profily zajistí přesné vedení dvířek při minimálním tření. V těchto profilech se budou ve svislém směru pohybovat nalakovaná pěněná PVC dvířka o rozměrech 24 × 35 cm a tloušťce 8 mm (pozor na výrobní tolerance). Hmotnost těchto dvířek je 350 g. Při vrtání otvorů do PVC je nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno pro nízkou hmotnost, odolnost proti vlhkosti a snadnou obrobitelnost.
 
-V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové mikrospínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku; sloužit budou k vývodu kontaktů. Spínače budou upevněny vruty o průměru 2 mm. Tohle provedení představuje jednoduché řešení určování krajních poloh dvířek.
+V horní i dolní části hranolku budou ve svislé ose zapuštěny dva pákové koncové spínače sledující polohu dvířek. Záhlubení široká 6,5 mm a vysoká 20 mm povedou skrz hranolek a 10mm širokou hliníkovou drážku; sloužit budou k vývodu kontaktů. Spínače budou upevněny vruty o průměru 2 mm. Tohle provedení představuje jednoduché řešení určování krajních poloh dvířek.
 
 Na horní části přední strany dvířek bude umístěno závěsné očko M5 z nerezové oceli A2, upevněné podložkou a samojistnou maticí stejného typu; očko bude procházet otvorem odpovídajícího průměru jako jeho metrický závit. Očkem bude protaženo syntetické lanko (zednická šňůra) o průměru 2 mm, zajištěné dračí smyčkou zakápnutou vteřinovým lepidlem. Syntetická šňůra nekoroduje, má nízkou průtažnost a je odolná vůči vlhkosti.
 
@@ -785,7 +785,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80,00 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298,00 Kč |
 | Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75,00 Kč |
-| Hliníková drážka | 1 ks | [Odkaz][drazka] | 70,25 Kč | 85 Kč |
+| Hliníková drážka | 1 ks | [Odkaz][drazka] | 147,93 Kč | 179 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
 | Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97,00 Kč |
 | Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998,00 Kč |
@@ -798,7 +798,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5613 Kč** | **6793 Kč** |
+| **Celkem** | | | **5691 Kč** | **6887 Kč** |
 
 &nbsp;
 
@@ -843,7 +843,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
 [pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
 [dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
-[drazka]: https://www.hornbach.cz/p/alu-u-profil-15x10x1-5mm-1m/6368949/
+[drazka]: https://www.hornbach.cz/p/u-profil-hlinik-stribrny-eloxovany-15x15x1-5-mm-1-m/10346788/
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
 [provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
 [hnizdo]: https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
