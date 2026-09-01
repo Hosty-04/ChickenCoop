@@ -785,6 +785,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80,00 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298,00 Kč |
 | Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75,00 Kč |
+| Hliníková drážka | 1 ks | [Odkaz][drazka] | 70,25 Kč | 85 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
 | Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97,00 Kč |
 | Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998,00 Kč |
@@ -797,7 +798,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5543 Kč** | **6708 Kč** |
+| **Celkem** | | | **5613 Kč** | **6793 Kč** |
 
 &nbsp;
 
@@ -842,6 +843,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [sot23]: https://www.hezkyden.cz/shop/smd-adapter-sot23/
 [pole]: https://www.laskakit.cz/velke-nepajive-kontaktni-pole-s-napajecimi-svorkami-2860-pinu/
 [dvirka]: https://allegro.cz/produkt/penene-pvc-bile-pcw-pvc-8mm-na-miru-01278396-27c1-4066-92e1-551ca5185488?offerId=10795365198
+[drazka]: https://www.hornbach.cz/p/alu-u-profil-15x10x1-5mm-1m/6368949/
 [oko]: https://www.hornbach.cz/p/oko-s-metrickym-zavitem-m5x20-mm-nerez-ocel-a2-1-ks/12120479/
 [provazek]: https://www.hornbach.cz/p/stavebni-provazek-2-mm-50-m-cerveny/5040757/
 [hnizdo]: https://www.lihneme.cz/plastova-snaskova-hnizda/hf44x37x50-zelene/
