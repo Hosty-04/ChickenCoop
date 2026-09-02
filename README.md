@@ -33,7 +33,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 ### Kabeláž
 Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů a odtud dále k akumulátoru. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí.
 
-Stejným způsobem budou k desce plošných spojů připojeny mikrospínače, avšak s licnou o průřezu 0,5 mm². Spoje této licny s kontakty mikrospínače budou izolovány smršťovacími bužírkami s poměrem 2:1 a vnitřním průměrem 2 mm / 0,75 mm (před / po zahřátí), přečnívajícími asi centimetr přes izolaci.
+Stejným způsobem bude k desce plošných spojů připojen motor a mikrospínače, avšak s licnou o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici. Spoje této licny s kontakty budou izolovány smršťovacími bužírkami s poměrem 2:1 a vnitřním průměrem 2 mm / 0,75 mm (před / po zahřátí), přečnívajícími asi centimetr přes izolaci.
 
 Kabely povedou v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Speciální UV odolná lišta není potřeba, protože stěna kurníku, na které budou lišty umístěny, bude vystavena slunci pouze při jeho západu; životnost běžné lišty se odhaduje na 5-10 let.
 
@@ -685,7 +685,7 @@ Na horní části přední strany dvířek bude umístěno závěsné očko M5 z
 
 Lanko povede kolmo vzhůru do krabičky K, kde bude navíjeno na špulku vytištěnou z materiálu PETG (šířka 2 cm, vnější průměr 2,5 cm). Otvorem o průměru 3 mm na okraji špulky, dále od motoru, bude lanko provlečeno a upevněno osmičkovým uzlem, rovněž zakápnutým vteřinovým lepidlem; uzel bude zapuštěn 8 mm hluboko do záhlubení o průměru 10 mm, s vývodem lanka na okraji záhlubení směrem k okraji špulky.
 
-Ta bude opatřena otvorem s D-profilem (průměr 3 mm, hloubka 10 mm) a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), ze strany, kde vstupuje lanko.
+Špulka bude disponovat packami pro její uchycení ke dnu krabičky K, otvorem s D-profilem (průměr 3 mm, hloubka 10 mm) a pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) bude upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), ze strany, kde vstupuje lanko.
 
 &nbsp;
 
