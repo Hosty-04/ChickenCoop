@@ -752,6 +752,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Kabel LiYCY 4x0,25 | 2 m | [Odkaz][liycy-4x025] | 32,58 Kč | 39,42 Kč |
 | Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56,00 Kč |
 | Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
+| WAGO svorkovnice 2pól | 1 ks | [Odkaz][wago-2pol] | 12,40 Kč | 15,00 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
 | WAGO svorkovnice 6pól | 1 ks | [Odkaz][wago-6pol] | 64,46 Kč | 78,00 Kč |
 | WAGO svorka | 4 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68,00 Kč |
@@ -795,7 +796,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5691 Kč** | **6887 Kč** |
+| **Celkem** | | | **5704 Kč** | **6902 Kč** |
 
 &nbsp;
 
@@ -810,6 +811,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [liycy-4x025]: https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/
 [listy]: https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/
 [klipy]: https://www.emas.cz/kopos-6706s-prichytka-jednostranna
+[wago-2pol]: https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-4pol]: https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-6pol]: https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina
 [wago-svorka]: https://www.gme.cz/v/1513875/wago-221-2411-svorka-bezsroubova-2pol-vodic-do-4mm2
