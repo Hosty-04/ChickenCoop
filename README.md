@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/block_schematic_white.png" alt="block_schematic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/block_schematic_white.png" alt="block_schematic">
 
 &nbsp;
 
@@ -52,7 +52,7 @@ Výrobu energie zajistí fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/graphs/panel_characteristic_white.png" alt="panel_characteristic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Plots/panel_characteristic_white.png" alt="panel_characteristic">
 
 &nbsp;
 
@@ -508,7 +508,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
 
 &nbsp;
 
@@ -516,7 +516,7 @@ Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrová
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
 
 &nbsp;
 
@@ -561,7 +561,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/separator_schematic_white.png" alt="separator_schematic">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/separator_schematic_white.png" alt="separator_schematic">
 
 &nbsp;
 
@@ -604,7 +604,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
+<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
 
 &nbsp;
 
