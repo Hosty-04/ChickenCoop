@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    motor.h
-  * @brief   DC motor driver (PWM + direction)
+  * @brief   DC motor driver (PWM + direction + limit switches)
   ******************************************************************************
   */
 

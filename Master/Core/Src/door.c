@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    door.c
-  * @brief   Automatic chicken door – schedule open/close around sunrise/sunset
+  * @brief   Automatic chicken door controller (sunrise/sunset based)
   ******************************************************************************
   */
 

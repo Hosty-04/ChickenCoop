@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    astro.h
-  * @brief   Calculation of sunrise and sunset
+  * @brief   Calculation of sunrise and sunset (NOAA algorithm approximation)
   ******************************************************************************
   */
 
