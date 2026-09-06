@@ -520,29 +520,11 @@ Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrová
 
 &nbsp;
 
-**Mezní proud motoru**
-
-&nbsp;
-
-$$
-I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
-$$
-
-&nbsp;
-
-kde:
-- $I_m$ ... mezní proud
-- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
-- $U_m$ ... napětí motoru
-- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
-
-&nbsp;
-
 Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run, LP Sleep a Stop2 s RTC je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
 
 U ostatních řídicích jednotek to bude po většinu dne velmi podobné — ze stejných důvodů a protože je potřeba uchovat obsah paměti RAM. Tentokrát budou ale po většinu dne v režimu Stop bez RTC. Řadiče budou postupně probouzeny a uspávány pomocí sběrnice LPUART přes hlavní řadič, díky čemuž nepotřebují vlastní RTC hodiny. Po probuzení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí zpět do režimu Stop bez RTC. Napětí interního regulátoru bude možno kvůli nízké taktovací frekvenci trvale snížit na nižší hodnotu (Voltage Scale 2). Přechod mikrořadičů mezi režimy trvá řádově jednotky až desítky mikrosekund včetně obnovení systémových hodin. Ve srovnání s dobou měření senzorů (desítky milisekund až sekundy) je tato doba zanedbatelná.
 
-Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. U obvodu INA226 se použije čekací doba 200 µs, zahrnující náběh napájení, stabilizaci obvodu a nabití blokovacího keramického kondenzátoru 100 nF mezi VCC a GND. Při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek trvá vytvoření hodnoty přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. U obvodu MAX3485 se použije čekací doba 100 µs (náběh obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND), u budiče DRV8838 pak 3 ms, což zahrnuje nabití elektrolytického kondenzátoru 47 µF mezi VM a GND, keramického 100 nF mezi VCC a GND a především ustálení interní nábojové pumpy. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms. Kromě posledního zmíněného obvodu nebude inicializační doba zahrnuta do výpočtu denní spotřeby systému.
+Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. U obvodu INA226 trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek vytvoření hodnoty přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. U obvodu MAX3485 se použije čekací doba 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND. U obvodu HX711 bude po zapnutí napájení potřeba čekat přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době už lze odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
 Před odpojením napájení VCC od jednotlivých částí systému nebo před jejich uspáním je kvůli snížení spotřeby a leakage nutné vypnout periferie (I²C, UART, ADC) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
 
@@ -657,6 +639,43 @@ I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzisto
 &nbsp;
 
 Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru, aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření proudu modulem INA226 (17,6 ms) proběhne při této frekvenci přes 350 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
+
+&nbsp;
+
+**Střída PWM modulace**
+
+&nbsp;
+
+$$
+duty = \frac{U_m}{U_{aku}} \cdot 100 = \frac{6\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{92,3\ \text{%}}
+$$
+
+&nbsp;
+
+kde:
+- $duty$ ... střída PWM modulace v procentech
+- $U_m$ ... napětí motoru
+- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
+
+&nbsp;
+
+**Mezní proud motoru**
+
+&nbsp;
+
+$$
+I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
+$$
+
+&nbsp;
+
+kde:
+- $I_m$ ... mezní proud
+- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
+- $U_m$ ... napětí motoru
+- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
+
+&nbsp;
 
 Driver bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny VM a GND, který slouží jako zásobárna energie pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu VM (u prototypu budou SMD korálce připájeny nožičky). První keramika bude před korálkou a druhá za elektrolytem. Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA226, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (16,5 mV), a proudová rezerva korálky (3 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat. Spojením extrémně nízkého ESR keramických kondenzátorů a indukčnosti korálky vzniká riziko nedotlumeného LC obvodu, který může pod frekvencí 100 MHz rezonovat a šum paradoxně zesílit. Proto bude elektrolytický kondenzátor umístěn za korálkou směrem k driveru — jeho dostatečný ESR zafunguje jako tlumicí člen, který tyto nebezpečné rezonance spolehlivě potlačí a stabilizuje napájecí větev.
 
