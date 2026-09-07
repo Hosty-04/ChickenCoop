@@ -512,7 +512,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek (dostatečná přesnost pro detekci překročení prahové hodnoty) neustále monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek (dostatečná přesnost pro detekci překročení prahové hodnoty) neustále monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu 450 mA (pro přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
 &nbsp;
 
@@ -640,40 +640,34 @@ I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzisto
 
 Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru, aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření proudu modulem INA226 (17,6 ms) proběhne při této frekvenci přes 350 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
 
-&nbsp;
-
-**Střída PWM modulace**
+**Řízení motoru**
 
 &nbsp;
 
 $$
-duty = \frac{U_m}{U_{aku}} \cdot 100 = \frac{6\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{92,3\ \text{%}}
+R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = \mathbf{x\Omega}
 $$
 
-&nbsp;
-
-kde:
-- $duty$ ... střída v procentech
-- $U_m$ ... napětí motoru
-- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
-
-&nbsp;
-
-**Mezní proud motoru**
-
-&nbsp;
+$$
+duty = \frac{U_{m,p} + U_b}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b}}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{%}}
+$$
 
 $$
-I_m = I_{m,p} \cdot \frac{U_m}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V}}{6,8\ \text{V}} = \mathbf{397\ \text{mA}}
+I_m = I_{m,p} \cdot \frac{U_{m,p} + U_b}{U_{aku}} = I_{m,p} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b}}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
 $$
 
 &nbsp;
 
 kde:
-- $I_m$ ... mezní proud
-- $I_{m,p}$ ... mezní proud při přímém řízení bez PWM modulace
-- $U_m$ ... napětí motoru
-- $U_{aku}$ ... aktuální napětí akumulátoru (zde průměrné)
+- $R_{b}$ ... náhradní odpor pro H-bridge
+- $U_{m}$ ... napětí na motoru při běhu a zátěži
+- $duty$ ... střída PWM modulace
+- $I_{m,pwm}$ ... mezní proud při řízení přes PWM modulaci
+- $I_{m}$ ... mezní proud při přímém řízení
+- $U_{m,p}$ ... požadované napětí na motoru
+- $U_b$ ... úbytek napětí na H-bridge
+- $U_{aku}$ ... napětí akumulátoru při běhu a zátěži (zde průměrné)
+- $I_{aku}$ ... proud na motoru při běhu a zátěži
 
 &nbsp;
 
