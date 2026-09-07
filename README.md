@@ -649,7 +649,7 @@ R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \tex
 $$
 
 $$
-duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{x}}
+duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{%}}
 $$
 
 $$
