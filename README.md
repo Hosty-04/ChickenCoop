@@ -795,6 +795,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256,00 Kč |
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48,00 Kč |
 | Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258,00 Kč | 312,18 Kč |
+| Rezistor 1 MΩ | 2 ks | [Odkaz][odpor-1M] | 1,65 Kč | 2,00 Kč |
+| Rezistor 470 kΩ | 2 ks | [Odkaz][odpor-470k] | 1,65 Kč | 2,00 Kč |
 | Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
 | Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
 | Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12,00 Kč |
@@ -814,7 +816,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5704 Kč** | **6902 Kč** |
+| **Celkem** | | | **5707 Kč** | **6906 Kč** |
 
 &nbsp;
 
@@ -854,6 +856,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 [tenzometr]: https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/
 [hx711]: https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 [max3485]: https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/
+[odpor-1M]: https://dratek.cz/arduino-platforma/7658-rezistor-1m-0.25-w-1.html
+[odpor-470k]: https://dratek.cz/arduino-platforma/7672-rezistor-470k-0.25-w-1.html
 [kondik-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
 [kondik-esr]: https://www.tme.eu/cz/details/ed1e470mnn0511u/elektrolyticke-kondenzatory-tht/elite/
 [so8]: https://dratek.cz/arduino-platforma/1046-dps-adapter-sop8-so8-soic8-na-dip8.html
