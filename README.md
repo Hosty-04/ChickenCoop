@@ -423,7 +423,7 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využi
 &nbsp;
 
 $$
-Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{%}}{\text{30 dní}} = 4\ \text{Ah} \cdot \frac{3\ \text{%}}{30} = \mathbf{4\ \text{mAh/den}}
+Q_{ztr} = Q_{aku} \cdot \frac{3\ \text{\\%}}{\text{30 dní}} = 4\ \text{Ah} \cdot \frac{3\ \text{\\%}}{30} = \mathbf{4\ \text{mAh/den}}
 $$
 
 &nbsp;
