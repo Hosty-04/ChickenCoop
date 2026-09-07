@@ -26,7 +26,7 @@
 #define SWITCH_DN_PORT     GPIOB
 #define SWITCH_DN_PIN      GPIO_PIN_10   /* lower = closed position */
 
-#define MOTOR_TIMEOUT_MS   10000U
+#define MOTOR_TIMEOUT_MS   25000U
 
 static uint8_t motor_active = 0;
 

@@ -103,7 +103,7 @@ int main(void)
   MX_LoRaWAN_Init();
   /* USER CODE BEGIN 2 */
   Door_Init();
-  Door_Setup(2026, 1, 1, 6, 45, 50, 49.5170f, 17.6181f);
+  Door_Setup(2026, 1, 1, 16, 59, 50, 49.5170f, 17.6181f);
   /* USER CODE END 2 */
 
   /* Infinite loop */

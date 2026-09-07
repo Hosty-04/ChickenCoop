@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.26677457"
-     inkscape:cx="245.52565"
-     inkscape:cy="1508.7645"
+     inkscape:zoom="0.13338729"
+     inkscape:cx="783.43299"
+     inkscape:cy="1713.0568"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -44,42 +44,45 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g26"
-       transform="translate(111.08005,-41.655019)">
+       id="g27"
+       transform="translate(-27.770013,-99.178619)"
+       inkscape:export-filename="separator_flowchart_black.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <rect
          style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect234-9"
          width="25.728895"
          height="11.873983"
-         x="-48.260929"
-         y="132.79167"
+         x="94.084892"
+         y="186.76666"
          ry="3.7072425" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-40.209778"
-         y="140.23996"
+         x="102.13604"
+         y="194.21495"
          id="text1918"><tspan
            sodipodi:role="line"
            id="tspan1916"
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-           x="-40.209778"
-           y="140.23996">Start</tspan></text>
+           x="102.13604"
+           y="194.21495">Start</tspan></text>
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.07721;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-91-6"
          width="1"
          height="83.064728"
-         x="126.83503"
-         y="270.92456"
+         x="269.18085"
+         y="324.89957"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.50429;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7-7"
          width="1"
          height="161.98982"
-         x="353.59326"
-         y="-127.83628"
+         x="407.56827"
+         y="-270.1821"
          ry="0"
          transform="rotate(90)" />
       <rect
@@ -87,12 +90,12 @@
          id="rect13415-2-7-2-2"
          width="1"
          height="32.36499"
-         x="-35.896484"
-         y="337.91077"
+         x="106.44933"
+         y="391.88577"
          ry="0" />
       <g
          id="g5"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0"
@@ -115,12 +118,12 @@
          id="rect13415-2-7-2"
          width="1"
          height="15.621484"
-         x="-35.937294"
-         y="412.8934"
+         x="106.40852"
+         y="466.86841"
          ry="0" />
       <g
          id="g4"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-4"
@@ -143,85 +146,85 @@
          id="rect234-9-7"
          width="25.728895"
          height="11.873983"
-         x="-48.136951"
-         y="653.72467"
+         x="94.20887"
+         y="707.69965"
          ry="3.7072425" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-41.516659"
-         y="661.15179"
+         x="100.82916"
+         y="715.12677"
          id="text1918-1"><tspan
            sodipodi:role="line"
            id="tspan1916-7"
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-           x="-41.516659"
-           y="661.15179">Konec</tspan></text>
+           x="100.82916"
+           y="715.12677">Konec</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-57.098652"
-         y="390.9061"
+         x="85.247169"
+         y="444.8811"
          id="text2898"><tspan
            sodipodi:role="line"
            id="tspan2896"
            style="stroke-width:1"
-           x="-57.098652"
-           y="390.9061">Je napětí akumulátoru</tspan><tspan
+           x="85.247169"
+           y="444.8811">Je napětí akumulátoru</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="-57.098652"
-           y="396.19775"
+           x="85.247169"
+           y="450.17276"
            id="tspan1">             limitní?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058"
          width="37.579678"
          height="37.579678"
-         x="308.62112"
-         y="351.41019"
+         x="442.69092"
+         y="313.40512"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-3.4171464"
-         y="388.27725"
+         x="138.92868"
+         y="442.25226"
          id="text14933"><tspan
            sodipodi:role="line"
            id="tspan14931"
            style="stroke-width:1"
-           x="-3.4171464"
-           y="388.27725">NE</tspan></text>
+           x="138.92868"
+           y="442.25226">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-26.454821"
-         y="416.76627"
+         x="115.891"
+         y="470.74127"
          id="text14937"><tspan
            sodipodi:role="line"
            id="tspan14935"
            style="stroke-width:1"
-           x="-26.454821"
-           y="416.76627">ANO</tspan></text>
+           x="115.891"
+           y="470.74127">ANO</tspan></text>
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.894976;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-29"
          width="1"
          height="57.338436"
-         x="52.303505"
-         y="413.15369"
+         x="194.64932"
+         y="467.12869"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-1"
          width="1"
          height="15.621484"
-         x="52.303261"
-         y="571.10187"
+         x="194.64908"
+         y="625.07684"
          ry="0" />
       <g
          id="g22"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2"
@@ -242,142 +245,142 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="28.950811"
-         y="493.20758"
+         x="171.29663"
+         y="547.18256"
          id="text2898-2"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="28.950811"
-           y="493.20758"
+           x="171.29663"
+           y="547.18256"
            id="tspan5">Je překonaná hystereze?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-9"
          width="37.579678"
          height="37.579678"
-         x="451.04077"
-         y="387.20917"
+         x="585.1106"
+         y="349.2041"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="84.826591"
-         y="488.41165"
+         x="227.17241"
+         y="542.38666"
          id="text14933-37"><tspan
            sodipodi:role="line"
            id="tspan14931-5"
            style="stroke-width:1"
-           x="84.826591"
-           y="488.41165">NE</tspan></text>
+           x="227.17241"
+           y="542.38666">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="59.338417"
-         y="516.90063"
+         x="201.68423"
+         y="570.87561"
          id="text14937-9"><tspan
            sodipodi:role="line"
            id="tspan14935-2"
            style="stroke-width:1"
-           x="59.338417"
-           y="516.90063">ANO</tspan></text>
+           x="201.68423"
+           y="570.87561">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="37.18885"
-         y="548.90448"
+         x="179.53467"
+         y="602.87946"
          id="text2898-2-8"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="37.18885"
-           y="548.90448"
+           x="179.53467"
+           y="602.87946"
            id="tspan7">Je tomu tak už 3</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="37.18885"
-           y="554.19617"
+           x="179.53467"
+           y="608.17114"
            id="tspan8"> měření v řadě?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-9-2"
          width="37.579678"
          height="37.579678"
-         x="502.5343"
-         y="438.7027"
+         x="636.60413"
+         y="400.69763"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="84.826591"
-         y="546.276"
+         x="227.17241"
+         y="600.25098"
          id="text14933-37-3"><tspan
            sodipodi:role="line"
            id="tspan14931-5-6"
            style="stroke-width:1"
-           x="84.826591"
-           y="546.276">NE</tspan></text>
+           x="227.17241"
+           y="600.25098">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="59.338417"
-         y="574.76501"
+         x="201.68423"
+         y="628.73999"
          id="text14937-9-1"><tspan
            sodipodi:role="line"
            id="tspan14935-2-2"
            style="stroke-width:1"
-           x="59.338417"
-           y="574.76501">ANO</tspan></text>
+           x="201.68423"
+           y="628.73999">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="28.176107"
-         y="393.07355"
+         x="170.52193"
+         y="447.04855"
          id="text2898-3"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="28.176107"
-           y="393.07355"
+           x="170.52193"
+           y="447.04855"
            id="tspan1-6">Je solární panel odpojen?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-9-9"
          width="37.579678"
          height="37.579678"
-         x="361.93146"
-         y="298.09985"
+         x="496.00125"
+         y="260.09479"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="84.826591"
-         y="388.54288"
+         x="227.17241"
+         y="442.51788"
          id="text14933-37-31"><tspan
            sodipodi:role="line"
            id="tspan14931-5-9"
            style="stroke-width:1"
-           x="84.826591"
-           y="388.54288">NE</tspan></text>
+           x="227.17241"
+           y="442.51788">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="59.338417"
-         y="417.03189"
+         x="201.68423"
+         y="471.0069"
          id="text14937-9-4"><tspan
            sodipodi:role="line"
            id="tspan14935-2-7"
            style="stroke-width:1"
-           x="59.338417"
-           y="417.03189">ANO</tspan></text>
+           x="201.68423"
+           y="471.0069">ANO</tspan></text>
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-29-4"
          width="1"
          height="15.621484"
-         x="52.26252"
-         y="513.08179"
+         x="194.60834"
+         y="567.05676"
          ry="0" />
       <g
          id="g21"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-4-0-5"
@@ -398,17 +401,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="39.642097"
-         y="597.0213"
+         x="181.98792"
+         y="650.99628"
          id="text1114-3-3"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="39.642097"
-           y="597.0213"
+           x="181.98792"
+           y="650.99628"
            sodipodi:role="line"
            id="tspan2-1">Připoj solární</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="39.642097"
-           y="602.31299"
+           x="181.98792"
+           y="656.28796"
            sodipodi:role="line"
            id="tspan9">       panel</tspan></text>
       <rect
@@ -416,19 +419,19 @@
          id="rect234-2-3-7-0"
          width="37.202827"
          height="22.155048"
-         x="34.202095"
-         y="587.47626" />
+         x="176.54791"
+         y="641.45123" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-5"
          width="1"
          height="15.621484"
-         x="-35.896492"
-         y="222.08531"
+         x="106.44933"
+         y="276.0603"
          ry="0" />
       <g
          id="g8"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-5"
@@ -449,58 +452,58 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-49.620472"
-         y="315.23126"
+         x="89.726036"
+         y="369.20624"
          id="text2898-32"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="-49.620472"
-           y="315.23126"
-           id="tspan1-61">Je akumulátor</tspan><tspan
+           x="89.726036"
+           y="369.20624"
+           id="tspan16">   Je akumulátor</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="-49.620472"
-           y="320.52292"
-           id="tspan10">kriticky vybitý?</tspan></text>
+           x="89.726036"
+           y="374.49789"
+           id="tspan17">z poloviny vybitý?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6"
          width="37.579678"
          height="37.579678"
-         x="241.70372"
-         y="284.4928"
+         x="375.77353"
+         y="246.48772"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-3.0065477"
-         y="313.08093"
+         x="139.33928"
+         y="367.05594"
          id="text14933-7"><tspan
            sodipodi:role="line"
            id="tspan14931-6"
            style="stroke-width:1"
-           x="-3.0065477"
-           y="313.08093">ANO</tspan></text>
+           x="139.33928"
+           y="367.05594">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-25.794085"
-         y="341.56995"
+         x="116.55173"
+         y="395.54495"
          id="text14937-5"><tspan
            sodipodi:role="line"
            id="tspan14935-6"
            style="stroke-width:1"
-           x="-25.794085"
-           y="341.56995">NE</tspan></text>
+           x="116.55173"
+           y="395.54495">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="38.851372"
-         y="317.88644"
+         x="181.19719"
+         y="371.86145"
          id="text1114-3"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="38.851372"
-           y="317.88644"
+           x="181.19719"
+           y="371.86145"
            sodipodi:role="line"
            id="tspan11">Kritický režim</tspan></text>
       <rect
@@ -508,20 +511,20 @@
          id="rect234-2-3-7"
          width="37.202827"
          height="22.155048"
-         x="33.62516"
-         y="305.69556" />
+         x="175.97098"
+         y="359.67056" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7"
          width="1"
          height="25.513462"
-         x="391.46024"
-         y="-21.282629"
+         x="445.43524"
+         y="-163.62845"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g16"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2"
@@ -544,13 +547,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2"
          width="1"
          height="37.084892"
-         x="316.27307"
-         y="-33.023674"
+         x="370.24808"
+         y="-175.36949"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g15"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6"
@@ -573,21 +576,21 @@
          id="rect13415-2-7-2-2-6-1-91-6-6-4"
          width="1"
          height="310.54913"
-         x="196.35635"
-         y="316.27454"
+         x="338.70218"
+         y="370.24954"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.72977;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-3-9"
          width="1"
          height="214.18886"
-         x="625.82471"
-         y="-197.22296"
+         x="679.79968"
+         y="-339.56879"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g2"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-4-5"
@@ -608,17 +611,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="-48.687923"
-         y="438.38568"
+         x="93.657898"
+         y="492.36069"
          id="text1114-3-3-7"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-48.687923"
-           y="438.38568"
+           x="93.657898"
+           y="492.36069"
            sodipodi:role="line"
            id="tspan2-1-1">Odpoj solární</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-48.687923"
-           y="443.67734"
+           x="93.657898"
+           y="497.65234"
            sodipodi:role="line"
            id="tspan9-7">       panel</tspan></text>
       <rect
@@ -626,19 +629,19 @@
          id="rect234-2-3-7-0-2"
          width="37.202827"
          height="22.155048"
-         x="-53.997898"
-         y="428.67429" />
+         x="88.347923"
+         y="482.64929" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-17"
          width="1"
          height="15.621484"
-         x="-35.896461"
-         y="280.22275"
+         x="106.44936"
+         y="334.19775"
          ry="0" />
       <g
          id="g7"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-7"
@@ -659,61 +662,61 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-55.782078"
-         y="258.37396"
+         x="86.563744"
+         y="312.34897"
          id="text2898-32-5"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="-55.782078"
-           y="258.37396"
+           x="86.563744"
+           y="312.34897"
            id="tspan10-7">Je systém v kritickém</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="-55.782078"
-           y="263.66562"
+           x="86.563744"
+           y="317.64062"
            id="tspan13">           režimu?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6-1"
          width="37.579678"
          height="37.579678"
-         x="190.68069"
-         y="233.46977"
+         x="324.75049"
+         y="195.46469"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-3.0065477"
-         y="255.74529"
+         x="139.33928"
+         y="309.72028"
          id="text14933-7-7"><tspan
            sodipodi:role="line"
            id="tspan14931-6-6"
            style="stroke-width:1"
-           x="-3.0065477"
-           y="255.74529">ANO</tspan></text>
+           x="139.33928"
+           y="309.72028">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="-25.848833"
-         y="284.23428"
+         x="116.49699"
+         y="338.20929"
          id="text14937-5-7"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3"
            style="stroke-width:1"
-           x="-25.848833"
-           y="284.23428">NE</tspan></text>
+           x="116.49699"
+           y="338.20929">NE</tspan></text>
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6"
          width="1"
          height="25.513462"
-         x="258.93741"
-         y="-20.868307"
+         x="312.91241"
+         y="-163.21413"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g11"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5"
@@ -736,12 +739,12 @@
          id="rect13415-2-7-2-2-17-1-6"
          width="1"
          height="24.361599"
-         x="51.662621"
-         y="280.44327"
+         x="194.00844"
+         y="334.41827"
          ry="0" />
       <g
          id="g14"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-7-2-3"
@@ -762,61 +765,61 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="30.524405"
-         y="257.94992"
+         x="172.87022"
+         y="311.92493"
          id="text2898-9"><tspan
            sodipodi:role="line"
            id="tspan2896-4"
            style="stroke-width:1"
-           x="30.524405"
-           y="257.94992">Je napětí akumulátoru</tspan><tspan
+           x="172.87022"
+           y="311.92493">Je napětí akumulátoru</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="30.524405"
-           y="263.24158"
+           x="172.87022"
+           y="317.21658"
            id="tspan1-8">      výšší než 6,1 V?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-3"
          width="37.579678"
          height="37.579678"
-         x="243.69069"
-         y="180.55653"
+         x="377.7605"
+         y="142.55145"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="84.631752"
-         y="256.49268"
+         x="226.97757"
+         y="310.46768"
          id="text14933-7-7-9-5"><tspan
            sodipodi:role="line"
            id="tspan14931-6-6-0-6"
            style="stroke-width:1"
-           x="84.631752"
-           y="256.49268">ANO</tspan></text>
+           x="226.97757"
+           y="310.46768">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="58.614418"
-         y="284.98169"
+         x="200.96024"
+         y="338.9567"
          id="text14937-5-7-8-1"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3-8-1"
            style="stroke-width:1"
-           x="58.614418"
-           y="284.98169">NE</tspan></text>
+           x="200.96024"
+           y="338.9567">NE</tspan></text>
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.596999;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-5-5"
          width="1"
          height="25.513462"
-         x="258.98245"
-         y="-108.50654"
+         x="312.95746"
+         y="-250.85236"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g13"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-9"
@@ -837,17 +840,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="114.19267"
-         y="258.43677"
+         x="256.53848"
+         y="312.41177"
          id="text1114-3-4"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="114.19267"
-           y="258.43677"
+           x="256.53848"
+           y="312.41177"
            sodipodi:role="line"
            id="tspan11-0">Vypni kritický</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="114.19267"
-           y="263.72842"
+           x="256.53848"
+           y="317.70343"
            sodipodi:role="line"
            id="tspan15">       režim</tspan></text>
       <rect
@@ -855,11 +858,11 @@
          id="rect234-2-3-7-3"
          width="37.202827"
          height="22.155048"
-         x="108.73362"
-         y="248.40488" />
+         x="251.07944"
+         y="302.37988" />
       <g
          id="g6"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-04"
@@ -882,8 +885,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-7-4-4"
          width="1"
          height="113.66113"
-         x="491.59421"
-         y="-196.74286"
+         x="545.56921"
+         y="-339.08868"
          ry="0"
          transform="rotate(90)" />
       <rect
@@ -891,13 +894,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-7-4-4-7"
          width="1"
          height="113.17715"
-         x="549.45856"
-         y="-196.74518"
+         x="603.43353"
+         y="-339.091"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g25"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-7"
@@ -917,7 +920,7 @@
       </g>
       <g
          id="g18"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-7-9"
@@ -937,7 +940,7 @@
       </g>
       <g
          id="g24"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-9"
@@ -960,12 +963,12 @@
          id="rect13415-2-7-2-8"
          width="1"
          height="164.66388"
-         x="-35.896484"
-         y="450.87589"
+         x="106.44933"
+         y="504.85089"
          ry="0" />
       <g
          id="g3"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-4-9"
@@ -988,12 +991,12 @@
          id="rect13415-2-7-2-2-1-4"
          width="1"
          height="15.621484"
-         x="52.303123"
-         y="610.02734"
+         x="194.64894"
+         y="664.00232"
          ry="0" />
       <g
          id="g23"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3"
@@ -1016,58 +1019,58 @@
          id="rect13415-2-7-2-29-5"
          width="1"
          height="27.321461"
-         x="139.8737"
-         y="413.02179"
+         x="282.21951"
+         y="466.9968"
          ry="0" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="119.53518"
-         y="390.9061"
+         x="261.88101"
+         y="444.8811"
          id="text2898-3-3-3"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="119.53518"
-           y="390.9061"
+           x="261.88101"
+           y="444.8811"
            id="tspan2">Je napětí panelu nižší</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="119.53518"
-           y="396.19775"
+           x="261.88101"
+           y="450.17276"
            id="tspan12"> než mezní hodnota?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6-1-3-7-9"
          width="37.579678"
          height="37.579678"
-         x="414.86115"
-         y="245.17018"
+         x="548.93097"
+         y="207.1651"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="146.90854"
-         y="417.03189"
+         x="289.25436"
+         y="471.0069"
          id="text14937-5-7-8-8-6"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3-8-5-4"
            style="stroke-width:1"
-           x="146.90854"
-           y="417.03189">ANO</tspan></text>
+           x="289.25436"
+           y="471.0069">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="172.03073"
-         y="388.54288"
+         x="314.37656"
+         y="442.51788"
          id="text14933-37-31-6"><tspan
            sodipodi:role="line"
            id="tspan14931-5-9-9"
            style="stroke-width:1"
-           x="172.03073"
-           y="388.54288">NE</tspan></text>
+           x="314.37656"
+           y="442.51788">NE</tspan></text>
       <g
          id="g20"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-4-0"
@@ -1090,13 +1093,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-7-4-7"
          width="1"
          height="156.66617"
-         x="439.34213"
-         y="-140.39549"
+         x="493.31714"
+         y="-282.7413"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g19"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.902279;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-04-5"
@@ -1119,13 +1122,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-1"
          width="1"
          height="25.513462"
-         x="391.46024"
-         y="-108.99328"
+         x="445.43524"
+         y="-251.3391"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g17"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-2"
@@ -1148,24 +1151,24 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-1-9"
          width="1"
          height="26.266987"
-         x="391.46024"
-         y="-197.3558"
+         x="445.43524"
+         y="-339.70163"
          ry="0"
          transform="rotate(90)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="-45.238972"
-         y="209.26939"
+         x="97.10685"
+         y="263.24438"
          id="text1114-3-7"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-45.238972"
-           y="209.26939"
+           x="97.10685"
+           y="263.24438"
            sodipodi:role="line"
            id="tspan11-8">Navzorkuj</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-45.238972"
-           y="214.56105"
+           x="97.10685"
+           y="268.53604"
            sodipodi:role="line"
            id="tspan3">   napětí</tspan></text>
       <rect
@@ -1173,22 +1176,22 @@
          id="rect234-2-3-7-4"
          width="37.202827"
          height="22.155048"
-         x="-53.99789"
-         y="199.73703" />
+         x="88.347931"
+         y="253.71202" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="-46.426418"
-         y="170.62068"
+         x="95.919403"
+         y="224.59567"
          id="text1114-3-7-0"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-46.426418"
-           y="170.62068"
+           x="95.919403"
+           y="224.59567"
            sodipodi:role="line"
            id="tspan3-6">Probuď vše</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-46.426418"
-           y="175.91234"
+           x="95.919403"
+           y="229.88733"
            sodipodi:role="line"
            id="tspan4"> potřebné</tspan></text>
       <rect
@@ -1196,22 +1199,22 @@
          id="rect234-2-3-7-4-1"
          width="37.202827"
          height="22.155048"
-         x="-53.99789"
-         y="161.07562" />
+         x="88.347931"
+         y="215.05061" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="-45.360527"
-         y="624.79218"
+         x="96.985291"
+         y="678.76715"
          id="text1114-3-7-0-0"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-45.360527"
-           y="624.79218"
+           x="96.985291"
+           y="678.76715"
            sodipodi:role="line"
            id="tspan4-3">  Uspi vše</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="-45.360527"
-           y="630.08386"
+           x="96.985291"
+           y="684.05884"
            sodipodi:role="line"
            id="tspan6">používané</tspan></text>
       <rect
@@ -1219,19 +1222,19 @@
          id="rect234-2-3-7-4-1-2-5"
          width="37.202827"
          height="22.155048"
-         x="-53.87392"
-         y="615.24713" />
+         x="88.471901"
+         y="669.22211" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-5-4"
          width="1"
          height="15.621484"
-         x="-35.896492"
-         y="183.4232"
+         x="106.44933"
+         y="237.39819"
          ry="0" />
       <g
          id="g9"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-5-7"
@@ -1254,12 +1257,12 @@
          id="rect13415-2-7-2-2-5-4-6"
          width="1"
          height="15.621484"
-         x="-35.896492"
-         y="145.05862"
+         x="106.44933"
+         y="199.03362"
          ry="0" />
       <g
          id="g10"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-5-7-9"
@@ -1282,12 +1285,12 @@
          id="rect13415-2-7-2-2-5-4-4"
          width="1"
          height="15.900424"
-         x="-35.772514"
-         y="637.71271"
+         x="106.5733"
+         y="691.68768"
          ry="0" />
       <g
          id="g12"
-         transform="translate(-104.76214,71.91778)">
+         transform="translate(37.58368,125.89278)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-5-7-5"
@@ -1310,8 +1313,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-1-4"
          width="1"
          height="126.4742"
-         x="316.27307"
-         y="-197.16443"
+         x="370.24808"
+         y="-339.51025"
          ry="0"
          transform="rotate(90)" />
     </g>
