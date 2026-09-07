@@ -649,11 +649,11 @@ R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \tex
 $$
 
 $$
-duty = \frac{U_{m,p} + U_b}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b}}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{%}}
+duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{x}}
 $$
 
 $$
-I_m = I_{m,p} \cdot \frac{U_{m,p} + U_b}{U_{aku}} = I_{m,p} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b}}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
+I_m = I_{m,p} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m,p} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
 $$
 
 &nbsp;
@@ -666,12 +666,13 @@ kde:
 - $I_{m}$ ... mezní proud při přímém řízení
 - $U_{m,p}$ ... požadované napětí na motoru
 - $U_b$ ... úbytek napětí na H-bridge
+- $U_k$ ... kompenzační napětí
 - $U_{aku}$ ... napětí akumulátoru při běhu a zátěži (zde průměrné)
 - $I_{aku}$ ... proud na motoru při běhu a zátěži
 
 &nbsp;
 
-Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži.
+Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6V.
 
 &nbsp;
 
