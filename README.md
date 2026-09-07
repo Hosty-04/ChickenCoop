@@ -504,7 +504,7 @@ I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC p
 
 &nbsp;
 
-Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při vybití akumulátoru na 50 %, kdy jeho napětí klesne na 6,2 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,3 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru + úbytek napětí na MOSFET oddělovači, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude zavedena hystereze 250 mV.
+Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při vybití akumulátoru na 50 %, kdy jeho napětí klesne na 6 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru + úbytek napětí na MOSFET oddělovači, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením; kvůli nepřesnosti měření bude zavedena hystereze 250 mV.
 
 &nbsp;
 
@@ -645,7 +645,7 @@ Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvenc
 &nbsp;
 
 $$
-R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = \mathbf{x\Omega}
+R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = x\ \Omega
 $$
 
 $$
@@ -668,6 +668,10 @@ kde:
 - $U_b$ ... úbytek napětí na H-bridge
 - $U_{aku}$ ... napětí akumulátoru při běhu a zátěži (zde průměrné)
 - $I_{aku}$ ... proud na motoru při běhu a zátěži
+
+&nbsp;
+
+Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži.
 
 &nbsp;
 
