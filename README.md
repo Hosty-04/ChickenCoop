@@ -653,7 +653,7 @@ duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \
 $$
 
 $$
-I_m = I_{m,p} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m,p} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
+I_{m,pwm} = I_{m} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
 $$
 
 &nbsp;
