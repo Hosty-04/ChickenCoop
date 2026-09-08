@@ -513,11 +513,47 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-Další funkce proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek (dostatečná přesnost pro detekci překročení prahové hodnoty) neustále monitorovat proud při pohybu dvířek; zvýšení proudu nad mezní hodnotu 450 mA (pro přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se bude upravovat střída PWM modulace a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 10 minutách pokus zopakuje. Nepomůže-li ani zpětný chod, systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
 &nbsp;
 
 <img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
+
+&nbsp;
+
+**Řízení motoru**
+
+&nbsp;
+
+$$
+R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = x\ \Omega
+$$
+
+$$
+duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{x\ \text{V}} \cdot 100 = \mathbf{x\ \text{\\%}}
+$$
+
+$$
+I_{m,pwm} = I_{m} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{x\ \text{V}} = \mathbf{x\ \text{mA}}
+$$
+
+&nbsp;
+
+kde:
+- $R_{b}$ ... náhradní odpor pro H-bridge
+- $U_{m}$ ... napětí na motoru při běhu a zátěži
+- $duty$ ... střída PWM modulace
+- $I_{m,pwm}$ ... mezní proud při řízení přes PWM modulaci
+- $I_{m}$ ... mezní proud při přímém řízení
+- $U_{m,p}$ ... požadované napětí na motoru
+- $U_b$ ... úbytek napětí na H-bridge
+- $U_k$ ... kompenzační napětí
+- $U_{aku}$ ... napětí akumulátoru při běhu a zátěži
+- $I_{aku}$ ... proud na motoru při běhu a zátěži
+
+&nbsp;
+
+Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6V.
 
 &nbsp;
 
@@ -640,42 +676,6 @@ I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzisto
 &nbsp;
 
 Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru, aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření proudu modulem INA226 (17,6 ms) proběhne při této frekvenci přes 350 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
-
-**Řízení motoru**
-
-&nbsp;
-
-$$
-R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = x\ \Omega
-$$
-
-$$
-duty = \frac{U_{m,p} + U_b + U_k}{U_{aku}} \cdot 100 = \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} \cdot 100 = \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} \cdot 100 = \mathbf{x\ \text{\\%}}
-$$
-
-$$
-I_{m,pwm} = I_{m} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{6,8\ \text{V}} = \mathbf{x\ \text{mA}}
-$$
-
-&nbsp;
-
-kde:
-- $R_{b}$ ... náhradní odpor pro H-bridge
-- $U_{m}$ ... napětí na motoru při běhu a zátěži
-- $duty$ ... střída PWM modulace
-- $I_{m,pwm}$ ... mezní proud při řízení přes PWM modulaci
-- $I_{m}$ ... mezní proud při přímém řízení
-- $U_{m,p}$ ... požadované napětí na motoru
-- $U_b$ ... úbytek napětí na H-bridge
-- $U_k$ ... kompenzační napětí
-- $U_{aku}$ ... napětí akumulátoru při běhu a zátěži (zde průměrné)
-- $I_{aku}$ ... proud na motoru při běhu a zátěži
-
-&nbsp;
-
-Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6V.
-
-&nbsp;
 
 Driver bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny VM a GND, který slouží jako zásobárna energie pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu VM. U prototypu budou SMD korálce připájeny krátké (nízká ESL) nožičky. První keramika bude před korálkou a druhá za elektrolytem. Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA226, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (16,5 mV), a proudová rezerva korálky (3 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat. Spojením extrémně nízkého ESR keramických kondenzátorů a indukčnosti korálky vzniká riziko nedotlumeného LC obvodu, který může pod frekvencí 100 MHz rezonovat a šum paradoxně zesílit. Proto bude elektrolytický kondenzátor umístěn za korálkou směrem k driveru — jeho dostatečný ESR zafunguje jako tlumicí člen, který tyto nebezpečné rezonance spolehlivě potlačí a stabilizuje napájecí větev.
 
