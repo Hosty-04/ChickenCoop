@@ -27,6 +27,7 @@
 #include "gpio.h"
 #include "door.h"
 #include "motor.h"
+#include "ina226.h"
 #include "astro.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -102,6 +103,12 @@ int main(void)
   MX_RNG_Init();
   MX_LoRaWAN_Init();
   /* USER CODE BEGIN 2 */
+  volatile uint8_t ina226_init_failed = 0;
+  if (INA226_Init() != HAL_OK)
+  {
+    ina226_init_failed = 1;
+  }
+
   Door_Init();
   Door_Setup(2026, 1, 1, 16, 59, 50, 49.5170f, 17.6181f);
   /* USER CODE END 2 */

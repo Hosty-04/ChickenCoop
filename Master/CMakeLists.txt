@@ -33,9 +33,10 @@ enable_language(C ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
-    Core/Src/astro.c
-    Core/Src/motor.c
     Core/Src/door.c
+    Core/Src/motor.c
+    Core/Src/ina226.c
+    Core/Src/astro.c
     Core/Src/power.c)
 
 # Add STM32CubeMX generated sources

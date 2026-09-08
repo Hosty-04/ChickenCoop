@@ -17,6 +17,11 @@ void Door_Setup(uint16_t year, uint8_t month, uint8_t day,
                 float latitude, float longitude);
 
 /**
+  * @brief  Call from LoRaWAN when operator clears door fault
+  */
+void Door_ClearFault(void);
+
+/**
   * @brief  Synchronize internal date/time from SysTime
   */
 void Door_SyncFromSysTime(void);
