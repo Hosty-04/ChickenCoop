@@ -93,13 +93,16 @@ static uint32_t Time_ToUnix(uint16_t y, uint8_t mo, uint8_t d,
   uint16_t era = (uint16_t)(y_adj >= 0 ? y_adj : y_adj - 399) / 400U;
   uint16_t yoe = (uint16_t)(y_adj - (int16_t)era * 400);
   uint16_t doy = (uint16_t)((153U * (mo + (mo > 2 ? -3 : 9)) + 2U) / 5U + d - 1U);
+
   uint32_t doe = (uint32_t)yoe * 365U + yoe / 4U - yoe / 100U + doy;
   uint32_t days = era * 146097UL + doe - 719468UL;
+
   int32_t sod_local = (int32_t)h * 3600 + (int32_t)mi * 60 + s;
   int32_t tz_sec = (int32_t)(tz_hours * 3600.0f);
   int32_t sod_utc = sod_local - tz_sec;
   if (sod_utc < 0) { sod_utc += 86400; days--; }
   else if (sod_utc >= 86400) { sod_utc -= 86400; days++; }
+
   return days * 86400UL + (uint32_t)sod_utc;
 }
 
