@@ -22,8 +22,8 @@ static float    lon = 17.6181f;
 static uint16_t year  = 2026;
 static uint8_t  month = 1;
 static uint8_t  day   = 1;
-static uint32_t sec_of_day = 0;
-static uint32_t tick_ref   = 0;
+static volatile uint32_t sec_of_day = 0;
+static volatile uint32_t tick_ref   = 0;
 
 static int16_t  sunrise_min = 360;
 static int16_t  sunset_min  = 1080;
@@ -47,8 +47,7 @@ static uint8_t  retry_is_open = 0;
 static void Time_AdvanceDays(uint32_t days)
 {
   static const uint8_t dim[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
-  while (days--)
-  {
+  while (days--) {
     uint8_t dmax = dim[month];
     if (month == 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)))
       dmax = 29;
@@ -106,23 +105,29 @@ static uint32_t Time_ToUnix(uint16_t y, uint8_t mo, uint8_t d,
 
 static void Time_FromUnix(uint32_t unix_sec)
 {
-  uint32_t local = unix_sec + 3600U;
-  uint32_t days = local / 86400U;
-  uint32_t z = days + 719468U;
-  uint32_t era = z / 146097U;
-  uint32_t doe = z - era * 146097U;
-  uint32_t yoe = (doe - doe/1460U + doe/36524U - doe/146096U) / 365U;
-  uint32_t y = yoe + era * 400U;
-  uint32_t doy = doe - (365U * yoe + yoe/4U - yoe/100U);
-  uint32_t mp = (5U * doy + 2U) / 153U;
-  uint32_t d = doy - (153U * mp + 2U) / 5U + 1U;
-  uint32_t m = mp + (mp < 10U ? 3U : -9U);
-  y += (m <= 2U);
-  year = (uint16_t)y; month = (uint8_t)m; day = (uint8_t)d;
+  int32_t tz_sec = 3600;
+  uint32_t local;
   Astro_Result_t res;
-  Astro_Calculate(year, month, day, lat, lon, &res);
-  int32_t tz_sec = (int32_t)(res.timezone * 3600.0f);
-  local = (uint32_t)((int32_t)unix_sec + tz_sec);
+
+  for (int i = 0; i < 2; i++) {
+    local = (uint32_t)((int32_t)unix_sec + tz_sec);
+    uint32_t days = local / 86400U;
+    uint32_t z = days + 719468U;
+    uint32_t era = z / 146097U;
+    uint32_t doe = z - era * 146097U;
+    uint32_t yoe = (doe - doe/1460U + doe/36524U - doe/146096U) / 365U;
+    uint32_t y = yoe + era * 400U;
+    uint32_t doy = doe - (365U * yoe + yoe/4U - yoe/100U);
+    uint32_t mp = (5U * doy + 2U) / 153U;
+    uint32_t d = doy - (153U * mp + 2U) / 5U + 1U;
+    uint32_t m = mp + (mp < 10U ? 3U : -9U);
+    y += (m <= 2U);
+
+    year = (uint16_t)y; month = (uint8_t)m; day = (uint8_t)d;
+    Astro_Calculate(year, month, day, lat, lon, &res);
+    tz_sec = (int32_t)(res.timezone * 3600.0f);
+  }
+
   sec_of_day = local % 86400U;
   tick_ref = HAL_GetTick();
 }
@@ -171,8 +176,9 @@ static void Door_Schedule(void)
   int32_t open_m  = (int32_t)sunrise_min + DOOR_OPEN_OFFSET_MIN;
   int32_t close_m = (int32_t)sunset_min  + DOOR_CLOSE_OFFSET_MIN;
   if (open_m  < 0)     open_m  += 1440;
-  if (close_m >= 1440) close_m -= 1440;
+  if (open_m  >= 1440) open_m  -= 1440;
   if (close_m < 0)     close_m += 1440;
+  if (close_m >= 1440) close_m -= 1440;
 
   uint32_t t_mid   = 86400U;
   uint32_t t_open  = (uint32_t)open_m  * 60U;
@@ -231,8 +237,8 @@ void Door_Setup(uint16_t y, uint8_t mo, uint8_t d,
 
   Astro_Result_t res;
   Astro_Calculate(y, mo, d, lat, lon, &res);
-  uint32_t unix = Time_ToUnix(y, mo, d, h, mi, s, res.timezone);
-  SysTime_t st = { .Seconds = unix, .SubSeconds = 0 };
+  uint32_t unix_sec = Time_ToUnix(y, mo, d, h, mi, s, res.timezone);
+  SysTime_t st = { .Seconds = unix_sec, .SubSeconds = 0 };
   SysTimeSet(st);
 
   Door_UpdateSun();
@@ -280,7 +286,7 @@ void Door_Process(void)
   }
   else if (evt == EVT_RETRY) {
     Door_HandleMotion(retry_is_open);
-    if (!Motor_IsFaulted())
+    if (!retry_pending && !Motor_IsFaulted())
       Door_Schedule();
   }
 }

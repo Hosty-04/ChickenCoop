@@ -32,10 +32,11 @@
 #define MOTOR_OBSTACLE_MS      250U
 #define MOTOR_PAUSE_MS         250U
 
-#define Um     6.0f
-#define Uk     0.4f
-#define Rb     2.0f
-#define Im     0.45f
+#define MOTOR_V_NOMINAL  6.0f
+#define MOTOR_V_MARGIN   0.4f
+#define MOTOR_I_MAX      0.45f
+
+#define BRIDGE_R_EF      2.0f
 
 static uint8_t motor_active = 0;
 static uint8_t motor_fault  = 0;
@@ -141,25 +142,25 @@ void Motor_ClearFault(void) { motor_fault = 0; }
 void Motor_SetFault(void)   { motor_fault = 1; }
 uint8_t Motor_IsFaulted(void) { return motor_fault; }
 
-static uint16_t Motor_CalcDuty(float u_aku, float i_aku)
+static uint16_t Motor_CalcDuty(float v_aku, float i_aku)
 {
-  float u_cmd = Um + i_aku * Rb + Uk;
+  float v_cmd = MOTOR_V_NOMINAL + i_aku * BRIDGE_R_EF + MOTOR_V_MARGIN;
   float duty_f;
-  if (u_aku < 0.5f) return MOTOR_PWM_MAX;
-  duty_f = (u_cmd / u_aku) * (float)MOTOR_PWM_MAX;
+  if (v_aku < 0.5f) return MOTOR_PWM_MAX;
+  duty_f = (v_cmd / v_aku) * (float)MOTOR_PWM_MAX;
   if (duty_f > (float)MOTOR_PWM_MAX) duty_f = (float)MOTOR_PWM_MAX;
   if (duty_f < 0.0f) duty_f = 0.0f;
   return (uint16_t)(duty_f + 0.5f);
 }
 
-static float Motor_CalcIth(float u_aku, float i_aku)
+static float Motor_CalcIth(float v_aku, float i_aku)
 {
-  float u_cmd = Um + i_aku * Rb + Uk;
-  if (u_aku < 0.5f) return Im;
-  return Im * (u_cmd / u_aku);
+  float v_cmd = MOTOR_V_NOMINAL + i_aku * BRIDGE_R_EF + MOTOR_V_MARGIN;
+  if (v_aku < 0.5f) return MOTOR_I_MAX;
+  return MOTOR_I_MAX * (v_cmd / v_aku);
 }
 
-static Motor_Result_t Motor_Run(uint8_t up, uint8_t allow_reverse)
+static Motor_Result_t Motor_Run(uint8_t up)
 {
   uint32_t t0, t_over = 0;
   float v = 6.5f, i = 0.0f;
@@ -192,8 +193,7 @@ static Motor_Result_t Motor_Run(uint8_t up, uint8_t allow_reverse)
   Motor_Set(up, duty);
   t0 = HAL_GetTick();
 
-  while (1)
-  {
+  while (1) {
     uint32_t elapsed = HAL_GetTick() - t0;
 
     if (up) {
@@ -232,31 +232,28 @@ static Motor_Result_t Motor_Run(uint8_t up, uint8_t allow_reverse)
         else if ((HAL_GetTick() - t_over) >= MOTOR_OBSTACLE_MS) {
           Motor_Stop();
           HAL_Delay(MOTOR_PAUSE_MS);
-
-          if (allow_reverse) {
-            uint8_t back = up ? 0U : 1U;
-            uint32_t tr = HAL_GetTick();
-            if (INA226_Read(&v, &i) != HAL_OK) { v = 6.5f; i = 0.0f; }
-            duty = Motor_CalcDuty(v, i);
-            Motor_Set(back, duty);
-            uint8_t ok = 0;
-            while ((HAL_GetTick() - tr) < MOTOR_TIMEOUT_MS) {
-              if (back) { if (Switch_UpReleased()) { ok = 1; break; } }
-              else      { if (Switch_DnPressed()) { ok = 1; break; } }
-              if (INA226_Read(&v, &i) == HAL_OK) {
-                duty = Motor_CalcDuty(v, i);
-                Motor_Set(back, duty);
-              }
+          uint8_t back = up ? 0U : 1U;
+          uint32_t tr = HAL_GetTick();
+          if (INA226_Read(&v, &i) != HAL_OK) { v = 6.5f; i = 0.0f; }
+          duty = Motor_CalcDuty(v, i);
+          Motor_Set(back, duty);
+          uint8_t ok = 0;
+          while ((HAL_GetTick() - tr) < MOTOR_TIMEOUT_MS) {
+            if (back) { if (Switch_UpReleased()) { ok = 1; break; } }
+            else      { if (Switch_DnPressed()) { ok = 1; break; } }
+            if (INA226_Read(&v, &i) == HAL_OK) {
+              duty = Motor_CalcDuty(v, i);
+              Motor_Set(back, duty);
             }
-            Motor_Stop();
+          }
+          Motor_Stop();
 
-            if (!ok) {
-              Motor_End();
-              Switch_Disable();
-              Power_SwitchToRunHSE48MHz();
-              Motor_SetFault();
-              return MOTOR_FAULT;
-            }
+          if (!ok) {
+            Motor_End();
+            Switch_Disable();
+            Power_SwitchToRunHSE48MHz();
+            Motor_SetFault();
+            return MOTOR_FAULT;
           }
 
           Motor_End();
@@ -271,5 +268,5 @@ static Motor_Result_t Motor_Run(uint8_t up, uint8_t allow_reverse)
   }
 }
 
-Motor_Result_t Motor_Open(void)  { return Motor_Run(1, 1); }
-Motor_Result_t Motor_Close(void) { return Motor_Run(0, 1); }
+Motor_Result_t Motor_Open(void)  { return Motor_Run(1); }
+Motor_Result_t Motor_Close(void) { return Motor_Run(0); }

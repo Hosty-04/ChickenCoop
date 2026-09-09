@@ -10,8 +10,7 @@
 
 #include <stdint.h>
 
-typedef struct
-{
+typedef struct {
   int16_t sunrise_min;
   int16_t sunset_min;
   float   timezone;
