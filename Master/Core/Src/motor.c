@@ -91,6 +91,7 @@ void Motor_Begin(void)
 
   HAL_GPIO_WritePin(MOTOR_PH_PORT, MOTOR_PH_PIN, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(MOTOR_NSLEEP_PORT, MOTOR_NSLEEP_PIN, GPIO_PIN_SET);
+  HAL_Delay(1);
 
   HAL_TIM_PWM_DeInit(MOTOR_PWM_TIMER);
   MX_TIM17_Init();
@@ -185,8 +186,10 @@ static Motor_Result_t Motor_Run(uint8_t up)
     }
   }
 
-  Power_SwitchToRunMSI16MHz();
+  Power_SwitchToLPRunMSI1MHz();
   Motor_Begin();
+  INA226_PowerUp();
+  INA226_ConfigFast();
 
   if (INA226_Read(&v, &i) != HAL_OK) { v = 6.5f; i = 0.0f; }
   duty = Motor_CalcDuty(v, i);
@@ -199,12 +202,14 @@ static Motor_Result_t Motor_Run(uint8_t up)
     if (up) {
       if (Switch_UpReleased()) {
         Motor_Stop(); Motor_End(); Switch_Disable();
+        INA226_PowerDown();
         Power_SwitchToRunHSE48MHz();
         return MOTOR_OK;
       }
     } else {
       if (Switch_DnPressed()) {
         Motor_Stop(); Motor_End(); Switch_Disable();
+        INA226_PowerDown();
         Power_SwitchToRunHSE48MHz();
         return MOTOR_OK;
       }
@@ -212,6 +217,7 @@ static Motor_Result_t Motor_Run(uint8_t up)
 
     if (elapsed >= MOTOR_TIMEOUT_MS) {
       Motor_Stop(); Motor_End(); Switch_Disable();
+      INA226_PowerDown();
       Power_SwitchToRunHSE48MHz();
       return MOTOR_TIMEOUT;
     }
@@ -251,6 +257,7 @@ static Motor_Result_t Motor_Run(uint8_t up)
           if (!ok) {
             Motor_End();
             Switch_Disable();
+            INA226_PowerDown();
             Power_SwitchToRunHSE48MHz();
             Motor_SetFault();
             return MOTOR_FAULT;
@@ -258,6 +265,7 @@ static Motor_Result_t Motor_Run(uint8_t up)
 
           Motor_End();
           Switch_Disable();
+          INA226_PowerDown();
           Power_SwitchToRunHSE48MHz();
           return MOTOR_OBSTACLE;
         }

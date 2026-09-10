@@ -45,25 +45,17 @@ static void Power_ConfigMSI(uint32_t msi_range)
   HAL_RCC_ClockConfig(&clk, FLASH_LATENCY_0);
 }
 
+void Power_SwitchToLPRunMSI1MHz(void)
+{
+  Power_ConfigMSI(RCC_MSIRANGE_4);
+
+  Power_ConfigLowPower();
+  Power_UpdateTimebase();
+}
+
 void Power_SwitchToRunHSE48MHz(void)
 {
   HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
   SystemClock_Config();
-  Power_UpdateTimebase();
-}
-
-void Power_SwitchToRunMSI16MHz(void)
-{
-  Power_ConfigMSI(RCC_MSIRANGE_8);   /* 16 MHz */
-
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
-  Power_UpdateTimebase();
-}
-
-void Power_SwitchToLPRunMSI1MHz(void)
-{
-  Power_ConfigMSI(RCC_MSIRANGE_4);   /* 1 MHz */
-
-  Power_ConfigLowPower();
   Power_UpdateTimebase();
 }

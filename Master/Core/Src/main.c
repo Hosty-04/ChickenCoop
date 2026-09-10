@@ -26,9 +26,11 @@
 #include "tim.h"
 #include "gpio.h"
 #include "door.h"
-#include "motor.h"
-#include "ina226.h"
 #include "astro.h"
+#include "motor.h"
+#include "battery.h"
+#include "ina226.h"
+#include "power.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -103,10 +105,24 @@ int main(void)
   MX_RNG_Init();
   MX_LoRaWAN_Init();
   /* USER CODE BEGIN 2 */
-  INA226_Init()
+
+  /* Debugging via printf OFF */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  INA226_PowerUp();
+  INA226_Init();
+  INA226_PowerDown();
+
+  Battery_Init();
 
   Door_Init();
   Door_Setup(2026, 1, 1, 16, 59, 50, 49.5170f, 17.6181f);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -117,6 +133,7 @@ int main(void)
     MX_LoRaWAN_Process();
 
     /* USER CODE BEGIN 3 */
+    Battery_Process();
     Door_Process();
   }
   /* USER CODE END 3 */

@@ -6,9 +6,9 @@
   */
 
 #include "door.h"
-#include "motor.h"
 #include "astro.h"
-#include "power.h"
+#include "motor.h"
+#include "battery.h"
 #include "stm32_timer.h"
 #include "stm32_systime.h"
 
@@ -173,15 +173,33 @@ static void Door_UpdateSun(void)
   sunset_min  = res.sunset_min;
 }
 
+static int32_t Door_AvoidBatteryWindow(int32_t minute_of_day)
+{
+  if ((minute_of_day % 10) == 0)
+    minute_of_day += 1;
+  if (minute_of_day >= 1440)
+    minute_of_day -= 1440;
+  return minute_of_day;
+}
+
 static void Door_Schedule(void)
 {
   uint32_t now = Time_SecOfDay();
+
+  if (Battery_IsCritical()) {
+    Door_ArmTimer(86400U - now, EVT_MIDNIGHT);
+    return;
+  }
+
   int32_t open_m  = (int32_t)sunrise_min + DOOR_OPEN_OFFSET_MIN;
   int32_t close_m = (int32_t)sunset_min  + DOOR_CLOSE_OFFSET_MIN;
   if (open_m  < 0)     open_m  += 1440;
   if (open_m  >= 1440) open_m  -= 1440;
   if (close_m < 0)     close_m += 1440;
   if (close_m >= 1440) close_m -= 1440;
+
+  open_m  = Door_AvoidBatteryWindow(open_m);
+  close_m = Door_AvoidBatteryWindow(close_m);
 
   uint32_t t_mid   = 86400U;
   uint32_t t_open  = (uint32_t)open_m  * 60U;
@@ -226,7 +244,6 @@ static void Door_HandleMotion(uint8_t is_open)
 
 void Door_Init(void)
 {
-  Power_SwitchToRunHSE48MHz();
   Door_CreateTimer();
 }
 
@@ -245,6 +262,22 @@ void Door_Setup(uint16_t y, uint8_t mo, uint8_t d,
   SysTimeSet(st);
 
   Door_UpdateSun();
+  Door_Schedule();
+}
+
+uint8_t Door_GetMonth(void)
+{
+  Time_SyncFromTick();
+  return month;
+}
+
+uint32_t Door_GetSecOfDay(void)
+{
+  return Time_SecOfDay();
+}
+
+void Door_Reschedule(void)
+{
   Door_Schedule();
 }
 
@@ -274,7 +307,6 @@ void Door_Process(void)
   pending_event = EVT_NONE;
 
   if (evt == EVT_MIDNIGHT) {
-    Power_SwitchToRunHSE48MHz();
     Door_SyncFromSysTime();
   }
   else if (evt == EVT_OPEN) {

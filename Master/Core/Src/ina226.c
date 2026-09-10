@@ -7,6 +7,7 @@
 
 #include "ina226.h"
 #include "i2c.h"
+#include <math.h>
 
 extern I2C_HandleTypeDef hi2c2;
 
@@ -16,8 +17,8 @@ extern I2C_HandleTypeDef hi2c2;
 #define REG_CURRENT  0x04
 #define REG_CALIB    0x05
 
-/* AVG=16, VBUSCT=1.1ms, VSHCT=1.1ms, continuous shunt+bus */
-#define INA226_CONFIG_VALUE  0x0527U
+#define INA226_CONFIG_BATTERY  0x0726U   /* AVG=64, VBUSCT=1.1ms */
+#define INA226_CONFIG_FAST     0x0527U   /* AVG=16, VBUSCT+VSHCT=1.1+1.1ms */
 
 /*
  * Rshunt = 0.010 Ohm (R010)
@@ -28,7 +29,7 @@ extern I2C_HandleTypeDef hi2c2;
 #define INA226_CURRENT_LSB   (2.0f / 32768.0f)
 #define INA226_CALIB_VALUE   8389U
 
-/* Bus voltage LSB = 1.25 mV (celý 16bitový registr, žádný shift) */
+/* Bus voltage LSB = 1.25 mV */
 #define INA226_BUS_V_LSB     0.00125f
 
 static HAL_StatusTypeDef Write(uint8_t reg, uint16_t val)
@@ -67,9 +68,47 @@ HAL_StatusTypeDef INA226_Read(float *voltage, float *current)
     *voltage = (float)raw_bus * INA226_BUS_V_LSB;
 
   if (current)
-    *current = (float)((int16_t)raw_current) * INA226_CURRENT_LSB;
+    *current = fabsf((float)((int16_t)raw_current) * INA226_CURRENT_LSB);
 
   return HAL_OK;
+}
+
+/*
+ * Simplified I2C_TIMINGR recalculation for the current PCLK1 frequency.
+ * The original .ioc value (0x10805D88) is only for 48 MHz and causes wrong timings elsewhere.
+ * Target: Standard-mode (SCL ~90 kHz, t_LOW/t_HIGH safely above 4.7/4.0 us).
+ */
+
+static uint32_t I2C_ComputeTiming(uint32_t i2cclk_hz)
+{
+  const float t_low  = 5.5e-6f;
+  const float t_high = 4.5e-6f;
+  const uint32_t scldel = 4U;
+  const uint32_t sdadel = 0U;
+
+  for (uint32_t presc = 0U; presc <= 15U; presc++) {
+    float t_presc = (float)(presc + 1U) / (float)i2cclk_hz;
+    int32_t scll = (int32_t)(t_low  / t_presc + 0.5f) - 1;
+    int32_t sclh = (int32_t)(t_high / t_presc + 0.5f) - 1;
+
+    if (scll >= 0 && scll <= 255 && sclh >= 0 && sclh <= 255) {
+      return (presc << 28) | (scldel << 20) | (sdadel << 16)
+           | ((uint32_t)sclh << 8) | (uint32_t)scll;
+    }
+  }
+
+  return 0x10805D88UL;   /* fallback: original .ioc value for 48 MHz */
+}
+
+void INA226_PowerUp(void)
+{
+  MX_I2C2_Init();
+
+  uint32_t timing = I2C_ComputeTiming(HAL_RCC_GetPCLK1Freq());
+  __HAL_I2C_DISABLE(&hi2c2);
+  hi2c2.Instance->TIMINGR = timing;
+  __HAL_I2C_ENABLE(&hi2c2);
+  hi2c2.Init.Timing = timing;
 }
 
 HAL_StatusTypeDef INA226_Init(void)
@@ -77,7 +116,7 @@ HAL_StatusTypeDef INA226_Init(void)
   HAL_StatusTypeDef st = HAL_ERROR;
 
   for (uint8_t attempt = 0; attempt < 3; attempt++) {
-    st = Write(REG_CONFIG, INA226_CONFIG_VALUE);
+    st = Write(REG_CONFIG, INA226_CONFIG_BATTERY);
     if (st == HAL_OK) {
       st = Write(REG_CALIB, INA226_CALIB_VALUE);
       if (st == HAL_OK) return HAL_OK;
@@ -86,4 +125,30 @@ HAL_StatusTypeDef INA226_Init(void)
   }
 
   return st;
+}
+
+void INA226_PowerDown(void)
+{
+  HAL_I2C_DeInit(&hi2c2);
+  __HAL_RCC_I2C2_CLK_DISABLE();
+
+  GPIO_InitTypeDef gpio = {0};
+  gpio.Mode = GPIO_MODE_ANALOG;
+  gpio.Pull = GPIO_NOPULL;
+
+  gpio.Pin = I2C_SCL_Pin;
+  HAL_GPIO_Init(I2C_SCL_GPIO_Port, &gpio);
+
+  gpio.Pin = I2C_SDA_Pin;
+  HAL_GPIO_Init(I2C_SDA_GPIO_Port, &gpio);
+}
+
+void INA226_ConfigFast(void)
+{
+  Write(REG_CONFIG, INA226_CONFIG_FAST);
+}
+
+void INA226_ConfigBattery(void)
+{
+  Write(REG_CONFIG, INA226_CONFIG_BATTERY);
 }

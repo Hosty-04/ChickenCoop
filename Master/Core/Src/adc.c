@@ -58,9 +58,17 @@ void MX_ADC_Init(void)
   hadc.Init.DMAContinuousRequests = DISABLE;
   hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_160CYCLES_5;
-  hadc.Init.OversamplingMode = DISABLE;
+  hadc.Init.OversamplingMode = ENABLE;
+  hadc.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_16;
+  hadc.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_4;
+  hadc.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
   hadc.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
   if (HAL_ADC_Init(&hadc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_ADCEx_Calibration_Start(&hadc) != HAL_OK)
   {
     Error_Handler();
   }
