@@ -164,8 +164,8 @@ kde:
 | Motor | 100 mA | 250 mA | 0,889 mAh | 5,07 mAh |
 | DRV8838 | 340 µA | 600 µA | 3,02 µAh | 12,2 µAh |
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 8,52 µAh |
-| M (Run @ 16 MHz) | 1,6 mA | 1,65 mA | 14,2 µAh | 14,7 µAh |
-| **Celkem** | **102 mA** | **253 mA** | **0,909 mAh** | **5,11 mAh** |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **5,10 mAh** |
 
 &nbsp;
 
@@ -326,12 +326,12 @@ kde:
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 46,5 % | 1,34 mAh | 17,9 % |
-| Pohyb dvířek | 909 µAh | 45,8 % | 5,11 mAh | 68,3 % |
+| Kontrola vajec | 923 µAh | 46,8 % | 1,34 mAh | 17,9 % |
+| Pohyb dvířek | 896 µAh | 45,4 % | 5,1 mAh | 68,3 % |
 | Klidový režim | 129 µAh | 6,5 % | 1 mAh | 13,4 % |
 | Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,4 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **1,99 mAh** | **100 %** | **7,48 mAh** | **100 %** |
+| **Celkem** | **1,97 mAh** | **100 %** | **7,47 mAh** | **100 %** |
 
 &nbsp;
 
@@ -557,7 +557,7 @@ Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 20
 
 &nbsp;
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se v případě pohybu dvířek přepne do režimu Run nebo v ostatních případech do režimu LP Run (Low-Power Run). V režimu Run, respektive LP Run bude taktovaný úsporným interním krystalem MSI na 16 MHz, respektive 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run, LP Sleep a Stop2 s RTC je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run, LP Sleep a Stop2 s RTC je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
 
 Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a vytvoření hodnoty trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 bude po připojení napájení potřeba čekat 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 pak přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
