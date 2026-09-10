@@ -31,7 +31,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 &nbsp;
 
 ### Kabeláž
-Pro připojení solárního panelu bude použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů a odtud dále k akumulátoru. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí.
+Pro připojení solárního panelu a akumulátoru bude použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí.
 
 Stejným způsobem bude k desce plošných spojů připojen motor a mikrospínače, avšak s licnou o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici. Spoje této licny s kontakty budou izolovány smršťovacími bužírkami s poměrem 2:1 a vnitřním průměrem 2 mm / 0,75 mm (před / po zahřátí), přečnívajícími asi centimetr přes izolaci.
 
