@@ -11,4 +11,6 @@
 void Power_SwitchToRunHSE48MHz(void);
 void Power_SwitchToLPRunMSI1MHz(void);
 
+void Power_DisableDebug(void);
+
 #endif /* POWER_H */

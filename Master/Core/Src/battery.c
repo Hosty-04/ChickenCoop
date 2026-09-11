@@ -28,7 +28,7 @@
 #define ADC_FULL_SCALE  4095.0f
 
 #define SEP_PORT  GPIOB
-#define SEP_PIN   GPIO_PIN_6
+#define SEP_PIN   GPIO_PIN_7
 
 static UTIL_TIMER_Object_t battery_timer;
 static volatile uint8_t    pending_check = 0;

@@ -59,3 +59,20 @@ void Power_SwitchToRunHSE48MHz(void)
   SystemClock_Config();
   Power_UpdateTimebase();
 }
+
+void Power_DisableDebug(void)
+{
+  HAL_DBGMCU_DisableDBGSleepMode();
+  HAL_DBGMCU_DisableDBGStopMode();
+  HAL_DBGMCU_DisableDBGStandbyMode();
+ 
+  GPIO_InitTypeDef gpio = {0};
+  gpio.Mode = GPIO_MODE_ANALOG;
+  gpio.Pull = GPIO_NOPULL;
+ 
+  gpio.Pin = DEBUG_SWDIO_Pin;
+  HAL_GPIO_Init(DEBUG_SWDIO_GPIO_Port, &gpio);
+ 
+  gpio.Pin = DEBUG_SWCLK_Pin;
+  HAL_GPIO_Init(DEBUG_SWCLK_GPIO_Port, &gpio);
+}

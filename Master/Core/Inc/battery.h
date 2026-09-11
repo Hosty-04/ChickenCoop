@@ -12,6 +12,7 @@
 
 void Battery_Init(void);
 void Battery_Process(void);
+
 uint8_t Battery_IsCritical(void);
 
 #endif /* BATTERY_H */

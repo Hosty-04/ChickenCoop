@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "i2c.h"
 #include "app_lorawan.h"
+#include "usart_if.h"
 #include "usart.h"
 #include "rng.h"
 #include "tim.h"
@@ -106,13 +107,14 @@ int main(void)
   MX_LoRaWAN_Init();
   /* USER CODE BEGIN 2 */
 
-  /* Debugging via printf OFF */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  /* Debug OFF - connection under reset and mass erase needed to flash and debug again
+   * (~/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI -c port=SWD mode=UR -e all)
+   */
+
+  /* Power_DisableDebug(); */
+
+  vcom_DeInit();   /* Debug via printf OFF */
+
 
   INA226_PowerUp();
   INA226_Init();
@@ -121,7 +123,7 @@ int main(void)
   Battery_Init();
 
   Door_Init();
-  Door_Setup(2026, 1, 1, 16, 59, 50, 49.5170f, 17.6181f);
+  Door_Setup(2026, 1, 1, 6, 45, 50, 49.5170f, 17.6181f);
 
   /* USER CODE END 2 */
 
