@@ -135,16 +135,21 @@ static void Time_FromUnix(uint32_t unix_sec)
   tick_ref = HAL_GetTick();
 }
 
-static void Door_OnTimer(void *ctx)
+void Door_AdvanceSeconds(uint32_t seconds)
 {
-  UNUSED(ctx);
-  sec_of_day += armed_seconds;
+  sec_of_day += seconds;
   if (sec_of_day >= 86400U) {
     uint32_t days = sec_of_day / 86400U;
     sec_of_day %= 86400U;
     Time_AdvanceDays(days);
   }
   tick_ref = HAL_GetTick();
+}
+
+static void Door_OnTimer(void *ctx)
+{
+  UNUSED(ctx);
+  Door_AdvanceSeconds(armed_seconds);
   pending_event = armed_event;
 }
 
@@ -175,8 +180,13 @@ static void Door_UpdateSun(void)
 
 static int32_t Door_AvoidBatteryWindow(int32_t minute_of_day)
 {
-  if ((minute_of_day % 10) == 0)
-    minute_of_day += 1;
+  switch (minute_of_day % 10) {
+    case 9: minute_of_day += 4; break;
+    case 0: minute_of_day += 3; break;
+    case 1: minute_of_day += 2; break;
+    case 2: minute_of_day += 1; break;
+    default: break;
+  }
   if (minute_of_day >= 1440)
     minute_of_day -= 1440;
   return minute_of_day;

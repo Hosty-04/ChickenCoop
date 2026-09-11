@@ -13,16 +13,20 @@
 #include "adc.h"
 #include "gpio.h"
 
-#define BATTERY_CHECK_MS       (10UL * 60UL * 1000UL)
-#define BATTERY_HYST_STEPS     3
-#define BATTERY_RECONNECT_DROP 0.25f
+#define BATTERY_CHECK_MS        (10UL * 60UL * 1000UL)
+#define BATTERY_HYST_STEPS      3
+#define BATTERY_RECONNECT_DROP  0.25f
 
 #define BATTERY_V_CRITICAL_ENTER  6.0f
 #define BATTERY_V_CRITICAL_EXIT   6.1f
 
-#define PANEL_DIV_R1  1000000.0f
-#define PANEL_DIV_R2  470000.0f
+#define PANEL_V_HYST  0.01f
+
+#define PANEL_DIV_R1  970000.0f
+#define PANEL_DIV_R2  488500.0f
 #define PANEL_DIVIDER_RATIO  ((PANEL_DIV_R1 + PANEL_DIV_R2) / PANEL_DIV_R2)
+
+#define PANEL_CAL_CONST  1.00371604f
 
 #define ADC_VREF        3.3f
 #define ADC_FULL_SCALE  4095.0f
@@ -31,6 +35,7 @@
 #define SEP_PIN   GPIO_PIN_7
 
 static UTIL_TIMER_Object_t battery_timer;
+static uint32_t            armed_seconds = 0;
 static volatile uint8_t    pending_check = 0;
 
 static uint8_t  ov_lockout      = 0;
@@ -48,28 +53,36 @@ static void Battery_SetPanel(uint8_t connected)
 
 static float Battery_SeasonLimit(uint8_t month)
 {
-  if (month == 6 || month == 7 || month == 8)  return 7.2f;   /* léto */
-  if (month == 12 || month == 1 || month == 2) return 7.5f;   /* zima */
-  return 7.3f;                                                 /* jaro / podzim */
+  if (month == 6 || month == 7 || month == 8)  return 7.2f;
+  if (month == 12 || month == 1 || month == 2) return 7.5f;
+  return 7.3f;
 }
 
-/* 
- * ADC (hadc) is shared with LoRaWAN BSP (reads VREFINT/temp for battery reports). 
- * That's why ADC cannot be turned OFF.
- * ADC_CHANNEL_2 is the lowest channel number configured. 
- * In ADC_SCAN_SEQ_FIXED, it triggers first, allowing a simple Start/Poll/GetValue/Stop sequence.
- */
 static HAL_StatusTypeDef Battery_ReadPanelVoltage(float *v_panel)
 {
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  MX_ADC_Init();
+
+  if (HAL_ADCEx_Calibration_Start(&hadc) != HAL_OK) return HAL_ERROR;
+
+  sConfig.Channel      = ADC_CHANNEL_2;
+  sConfig.Rank         = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
+  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) return HAL_ERROR;
+
   if (HAL_ADC_Start(&hadc) != HAL_OK) return HAL_ERROR;
   if (HAL_ADC_PollForConversion(&hadc, 10) != HAL_OK) {
     HAL_ADC_Stop(&hadc);
+    HAL_ADC_DeInit(&hadc);
     return HAL_ERROR;
   }
+
   uint32_t raw = HAL_ADC_GetValue(&hadc);
   HAL_ADC_Stop(&hadc);
+  HAL_ADC_DeInit(&hadc);
 
-  *v_panel = (float)raw * (ADC_VREF / ADC_FULL_SCALE) * PANEL_DIVIDER_RATIO;
+  *v_panel = (float)raw * (ADC_VREF / ADC_FULL_SCALE) * PANEL_DIVIDER_RATIO * PANEL_CAL_CONST;
   return HAL_OK;
 }
 
@@ -108,10 +121,10 @@ static void Battery_UpdateCritical(float v_bat)
 static void Battery_UpdateBackfeed(float v_bat, float v_panel)
 {
   if (!backfeed_block) {
-    if (v_panel < v_bat)
+    if (v_panel < v_bat - PANEL_V_HYST)
       backfeed_block = 1;
   } else {
-    if (v_panel > v_bat)
+    if (v_panel > v_bat - PANEL_V_HYST)
       backfeed_block = 0;
   }
 }
@@ -119,6 +132,7 @@ static void Battery_UpdateBackfeed(float v_bat, float v_panel)
 static void Battery_OnTimer(void *ctx)
 {
   UNUSED(ctx);
+  Door_AdvanceSeconds(armed_seconds);
   pending_check = 1;
 }
 
@@ -133,6 +147,8 @@ static void Battery_Schedule(void)
 
   uint32_t delay_s = next_mark - now;
   if (delay_s == 0UL) delay_s = 1UL;
+
+  armed_seconds = delay_s;
 
   UTIL_TIMER_Stop(&battery_timer);
   UTIL_TIMER_SetPeriod(&battery_timer, delay_s * 1000UL);

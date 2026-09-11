@@ -157,8 +157,11 @@ static uint16_t Motor_CalcDuty(float v_aku, float i_aku)
 static float Motor_CalcIth(float v_aku, float i_aku)
 {
   float v_cmd = MOTOR_V_NOMINAL + i_aku * BRIDGE_R_EF + MOTOR_V_MARGIN;
+  float ith;
   if (v_aku < 0.5f) return MOTOR_I_MAX;
-  return MOTOR_I_MAX * (v_cmd / v_aku);
+  ith = MOTOR_I_MAX * (v_cmd / v_aku);
+  if (ith > MOTOR_I_MAX) ith = MOTOR_I_MAX;
+  return ith;
 }
 
 static Motor_Result_t Motor_Run(uint8_t up)
