@@ -18,7 +18,7 @@ extern I2C_HandleTypeDef hi2c2;
 #define REG_CALIB    0x05
 
 #define INA226_CONFIG_BATTERY  0x0726U   /* AVG=64, VBUSCT=1.1ms */
-#define INA226_CONFIG_FAST     0x0527U   /* AVG=16, VBUSCT+VSHCT=1.1+1.1ms */
+#define INA226_CONFIG_FAST     0x0527U   /* AVG=16, VBUSCT+VSHCT=2.2ms */
 
 /*
  * Rshunt = 0.010 Ohm (R010)

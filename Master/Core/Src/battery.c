@@ -8,14 +8,13 @@
 #include "door.h"
 #include "battery.h"
 #include "ina226.h"
+#include "timebase.h"
 #include "power.h"
 #include "stm32_timer.h"
 #include "adc.h"
 #include "gpio.h"
 
 #define BATTERY_CHECK_MS        (10UL * 60UL * 1000UL)
-#define BATTERY_HYST_STEPS      3
-#define BATTERY_RECONNECT_DROP  0.25f
 
 #define BATTERY_V_CRITICAL_ENTER  6.0f
 #define BATTERY_V_CRITICAL_EXIT   6.1f
@@ -35,12 +34,11 @@
 #define SEP_PIN   GPIO_PIN_7
 
 static UTIL_TIMER_Object_t battery_timer;
-static uint32_t            armed_seconds = 0;
-static volatile uint8_t    pending_check = 0;
+static uint32_t            battery_armed_s = 0;
+static volatile uint8_t    pending_check   = 0;
 
 static uint8_t  ov_lockout      = 0;
 static float    v_at_lockout    = 0.0f;
-static uint8_t  reconnect_count = 0;
 
 static uint8_t  backfeed_block  = 0;
 
@@ -92,18 +90,12 @@ static void Battery_UpdateOvLockout(float v_bat, uint8_t month)
     if (v_bat >= Battery_SeasonLimit(month)) {
       ov_lockout      = 1;
       v_at_lockout    = v_bat;
-      reconnect_count = 0;
     }
     return;
   }
 
-  if (v_bat <= (v_at_lockout - BATTERY_RECONNECT_DROP)) {
-    if (++reconnect_count >= BATTERY_HYST_STEPS) {
-      ov_lockout      = 0;
-      reconnect_count = 0;
-    }
-  } else {
-    reconnect_count = 0;
+  if (v_bat <= (v_at_lockout)) {
+    ov_lockout      = 0;
   }
 }
 
@@ -132,13 +124,13 @@ static void Battery_UpdateBackfeed(float v_bat, float v_panel)
 static void Battery_OnTimer(void *ctx)
 {
   UNUSED(ctx);
-  Door_AdvanceSeconds(armed_seconds);
+  Timebase_AdvanceSeconds(battery_armed_s);
   pending_check = 1;
 }
 
 static void Battery_Schedule(void)
 {
-  uint32_t now = Door_GetSecOfDay();
+  uint32_t now = Timebase_GetSecOfDay();
   uint32_t interval_s = BATTERY_CHECK_MS / 1000UL;
   uint32_t next_mark = ((now / interval_s) + 1UL) * interval_s;
 
@@ -146,9 +138,10 @@ static void Battery_Schedule(void)
     next_mark += interval_s;
 
   uint32_t delay_s = next_mark - now;
-  if (delay_s == 0UL) delay_s = 1UL;
+  if (delay_s == 0UL)
+    delay_s = 1UL;
 
-  armed_seconds = delay_s;
+  battery_armed_s = delay_s;
 
   UTIL_TIMER_Stop(&battery_timer);
   UTIL_TIMER_SetPeriod(&battery_timer, delay_s * 1000UL);
@@ -188,7 +181,7 @@ void Battery_Process(void)
   HAL_StatusTypeDef st_panel = Battery_ReadPanelVoltage(&v_panel);
 
   if (st == HAL_OK) {
-    Battery_UpdateOvLockout(v_bat, Door_GetMonth());
+    Battery_UpdateOvLockout(v_bat, Timebase_GetMonth());
     Battery_UpdateCritical(v_bat);
 
     if (st_panel == HAL_OK)

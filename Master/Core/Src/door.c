@@ -9,6 +9,7 @@
 #include "astro.h"
 #include "motor.h"
 #include "battery.h"
+#include "timebase.h"
 #include "stm32_timer.h"
 #include "stm32_systime.h"
 
@@ -18,12 +19,6 @@
 
 static float    lat = 49.5170f;
 static float    lon = 17.6181f;
-
-static uint16_t year  = 2026;
-static uint8_t  month = 1;
-static uint8_t  day   = 1;
-static volatile uint32_t sec_of_day = 0;
-static volatile uint32_t tick_ref   = 0;
 
 static int16_t  sunrise_min = 360;
 static int16_t  sunset_min  = 1080;
@@ -36,128 +31,27 @@ typedef enum {
   EVT_RETRY
 } DoorEvent_t;
 
-static volatile DoorEvent_t pending_event = EVT_NONE;
-static DoorEvent_t          armed_event  = EVT_NONE;
-static uint32_t             armed_seconds = 0;
+static volatile DoorEvent_t pending_event   = EVT_NONE;
+static DoorEvent_t          armed_event     = EVT_NONE;
+static uint32_t             door_armed_s    = 0;
 static UTIL_TIMER_Object_t  door_timer;
 
 static uint8_t  retry_pending = 0;
 static uint8_t  retry_is_open = 0;
 
-static void Time_AdvanceDays(uint32_t days)
-{
-  static const uint8_t dim[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
-  while (days--) {
-    uint8_t dmax = dim[month];
-    if (month == 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)))
-      dmax = 29;
-    if (++day > dmax) {
-      day = 1;
-      if (++month > 12) { month = 1; year++; }
-    }
-  }
-}
-
-static void Time_SyncFromTick(void)
-{
-  uint32_t now = HAL_GetTick();
-  uint32_t elapsed_s = (now - tick_ref) / 1000U;
-  if (elapsed_s == 0U) return;
-  sec_of_day += elapsed_s;
-  tick_ref   += elapsed_s * 1000U;
-  if (sec_of_day >= 86400U) {
-    uint32_t days = sec_of_day / 86400U;
-    sec_of_day %= 86400U;
-    Time_AdvanceDays(days);
-  }
-}
-
-static void Time_Set(uint16_t y, uint8_t mo, uint8_t d,
-                     uint8_t h, uint8_t mi, uint8_t s)
-{
-  year = y; month = mo; day = d;
-  sec_of_day = (uint32_t)h * 3600U + (uint32_t)mi * 60U + s;
-  tick_ref = HAL_GetTick();
-}
-
-static uint32_t Time_SecOfDay(void)
-{
-  Time_SyncFromTick();
-  return sec_of_day;
-}
-
-static uint32_t Time_ToUnix(uint16_t y, uint8_t mo, uint8_t d,
-                            uint8_t h, uint8_t mi, uint8_t s, float tz_hours)
-{
-  int16_t y_adj = (int16_t)y - (mo <= 2 ? 1 : 0);
-  uint16_t era = (uint16_t)(y_adj >= 0 ? y_adj : y_adj - 399) / 400U;
-  uint16_t yoe = (uint16_t)(y_adj - (int16_t)era * 400);
-  uint16_t doy = (uint16_t)((153U * (mo + (mo > 2 ? -3 : 9)) + 2U) / 5U + d - 1U);
-
-  uint32_t doe = (uint32_t)yoe * 365U + yoe / 4U - yoe / 100U + doy;
-  uint32_t days = era * 146097UL + doe - 719468UL;
-
-  int32_t sod_local = (int32_t)h * 3600 + (int32_t)mi * 60 + s;
-  int32_t tz_sec = (int32_t)(tz_hours * 3600.0f);
-  int32_t sod_utc = sod_local - tz_sec;
-  if (sod_utc < 0) { sod_utc += 86400; days--; }
-  else if (sod_utc >= 86400) { sod_utc -= 86400; days++; }
-
-  return days * 86400UL + (uint32_t)sod_utc;
-}
-
-static void Time_FromUnix(uint32_t unix_sec)
-{
-  int32_t tz_sec = 3600;
-  uint32_t local;
-  Astro_Result_t res;
-
-  for (int i = 0; i < 2; i++) {
-    local = (uint32_t)((int32_t)unix_sec + tz_sec);
-    uint32_t days = local / 86400U;
-    uint32_t z = days + 719468U;
-    uint32_t era = z / 146097U;
-    uint32_t doe = z - era * 146097U;
-    uint32_t yoe = (doe - doe/1460U + doe/36524U - doe/146096U) / 365U;
-    uint32_t y = yoe + era * 400U;
-    uint32_t doy = doe - (365U * yoe + yoe/4U - yoe/100U);
-    uint32_t mp = (5U * doy + 2U) / 153U;
-    uint32_t d = doy - (153U * mp + 2U) / 5U + 1U;
-    uint32_t m = mp + (mp < 10U ? 3U : -9U);
-    y += (m <= 2U);
-
-    year = (uint16_t)y; month = (uint8_t)m; day = (uint8_t)d;
-    Astro_Calculate(year, month, day, lat, lon, &res);
-    tz_sec = (int32_t)(res.timezone * 3600.0f);
-  }
-
-  sec_of_day = local % 86400U;
-  tick_ref = HAL_GetTick();
-}
-
-void Door_AdvanceSeconds(uint32_t seconds)
-{
-  sec_of_day += seconds;
-  if (sec_of_day >= 86400U) {
-    uint32_t days = sec_of_day / 86400U;
-    sec_of_day %= 86400U;
-    Time_AdvanceDays(days);
-  }
-  tick_ref = HAL_GetTick();
-}
-
 static void Door_OnTimer(void *ctx)
 {
   UNUSED(ctx);
-  Door_AdvanceSeconds(armed_seconds);
+  Timebase_AdvanceSeconds(door_armed_s);
   pending_event = armed_event;
 }
 
 static void Door_ArmTimer(uint32_t seconds, DoorEvent_t evt)
 {
-  if (seconds == 0U) seconds = 1U;
-  armed_event   = evt;
-  armed_seconds = seconds;
+  if (seconds == 0U)
+    seconds = 1U;
+  armed_event  = evt;
+  door_armed_s = seconds;
   UTIL_TIMER_Stop(&door_timer);
   UTIL_TIMER_SetPeriod(&door_timer, seconds * 1000U);
   UTIL_TIMER_Start(&door_timer);
@@ -171,9 +65,9 @@ static void Door_CreateTimer(void)
 
 static void Door_UpdateSun(void)
 {
-  Time_SyncFromTick();
   Astro_Result_t res;
-  Astro_Calculate(year, month, day, lat, lon, &res);
+  Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), Timebase_GetDay(),
+                  lat, lon, &res);
   sunrise_min = res.sunrise_min;
   sunset_min  = res.sunset_min;
 }
@@ -194,7 +88,7 @@ static int32_t Door_AvoidBatteryWindow(int32_t minute_of_day)
 
 static void Door_Schedule(void)
 {
-  uint32_t now = Time_SecOfDay();
+  uint32_t now = Timebase_GetSecOfDay();
 
   if (Battery_IsCritical()) {
     Door_ArmTimer(86400U - now, EVT_MIDNIGHT);
@@ -263,27 +157,17 @@ void Door_Setup(uint16_t y, uint8_t mo, uint8_t d,
 {
   lat = latitude;
   lon = longitude;
-  Time_Set(y, mo, d, h, mi, s);
+
+  Timebase_Set(y, mo, d, h, mi, s);
 
   Astro_Result_t res;
   Astro_Calculate(y, mo, d, lat, lon, &res);
-  uint32_t unix_sec = Time_ToUnix(y, mo, d, h, mi, s, res.timezone);
+  uint32_t unix_sec = Timebase_ToUnix(y, mo, d, h, mi, s, res.timezone);
   SysTime_t st = { .Seconds = unix_sec, .SubSeconds = 0 };
   SysTimeSet(st);
 
   Door_UpdateSun();
   Door_Schedule();
-}
-
-uint8_t Door_GetMonth(void)
-{
-  Time_SyncFromTick();
-  return month;
-}
-
-uint32_t Door_GetSecOfDay(void)
-{
-  return Time_SecOfDay();
 }
 
 void Door_Reschedule(void)
@@ -295,7 +179,7 @@ void Door_SyncFromSysTime(void)
 {
   SysTime_t t = SysTimeGet();
   if (t.Seconds > 0U) {
-    Time_FromUnix(t.Seconds);
+    Timebase_FromUnix(t.Seconds, lat, lon);
     Door_UpdateSun();
     Door_Schedule();
   }
