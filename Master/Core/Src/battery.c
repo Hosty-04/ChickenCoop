@@ -16,9 +16,6 @@
 
 #define BATTERY_CHECK_MS        (10UL * 60UL * 1000UL)
 
-#define BATTERY_V_CRITICAL_ENTER  6.0f
-#define BATTERY_V_CRITICAL_EXIT   6.1f
-
 #define PANEL_V_HYST  0.05f
 
 #define PANEL_DIV_R1  970000.0f
@@ -52,6 +49,13 @@ static float Battery_SeasonLimit(uint8_t month)
   if (month == 6 || month == 7 || month == 8)  return 7.2f;
   if (month == 12 || month == 1 || month == 2) return 7.5f;
   return 7.3f;
+}
+
+static float Battery_CriticalLimit(uint8_t month)
+{
+  if (month == 11 || month == 12 || month == 1 || month == 2 || month == 3)
+    return 6.15f;
+  return 6.0f;
 }
 
 static HAL_StatusTypeDef Battery_ReadPanelVoltage(float *v_panel)
@@ -97,12 +101,14 @@ static void Battery_UpdateOvLockout(float v_bat, uint8_t month)
   }
 }
 
-static void Battery_UpdateCritical(float v_bat)
+static void Battery_UpdateCritical(float v_bat, uint8_t month)
 {
-  if (!critical_mode && v_bat <= BATTERY_V_CRITICAL_ENTER) {
+  float limit = Battery_CriticalLimit(month);
+
+  if (!critical_mode && v_bat <= limit) {
     critical_mode = 1;
     Door_Reschedule();
-  } else if (critical_mode && v_bat >= BATTERY_V_CRITICAL_EXIT) {
+  } else if (critical_mode && v_bat > limit) {
     critical_mode = 0;
     Door_Reschedule();
   }
@@ -179,8 +185,10 @@ void Battery_Process(void)
   HAL_StatusTypeDef st_panel = Battery_ReadPanelVoltage(&v_panel);
 
   if (st == HAL_OK) {
-    Battery_UpdateOvLockout(v_bat, Timebase_GetMonth());
-    Battery_UpdateCritical(v_bat);
+    uint8_t month = Timebase_GetMonth();
+
+    Battery_UpdateOvLockout(v_bat, month);
+    Battery_UpdateCritical(v_bat, month);
 
     if (st_panel == HAL_OK)
       Battery_UpdateBackfeed(v_bat, v_panel);
