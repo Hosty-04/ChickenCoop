@@ -503,7 +503,7 @@ I při maximálním napětí na solárním panelu nepřesáhne napětí na ADC p
 
 &nbsp;
 
-Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne o 250 mV po dobu 30 minut (tři po sobě jdoucí měření), M panel znovu připojí. Při vybití akumulátoru pod 50 %, kdy jeho napětí klesne na 6 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením.
+Na základě údajů z napěťového senzoru a napěťového děliče bude M přes sběrnici I²C, respektive přes ADC pin, vyhodnocovat stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Pokud napětí akumulátoru následně klesne, M panel znovu připojí. Při vybití akumulátoru pod 50 %, kdy jeho napětí klesne na 6 V, přejde M do kritického režimu, ve kterém bude už jen kontrolovat napětí panelu a akumulátoru; k obnovení provozu dojde po dosažení 6,1 V. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru, musí M zamezit vzniku zpětného proudu směrem do panelu jeho odpojením.
 
 &nbsp;
 
