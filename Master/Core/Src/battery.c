@@ -19,13 +19,11 @@
 #define BATTERY_V_CRITICAL_ENTER  6.0f
 #define BATTERY_V_CRITICAL_EXIT   6.1f
 
-#define PANEL_V_HYST  0.01f
+#define PANEL_V_HYST  0.05f
 
 #define PANEL_DIV_R1  970000.0f
 #define PANEL_DIV_R2  488500.0f
 #define PANEL_DIVIDER_RATIO  ((PANEL_DIV_R1 + PANEL_DIV_R2) / PANEL_DIV_R2)
-
-#define PANEL_CAL_CONST  1.00371604f
 
 #define ADC_VREF        3.3f
 #define ADC_FULL_SCALE  4095.0f
@@ -80,7 +78,7 @@ static HAL_StatusTypeDef Battery_ReadPanelVoltage(float *v_panel)
   HAL_ADC_Stop(&hadc);
   HAL_ADC_DeInit(&hadc);
 
-  *v_panel = (float)raw * (ADC_VREF / ADC_FULL_SCALE) * PANEL_DIVIDER_RATIO * PANEL_CAL_CONST;
+  *v_panel = (float)raw * (ADC_VREF / ADC_FULL_SCALE) * PANEL_DIVIDER_RATIO;
   return HAL_OK;
 }
 

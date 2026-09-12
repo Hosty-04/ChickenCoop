@@ -75,10 +75,8 @@ static void Door_UpdateSun(void)
 static int32_t Door_AvoidBatteryWindow(int32_t minute_of_day)
 {
   switch (minute_of_day % 10) {
-    case 9: minute_of_day += 4; break;
-    case 0: minute_of_day += 3; break;
-    case 1: minute_of_day += 2; break;
-    case 2: minute_of_day += 1; break;
+    case 9: minute_of_day += 2; break;
+    case 0: minute_of_day += 1; break;
     default: break;
   }
   if (minute_of_day >= 1440)

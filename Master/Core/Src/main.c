@@ -121,7 +121,7 @@ int main(void)
   INA226_PowerDown();
 
   Door_Init();
-  Door_Setup(2026, 1, 1, 0, 9, 50, 49.5170f, 17.6181f);
+  Door_Setup(2026, 1, 1, 0, 9, 59, 49.5170f, 17.6181f);
 
   Battery_Init();
 
