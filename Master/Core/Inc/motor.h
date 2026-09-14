@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    motor.h
-  * @brief   Motor driver + obstacle detection (INA226)
+  * @brief   Motor control and obstacle detection (INA226)
   ******************************************************************************
   */
 
@@ -11,22 +11,20 @@
 #include "main.h"
 
 typedef enum {
+  MOTOR_DIR_DOWN = 0,
+  MOTOR_DIR_UP
+} Motor_Dir_t;
+
+typedef enum {
   MOTOR_OK = 0,
+  MOTOR_ALREADY,
+  MOTOR_NO_REFERENCE,
   MOTOR_OBSTACLE,
+  MOTOR_STUCK,
   MOTOR_TIMEOUT,
-  MOTOR_FAULT
+  MOTOR_SENSOR_ERROR
 } Motor_Result_t;
 
-void Motor_Begin(void);
-void Motor_End(void);
-void Motor_Set(uint8_t up, uint16_t duty);
-void Motor_Stop(void);
-
-Motor_Result_t Motor_Open(void);
-Motor_Result_t Motor_Close(void);
-
-void Motor_ClearFault(void);
-void Motor_SetFault(void);
-uint8_t Motor_IsFaulted(void);
+Motor_Result_t Motor_Move(Motor_Dir_t dir);
 
 #endif /* MOTOR_H */

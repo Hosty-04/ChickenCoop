@@ -26,16 +26,15 @@
 #include "rng.h"
 #include "tim.h"
 #include "gpio.h"
-#include "door.h"
-#include "astro.h"
-#include "motor.h"
-#include "battery.h"
-#include "ina226.h"
-#include "power.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "system.h"
+#include "door.h"
+#include "battery.h"
+#include "ina226.h"
+#include "telemetry.h"
+#include "lora_app.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,15 +114,13 @@ int main(void)
 
   vcom_DeInit();   /* Debug via printf OFF */
 
-
   INA226_PowerUp();
   INA226_Init();
   INA226_PowerDown();
 
-  Door_Init();
-  Door_Setup(2026, 1, 1, 0, 9, 59, 49.5170f, 17.6181f);
-
   Battery_Init();
+  Door_Init();
+  Door_Setup(2026, 1, 1, 0, 0, 0, 49.5170f, 17.6181f);
 
   /* USER CODE END 2 */
 
@@ -131,12 +128,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    System_Process();
+    LoRaWAN_SendPending();
     /* USER CODE END WHILE */
     MX_LoRaWAN_Process();
 
     /* USER CODE BEGIN 3 */
-    Battery_Process();
-    Door_Process();
   }
   /* USER CODE END 3 */
 }

@@ -50,26 +50,26 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, MAIN_SW_Pin|SEP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, COM_Pin|SEP_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, RF_CTRL1_Pin|RF_CTRL2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : MAIN_SW_Pin SEP_Pin */
-  GPIO_InitStruct.Pin = MAIN_SW_Pin|SEP_Pin;
+  /*Configure GPIO pins : COM_Pin SEP_Pin */
+  GPIO_InitStruct.Pin = COM_Pin|SEP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : nSLEEP_Pin PH_Pin LIM_SW1_Pin */
-  GPIO_InitStruct.Pin = nSLEEP_Pin|PH_Pin|LIM_SW1_Pin;
+  /*Configure GPIO pins : NSLEEP_Pin PH_Pin LIM_DN_Pin */
+  GPIO_InitStruct.Pin = NSLEEP_Pin|PH_Pin|LIM_DN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LPUART_CRTL_Pin LIM_SW2_Pin */
-  GPIO_InitStruct.Pin = LPUART_CRTL_Pin|LIM_SW2_Pin;
+  /*Configure GPIO pins : LPUART_CRTL_Pin LIM_UP_Pin */
+  GPIO_InitStruct.Pin = LPUART_CRTL_Pin|LIM_UP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

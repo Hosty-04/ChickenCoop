@@ -41,7 +41,8 @@
 #include "stm32_lpm.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "system.h"
+#include "telemetry.h"
 /* USER CODE END Includes */
 
 /* External variables ---------------------------------------------------------*/
@@ -309,7 +310,20 @@ static Callbacks_t Callbacks =
 
 /* Exported functions ---------------------------------------------------------*/
 /* USER CODE BEGIN EF */
+void LoRaWAN_SendPending(void)
+{
+  smtc_modem_status_mask_t status_mask = 0;
 
+  if (Telemetry_Pending() == 0U)
+    return;
+
+  smtc_modem_get_status(STACK_ID, &status_mask);
+
+  if ((status_mask & SMTC_MODEM_STATUS_JOINED) != SMTC_MODEM_STATUS_JOINED)
+    return;                       /* nepřipojeno, požadavek zůstává ve frontě */
+
+  SendTxData(LORAWAN_USER_APP_PORT);
+}
 /* USER CODE END EF */
 
 /*
@@ -374,7 +388,8 @@ void LoRaWAN_Process(void)
 
   /* Atomically check sleep conditions (button was not pressed and no modem flags pending) */
 
-  if ((user_button_is_press == false) && (smtc_modem_is_irq_flag_pending() == false))
+  if ((user_button_is_press == false) && (smtc_modem_is_irq_flag_pending() == false) &&
+      (System_WorkPending() == false))
   {
     if (sleep_time_ms > 0)
     {
@@ -594,7 +609,7 @@ static void EventCallback(void)
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: JOINED\r\n");
         APP_LOG(TS_OFF, VLEVEL_H,  "Modem is now joined \r\n");
         /* USER CODE BEGIN EventCallback_1 */
-
+        Telemetry_RequestStatus();
         /* USER CODE END EventCallback_1 */
         if (CertMode == false)
         {
@@ -624,6 +639,8 @@ static void EventCallback(void)
         ASSERT_SMTC_MODEM_RC(smtc_modem_get_downlink_data(rx_payload, &rx_payload_size, &rx_metadata, &rx_remaining));
         APP_LOG(TS_OFF, VLEVEL_M, "Data received on port %u\r\n", rx_metadata.fport);
         /* APP_LOG(TS_OFF, VLEVEL_M, "Received payload", rx_payload, rx_payload_size ); */
+
+        Telemetry_HandleDownlink(rx_payload, rx_payload_size);
         break;
 
       case SMTC_MODEM_EVENT_JOINFAIL:
@@ -727,7 +744,17 @@ static void EventCallback(void)
 static void SendTxData(uint8_t port)
 {
   /* USER CODE BEGIN SendTxData_1 */
+  uint8_t payload[TELEMETRY_LEN_STATUS];
+  uint8_t length;
 
+  length = Telemetry_Build(payload);
+  if (length == 0U)
+    return;                       /* fronta prázdná, není co poslat */
+
+  if (smtc_modem_request_uplink(STACK_ID, port, false, payload, length)
+      != SMTC_MODEM_RC_OK) {
+    Telemetry_Requeue(length);    /* duty cycle nebo zaneprázdněný modem */
+  }
   /* USER CODE END SendTxData_1 */
 }
 

@@ -98,7 +98,7 @@ void LoRaWAN_Init(void);
 void LoRaWAN_Process(void);
 
 /* USER CODE BEGIN EFP */
-
+void LoRaWAN_SendPending(void);
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

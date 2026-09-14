@@ -1,15 +1,15 @@
 /**
   ******************************************************************************
   * @file    power.h
-  * @brief   Power mode switching
+  * @brief   Power mode control
   ******************************************************************************
   */
 
 #ifndef POWER_H
 #define POWER_H
 
-void Power_SwitchToRunHSE48MHz(void);
 void Power_SwitchToLPRunMSI1MHz(void);
+void Power_SwitchToRunHSE48MHz(void);
 
 void Power_DisableDebug(void);
 

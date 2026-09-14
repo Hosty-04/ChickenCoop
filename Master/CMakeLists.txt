@@ -33,11 +33,14 @@ enable_language(C ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
+    Core/Src/system.c
     Core/Src/door.c
     Core/Src/astro.c
     Core/Src/motor.c
+    Core/Src/endstop.c
     Core/Src/battery.c
     Core/Src/ina226.c
+    Core/Src/telemetry.c
     Core/Src/timebase.c
     Core/Src/power.c)
 

@@ -19,10 +19,13 @@ static volatile uint32_t tick_ref   = 0;
 static void Timebase_AdvanceDays(uint32_t days)
 {
   static const uint8_t dim[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+
   while (days--) {
     uint8_t dmax = dim[month];
+
     if (month == 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)))
       dmax = 29;
+
     if (++day > dmax) {
       day = 1;
       if (++month > 12) {
@@ -43,28 +46,20 @@ void Timebase_Set(uint16_t y, uint8_t mo, uint8_t d,
   tick_ref   = HAL_GetTick();
 }
 
-void Timebase_AdvanceSeconds(uint32_t seconds)
-{
-  sec_of_day += seconds;
-  if (sec_of_day >= 86400U) {
-    uint32_t days = sec_of_day / 86400U;
-    sec_of_day %= 86400U;
-    Timebase_AdvanceDays(days);
-  }
-  tick_ref = HAL_GetTick();
-}
-
 static void Timebase_SyncFromTick(void)
 {
   uint32_t now = HAL_GetTick();
   uint32_t elapsed_s = (now - tick_ref) / 1000U;
+
   if (elapsed_s == 0U)
     return;
+
   sec_of_day += elapsed_s;
   tick_ref   += elapsed_s * 1000U;
-  if (sec_of_day >= 86400U) {
-    uint32_t days = sec_of_day / 86400U;
-    sec_of_day %= 86400U;
+
+  if (sec_of_day >= SECS_PER_DAY) {
+    uint32_t days = sec_of_day / SECS_PER_DAY;
+    sec_of_day %= SECS_PER_DAY;
     Timebase_AdvanceDays(days);
   }
 }
@@ -107,6 +102,7 @@ uint32_t Timebase_ToUnix(uint16_t y, uint8_t mo, uint8_t d,
   int32_t sod_local = (int32_t)h * 3600 + (int32_t)mi * 60 + s;
   int32_t tz_sec    = (int32_t)(tz_hours * 3600.0f);
   int32_t sod_utc   = sod_local - tz_sec;
+
   if (sod_utc < 0) {
     sod_utc += 86400;
     days--;
