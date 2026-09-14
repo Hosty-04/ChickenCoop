@@ -162,7 +162,7 @@ kde:
 | Motor | 100 mA | 250 mA | 0,889 mAh | 5,07 mAh |
 | DRV8838 | 340 µA | 600 µA | 3,02 µAh | 12,2 µAh |
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 8,52 µAh |
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
 | **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **5,10 mAh** |
 
 &nbsp;
@@ -220,7 +220,7 @@ Mikrospínače budou spotřebovávat málo energie po velmi krátkou dobu; výpo
 | M (LPRun @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 55,5 µAh |
 | MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
 | MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
-| Mx (LPRun @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,26 µAh |
+| Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,26 µAh |
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 626 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
@@ -280,29 +280,28 @@ STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabi�
 
 &nbsp;
 
-### Komunikace (4 s a 1-3 s)
+### Komunikace (20 s a 5-15 s)
 
 &nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| LoRa TX | 21 mA | 21 mA | 23,3 µAh | 23,3 µAh |
-| LoRa RX | 4,8 mA | 4,8 mA | 1,33 µAh | 4 µAh |
-| CPU (LPSleep) | 44 µA | 310 µA | 0,183 µAh | 1,29 µAh |
-| **Celkem** | **25,8 mA** | **26,1 mA** | **24,8 µAh** | **28,6 µAh** |
+| LoRa TX | 21 mA | 21 mA | 117 µAh | 117 µAh |
+| LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
+| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
 
 &nbsp;
 
 $$
-t_v = 24 \cdot t_{5B} + 2 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} = 3,86\ \text{s} \approx \mathbf{4\ \text{s}}
+t_v = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
 $$
 
 $$
-t_{p,min} = 26 \cdot t_{o,min} = 26 \cdot 30\ \text{ms} = 0,78\ \text{s} \approx \mathbf{1\ \text{s}}
+t_{p,min} = 146 \cdot t_{o,min} = 146 \cdot 30\ \text{ms} = 4,38\ \text{s} \approx \mathbf{5\ \text{s}}
 $$
 
 $$
-t_{p,max} = 2 \cdot 26 \cdot t_{o,max} = 2 \cdot 26 \cdot 50\ \text{ms} = 2,6\ \text{s} \approx \mathbf{3\ \text{s}}
+t_{p,max} = 2 \cdot 146 \cdot t_{o,max} = 2 \cdot 146 \cdot 50\ \text{ms} = 14,6\ \text{s} \approx \mathbf{15\ \text{s}}
 $$
 
 &nbsp;
@@ -318,18 +317,22 @@ kde:
 
 &nbsp;
 
+CPU bude většinu času v režimu Stop2 s RTC.
+
+&nbsp;
+
 ### Procentuální rozložení a celková denní spotřeba
 
 &nbsp;
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 46,8 % | 1,34 mAh | 17,9 % |
-| Pohyb dvířek | 896 µAh | 45,4 % | 5,1 mAh | 68,3 % |
-| Klidový režim | 129 µAh | 6,5 % | 1 mAh | 13,4 % |
-| Komunikace | 24,8 µAh | 1,3 % | 28,6 µAh | 0,4 % |
+| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 17,7 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 5,1 mAh | 67,3 % |
+| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 13,2 % |
+| Komunikace | 124 µAh | 5,9 % | 137 µAh | 1,8 % |
 | Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **1,97 mAh** | **100 %** | **7,47 mAh** | **100 %** |
+| **Celkem** | **2,07 mAh** | **100 %** | **7,58 mAh** | **100 %** |
 
 &nbsp;
 
@@ -446,7 +449,7 @@ Hlavní řídicí jednotkou systému bude mikrořadič LoRa-E5 mini (M) s STM32W
 
 Firmware bude vyvíjen v prostředí Visual Studio Code s rozšířením STM32CubeIDE a bude využívat knihovny HAL. U LoRa-E5 mini je potřeba nejprve odstranit factory AT firmware. Součástí firmwaru hlavního řadiče budou astronomické hodiny, jenž každý den o půl noci pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes kalendář bude řadič schopen zjistit i roční období. Drift LSE krystalu, který zajišťuje datum a čas, je i v těch nejhorších možných podmínkách maximálně 3 minuty / měsíc. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů.
 
-Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet ráno hodinu před východem slunce a večer hodinu po západu slunce, kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, tak bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Dále každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Nakonec se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně provede u všech hnízd aktualizaci počtu vajec. Probouzení bude zajišťovat utility timer. Po sběru dat ze všech hnízd nebo po změně stavu dvířek následuje komunikace.
+Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet ráno hodinu před východem slunce a večer hodinu po západu slunce, kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, tak bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Dále každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Nakonec se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně provede u všech hnízd aktualizaci počtu vajec. Probouzení bude zajišťovat utility timer. Po každé události následuje komunikace.
 
 LoRa anténa bude moci vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jejímu vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání bude mít možnost přijímat data, což umožní uživatelské ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A - primární příjmové okno RX1 a záložní okno RX2. V domě bude umístěna LoRaWAN gateway (zapůjčena ze školy), plnící funkci internetové brány. Veškerá přijatá data budou odeslána do cloudu (TTN) a odtud přes MQTT na backend (Node.js), který je uloží do databáze (InfluxDB) a zobrazí na frontendu. Při odesílání dat do kurníku probíhá proces obráceně.
 
@@ -555,7 +558,7 @@ Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 20
 
 &nbsp;
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat (Radio TX/RX) se CPU přepne do režimu LP Sleep (MSI, 1 MHz); rádio poběží automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimech LP Run, LP Sleep a Stop2 s RTC je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat poběží rádio automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
 
 Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a vytvoření hodnoty trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 bude po připojení napájení potřeba čekat 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 pak přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
