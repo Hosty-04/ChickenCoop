@@ -27,10 +27,10 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 &nbsp;
 
 ### Legenda  
-M - hlavní mikrořadič  
-Mx - hnízdový mikrořadič  
 K - hlavní krabička  
 Kx - hnízdová krabička  
+M - hlavní mikrořadič  
+Mx - hnízdový mikrořadič  
 
 &nbsp;
 
