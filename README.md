@@ -1,6 +1,8 @@
+---
 # Kurník
 
 Systém pro automatizaci kurníku s detekcí snesených vajec
+---
 
 &nbsp;
 
