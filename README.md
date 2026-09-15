@@ -406,7 +406,7 @@ kde:
 
 &nbsp;
 
-Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vniřního odporu N-MOS tranzistoru je na účinnnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je vůči napájecímu proudu z panelu zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.
+Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využito nástroje PVGIS. Úbytek napětí MOSFET oddělovače nijak neovlivní účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vnitřního odporu N-MOS tranzistoru je na účinnost MOSFET oddělovače a pracovního bodu panelu minimální. Tok svodového proudu přes drain P-MOS i N-MOS tranzistoru je vůči napájecímu proudu z panelu zanedbatelný a vyskytuje se pouze když jsou spínače rozepnuty.
 
 &nbsp;
 
@@ -447,7 +447,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 ### Řízení
 Hlavní řídicí jednotkou systému bude mikrořadič LoRa-E5 mini (M) s STM32WLE5JC a integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožní na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda bude umístěn mikrořadič STM32 NUCLEO-L031K6 (Mx). Pro programování bude využito programátoru ST-Link V2. Před programováním je potřeba programátor, přes klasické DuPont kabely, připojit k dané desce — stačí propojit piny 3V3, SWCLK, SWDIO, GND a nRST.
 
-Firmware bude vyvíjen v prostředí Visual Studio Code s rozšířením STM32CubeIDE a bude využívat knihovny HAL. U LoRa-E5 mini je potřeba nejprve odstranit factory AT firmware. Součástí firmwaru hlavního řadiče budou astronomické hodiny, jenž každý den o půl noci pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes kalendář bude řadič schopen zjistit i roční období. Drift LSE krystalu, který zajišťuje datum a čas, je i v těch nejhorších možných podmínkách maximálně 3 minuty / měsíc. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů.
+Firmware bude vyvíjen v prostředí Visual Studio Code s rozšířením STM32CubeIDE a bude využívat knihovny HAL. U LoRa-E5 mini je potřeba nejprve odstranit factory AT firmware. Součástí firmwaru hlavního řadiče budou astronomické hodiny, jež každý den o půlnoci pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes kalendář bude řadič schopen zjistit i roční období. Drift LSE krystalu, který zajišťuje datum a čas, je i v těch nejhorších možných podmínkách maximálně 3 minuty / měsíc. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů.
 
 Hlavní řídicí jednotka se bude společně s nezbytnými částmi systému probouzet ráno hodinu před východem slunce a večer hodinu po západu slunce, kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, tak bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Dále každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Nakonec se bude spolu s ostatními řídicími jednotkami a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně provede u všech hnízd aktualizaci počtu vajec. Probouzení bude zajišťovat utility timer. Po každé události následuje komunikace.
 
@@ -514,7 +514,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se bude upravovat střída PWM modulace a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max 3 pokusy), systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se bude upravovat střída PWM modulace a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max 3 pokusy), systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také, když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
 &nbsp;
 
@@ -554,11 +554,11 @@ kde:
 
 &nbsp;
 
-Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6V.
+Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200—400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6 V.
 
 &nbsp;
 
-Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat poběží rádio automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
+Většinu dne bude hlavní řídicí jednotka v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat poběží rádio automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
 
 Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a vytvoření hodnoty trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 bude po připojení napájení potřeba čekat 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 pak přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
@@ -566,7 +566,7 @@ Další řídicí jednotky nebudou po většinu napájeny; potřebné informace 
 
 Před odpojením napájení VCC od jednotlivých částí systému, před jejich uspáním nebo při jejich nepoužívání je kvůli snížení spotřeby a leakage nutné vypnout periferie (UART, ADC, I²C) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (DIV, SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se použije i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, přepnou se do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny v digitálním režimu, aby se předešlo zvýšení odběru proudu.
 
-Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, shottkyho diodu a lineární LDO regulátor; u ostatních řadičů bude nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba u LoRa-E5 mini nastavit při nepoužívání rádia externí RF switch (piny PA4 a PA5) na logickou nulu a u ostatních řadičů v power registrech (PWR) zapnout ultra low power režim (ULP bit) a vypnout fast wakeup (FWU bit).
+Kvůli nízkopříkonové povaze systému bude nutné u LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, Shottkyho diodu a lineární LDO regulátor; u ostatních řadičů bude nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je potřeba u LoRa-E5 mini nastavit při nepoužívání rádia externí RF switch (piny PA4 a PA5) na logickou nulu a u ostatních řadičů v power registrech (PWR) zapnout ultra low power režim (ULP bit) a vypnout fast wakeup (FWU bit).
 
 &nbsp;
 
@@ -672,7 +672,7 @@ kde:
 
 &nbsp;
 
-I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí, že pokles napětí na gate při jejich rozpínání, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor něž u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměr nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — nejvyšší možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru, ke které byla přičtena rezerva kvůli odporu pinu a hradla — přibližně 25 Ω, je stejně jako doba nabití kondenzátoru zanedbatelná.
+I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí, že pokles napětí na gate při jejich rozpínání, kvůli tomuto rezistoru, je zanedbatelný. Spínače s nejen pull-down rezistorem mají stejný svodový proud tekoucí přes gate a silnější pull-down/pull-up rezistor než u dříve zmíněného spínače s N-MOS tranzistorem; U<sub>th</sub> je -1,3 až -0,5 V — pull rezistory udrží spínače rozepnuté. Napětí U<sub>GS</sub> bude vždy buď nižší než -2,5 V nebo téměř nulové, tudíž R<sub>DSon</sub> bude maximálně 80-150 mΩ — nejvyšší možný úbytek napětí na spínači je minimální. Náboj gate Q<sub>g</sub> bude maximálně 7-9,4 nC — běžná doba změny stavu tranzistoru, ke které byla přičtena rezerva kvůli odporu pinu a hradla — přibližně 25 Ω, je stejně jako doba nabití kondenzátoru zanedbatelná.
 
 &nbsp;
 
@@ -796,16 +796,16 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118,00 Kč |
 | Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256,00 Kč |
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48,00 Kč |
-| Tranceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258,00 Kč | 312,18 Kč |
+| Transceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258,00 Kč | 312,18 Kč |
 | Rezistor 1 MΩ | 2 ks | [Odkaz][odpor-1M] | 1,65 Kč | 2,00 Kč |
 | Rezistor 330 kΩ | 2 ks | [Odkaz][odpor-330k] | 1,65 Kč | 2,00 Kč |
 | Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
 | Kondenzátor s low ESR | 20 ks | [Odkaz][kondik-esr] | 23,44 Kč | 28,36 Kč |
-| Adapter pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12,00 Kč |
-| Adapter pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80,00 Kč |
+| Adaptér pro SO8 | 3 ks | [Odkaz][so8] | 9,92 Kč | 12,00 Kč |
+| Adaptér pro SOT23 | 10 ks | [Odkaz][sot23] | 66,12 Kč | 80,00 Kč |
 | Nepájivé pole | 1 ks | [Odkaz][pole] | 246,30 Kč | 298,00 Kč |
 | Dvířka | 1 ks | [Odkaz][dvirka] | 61,98 Kč | 75,00 Kč |
-| Hliníková drážka | 1 ks | [Odkaz][drazka] | 147,93 Kč | 179 Kč |
+| Hliníková drážka | 1 ks | [Odkaz][drazka] | 147,93 Kč | 179,00 Kč |
 | Oko se závitem | 2 ks | [Odkaz][oko] | 11,07 Kč | 13,40 Kč |
 | Stavební provázek | 1 ks | [Odkaz][provazek] | 80,17 Kč | 97,00 Kč |
 | Snáškové hnízdo | 2 ks | [Odkaz][hnizdo] | 824,79 Kč | 998,00 Kč |
