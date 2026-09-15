@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/block_schematic_white.png" alt="block_schematic">
+<img src="Schematics/block_schematic_white.png" alt="block_schematic">
 
 &nbsp;
 
@@ -58,7 +58,7 @@ Výrobu energie zajistí fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Plots/panel_characteristic_white.png" alt="panel_characteristic">
+<img src="Plots/panel_characteristic_white.png" alt="panel_characteristic">
 
 &nbsp;
 
@@ -284,7 +284,7 @@ kde:
 
 &nbsp;
 
-STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje — to znamená několikrát nižší spotřebu. Co se týče spínačů, tak je využíváno 6 s P-MOS tranzistorem s pull-up rezistorem a 5 s P-MOS tranzistorem s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pulldown rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8 µAh/den).
+STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje — to znamená několikrát nižší spotřebu. Co se týče spínačů, je využíváno šesti s P-MOS tranzistorem s pull-up rezistorem a pěti s P-MOS tranzistorem s pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pulldown rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8 µAh/den).
 
 &nbsp;
 
@@ -457,7 +457,7 @@ Hlavní řídicí jednotkou systému bude mikrořadič LoRa-E5 mini (M) s STM32W
 
 Firmware bude vyvíjen v prostředí Visual Studio Code s rozšířením STM32CubeIDE a bude využívat knihovny HAL. U LoRa-E5 mini je potřeba nejprve odstranit factory AT firmware. Součástí firmwaru hlavního mikrořadiče budou astronomické hodiny, jež každý den o půlnoci pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak budou automaticky otevírat a zavírat dvířka kurníku. Přes kalendář bude řadič schopen zjistit i roční období. Drift LSE krystalu, který zajišťuje datum a čas, je i v těch nejhorších možných podmínkách maximálně 3 minuty za měsíc. Použití prostého časovače nebylo zvoleno kvůli proměnlivé délce dne, a světelný senzor byl zavržen proto, že by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů.
 
-Hlavní mikrořadič se bude společně s nezbytnými částmi systému probouzet ráno hodinu před východem slunce a večer hodinu po západu slunce, kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, tak bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Dále každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Nakonec se bude spolu s hnízdovými mikrořadiči a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně provede u všech hnízd aktualizaci počtu vajec. Probouzení bude zajišťovat utility timer. Po každé události následuje komunikace.
+Hlavní mikrořadič se bude společně s nezbytnými částmi systému probouzet ráno hodinu před východem slunce a večer hodinu po západu slunce, kvůli otevření a zavření dvířek. Když dojde k odložení tohoto úkonu, bude zajištěno aby se nekřížil s žádnou jinou aktivitou. Dále každých 10 minut, aby zkontrolovala stav solárního panelu a akumulátoru. Nakonec se bude spolu s hnízdovými mikrořadiči a dalšími potřebnými částmi systému probouzet každou hodinu, kdy postupně provede u všech hnízd aktualizaci počtu vajec. Probouzení bude zajišťovat utility timer. Po každé události následuje komunikace.
 
 LoRaWAN anténa bude moci vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jejímu vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání bude mít možnost přijímat data, což umožní uživatelské ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A - primární příjmové okno RX1 a záložní okno RX2. V domě bude umístěna LoRaWAN gateway (zapůjčena ze školy), plnící funkci internetové brány. Veškerá přijatá data budou odeslána do cloudu (TTN) a odtud přes MQTT na backend (Node.js), který je uloží do databáze (InfluxDB) a zobrazí na frontendu. Při odesílání dat do kurníku probíhá proces obráceně.
 
@@ -479,7 +479,7 @@ Data budou z kurníku odesílána ve třech a více bajtech. První bajt ponese 
 - Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou
 - Odpovídá-li rozdíl hmotnosti přibližné váze jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě a spočítá se počet vajec v hnízdě
-- Pokud hmotnost překročí 600 g, tak bude v GUI košík zobrazen jako plný
+- Pokud hmotnost překročí 600 g, košík bude v GUI zobrazen jako plný
 - Při hmotnosti menší než 25 g proběhne nanejvíš jednou denně kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
@@ -518,7 +518,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
+<img src="Flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
 
 &nbsp;
 
@@ -526,7 +526,7 @@ Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišení
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
+<img src="Flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
 
 &nbsp;
 
@@ -562,7 +562,7 @@ kde:
 
 &nbsp;
 
-Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200-400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), tak bude napětí na motoru téměř vždy větší než 6 V.
+Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 200-400 mV od cíle. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud bude napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), napětí bude na motoru téměř vždy větší než 6 V.
 
 &nbsp;
 
@@ -589,7 +589,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/separator_schematic_white.png" alt="separator_schematic">
+<img src="Schematics/separator_schematic_white.png" alt="separator_schematic">
 
 &nbsp;
 
@@ -632,7 +632,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="https://github.com/Hosty-04/ChickenCoop/blob/main/Schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
+<img src="Schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
 
 &nbsp;
 
