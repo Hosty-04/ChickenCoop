@@ -707,28 +707,7 @@ static void EventCallback(void)
         break;
 
       case SMTC_MODEM_EVENT_ALCSYNC_TIME:
-      {
-        uint32_t gps_s = 0;
-
-        APP_LOG(TS_OFF, VLEVEL_M, "Event received: ALCSync TIME\r\n");
-
-        if ((smtc_modem_get_alcsync_time(STACK_ID, &gps_s) == SMTC_MODEM_RC_OK) &&
-            (gps_s != 0U)) {
-          Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
-        }
-        break;
-      }
-
-      case SMTC_MODEM_EVENT_LINK_CHECK:
-        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: LINK_CHECK\r\n");
-        break;
-
-      case SMTC_MODEM_EVENT_CLASS_B_PING_SLOT_INFO:
-        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: CLASS_B_PING_SLOT_INFO\r\n");
-        break;
-
-      case SMTC_MODEM_EVENT_CLASS_B_STATUS:
-        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: CLASS_B_STATUS\r\n");
+        APP_LOG(TS_OFF, VLEVEL_M, "Event received: ALCSync service TIME\r\n");
         break;
 
       case SMTC_MODEM_EVENT_LORAWAN_MAC_TIME:
@@ -748,6 +727,18 @@ static void EventCallback(void)
         }
         break;
       }
+
+      case SMTC_MODEM_EVENT_LINK_CHECK:
+        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: LINK_CHECK\r\n");
+        break;
+
+      case SMTC_MODEM_EVENT_CLASS_B_PING_SLOT_INFO:
+        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: CLASS_B_PING_SLOT_INFO\r\n");
+        break;
+
+      case SMTC_MODEM_EVENT_CLASS_B_STATUS:
+        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: CLASS_B_STATUS\r\n");
+        break;
 
       case SMTC_MODEM_EVENT_LORAWAN_FUOTA_DONE:
       {
