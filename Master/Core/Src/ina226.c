@@ -18,21 +18,21 @@ extern I2C_HandleTypeDef hi2c2;
 #define REG_CURRENT  0x04
 #define REG_CALIB    0x05
 
-#define INA226_CONFIG_BATTERY  0x0726U   /* AVG=64, VBUSCT=1.1ms */
-#define INA226_CONFIG_FAST     0x0527U   /* AVG=16, VBUSCT+VSHCT=2.2ms */
+#define INA226_CFG_RSVD        0x4000U
+#define INA226_MODE_MASK       0x0007U
+#define INA226_MODE_SHUTDOWN   0x0000U
 
-/*
- * Rshunt = 0.010 Ohm (R010)
- * Max current ≈ 2 A → Current_LSB = 2/32768 ≈ 61.0 uA
- * CAL = 0.00512 / (Current_LSB * Rshunt) ≈ 8389
- */
+#define INA226_CONFIG_BATTERY  (INA226_CFG_RSVD | 0x0726U)
+#define INA226_CONFIG_FAST     (INA226_CFG_RSVD | 0x0527U)
+
 #define INA226_CURRENT_LSB   (2.0f / 32768.0f)
 #define INA226_CALIB_VALUE   8389U
 
-/* Bus voltage LSB = 1.25 mV */
 #define INA226_BUS_V_LSB     0.00125f
 
 #define INA226_I2C_TIMEOUT_MS  50U
+
+static uint16_t ina226_cfg = INA226_CONFIG_BATTERY;
 
 static void INA226_BusDelay(void)
 {
@@ -145,6 +145,16 @@ static HAL_StatusTypeDef Read(uint8_t reg, uint16_t *val)
   return HAL_OK;
 }
 
+static HAL_StatusTypeDef INA226_WriteConfig(uint16_t cfg)
+{
+  HAL_StatusTypeDef st = Write(REG_CONFIG, cfg);
+
+  if (st == HAL_OK)
+    ina226_cfg = cfg;
+
+  return st;
+}
+
 HAL_StatusTypeDef INA226_Read(float *voltage, float *current)
 {
   uint16_t raw_bus, raw_current;
@@ -186,20 +196,40 @@ static uint32_t I2C_ComputeTiming(uint32_t i2cclk_hz)
   return 0x10805D88UL;
 }
 
-void INA226_PowerUp(void)
+HAL_StatusTypeDef INA226_PowerUp(void)
 {
   uint32_t timing;
 
   if (INA226_BusStuck())
     INA226_BusRecover();
 
-  MX_I2C2_Init();
+  hi2c2.Instance              = I2C2;
+  hi2c2.Init.Timing           = 0x10805D88;
+  hi2c2.Init.OwnAddress1      = 0;
+  hi2c2.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2      = 0;
+  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c2.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;
 
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+    return HAL_ERROR;
+
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+    return HAL_ERROR;
+
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+    return HAL_ERROR;
+
+  /* TIMINGR dopocitany podle aktualni PCLK1 (1 MHz v LP Run, 48 MHz v Run) */
   timing = I2C_ComputeTiming(HAL_RCC_GetPCLK1Freq());
   __HAL_I2C_DISABLE(&hi2c2);
   hi2c2.Instance->TIMINGR = timing;
   __HAL_I2C_ENABLE(&hi2c2);
   hi2c2.Init.Timing = timing;
+
+  return HAL_OK;
 }
 
 HAL_StatusTypeDef INA226_Init(void)
@@ -207,7 +237,7 @@ HAL_StatusTypeDef INA226_Init(void)
   HAL_StatusTypeDef st = HAL_ERROR;
 
   for (uint8_t attempt = 0; attempt < 3; attempt++) {
-    st = Write(REG_CONFIG, INA226_CONFIG_BATTERY);
+    st = INA226_WriteConfig(INA226_CONFIG_BATTERY);
     if (st == HAL_OK) {
       st = Write(REG_CALIB, INA226_CALIB_VALUE);
       if (st == HAL_OK) return HAL_OK;
@@ -218,9 +248,18 @@ HAL_StatusTypeDef INA226_Init(void)
   return st;
 }
 
+HAL_StatusTypeDef INA226_Shutdown(void)
+{
+  uint16_t cfg = (uint16_t)((ina226_cfg & ~INA226_MODE_MASK) | INA226_MODE_SHUTDOWN);
+
+  return Write(REG_CONFIG, cfg);
+}
+
 void INA226_PowerDown(void)
 {
   GPIO_InitTypeDef gpio = {0};
+
+  (void)INA226_Shutdown();
 
   HAL_I2C_DeInit(&hi2c2);
   __HAL_RCC_I2C2_CLK_DISABLE();
@@ -237,10 +276,10 @@ void INA226_PowerDown(void)
 
 void INA226_ConfigFast(void)
 {
-  Write(REG_CONFIG, INA226_CONFIG_FAST);
+  (void)INA226_WriteConfig(INA226_CONFIG_FAST);
 }
 
 void INA226_ConfigBattery(void)
 {
-  Write(REG_CONFIG, INA226_CONFIG_BATTERY);
+  (void)INA226_WriteConfig(INA226_CONFIG_BATTERY);
 }

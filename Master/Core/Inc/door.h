@@ -18,9 +18,12 @@ typedef enum {
 } Door_State_t;
 
 void Door_Init(void);
+
 void Door_Setup(uint16_t year, uint8_t month, uint8_t day,
                 uint8_t hour, uint8_t min, uint8_t sec,
                 float latitude, float longitude);
+
+void Door_SetUnixTime(uint32_t unix_sec);
 
 void Door_Reschedule(void);
 
@@ -28,7 +31,6 @@ void Door_SyncFromSysTime(void);
 
 void Door_Catchup(void);
 
-/* --- Manual control; execute in Door_Process() -------------------- */
 void Door_RequestOpen(void);
 void Door_RequestClose(void);
 void Door_SetFault(void);

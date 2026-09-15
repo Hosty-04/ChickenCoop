@@ -12,9 +12,11 @@
 #include "battery.h"
 #include "telemetry.h"
 #include "timebase.h"
+#include "lora_app.h"              /* LoRaWAN_CanBlockFor(), LoRaWAN_RequestTime() */
 #include "rtc.h"
 #include "stm32_timer.h"
 #include "stm32_systime.h"
+#include "smtc_modem_api.h"        /* smtc_modem_suspend_radio_communications() */
 
 #define DOOR_OPEN_OFFSET_MIN   (-60)
 #define DOOR_CLOSE_OFFSET_MIN  ( 60)
@@ -22,14 +24,37 @@
 
 #define DOOR_RETRY_MAX         3U
 
+/*
+ * Horizont planovani. Timer nikdy nenarovname dal nez na hodinu, takze
+ * prechod letni/zimni cas (skok sec_of_day o 3600 s) se projevi nejpozdeji
+ * za hodinu a nezustane viset timer nastaveny podle stareho pasma.
+ * Baterie se stejne budi po 10 minutach, takze hodinove probuzeni
+ * nestoji nic navic.
+ */
+#define DOOR_RESYNC_S          3600UL
+
+/*
+ * Jak casto si rikat siti o cas. smtc_modem_trig_lorawan_mac_request()
+ * je JEDNORAZOVY trigger, ne periodicka sluzba - bez opakovani by se cas
+ * synchronizoval jen jednou po JOINu a dal by bezel na driftu LSE.
+ * 12 h staci bohate: LSE ma i v nejhorsich podminkach max 3 min/mesic.
+ */
+#define DOOR_TIME_SYNC_S       (12UL * 3600UL)
+
+/* nejhorsi pripad Motor_Move(): jizda 25 s + pauza + zpetny chod 25 s + rezerva */
+#define DOOR_MOVE_BUDGET_MS    55000UL
+#define DOOR_DEFER_S           10U
+#define DOOR_DEFER_MAX         6U      /* po minute odkladu jedeme presto */
+
 #define DOOR_BKP_REG    RTC_BKP_DR4
 #define DOOR_BKP_MAGIC  0x00D0U
 
 typedef enum {
   DOOR_EVT_NONE = 0,
-  DOOR_EVT_MIDNIGHT,
+  DOOR_EVT_RESYNC,
   DOOR_EVT_SUN,
-  DOOR_EVT_RETRY
+  DOOR_EVT_RETRY,
+  DOOR_EVT_DEFER
 } Door_Event_t;
 
 typedef enum {
@@ -42,12 +67,21 @@ static float   door_lat = 49.5170f;
 static float   door_lon = 17.6181f;
 static int16_t door_sunrise_min = 360;
 static int16_t door_sunset_min  = 1080;
+static uint8_t door_sun_day     = 0;     /* den, pro ktery plati sunrise/sunset */
+
+static uint32_t door_time_sync_unix = 0; /* kdy naposledy dorazil cas ze site */
 
 static UTIL_TIMER_Object_t     door_timer;
 static volatile Door_Event_t   door_pending = DOOR_EVT_NONE;
 static Door_Event_t            door_armed   = DOOR_EVT_NONE;
 
 static volatile Door_Request_t door_request = DOOR_REQ_NONE;
+
+/* odlozene kvuli radiu - zamerne mimo Door_WorkPending(), aby zarizeni
+   mohlo mezitim spat */
+static Door_Request_t door_deferred_req = DOOR_REQ_NONE;
+static Door_Event_t   door_deferred_evt = DOOR_EVT_NONE;
+static uint8_t        door_defer_count  = 0;
 
 static uint8_t      door_enabled  = 1;
 static uint8_t      door_fault    = 0;
@@ -59,6 +93,8 @@ static Motor_Dir_t  door_retry_dir      = MOTOR_DIR_UP;
 static uint8_t      door_retry_count    = 0;
 
 static void Door_Schedule(void);
+
+/* --- persistence ---------------------------------------------------------- */
 
 static void Door_StoreState(void)
 {
@@ -95,6 +131,8 @@ static void Door_PublishState(void)
   }
 }
 
+/* --- timer ---------------------------------------------------------------- */
+
 static void Door_OnTimer(void *ctx)
 {
   UNUSED(ctx);
@@ -108,7 +146,7 @@ static void Door_ArmTimer(uint32_t seconds, Door_Event_t evt)
 
   door_armed = evt;
   UTIL_TIMER_Stop(&door_timer);
-  UTIL_TIMER_SetPeriod(&door_timer, seconds * 1000U);
+  UTIL_TIMER_SetPeriod(&door_timer, seconds * 1000U);   /* UTIL_TIMER bere ms */
   UTIL_TIMER_Start(&door_timer);
 }
 
@@ -119,15 +157,26 @@ static void Door_StopTimer(void)
   door_armed   = DOOR_EVT_NONE;
 }
 
+/* --- slunce --------------------------------------------------------------- */
+
 static void Door_UpdateSun(void)
 {
   Astro_Result_t res;
+  uint8_t        day = Timebase_GetDay();
 
-  Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), Timebase_GetDay(),
-                  door_lat, door_lon, &res);
+  Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), day,
+                  door_lat, door_lon, Timebase_GetTimezone(), &res);
 
   door_sunrise_min = res.sunrise_min;
   door_sunset_min  = res.sunset_min;
+  door_sun_day     = day;
+}
+
+/* prepocita slunce, jen kdyz se zmenil den (nebo pasmo posunulo datum) */
+static void Door_RefreshSun(void)
+{
+  if (Timebase_GetDay() != door_sun_day)
+    Door_UpdateSun();
 }
 
 static uint32_t Door_MinuteToSec(int32_t minute_of_day)
@@ -156,11 +205,12 @@ static uint32_t Door_DelayTo(uint32_t now, uint32_t target)
   return target - now;
 }
 
+/* deadline je v RTC ticich, ne v ms */
 static uint32_t Door_RetryDelay(void)
 {
   int32_t remain = (int32_t)(door_retry_deadline - HAL_GetTick());
 
-  return (remain <= 0) ? 0U : ((uint32_t)remain / 1000U);
+  return (remain <= 0) ? 0U : ((uint32_t)remain / TICKS_PER_SEC);
 }
 
 static Motor_Dir_t Door_DesiredDir(uint32_t now)
@@ -183,6 +233,8 @@ static uint8_t Door_PosMatchesDesired(void)
                                 : (pos == ENDSTOP_POS_BOTTOM);
 }
 
+/* --- planovani ------------------------------------------------------------ */
+
 static void Door_Schedule(void)
 {
   uint32_t now, delay, best;
@@ -193,9 +245,11 @@ static void Door_Schedule(void)
     return;
   }
 
+  Door_RefreshSun();
+
   now  = Timebase_GetSecOfDay();
-  best = SECS_PER_DAY - now;
-  evt  = DOOR_EVT_MIDNIGHT;
+  best = DOOR_RESYNC_S;                  /* horizont, viz komentar u define */
+  evt  = DOOR_EVT_RESYNC;
 
   if (!Battery_IsCritical() && !door_fault) {
     delay = Door_DelayTo(now, Door_OpenTime());
@@ -213,6 +267,42 @@ static void Door_Schedule(void)
   Door_ArmTimer(best, evt);
 }
 
+/* --- cas ze site ---------------------------------------------------------- */
+
+static void Door_MaintainTimeSync(void)
+{
+  uint32_t now = Timebase_GetUnix();
+
+  if (!Timebase_IsValid() ||
+      ((now - door_time_sync_unix) >= DOOR_TIME_SYNC_S)) {
+    LoRaWAN_RequestTime();
+  }
+}
+
+/* --- radio ---------------------------------------------------------------- */
+
+/*
+ * Zdvorilostni kontrola: kdyz ma modem rozdelanou praci, radeji pohyb
+ * odlozime, at ho nezdrzujeme. Na bezpecnosti uz ale nestoji - tu zajistuje
+ * smtc_modem_suspend_radio_communications() primo v Door_Apply().
+ */
+static uint8_t Door_RadioBusy(void)
+{
+  if (LoRaWAN_CanBlockFor(DOOR_MOVE_BUDGET_MS)) {
+    door_defer_count = 0;
+    return 0U;
+  }
+
+  if (++door_defer_count >= DOOR_DEFER_MAX) {
+    door_defer_count = 0;
+    return 0U;
+  }
+
+  return 1U;
+}
+
+/* --- pohyb ---------------------------------------------------------------- */
+
 static void Door_RaiseFault(void)
 {
   door_fault         = 1;
@@ -222,7 +312,19 @@ static void Door_RaiseFault(void)
 
 static void Door_Apply(Motor_Dir_t dir)
 {
-  Motor_Result_t r = Motor_Move(dir);
+  Motor_Result_t r;
+
+  /*
+   * Behem pohybu bezi jadro v LP Run na 1 MHz a hlavni smycka je blokovana
+   * az 50 s. Provoz SubGHz radia v LP Run neni podporovany (LP regulator
+   * neutahne ~35 mA odberu PA), takze modemu radio explicitne zakazeme.
+   * Tim je kolize vyloucena strukturalne, ne jen statisticky.
+   */
+  (void)smtc_modem_suspend_radio_communications(true);
+
+  r = Motor_Move(dir);
+
+  (void)smtc_modem_suspend_radio_communications(false);
 
   switch (r) {
     case MOTOR_OK:
@@ -238,7 +340,7 @@ static void Door_Apply(Motor_Dir_t dir)
       }
       door_retry_pending  = 1;
       door_retry_dir      = dir;
-      door_retry_deadline = HAL_GetTick() + (DOOR_RETRY_S * 1000UL);
+      door_retry_deadline = HAL_GetTick() + MS_TO_TICKS(DOOR_RETRY_S * 1000UL);
       break;
 
     case MOTOR_NO_REFERENCE:
@@ -254,6 +356,8 @@ static void Door_Apply(Motor_Dir_t dir)
   Door_PublishState();
 }
 
+/* --- API ------------------------------------------------------------------ */
+
 void Door_Init(void)
 {
   UTIL_TIMER_Create(&door_timer, 0xFFFFFFFFU, UTIL_TIMER_ONESHOT,
@@ -265,21 +369,39 @@ void Door_Setup(uint16_t y, uint8_t mo, uint8_t d,
                 uint8_t h, uint8_t mi, uint8_t s,
                 float latitude, float longitude)
 {
-  Astro_Result_t res;
-  SysTime_t st;
-
   door_lat = latitude;
   door_lon = longitude;
 
-  Timebase_Set(y, mo, d, h, mi, s);
-
-  Astro_Calculate(y, mo, d, door_lat, door_lon, &res);
-  st.Seconds    = Timebase_ToUnix(y, mo, d, h, mi, s, res.timezone);
-  st.SubSeconds = 0;
-  SysTimeSet(st);
+  /*
+   * Zalozni cas. Parametry jsou v lokalnim case; pro prevod na UTC pouzijeme
+   * CET, protoze zalozni datum lezi v lednu, kde letni cas neplati.
+   * Timebase zustane oznaceny jako neplatny, dokud nedorazi cas ze site.
+   */
+  Timebase_SetFallback(Timebase_ToUnix(y, mo, d, h, mi, s, 1.0f));
 
   Door_UpdateSun();
   Door_Schedule();
+}
+
+void Door_SetUnixTime(uint32_t unix_sec)
+{
+  SysTime_t st;
+
+  if (unix_sec < TIMEBASE_MIN_UNIX)
+    return;                        /* zjevne neplatny cas, ignorujeme */
+
+  /* SysTime je perzistentni uloziste (prezije reset pres BKP registry),
+     Timebase je pracovni kopie */
+  st.Seconds    = unix_sec;
+  st.SubSeconds = 0;
+  SysTimeSet(st);
+
+  Timebase_SetUnix(unix_sec);
+  door_time_sync_unix = unix_sec;
+
+  Door_UpdateSun();
+  Door_Schedule();
+  Door_Catchup();                  /* dozene polohu, pokud se datum posunulo */
 }
 
 void Door_Reschedule(void)
@@ -287,12 +409,17 @@ void Door_Reschedule(void)
   Door_Schedule();
 }
 
+/*
+ * Resync z RTC. Srovna integraci po sekundach v Timebase proti presnemu
+ * RTC casu a obnovi cas po resetu, pokud uz SysTime jednou nastaveny byl.
+ */
 void Door_SyncFromSysTime(void)
 {
   SysTime_t t = SysTimeGet();
 
-  if (t.Seconds > 0U) {
-    Timebase_FromUnix(t.Seconds, door_lat, door_lon);
+  /* puvodni test "> 0" neodhalil stav, kdy SysTimeGet() vraci pouhy uptime */
+  if (t.Seconds >= TIMEBASE_MIN_UNIX) {
+    Timebase_SetUnix(t.Seconds);
     Door_UpdateSun();
   }
 
@@ -313,7 +440,9 @@ void Door_RequestClose(void) { door_request = DOOR_REQ_CLOSE; }
 void Door_SetFault(void)
 {
   Door_RaiseFault();
-  door_request = DOOR_REQ_NONE;
+  door_request      = DOOR_REQ_NONE;
+  door_deferred_req = DOOR_REQ_NONE;
+  door_deferred_evt = DOOR_EVT_NONE;
   Door_StoreState();
   Door_PublishState();
   Door_Schedule();
@@ -344,6 +473,8 @@ void Door_Disable(void)
 {
   door_enabled       = 0;
   door_request       = DOOR_REQ_NONE;
+  door_deferred_req  = DOOR_REQ_NONE;
+  door_deferred_evt  = DOOR_EVT_NONE;
   door_retry_pending = 0;
   door_retry_count   = 0;
   Door_StopTimer();
@@ -385,8 +516,15 @@ void Door_Process(void)
   door_request = DOOR_REQ_NONE;
 
   if (req != DOOR_REQ_NONE) {
-    if (door_fault)
+    /* doplnena kontrola door_enabled - vypnuty system dvirky nehybe */
+    if (door_fault || !door_enabled)
       return;
+
+    if (Door_RadioBusy()) {
+      door_deferred_req = req;
+      Door_ArmTimer(DOOR_DEFER_S, DOOR_EVT_DEFER);
+      return;
+    }
 
     door_retry_pending = 0;
     door_retry_count   = 0;
@@ -403,13 +541,38 @@ void Door_Process(void)
   if (evt == DOOR_EVT_NONE || !door_enabled)
     return;
 
-  if (evt == DOOR_EVT_MIDNIGHT) {
+  if (evt == DOOR_EVT_DEFER) {
+    if (door_deferred_req != DOOR_REQ_NONE) {
+      door_request      = door_deferred_req;
+      door_deferred_req = DOOR_REQ_NONE;
+    } else if (door_deferred_evt != DOOR_EVT_NONE) {
+      door_pending      = door_deferred_evt;
+      door_deferred_evt = DOOR_EVT_NONE;
+    } else {
+      Door_Schedule();
+    }
+    return;
+  }
+
+  if (evt == DOOR_EVT_RESYNC) {
     Door_SyncFromSysTime();
+    Door_MaintainTimeSync();
+
+    /* po zmene pasma nebo data muze poloha prestat odpovidat dennimu case */
+    if (!door_fault && !Battery_IsCritical() && !Door_PosMatchesDesired())
+      door_pending = DOOR_EVT_SUN;
+
     return;
   }
 
   if (door_fault) {
     Door_Schedule();
+    return;
+  }
+
+  if (Door_RadioBusy()) {
+    door_deferred_evt = evt;
+    Door_ArmTimer(DOOR_DEFER_S, DOOR_EVT_DEFER);
     return;
   }
 
@@ -420,8 +583,12 @@ void Door_Process(void)
     }
     door_retry_pending = 0;
     Door_Apply(door_retry_dir);
-  } else {
+  } else if (evt == DOOR_EVT_SUN) {
     Door_Apply(Door_DesiredDir(Timebase_GetSecOfDay()));
+  } else {
+    /* neznama udalost - nic nedelame, jen preplanujeme */
+    Door_Schedule();
+    return;
   }
 
   Door_Schedule();

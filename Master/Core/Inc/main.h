@@ -60,9 +60,6 @@ void Error_Handler(void);
 #define RTC_N_PREDIV_S 10
 #define RTC_PREDIV_S ((1<<RTC_N_PREDIV_S)-1)
 #define RTC_PREDIV_A ((1<<(15-RTC_N_PREDIV_S))-1)
-#define RTC_PREDIV_A ((1<<(15-RTC_N_PREDIV_S))-1)
-#define RTC_N_PREDIV_S 10
-#define RTC_PREDIV_S ((1<<RTC_N_PREDIV_S)-1)
 #define DEBUG_SWCLK_Pin GPIO_PIN_14
 #define DEBUG_SWCLK_GPIO_Port GPIOA
 #define I2C_SDA_Pin GPIO_PIN_15
@@ -79,8 +76,8 @@ void Error_Handler(void);
 #define EN_GPIO_Port GPIOB
 #define NSLEEP_Pin GPIO_PIN_14
 #define NSLEEP_GPIO_Port GPIOB
-#define LPUART_CRTL_Pin GPIO_PIN_0
-#define LPUART_CRTL_GPIO_Port GPIOA
+#define LPUART_CTRL_Pin GPIO_PIN_0
+#define LPUART_CTRL_GPIO_Port GPIOA
 #define PH_Pin GPIO_PIN_13
 #define PH_GPIO_Port GPIOB
 #define SEP_Pin GPIO_PIN_7

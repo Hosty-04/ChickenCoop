@@ -16,8 +16,10 @@ typedef struct {
   float   timezone;
 } Astro_Result_t;
 
+float Astro_Timezone(uint16_t year, uint8_t month, uint8_t day, uint8_t hour_utc);
+
 void Astro_Calculate(uint16_t year, uint8_t month, uint8_t day,
-                     float latitude, float longitude,
+                     float latitude, float longitude, float tz_hours,
                      Astro_Result_t *result);
 
 #endif /* ASTRO_H */

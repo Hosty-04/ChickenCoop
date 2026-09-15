@@ -28,7 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -98,7 +98,13 @@ void LoRaWAN_Init(void);
 void LoRaWAN_Process(void);
 
 /* USER CODE BEGIN EFP */
+
 void LoRaWAN_SendPending(void);
+
+uint8_t LoRaWAN_CanBlockFor(uint32_t ms);
+
+void LoRaWAN_RequestTime(void);
+
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

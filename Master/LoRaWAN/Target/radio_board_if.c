@@ -59,7 +59,18 @@ int32_t RBI_Init(void)
 #else
   int32_t retcode = 0;
   /* USER CODE BEGIN RBI_Init_2 */
-  // GPIO for RF switch already initialized by CubeMX (MX_GPIO_Init)
+  GPIO_InitTypeDef gpio = {0};
+
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  gpio.Pin   = RF_CTRL1_Pin | RF_CTRL2_Pin;
+  gpio.Mode  = GPIO_MODE_OUTPUT_PP;
+  gpio.Pull  = GPIO_NOPULL;
+  gpio.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &gpio);
+
+  /* Default = switch OFF */
+  HAL_GPIO_WritePin(GPIOA, RF_CTRL1_Pin | RF_CTRL2_Pin, GPIO_PIN_RESET);
   /* USER CODE END RBI_Init_2 */
   return retcode;
 #endif /* USE_BSP_DRIVER */
@@ -74,6 +85,7 @@ int32_t RBI_DeInit(void)
 #else
   int32_t retcode = 0;
   /* USER CODE BEGIN RBI_DeInit_2 */
+  HAL_GPIO_WritePin(GPIOA, RF_CTRL1_Pin | RF_CTRL2_Pin, GPIO_PIN_RESET);
   /* USER CODE END RBI_DeInit_2 */
   return retcode;
 #endif /* USE_BSP_DRIVER */
@@ -93,7 +105,7 @@ int32_t RBI_ConfigRFSwitch(RBI_Switch_TypeDef Config)
   {
     case RBI_SWITCH_OFF:
     {
-      /* Turn off RF switch */
+      /* Turn RF switch OFF */
       HAL_GPIO_WritePin(RF_CTRL1_GPIO_Port, RF_CTRL1_Pin, GPIO_PIN_RESET); // PA4
       HAL_GPIO_WritePin(RF_CTRL2_GPIO_Port, RF_CTRL2_Pin, GPIO_PIN_RESET); // PA5
       break;

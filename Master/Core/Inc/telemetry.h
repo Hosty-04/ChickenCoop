@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    telemetry.h
-  * @brief   LoRa uplink and downlink handeler
+  * @brief   LoRa uplink and downlink handler
   ******************************************************************************
   */
 
@@ -15,15 +15,23 @@
 
 #define TELEMETRY_LEN_STATUS     2U
 #define TELEMETRY_LEN_FULL       5U
+#define TELEMETRY_LEN_DOWNLINK   1U
 
-void Telemetry_RequestStatus(void);
-void Telemetry_RequestFull(void);
+void    Telemetry_RequestStatus(void);
 uint8_t Telemetry_Pending(void);
 
-void Telemetry_Requeue(uint8_t length);
+void    Telemetry_Requeue(uint8_t length);
 
-uint8_t Telemetry_Build(uint8_t *buf);
+/**
+  * @brief  Sestavi uplink do buf.
+  * @param  buf_size  velikost ciloveho bufferu - nikdy ho neprekrocime
+  * @retval pocet zapsanych bajtu, 0 kdyz neni co poslat
+  */
+uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size);
 
-void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length);
+void    Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length);
+
+/* Telemetry_RequestFull() zamerne odstranena - byla deklarovana
+   bez definice. Vrat ji, az budou implementovana hnizda. */
 
 #endif /* TELEMETRY_H */

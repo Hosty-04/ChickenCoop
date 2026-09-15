@@ -42,7 +42,9 @@
 
 /* USER CODE BEGIN Includes */
 #include "system.h"
+#include "door.h"
 #include "telemetry.h"
+#include "timebase.h"
 /* USER CODE END Includes */
 
 /* External variables ---------------------------------------------------------*/
@@ -181,7 +183,7 @@ typedef enum TxEventType_e
 /**
   * @brief  LoRa End Node send request
   */
-static void SendTxData(uint8_t port);
+static bool SendTxData(uint8_t port);
 #if defined (LOW_POWER_DISABLE) && (LOW_POWER_DISABLE == 0)
 /**
   * @brief  Sleep timer callback function
@@ -305,11 +307,55 @@ static Callbacks_t Callbacks =
 };
 
 /* USER CODE BEGIN PV */
+#define GPS_UNIX_OFFSET     315964800UL
+#define GPS_LEAP_SECONDS    18UL
+#define LORAWAN_TX_RETRY_MS 30000UL
 
+static volatile uint32_t modem_sleep_ms   = 0;
+static volatile uint32_t modem_sleep_tick = 0;
+static uint32_t          tx_next_attempt = 0;
 /* USER CODE END PV */
 
 /* Exported functions ---------------------------------------------------------*/
 /* USER CODE BEGIN EF */
+
+uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
+{
+  smtc_modem_status_mask_t status = 0;
+  uint32_t elapsed_ms;
+
+  if (smtc_modem_is_irq_flag_pending())
+    return 0U;
+
+  smtc_modem_get_status(STACK_ID, &status);
+
+  if ((status & SMTC_MODEM_STATUS_JOINING) != 0U)
+    return 0U;
+
+  if (Telemetry_Pending() != 0U)
+    return 0U;
+
+  elapsed_ms = TICKS_TO_MS(HAL_GetTick() - modem_sleep_tick);
+
+  if (elapsed_ms >= modem_sleep_ms)
+    return 0U;
+
+  return ((modem_sleep_ms - elapsed_ms) > ms) ? 1U : 0U;
+}
+
+void LoRaWAN_RequestTime(void)
+{
+  smtc_modem_status_mask_t status = 0;
+
+  smtc_modem_get_status(STACK_ID, &status);
+
+  if ((status & SMTC_MODEM_STATUS_JOINED) != SMTC_MODEM_STATUS_JOINED)
+    return;
+
+  (void)smtc_modem_trig_lorawan_mac_request(STACK_ID,
+                                            SMTC_MODEM_LORAWAN_MAC_REQ_DEVICE_TIME);
+}
+
 void LoRaWAN_SendPending(void)
 {
   smtc_modem_status_mask_t status_mask = 0;
@@ -317,13 +363,18 @@ void LoRaWAN_SendPending(void)
   if (Telemetry_Pending() == 0U)
     return;
 
+  if ((int32_t)(HAL_GetTick() - tx_next_attempt) < 0)
+    return;
+
   smtc_modem_get_status(STACK_ID, &status_mask);
 
   if ((status_mask & SMTC_MODEM_STATUS_JOINED) != SMTC_MODEM_STATUS_JOINED)
-    return;                       /* nepřipojeno, požadavek zůstává ve frontě */
+    return;                       /* nepripojeno, pozadavek zustava ve fronte */
 
-  SendTxData(LORAWAN_USER_APP_PORT);
+  if (!SendTxData(LORAWAN_USER_APP_PORT))
+    tx_next_attempt = HAL_GetTick() + MS_TO_TICKS(LORAWAN_TX_RETRY_MS);
 }
+
 /* USER CODE END EF */
 
 /*
@@ -384,7 +435,9 @@ void LoRaWAN_Process(void)
   }
 
   /* Modem process launch */
-  sleep_time_ms = smtc_modem_run_engine();
+  sleep_time_ms    = smtc_modem_run_engine();
+  modem_sleep_ms   = sleep_time_ms;
+  modem_sleep_tick = HAL_GetTick();
 
   /* Atomically check sleep conditions (button was not pressed and no modem flags pending) */
 
@@ -609,6 +662,7 @@ static void EventCallback(void)
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: JOINED\r\n");
         APP_LOG(TS_OFF, VLEVEL_H,  "Modem is now joined \r\n");
         /* USER CODE BEGIN EventCallback_1 */
+        LoRaWAN_RequestTime();
         Telemetry_RequestStatus();
         /* USER CODE END EventCallback_1 */
         if (CertMode == false)
@@ -640,7 +694,8 @@ static void EventCallback(void)
         APP_LOG(TS_OFF, VLEVEL_M, "Data received on port %u\r\n", rx_metadata.fport);
         /* APP_LOG(TS_OFF, VLEVEL_M, "Received payload", rx_payload, rx_payload_size ); */
 
-        Telemetry_HandleDownlink(rx_payload, rx_payload_size);
+        if (rx_metadata.fport == LORAWAN_USER_APP_PORT)
+          Telemetry_HandleDownlink(rx_payload, rx_payload_size);
         break;
 
       case SMTC_MODEM_EVENT_JOINFAIL:
@@ -652,8 +707,17 @@ static void EventCallback(void)
         break;
 
       case SMTC_MODEM_EVENT_ALCSYNC_TIME:
-        APP_LOG(TS_OFF, VLEVEL_M,  "Event received: ALCSync service TIME\r\n");
+      {
+        uint32_t gps_s = 0;
+
+        APP_LOG(TS_OFF, VLEVEL_M, "Event received: ALCSync TIME\r\n");
+
+        if ((smtc_modem_get_alcsync_time(STACK_ID, &gps_s) == SMTC_MODEM_RC_OK) &&
+            (gps_s != 0U)) {
+          Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
+        }
         break;
+      }
 
       case SMTC_MODEM_EVENT_LINK_CHECK:
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: LINK_CHECK\r\n");
@@ -668,8 +732,22 @@ static void EventCallback(void)
         break;
 
       case SMTC_MODEM_EVENT_LORAWAN_MAC_TIME:
-        APP_LOG(TS_OFF, VLEVEL_L,  "Event received: LORAWAN MAC TIME\r\n");
+      {
+        uint32_t gps_s = 0, gps_frac = 0;
+
+        if (current_event.event_data.lorawan_mac_time.status !=
+            SMTC_MODEM_EVENT_MAC_REQUEST_ANSWERED) {
+          APP_LOG(TS_OFF, VLEVEL_M, "MAC TIME: not answered\r\n");
+          break;
+        }
+
+        if ((smtc_modem_get_lorawan_mac_time(STACK_ID, &gps_s, &gps_frac)
+             == SMTC_MODEM_RC_OK) && (gps_s != 0U)) {
+          Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
+          APP_LOG(TS_OFF, VLEVEL_M, "MAC TIME: synced\r\n");
+        }
         break;
+      }
 
       case SMTC_MODEM_EVENT_LORAWAN_FUOTA_DONE:
       {
@@ -741,20 +819,23 @@ static void EventCallback(void)
 
 /* USER CODE END PB_Callbacks */
 
-static void SendTxData(uint8_t port)
+static bool SendTxData(uint8_t port)
 {
   /* USER CODE BEGIN SendTxData_1 */
-  uint8_t payload[TELEMETRY_LEN_STATUS];
+  uint8_t payload[TELEMETRY_LEN_FULL];
   uint8_t length;
 
-  length = Telemetry_Build(payload);
+  length = Telemetry_Build(payload, (uint8_t)sizeof(payload));
   if (length == 0U)
-    return;                       /* fronta prázdná, není co poslat */
+    return true;
 
   if (smtc_modem_request_uplink(STACK_ID, port, false, payload, length)
       != SMTC_MODEM_RC_OK) {
-    Telemetry_Requeue(length);    /* duty cycle nebo zaneprázdněný modem */
+    Telemetry_Requeue(length);
+    return false;
   }
+
+  return true;
   /* USER CODE END SendTxData_1 */
 }
 

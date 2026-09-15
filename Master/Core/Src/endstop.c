@@ -14,6 +14,8 @@
 #define ENDSTOP_BOTTOM_PIN  LIM_DN_Pin
 
 #define ENDSTOP_SETTLE_MS   2U
+#define ENDSTOP_DEBOUNCE_MS 3U
+#define ENDSTOP_SAMPLES     5U
 
 static Endstop_Pos_t endstop_last = ENDSTOP_POS_UNKNOWN;
 
@@ -59,27 +61,55 @@ uint8_t Endstop_AtBottom(void)
   return (HAL_GPIO_ReadPin(ENDSTOP_BOTTOM_PORT, ENDSTOP_BOTTOM_PIN) == GPIO_PIN_SET);
 }
 
-Endstop_Pos_t Endstop_Read(void)
+static Endstop_Pos_t Endstop_ReadRaw(void)
 {
   uint8_t top    = Endstop_AtTop();
   uint8_t bottom = Endstop_AtBottom();
 
-  if (top && !bottom)      endstop_last = ENDSTOP_POS_TOP;
-  else if (bottom && !top) endstop_last = ENDSTOP_POS_BOTTOM;
-  else                     endstop_last = ENDSTOP_POS_UNKNOWN;
+  if (top && !bottom) return ENDSTOP_POS_TOP;
+  if (bottom && !top) return ENDSTOP_POS_BOTTOM;
+
+  return ENDSTOP_POS_UNKNOWN;
+}
+
+/* Rychle, nefiltrovane cteni - pouziva Motor_Stroke() pro detekci dojezdu,
+   kde je prvni kontakt spravna odpoved. */
+Endstop_Pos_t Endstop_Read(void)
+{
+  endstop_last = Endstop_ReadRaw();
 
   return endstop_last;
 }
 
+/*
+ * Filtrovane cteni. Vola se po resetu (Door_LoadState) a pri Door_ClearFault(),
+ * tedy prave tam, kde zakmit pakoveho mikrospinace (5-10 ms) vedl k falesnemu
+ * UNKNOWN a nasledne k MOTOR_NO_REFERENCE a trvale porouse.
+ */
 Endstop_Pos_t Endstop_Sample(void)
 {
-  Endstop_Pos_t pos;
+  Endstop_Pos_t first, pos;
+  uint8_t n;
 
   Endstop_Acquire();
-  pos = Endstop_Read();
+
+  first = Endstop_ReadRaw();
+
+  for (n = 1U; n < ENDSTOP_SAMPLES; n++) {
+    HAL_Delay(ENDSTOP_DEBOUNCE_MS);
+    pos = Endstop_ReadRaw();
+
+    if (pos != first) {
+      first = ENDSTOP_POS_UNKNOWN;    /* zakmit nebo skutecna mezipoloha */
+      break;
+    }
+  }
+
   Endstop_Release();
 
-  return pos;
+  endstop_last = first;
+
+  return endstop_last;
 }
 
 Endstop_Pos_t Endstop_Last(void)
