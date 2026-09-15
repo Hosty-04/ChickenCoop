@@ -362,11 +362,11 @@ P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \tex
 $$
 
 $$
-P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ \text{mΩ} = 288\ \text{mW}
+P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 288\ \text{mW}
 $$
 
 $$
-U_{ztr} = I_{max} \cdot 2 \cdot R_{DSon} = 1,2\ \text{A} \cdot 2 \cdot 100\ \text{mΩ} = 240\ \text{mV}
+U_{ztr} = I_{max} \cdot 2 \cdot R_{DSon} = 1,2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 240\ \text{mV}
 $$
 
 $$
@@ -486,7 +486,7 @@ Data budou z kurníku odesílána ve třech a více bajtech. První bajt ponese 
 
 &nbsp;
 
-Pro komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, bude použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost bude kvůli minimalizaci odrazů 9600 Bd. Na aplikační vrstvě poslouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici; na straně přijímače proběhne opačný proces.
+Pro komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, bude použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů nebude nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost bude 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě poslouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytvoří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převede jednotlivé bajty na sériový datový tok, doplní start a stop bity a zajistí jejich přenos po sběrnici; na straně přijímače proběhne opačný proces.
 
 K solárnímu panelu bude připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 330 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (330 kΩ) bude zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie, kvůli vysoké výstupní impedanci děliče přes kterou se nabíjí interní vzorkovací kondenzátor uvnitř M, jehož malá kapacita by se tak nabíjela příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů procesoru (160,5). Dělič bude sloužit k monitorování napětí panelu; naměřené hodnoty se do M přenesou přes ADC pin v analogovém režimu a pro zvýšení přesnosti bude provedena kalibrace, výsledek pak bude aritmetickým průměrem 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý leakage do M zajišťuje zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 bude v krabičce K zapojen mezi akumulátor a vstup Vin pro napájení motoru přes H-bridge; jednou z jeho funkcí bude s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
@@ -522,7 +522,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 1,1 ms/vzorek neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se bude upravovat střída PWM modulace a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max 3 pokusy), systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také, když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišením a průměrováním 16 vzorků rychlostí 2,2 ms/vzorek neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se bude upravovat střída PWM modulace a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms bude signalizovat překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě se M na 250 ms zastaví, pokusí se obrátit směr otáčení motoru a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max 3 pokusy), systém odešle zprávu o poruše dvířek a do uživatelského pokynu s nimi nebude manipulovat. Zpráva o poruše bude odeslána také, když motor poběží po dobu vyšší než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když nebudou dvířka z počátku v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
 &nbsp;
 
@@ -568,7 +568,7 @@ Kompenzace přes náhradní odpor udrží napětí na motoru typicky v řádu 20
 
 Většinu dne bude hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu StandBy s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič bude taktovaný přesným externím krystalem LSE, umístěným na LoRa-E5 mini, na 32 kHz. Jakmile ale RTC hodiny signalizují, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu bude taktovaný úsporným interním krystalem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič zvolí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. V průběhu přenosu dat poběží rádio automaticky přes přesný externí krystal HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit radio wakeup time na 5 ms. Při režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič bude využívat úsporného SMPS napájecího režimu.
 
-Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a vytvoření hodnoty trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 1,1 ms/vzorek pak přibližně 20 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 bude po připojení napájení potřeba čekat 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 pak přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
+Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a vytvoření hodnoty trvá při měření napětí s průměrováním 64 vzorků rychlostí 1,1 ms/vzorek přibližně 75 ms, při měření proudu s průměrováním 16 vzorků rychlostí 2,2 ms/vzorek pak přibližně 40 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 bude po připojení napájení potřeba čekat 100 µs, z důvodu náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 pak přibližně 500 ms — dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
 Hnízdové mikrořadiče nebudou po většinu dne napájeny; potřebné informace si uloží do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí zpět do režimu Stop bez RTC. Řadiče budou postupně probouzeny a úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC hodiny. Napětí interního regulátoru bude možno kvůli nízké taktovací frekvenci trvale snížit na nižší hodnotu (Voltage Scale 2). Pro inicializaci hnízdových řadičů bude vyhrazen zanedbatelný čas 10 ms.
 
@@ -598,7 +598,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 &nbsp;
 
 $$
-U_{G,P} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \\Omega}{100\ \text{k}\Omega + 5\ \\Omega} = \mathbf{450\ \text{µV} \approx 0\ \text{V}}
+U_{G,P} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \Omega}{100\ \text{k}\Omega + 5\ \Omega} = \mathbf{450\ \text{µV} \approx 0\ \text{V}}
 $$
 
 $$
@@ -606,7 +606,7 @@ U_{G,N} = I_{leak} \cdot R_{pulldown} = 100\ \text{nA} \cdot 470\ \text{k}\Omega
 $$
 
 $$
-U_{G,N} = U_r \cdot \frac{R_{pulldown}}{R_G + R_{pulldown}} = 3,3\ \text{V} \cdot \frac{470\ \text{k}\Omega}{220\ \\Omega + 470\ \text{k}\Omega} = \mathbf{3,29\ \text{V}}
+U_{G,N} = U_r \cdot \frac{R_{pulldown}}{R_G + R_{pulldown}} = 3,3\ \text{V} \cdot \frac{470\ \text{k}\Omega}{220\ \Omega + 470\ \text{k}\Omega} = \mathbf{3,29\ \text{V}}
 $$
 
 &nbsp;
@@ -641,7 +641,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 &nbsp;
 
 $$
-U_G = U_{nap} \cdot \frac{R_G}{R_{pullup} + R_G} = 3,3\ \text{V} \cdot \frac{220\ \\Omega}{100\ \text{k}\Omega + 220\ \\Omega} = \mathbf{7,24\ \text{mV} \approx 0\ \text{V}}
+U_G = U_{nap} \cdot \frac{R_G}{R_{pullup} + R_G} = 3,3\ \text{V} \cdot \frac{220\ \Omega}{100\ \text{k}\Omega + 220\ \Omega} = \mathbf{7,24\ \text{mV} \approx 0\ \text{V}}
 $$
 
 $$
@@ -649,7 +649,7 @@ U_{ztr} = I_{max} \cdot R_{DSon} = 33\ \text{mA} \cdot 150\ \text{m}\Omega \appr
 $$
 
 $$
-I_G = \frac{U_G - U_{plateau}}{R_G} = \frac{3,3\ \text{V} - 1,4\ \text{V}}{220\ \\Omega} = \mathbf{8,64\ \text{mA}}
+I_G = \frac{U_G - U_{plateau}}{R_G} = \frac{3,3\ \text{V} - 1,4\ \text{V}}{220\ \Omega} = \mathbf{8,64\ \text{mA}}
 $$
 
 $$
@@ -657,7 +657,7 @@ t_s = \frac{Q_G}{I_G} = \frac{9,4\ \text{nC}}{8,64\ \text{mA}} \approx \mathbf{1
 $$
 
 $$
-t_n = 5 \cdot \tau = 5 \cdot R_{DSon} \cdot C = 5 \cdot 150\ \text{mΩ} \cdot 1\ \text{µF} \approx \mathbf{1\ \text{µs}}
+t_n = 5 \cdot \tau = 5 \cdot R_{DSon} \cdot C = 5 \cdot 150\ \text{m}\Omega \cdot 1\ \text{µF} \approx \mathbf{1\ \text{µs}}
 $$
 
 &nbsp;
@@ -684,7 +684,7 @@ I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzisto
 
 &nbsp;
 
-Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru (rozlišení 2 %), aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření napětí a proudu modulem INA226 (17,6 ms) proběhne při této frekvenci přes 350 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
+Velmi úsporný modul H-bridge Pololu DRV8838 bude přes PWM modulaci s frekvencí 20 kHz regulovat napětí na motoru (rozlišení 2 %), aby efektivní hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vůči časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Vůči měření napětí a proudu modulem INA226 (40 ms) proběhne při této frekvenci téměř 800 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Vůči elektrolytickému kondenzátoru leží 20 kHz blízko horní hranice jeho rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz je tento limit přibližně 152 mA — bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
 
 Driver bude vybaven elektrolytickým kondenzátorem s nízkým ESR (47 µF / 25 V) zapojeným mezi piny Vin a GND, který slouží jako zásobárna energie pro rychlé proudové nároky motoru a zároveň rychle potlačí indukční napěťové špičky vznikající při vypnutí motoru. Protože elektrolytický kondenzátor má kvůli své konstrukci nezanedbatelnou parazitní indukčnost (ESL) a nad určitou frekvencí (řádově stovky kHz a výš, tedy u vyšších harmonických PWM hran) přestává být účinným filtrem, bude napájecí větev motoru doplněna o π-článek (C-L-C) tvořený dvěma blokovacími keramickými kondenzátory 1 µF / 50 V a feritovou korálkou o impedanci 120 Ω při 100 MHz zapojenou mezi nimi v sérii do přívodu Vin. U prototypu budou SMD korálce připájeny krátké (nízká ESL) nožičky. První keramika bude před korálkou a druhá za elektrolytem. Tato kombinace zajistí, že vysokofrekvenční složky PWM, které již neúčinně tlumí pomalý elektrolytický kondenzátor kvůli své ESL, budou lokálně svedeny do země na obou stranách korálky, zatímco korálka sama zabrání jejich šíření podél napájecího vedení směrem k citlivé analogové elektronice (INA226, HX711). Vzhledem k nízkému R<sub>DC</sub> korálky (30 mΩ) zůstane úbytek napětí na ní i při maximálním proudu motoru (550 mA) zanedbatelný (16,5 mV), a proudová rezerva korálky (3 A) zajišťuje, že feritové jádro nebude v žádném provozním stavu saturovat. Spojením extrémně nízkého ESR keramických kondenzátorů a indukčnosti korálky vzniká riziko nedotlumeného LC obvodu, který může pod frekvencí 100 MHz rezonovat a šum paradoxně zesílit. Proto bude elektrolytický kondenzátor umístěn za korálkou směrem k driveru — jeho dostatečný ESR zafunguje jako tlumicí člen, který tyto nebezpečné rezonance spolehlivě potlačí a stabilizuje napájecí větev.
 
