@@ -13,7 +13,6 @@
 typedef struct {
   int16_t sunrise_min;
   int16_t sunset_min;
-  float   timezone;
 } Astro_Result_t;
 
 float Astro_Timezone(uint16_t year, uint8_t month, uint8_t day, uint8_t hour_utc);

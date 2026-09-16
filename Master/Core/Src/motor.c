@@ -9,35 +9,26 @@
 #include "endstop.h"
 #include "ina226.h"
 #include "power.h"
-#include "timebase.h"          /* TICKS_TO_MS */
+#include "timebase.h"
 #include "tim.h"
-#include "gpio.h"
 
-#define MOTOR_PH_PORT       PH_GPIO_Port
-#define MOTOR_PH_PIN        PH_Pin
-#define MOTOR_NSLEEP_PORT   NSLEEP_GPIO_Port
-#define MOTOR_NSLEEP_PIN    NSLEEP_Pin
-
-#define MOTOR_PWM_TIMER     (&htim17)
-#define MOTOR_PWM_CHANNEL   TIM_CHANNEL_1
-
-#define MOTOR_PWM_MAX       49U            /* ARR -> 50 kroku, rozliseni 2 % */
-#define MOTOR_PWM_FREQ_HZ   20000UL
+#define MOTOR_PWM_TIMER          (&htim17)
+#define MOTOR_PWM_CHANNEL        TIM_CHANNEL_1
+#define MOTOR_PWM_MAX            49U
+#define MOTOR_PWM_FREQ_HZ        20000UL
 
 #define MOTOR_TRAVEL_TIMEOUT_MS  25000U
-#define MOTOR_START_IGNORE_MS      250U
-#define MOTOR_OVERCURRENT_MS       250U
-#define MOTOR_REVERSE_PAUSE_MS     250U
+#define MOTOR_START_IGNORE_MS    250U
+#define MOTOR_OVERCURRENT_MS     250U
+#define MOTOR_REVERSE_PAUSE_MS   250U
+#define MOTOR_SAMPLE_MS          36U
+#define MOTOR_SENSE_MAX_FAILS    3U
 
-/* CONFIG_FAST: AVG=16, VBUSCT+VSHCT = 1.1 + 1.1 ms -> novy vzorek po 35.2 ms */
-#define MOTOR_SAMPLE_MS      36U
-
-#define MOTOR_V_NOMINAL_V     6.0f
-#define MOTOR_V_MARGIN_V      0.4f
-#define MOTOR_I_LIMIT_A       0.45f
-#define MOTOR_BRIDGE_R_OHM    2.0f
-
-#define MOTOR_SENSE_MAX_FAILS 3U
+#define MOTOR_V_NOMINAL_V        6.0f
+#define MOTOR_V_MARGIN_V         0.4f
+#define MOTOR_V_MIN_VALID_V      0.5f
+#define MOTOR_I_LIMIT_A          0.45f
+#define MOTOR_BRIDGE_R_OHM       2.0f
 
 typedef enum {
   STROKE_REACHED = 0,
@@ -46,13 +37,23 @@ typedef enum {
   STROKE_SENSOR
 } Motor_Stroke_t;
 
+static Endstop_Pos_t Motor_PosFor(Motor_Dir_t dir)
+{
+  return (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
+}
+
+static Motor_Dir_t Motor_Opposite(Motor_Dir_t dir)
+{
+  return (dir == MOTOR_DIR_UP) ? MOTOR_DIR_DOWN : MOTOR_DIR_UP;
+}
+
 static void Motor_SetPins(uint32_t mode)
 {
   GPIO_InitTypeDef gpio = {0};
 
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  gpio.Pin   = MOTOR_PH_PIN | MOTOR_NSLEEP_PIN;
+  gpio.Pin   = PH_Pin | NSLEEP_Pin;
   gpio.Mode  = mode;
   gpio.Pull  = GPIO_NOPULL;
   gpio.Speed = GPIO_SPEED_FREQ_LOW;
@@ -64,79 +65,55 @@ static void Motor_Duty(uint16_t duty)
   __HAL_TIM_SET_COMPARE(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL, duty);
 }
 
-/*
- * Prescaler se dopocitava z aktualni frekvence APB2, aby PWM bylo 20 kHz
- * bez ohledu na to, v jakem hodinovem rezimu se motor spusti.
- * Pri PSC = 0 a 48 MHz by vyslo 960 kHz, tedy nad limitem DRV8838 (250 kHz).
- */
-static void Motor_SetupPwm(void)
-{
-  uint32_t timclk = HAL_RCC_GetPCLK2Freq();        /* TIM17 sedi na APB2 */
-  uint32_t div    = (MOTOR_PWM_MAX + 1U) * MOTOR_PWM_FREQ_HZ;
-  uint32_t psc    = (timclk + (div / 2U)) / div;
-
-  if (psc == 0U)
-    psc = 1U;
-
-  __HAL_TIM_SET_PRESCALER(MOTOR_PWM_TIMER, psc - 1U);
-  __HAL_TIM_SET_AUTORELOAD(MOTOR_PWM_TIMER, MOTOR_PWM_MAX);
-
-  /*
-   * ARR ma zapnuty preload (AutoReloadPreload = ENABLE), takze se zapis
-   * projevi az pri update eventu; PSC se nacita rovnez az pri update.
-   * UG event oboji okamzite prenese do aktivnich registru.
-   * MOTOR_PWM_TIMER je handle, registry jsou az v Instance.
-   */
-  MOTOR_PWM_TIMER->Instance->EGR = TIM_EGR_UG;
-}
-
 static void Motor_Begin(void)
 {
-  Motor_SetPins(GPIO_MODE_OUTPUT_PP);
+  uint32_t div = (MOTOR_PWM_MAX + 1U) * MOTOR_PWM_FREQ_HZ;
+  uint32_t psc = (HAL_RCC_GetPCLK2Freq() + (div / 2U)) / div;
 
-  HAL_GPIO_WritePin(MOTOR_PH_PORT, MOTOR_PH_PIN, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(MOTOR_NSLEEP_PORT, MOTOR_NSLEEP_PIN, GPIO_PIN_SET);
+  MX_TIM17_Init();
 
-  Motor_SetupPwm();
+  __HAL_TIM_SET_PRESCALER(MOTOR_PWM_TIMER, (psc != 0U) ? (psc - 1U) : 0U);
+  __HAL_TIM_SET_AUTORELOAD(MOTOR_PWM_TIMER, MOTOR_PWM_MAX);
+  MOTOR_PWM_TIMER->Instance->EGR = TIM_EGR_UG;
   Motor_Duty(0U);
-  HAL_TIM_PWM_Start(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
+
+  HAL_GPIO_WritePin(PH_GPIO_Port, PH_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_RESET);
+  Motor_SetPins(GPIO_MODE_OUTPUT_PP);
+  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
+
+  (void)HAL_TIM_PWM_Start(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
 }
 
 static void Motor_End(void)
 {
   Motor_Duty(0U);
-  HAL_TIM_PWM_Stop(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
+  (void)HAL_TIM_PWM_Stop(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
 
-  HAL_GPIO_WritePin(MOTOR_NSLEEP_PORT, MOTOR_NSLEEP_PIN, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_RESET);
   Motor_SetPins(GPIO_MODE_ANALOG);
 }
 
 static void Motor_Drive(Motor_Dir_t dir, uint16_t duty)
 {
-  HAL_GPIO_WritePin(MOTOR_PH_PORT, MOTOR_PH_PIN,
+  HAL_GPIO_WritePin(PH_GPIO_Port, PH_Pin,
                     (dir == MOTOR_DIR_UP) ? GPIO_PIN_SET : GPIO_PIN_RESET);
   Motor_Duty(duty);
 }
 
-static void Motor_Regulate(float v_bat, float i_bat,
-                           uint16_t *duty, float *i_limit)
+static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_limit)
 {
-  float v_cmd, ratio;
+  float ratio;
 
-  if (v_bat < 0.5f) {
-    /* nedoslo platne mereni - jedeme opatrne, ne plnou stridou */
+  if (v_bat < MOTOR_V_MIN_VALID_V) {
     *duty    = (uint16_t)(MOTOR_PWM_MAX / 2U);
     *i_limit = MOTOR_I_LIMIT_A * 0.5f;
     return;
   }
 
-  v_cmd = MOTOR_V_NOMINAL_V + i_bat * MOTOR_BRIDGE_R_OHM + MOTOR_V_MARGIN_V;
-  ratio = v_cmd / v_bat;
-
+  ratio = (MOTOR_V_NOMINAL_V + i_bat * MOTOR_BRIDGE_R_OHM + MOTOR_V_MARGIN_V) / v_bat;
   if (ratio > 1.0f)
     ratio = 1.0f;
-  else if (ratio < 0.0f)
-    ratio = 0.0f;
 
   *duty    = (uint16_t)(ratio * (float)MOTOR_PWM_MAX + 0.5f);
   *i_limit = MOTOR_I_LIMIT_A * ratio;
@@ -149,12 +126,11 @@ static uint8_t Motor_AtTarget(Motor_Dir_t dir)
 
 static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 {
-  uint32_t t_start, t_over = 0, t_sample;
-  uint8_t  over = 0, fails = 0;
+  uint32_t t_start, t_sample, t_over = 0U;
+  uint8_t  over = 0U, fails = 0U;
   uint16_t duty;
   float    v, i, i_limit;
 
-  /* po probuzeni ze shutdownu musi dobehnout prvni konverze */
   HAL_Delay(MOTOR_SAMPLE_MS);
 
   if (INA226_Read(&v, &i) != HAL_OK)
@@ -176,7 +152,6 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
     if (elapsed >= MOTOR_TRAVEL_TIMEOUT_MS)
       return STROKE_TIMEOUT;
 
-    /* koncaky testujeme v kazde otacce, INA226 jen jednou za konverzi */
     if (TICKS_TO_MS(now - t_sample) < MOTOR_SAMPLE_MS)
       continue;
 
@@ -187,21 +162,18 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
         return STROKE_SENSOR;
       continue;
     }
-    fails = 0;
+    fails = 0U;
 
     Motor_Regulate(v, i, &duty, &i_limit);
     Motor_Drive(dir, duty);
 
-    if (elapsed < MOTOR_START_IGNORE_MS)
-      continue;
-
-    if (i <= i_limit) {
-      over = 0;
+    if ((elapsed < MOTOR_START_IGNORE_MS) || (i <= i_limit)) {
+      over = 0U;
       continue;
     }
 
     if (!over) {
-      over   = 1;
+      over   = 1U;
       t_over = now;
     } else if (TICKS_TO_MS(now - t_over) >= MOTOR_OVERCURRENT_MS) {
       return STROKE_OVERCURRENT;
@@ -209,21 +181,13 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
   }
 }
 
-static Endstop_Pos_t Motor_PosFor(Motor_Dir_t dir)
-{
-  return (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
-}
-
-static Motor_Dir_t Motor_Opposite(Motor_Dir_t dir)
-{
-  return (dir == MOTOR_DIR_UP) ? MOTOR_DIR_DOWN : MOTOR_DIR_UP;
-}
-
-static Motor_Result_t Motor_Finish(Motor_Result_t result)
+static Motor_Result_t Motor_Finish(Motor_Result_t result, Endstop_Pos_t expected)
 {
   Motor_End();
-  (void)Endstop_Read();
-  Endstop_Release();
+
+  if ((Endstop_Sample() == ENDSTOP_POS_UNKNOWN) && (expected != ENDSTOP_POS_UNKNOWN))
+    Endstop_Restore(expected);
+
   INA226_PowerDown();
   Power_SwitchToRunHSE48MHz();
 
@@ -232,43 +196,36 @@ static Motor_Result_t Motor_Finish(Motor_Result_t result)
 
 Motor_Result_t Motor_Move(Motor_Dir_t dir)
 {
-  Endstop_Pos_t  start;
+  Endstop_Pos_t  start  = Endstop_Sample();
+  Endstop_Pos_t  target = Motor_PosFor(dir);
   Motor_Stroke_t stroke;
 
-  Endstop_Acquire();
-  start = Endstop_Read();
-
-  if (start == Motor_PosFor(dir)) {
-    Endstop_Release();
+  if (start == target)
     return MOTOR_ALREADY;
-  }
 
-  if (start != Motor_PosFor(Motor_Opposite(dir))) {
-    Endstop_Release();
+  if (start == ENDSTOP_POS_UNKNOWN)
     return MOTOR_NO_REFERENCE;
-  }
 
   Power_SwitchToLPRunMSI1MHz();
+  Endstop_Acquire();
   Motor_Begin();
 
-  if (INA226_PowerUp() != HAL_OK)
-    return Motor_Finish(MOTOR_SENSOR_ERROR);
-
-  INA226_ConfigFast();
+  if ((INA226_PowerUp() != HAL_OK) || (INA226_ConfigFast() != HAL_OK))
+    return Motor_Finish(MOTOR_SENSOR_ERROR, start);
 
   stroke = Motor_Stroke(dir);
 
-  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OK);
-  if (stroke == STROKE_TIMEOUT) return Motor_Finish(MOTOR_TIMEOUT);
-  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR);
+  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OK, target);
+  if (stroke == STROKE_TIMEOUT) return Motor_Finish(MOTOR_TIMEOUT, ENDSTOP_POS_UNKNOWN);
+  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
 
   Motor_Duty(0U);
   HAL_Delay(MOTOR_REVERSE_PAUSE_MS);
 
   stroke = Motor_Stroke(Motor_Opposite(dir));
 
-  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OBSTACLE);
-  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR);
+  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OBSTACLE, start);
+  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
 
-  return Motor_Finish(MOTOR_STUCK);
+  return Motor_Finish(MOTOR_STUCK, ENDSTOP_POS_UNKNOWN);
 }

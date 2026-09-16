@@ -6,16 +6,15 @@
   */
 
 #include "endstop.h"
-#include "gpio.h"
 
-#define ENDSTOP_TOP_PORT    LIM_UP_GPIO_Port
-#define ENDSTOP_TOP_PIN     LIM_UP_Pin
-#define ENDSTOP_BOTTOM_PORT LIM_DN_GPIO_Port
-#define ENDSTOP_BOTTOM_PIN  LIM_DN_Pin
+#define ENDSTOP_TOP_PORT     LIM_UP_GPIO_Port
+#define ENDSTOP_TOP_PIN      LIM_UP_Pin
+#define ENDSTOP_BOTTOM_PORT  LIM_DN_GPIO_Port
+#define ENDSTOP_BOTTOM_PIN   LIM_DN_Pin
 
-#define ENDSTOP_SETTLE_MS   2U
-#define ENDSTOP_DEBOUNCE_MS 3U
-#define ENDSTOP_SAMPLES     5U
+#define ENDSTOP_SETTLE_MS    2U
+#define ENDSTOP_DEBOUNCE_MS  3U
+#define ENDSTOP_SAMPLES      5U
 
 static Endstop_Pos_t endstop_last = ENDSTOP_POS_UNKNOWN;
 
@@ -53,12 +52,12 @@ void Endstop_Release(void)
 
 uint8_t Endstop_AtTop(void)
 {
-  return (HAL_GPIO_ReadPin(ENDSTOP_TOP_PORT, ENDSTOP_TOP_PIN) == GPIO_PIN_SET);
+  return (uint8_t)(HAL_GPIO_ReadPin(ENDSTOP_TOP_PORT, ENDSTOP_TOP_PIN) == GPIO_PIN_SET);
 }
 
 uint8_t Endstop_AtBottom(void)
 {
-  return (HAL_GPIO_ReadPin(ENDSTOP_BOTTOM_PORT, ENDSTOP_BOTTOM_PIN) == GPIO_PIN_SET);
+  return (uint8_t)(HAL_GPIO_ReadPin(ENDSTOP_BOTTOM_PORT, ENDSTOP_BOTTOM_PIN) == GPIO_PIN_SET);
 }
 
 static Endstop_Pos_t Endstop_ReadRaw(void)
@@ -72,44 +71,26 @@ static Endstop_Pos_t Endstop_ReadRaw(void)
   return ENDSTOP_POS_UNKNOWN;
 }
 
-/* Rychle, nefiltrovane cteni - pouziva Motor_Stroke() pro detekci dojezdu,
-   kde je prvni kontakt spravna odpoved. */
-Endstop_Pos_t Endstop_Read(void)
-{
-  endstop_last = Endstop_ReadRaw();
-
-  return endstop_last;
-}
-
-/*
- * Filtrovane cteni. Vola se po resetu (Door_LoadState) a pri Door_ClearFault(),
- * tedy prave tam, kde zakmit pakoveho mikrospinace (5-10 ms) vedl k falesnemu
- * UNKNOWN a nasledne k MOTOR_NO_REFERENCE a trvale porouse.
- */
 Endstop_Pos_t Endstop_Sample(void)
 {
-  Endstop_Pos_t first, pos;
+  Endstop_Pos_t pos;
   uint8_t n;
 
   Endstop_Acquire();
 
-  first = Endstop_ReadRaw();
+  pos = Endstop_ReadRaw();
 
-  for (n = 1U; n < ENDSTOP_SAMPLES; n++) {
+  for (n = 1U; (n < ENDSTOP_SAMPLES) && (pos != ENDSTOP_POS_UNKNOWN); n++) {
     HAL_Delay(ENDSTOP_DEBOUNCE_MS);
-    pos = Endstop_ReadRaw();
-
-    if (pos != first) {
-      first = ENDSTOP_POS_UNKNOWN;    /* zakmit nebo skutecna mezipoloha */
-      break;
-    }
+    if (Endstop_ReadRaw() != pos)
+      pos = ENDSTOP_POS_UNKNOWN;
   }
 
   Endstop_Release();
 
-  endstop_last = first;
+  endstop_last = pos;
 
-  return endstop_last;
+  return pos;
 }
 
 Endstop_Pos_t Endstop_Last(void)
@@ -119,8 +100,6 @@ Endstop_Pos_t Endstop_Last(void)
 
 void Endstop_Restore(Endstop_Pos_t pos)
 {
-  if (pos == ENDSTOP_POS_TOP || pos == ENDSTOP_POS_BOTTOM)
-    endstop_last = pos;
-  else
-    endstop_last = ENDSTOP_POS_UNKNOWN;
+  endstop_last = ((pos == ENDSTOP_POS_TOP) || (pos == ENDSTOP_POS_BOTTOM))
+               ? pos : ENDSTOP_POS_UNKNOWN;
 }

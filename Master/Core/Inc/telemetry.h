@@ -19,19 +19,10 @@
 
 void    Telemetry_RequestStatus(void);
 uint8_t Telemetry_Pending(void);
-
 void    Telemetry_Requeue(uint8_t length);
+void    Telemetry_Clear(void);
 
-/**
-  * @brief  Sestavi uplink do buf.
-  * @param  buf_size  velikost ciloveho bufferu - nikdy ho neprekrocime
-  * @retval pocet zapsanych bajtu, 0 kdyz neni co poslat
-  */
 uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size);
-
 void    Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length);
-
-/* Telemetry_RequestFull() zamerne odstranena - byla deklarovana
-   bez definice. Vrat ji, az budou implementovana hnizda. */
 
 #endif /* TELEMETRY_H */

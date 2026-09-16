@@ -10,18 +10,12 @@
 
 #include "main.h"
 
-void Battery_Init(void);
-void Battery_Enable(void);
-void Battery_Disable(void);
-
-uint8_t Battery_IsEnabled(void);
-uint8_t Battery_IsCritical(void);
-
+void    Battery_Init(void);
+void    Battery_Process(void);
 uint8_t Battery_WorkPending(void);
 
+uint8_t  Battery_IsCritical(void);
 uint16_t Battery_GetVoltage_mV(void);
 uint16_t Battery_GetPanelVoltage_mV(void);
-
-void Battery_Process(void);
 
 #endif /* BATTERY_H */

@@ -19,13 +19,11 @@ typedef enum {
 void Endstop_Acquire(void);
 void Endstop_Release(void);
 
-uint8_t       Endstop_AtTop(void);
-uint8_t       Endstop_AtBottom(void);
+uint8_t Endstop_AtTop(void);
+uint8_t Endstop_AtBottom(void);
 
-Endstop_Pos_t Endstop_Read(void);
 Endstop_Pos_t Endstop_Sample(void);
 Endstop_Pos_t Endstop_Last(void);
-
-void Endstop_Restore(Endstop_Pos_t pos);
+void          Endstop_Restore(Endstop_Pos_t pos);
 
 #endif /* ENDSTOP_H */

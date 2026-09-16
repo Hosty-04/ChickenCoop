@@ -25,7 +25,7 @@
 #include "usart_if.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "power.h"
 /* USER CODE END Includes */
 
 /* External variables ---------------------------------------------------------*/
@@ -110,7 +110,7 @@ void PWR_EnterStopMode(void)
 void PWR_ExitStopMode(void)
 {
   /* USER CODE BEGIN ExitStopMode_1 */
-
+  Power_SwitchToRunHSE48MHz();
   /* USER CODE END ExitStopMode_1 */
   /* Resume sysTick : work around for debugger problem in dual core */
   HAL_ResumeTick();

@@ -10,10 +10,8 @@
 
 #include <stdint.h>
 
-void Power_SwitchToRunHSE48MHz(void);
-
 void Power_SwitchToLPRunMSI1MHz(void);
-uint8_t Power_IsLowPowerRun(void);
+void Power_SwitchToRunHSE48MHz(void);
 
 void Power_DisableDebug(void);
 

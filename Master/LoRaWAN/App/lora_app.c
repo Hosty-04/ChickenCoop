@@ -307,32 +307,49 @@ static Callbacks_t Callbacks =
 };
 
 /* USER CODE BEGIN PV */
-#define GPS_UNIX_OFFSET     315964800UL
-#define GPS_LEAP_SECONDS    18UL
-#define LORAWAN_TX_RETRY_MS 30000UL
+#define GPS_UNIX_OFFSET      315964800UL
+#define GPS_LEAP_SECONDS     18UL
+#define LORAWAN_TX_RETRY_MS  30000UL
+#define LORAWAN_TX_RETRY_MAX 3U
 
 static volatile uint32_t modem_sleep_ms   = 0;
 static volatile uint32_t modem_sleep_tick = 0;
-static uint32_t          tx_next_attempt = 0;
+static uint8_t           tx_retry_count   = 0;
+static uint32_t          tx_retry_tick    = 0;
 /* USER CODE END PV */
 
 /* Exported functions ---------------------------------------------------------*/
 /* USER CODE BEGIN EF */
 
-uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
+static uint8_t LoRaWAN_IsJoined(void)
 {
   smtc_modem_status_mask_t status = 0;
+
+  smtc_modem_get_status(STACK_ID, &status);
+
+  return ((status & SMTC_MODEM_STATUS_JOINED) == SMTC_MODEM_STATUS_JOINED) ? 1U : 0U;
+}
+
+static uint32_t LoRaWAN_RetryRemainingMs(void)
+{
+  uint32_t elapsed_ms;
+
+  if (tx_retry_count == 0U)
+    return 0UL;
+
+  elapsed_ms = TICKS_TO_MS(HAL_GetTick() - tx_retry_tick);
+
+  return (elapsed_ms >= LORAWAN_TX_RETRY_MS) ? 0UL : (LORAWAN_TX_RETRY_MS - elapsed_ms);
+}
+
+uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
+{
   uint32_t elapsed_ms;
 
   if (smtc_modem_is_irq_flag_pending())
     return 0U;
 
-  smtc_modem_get_status(STACK_ID, &status);
-
-  if ((status & SMTC_MODEM_STATUS_JOINING) != 0U)
-    return 0U;
-
-  if (Telemetry_Pending() != 0U)
+  if ((Telemetry_Pending() != 0U) && LoRaWAN_IsJoined())
     return 0U;
 
   elapsed_ms = TICKS_TO_MS(HAL_GetTick() - modem_sleep_tick);
@@ -345,34 +362,38 @@ uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
 
 void LoRaWAN_RequestTime(void)
 {
-  smtc_modem_status_mask_t status = 0;
-
-  smtc_modem_get_status(STACK_ID, &status);
-
-  if ((status & SMTC_MODEM_STATUS_JOINED) != SMTC_MODEM_STATUS_JOINED)
-    return;
-
-  (void)smtc_modem_trig_lorawan_mac_request(STACK_ID,
-                                            SMTC_MODEM_LORAWAN_MAC_REQ_DEVICE_TIME);
+  if (LoRaWAN_IsJoined())
+    (void)smtc_modem_trig_lorawan_mac_request(STACK_ID, SMTC_MODEM_LORAWAN_MAC_REQ_DEVICE_TIME);
 }
 
 void LoRaWAN_SendPending(void)
 {
-  smtc_modem_status_mask_t status_mask = 0;
+  if (Telemetry_Pending() == 0U) {
+    tx_retry_count = 0U;
+    return;
+  }
 
-  if (Telemetry_Pending() == 0U)
+  if (!LoRaWAN_IsJoined()) {
+    Telemetry_Clear();
+    tx_retry_count = 0U;
+    return;
+  }
+
+  if (LoRaWAN_RetryRemainingMs() != 0UL)
     return;
 
-  if ((int32_t)(HAL_GetTick() - tx_next_attempt) < 0)
+  if (SendTxData(LORAWAN_USER_APP_PORT)) {
+    tx_retry_count = 0U;
     return;
+  }
 
-  smtc_modem_get_status(STACK_ID, &status_mask);
+  if (++tx_retry_count > LORAWAN_TX_RETRY_MAX) {
+    Telemetry_Clear();
+    tx_retry_count = 0U;
+    return;
+  }
 
-  if ((status_mask & SMTC_MODEM_STATUS_JOINED) != SMTC_MODEM_STATUS_JOINED)
-    return;                       /* nepripojeno, pozadavek zustava ve fronte */
-
-  if (!SendTxData(LORAWAN_USER_APP_PORT))
-    tx_next_attempt = HAL_GetTick() + MS_TO_TICKS(LORAWAN_TX_RETRY_MS);
+  tx_retry_tick = HAL_GetTick();
 }
 
 /* USER CODE END EF */
@@ -419,41 +440,40 @@ void LoRaWAN_Init(void)
 void LoRaWAN_Process(void)
 {
   uint32_t sleep_time_ms = 0;
-  /* Check button */
+  uint32_t retry_ms;
+
   if (user_button_is_press == true)
   {
     user_button_is_press = false;
 
-    smtc_modem_status_mask_t status_mask = 0;
-    smtc_modem_get_status(STACK_ID, &status_mask);
-    /* Check if the device has already joined a network */
-    if ((status_mask & SMTC_MODEM_STATUS_JOINED) == SMTC_MODEM_STATUS_JOINED)
+    if (LoRaWAN_IsJoined())
     {
-      /* Send packet */
       SendTxData(LORAWAN_USER_APP_PORT);
     }
   }
 
-  /* Modem process launch */
   sleep_time_ms    = smtc_modem_run_engine();
   modem_sleep_ms   = sleep_time_ms;
   modem_sleep_tick = HAL_GetTick();
 
-  /* Atomically check sleep conditions (button was not pressed and no modem flags pending) */
+  retry_ms = LoRaWAN_RetryRemainingMs();
+  if ((retry_ms != 0UL) && (sleep_time_ms > retry_ms))
+    sleep_time_ms = retry_ms;
 
-  if ((user_button_is_press == false) && (smtc_modem_is_irq_flag_pending() == false) &&
-      (System_WorkPending() == false))
+  if ((user_button_is_press == false) && (sleep_time_ms > 0))
   {
-    if (sleep_time_ms > 0)
-    {
 #if defined (LOW_POWER_DISABLE) && (LOW_POWER_DISABLE == 0)
-      UTIL_TIMER_SetPeriod(&SleepTimer, sleep_time_ms);
-      UTIL_TIMER_Start(&SleepTimer);
-      UTIL_LPM_EnterLowPower();
-#endif
-    }
-  }
+    UTIL_TIMER_SetPeriod(&SleepTimer, sleep_time_ms);
+    UTIL_TIMER_Start(&SleepTimer);
 
+    UTILS_ENTER_CRITICAL_SECTION();
+    if ((smtc_modem_is_irq_flag_pending() == false) && (System_WorkPending() == 0U))
+    {
+      UTIL_LPM_EnterLowPower();
+    }
+    UTILS_EXIT_CRITICAL_SECTION();
+#endif
+  }
 }
 
 static void SystemReset(void)
