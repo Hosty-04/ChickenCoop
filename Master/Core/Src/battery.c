@@ -20,6 +20,8 @@
 #define BATTERY_BLOCK_MS       400UL
 #define BATTERY_DEFER_S        10UL
 #define BATTERY_DEFER_MAX      6U
+#define BATTERY_MIN_VALID_V    1.0f
+#define BATTERY_MAX_VALID_V    12.0f
 
 #define PANEL_SETTLE_MS        125U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -58,6 +60,11 @@ static float Battery_OverVoltageLimit(uint8_t month)
   if ((month == 0U) || ((month >= 6U) && (month <= 8U))) return 7.2f;
   if ((month == 12U) || (month <= 2U))                     return 7.5f;
   return 7.3f;
+}
+
+static uint8_t Battery_Plausible(float v_bat)
+{
+  return (uint8_t)((v_bat >= BATTERY_MIN_VALID_V) && (v_bat <= BATTERY_MAX_VALID_V));
 }
 
 static float Battery_CriticalLimit(uint8_t month)
@@ -195,7 +202,7 @@ void Battery_Process(void)
 {
   float    v_bat = 0.0f, v_panel = 0.0f;
   uint8_t  was_connected = panel_connected;
-  uint8_t  month;
+  uint8_t  month, bat_ok;
   HAL_StatusTypeDef st_bat, st_panel;
 
   if (!battery_pending)
@@ -224,12 +231,13 @@ void Battery_Process(void)
   }
   st_panel = Battery_ReadPanel(&v_panel);
 
+  bat_ok         = (uint8_t)((st_bat == HAL_OK) && Battery_Plausible(v_bat));
   panel_mv_valid = (uint8_t)(st_panel == HAL_OK);
 
   if (st_panel == HAL_OK)
     panel_mv = (uint16_t)(v_panel * 1000.0f + 0.5f);
 
-  if (st_bat == HAL_OK) {
+  if (bat_ok) {
     month      = Timebase_IsValid() ? Timebase_GetMonth() : 0U;
     battery_mv = (uint16_t)(v_bat * 1000.0f + 0.5f);
 
@@ -244,7 +252,7 @@ void Battery_Process(void)
     Battery_SetPanel(was_connected);
   }
 
-  Battery_UpdateSensor((uint8_t)(st_bat == HAL_OK));
+  Battery_UpdateSensor(bat_ok);
 
   Power_SwitchToRunHSE48MHz();
 
