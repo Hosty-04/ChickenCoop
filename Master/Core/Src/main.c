@@ -36,6 +36,7 @@
 #include "telemetry.h"
 #include "lora_app.h"
 #include "power.h"
+#include "sys_conf.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,7 +114,9 @@ int main(void)
 
   /* Power_DisableDebug(); */
 
+#if (VERBOSE_LEVEL == VLEVEL_OFF)
   vcom_DeInit();   /* Debug via printf OFF */
+#endif
 
   Power_Init();
 
