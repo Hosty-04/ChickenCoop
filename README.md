@@ -129,8 +129,8 @@ U MOSFET oddělovače přispívá do spotřeby pouze pull-down rezistor při sep
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | INA226 | 330 µA | 420 µA | 1,01 µAh | 1,28 µAh |
-| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 100 nAh | 325 nAh |
-| **Celkem** | **450 µA** | **810 µA** | **1,11 µAh** | **1,61 µAh** |
+| M (LPRun @ 1 MHz) | 120 µA | 390 µA | 1,4 µAh | 4,55 µAh |
+| **Celkem** | **450 µA** | **810 µA** | **2,41 µAh** | **5,83 µAh** |
 
 &nbsp;
 
@@ -139,17 +139,18 @@ t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5
 $$
 
 $$
-t_p = 144 \cdot t_{p,v} = 144 \cdot 5,54\ \text{ms} \approx \mathbf{1\ \text{s}}
+t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 5,54\ \text{ms}) \approx \mathbf{30\ \text{s}}
 $$
 
 $$
-t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} = 144 \cdot 75\ \text{ms} \approx \mathbf{11\ \text{s}}
+t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} = 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}
 $$
 
 &nbsp;
 
 kde:
 - $t_p$ ... doba měření napětí na panelu
+- $t_u$ ... doba ustálení napětí na panelu
 - $t_{p,v}$ ... doba vzorkování napětí na panelu
 - $n_{p,v}$ ... počet vzorků napětí na panelu
 - $n_{c,v}$ ... počet cyklů procesoru pro odebrání vzorku
@@ -167,11 +168,11 @@ kde:
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Motor | 100 mA | 250 mA | 0,889 mAh | 5,07 mAh |
-| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 12,2 µAh |
-| INA226 | 330 µA | 420 µA | 2,93 µAh | 8,52 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,91 µAh |
-| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **5,10 mAh** |
+| Motor | 100 mA | 250 mA | 0,889 mAh | 16,7 mAh |
+| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 40 µAh |
+| INA226 | 330 µA | 420 µA | 2,93 µAh | 28 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 8 µAh |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **16,8 mAh** |
 
 &nbsp;
 
@@ -192,18 +193,14 @@ t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{m
 $$
 
 $$
-t_z = \frac{h}{v_{min}} + 0,5\ \text{s} = \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 0,5\ \text{s} = 18,4\ \text{s}
-$$
-
-$$
-t_{max} = 2 \cdot \frac{h}{v_{min}} + 2 \cdot t_z = 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} + 2 \cdot 18,4\ \text{s} = 2 \cdot 17,9\ \text{s} + 2 \cdot 18,4\ \text{s} \approx \mathbf{73\ \text{s}}
+t_{max} = 2 \cdot t_l + \frac{h}{v_{min}} = 2 \cdot 50\ \text{s} + \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 2 \cdot 50\ \text{s} + 17,9\ \text{s} \approx \mathbf{240\ \text{s}}
 $$
 
 &nbsp;
 
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
-- $t_z$ ... zpoždění při zaseknutí dvířek
+- $t_l$ ... časový limit pohybu dvířek
 - $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
 - $v_{min}$ ... minimální rychlost otáčení špulky
@@ -294,14 +291,18 @@ STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabi�
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| LoRa TX | 21 mA | 21 mA | 117 µAh | 117 µAh |
+| LoRa TX | 21 mA | 21 mA | 117 µAh | 468 µAh |
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
-| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
+| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **488 µAh** |
 
 &nbsp;
 
 $$
-t_v = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
+t_{v,min} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
+$$
+
+$$
+t_{v,max} = n_r \cdot (24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B}) = 4 \cdot (24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms}) = 77,84\ \text{s} \approx \mathbf{80\ \text{s}}
 $$
 
 $$
@@ -318,6 +319,7 @@ kde:
 - $t_v$ ... doba vysílání
 - $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
 - $t_{2B}$ ... airtime pro preambuli + 2B + zabezpečení
+- $n_r$ ... maximální počet pokusů pro vysílání
 - $t_{p,min}$ ... minimální doba přijmu
 - $t_{p,max}$ ... maximální doba přijmu
 - $t_{o,min}$ ... minimální doba příjmového okna
@@ -335,12 +337,12 @@ CPU bude většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 17,7 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 5,1 mAh | 67,3 % |
-| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 13,2 % |
-| Komunikace | 124 µAh | 5,9 % | 137 µAh | 1,8 % |
-| Kontrola panelu a baterie | 1,11 µAh | 0,1 % | 1,61 µAh | 0,0 % |
-| **Celkem** | **2,07 mAh** | **100 %** | **7,58 mAh** | **100 %** |
+| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 6,8 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 16,8 mAh | 85,6 % |
+| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,1 % |
+| Komunikace | 124 µAh | 6,0 % | 488 µAh | 2,5 % |
+| Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
+| **Celkem** | **2,07 mAh** | **100 %** | **19,6 mAh** | **100 %** |
 
 &nbsp;
 
@@ -424,10 +426,10 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku bylo využi
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2647 | +1573 |
-| Východ | +2532 | +438 |
-| Západ | +2647 | +552 |
-| Jihozápad | +2757 | +1233 |
+| Jih | +2612 | +1538 |
+| Východ | +2497 | +403 |
+| Západ | +2612 | +517 |
+| Jihozápad | +2722 | +1198 |
 
 &nbsp;
 
@@ -444,7 +446,7 @@ kde:
 
 &nbsp;
 
-Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 15 mAh).
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 50 mA — dvojnásobek).
 
 &nbsp;
 
