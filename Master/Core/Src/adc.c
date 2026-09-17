@@ -98,25 +98,9 @@ void MX_ADC_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC_Init 2 */
-  sConfig.Rank = ADC_RANK_NONE;
-
-  sConfig.Channel = ADC_CHANNEL_2;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  sConfig.Channel = ADC_CHANNEL_VREFINT;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  LL_ADC_REG_SetSequencerChRem(hadc.Instance, ADC_CHANNEL_2);
+  LL_ADC_REG_SetSequencerChRem(hadc.Instance, ADC_CHANNEL_TEMPSENSOR);
+  LL_ADC_REG_SetSequencerChRem(hadc.Instance, ADC_CHANNEL_VREFINT);
   /* USER CODE END ADC_Init 2 */
 
 }
