@@ -198,7 +198,8 @@ static Motor_Dir_t Door_DesiredDir(uint32_t now)
 
 static uint8_t Door_AutoAllowed(void)
 {
-  return (uint8_t)(door_enabled && !door_fault && !Battery_IsCritical() && Timebase_IsValid());
+  return (uint8_t)(door_enabled && !door_fault && Timebase_IsValid() &&
+                   Battery_IsVoltageValid() && !Battery_IsCritical());
 }
 
 static uint8_t Door_ManualActive(uint32_t now)

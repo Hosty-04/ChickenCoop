@@ -132,6 +132,18 @@ static void Battery_UpdateCritical(float v_bat, uint8_t month)
     Door_Catchup();
 }
 
+static void Battery_UpdateSensor(uint8_t ok)
+{
+  if (ok == battery_mv_valid)
+    return;
+
+  battery_mv_valid = ok;
+  Door_Reschedule();
+
+  if (ok)
+    Door_Catchup();
+}
+
 static void Battery_UpdateBackfeed(float v_bat, float v_panel)
 {
   panel_bf_block = (uint8_t)(v_panel <= v_bat);
@@ -212,8 +224,7 @@ void Battery_Process(void)
   }
   st_panel = Battery_ReadPanel(&v_panel);
 
-  panel_mv_valid   = (uint8_t)(st_panel == HAL_OK);
-  battery_mv_valid = (uint8_t)(st_bat == HAL_OK);
+  panel_mv_valid = (uint8_t)(st_panel == HAL_OK);
 
   if (st_panel == HAL_OK)
     panel_mv = (uint16_t)(v_panel * 1000.0f + 0.5f);
@@ -232,6 +243,8 @@ void Battery_Process(void)
   } else {
     Battery_SetPanel(was_connected);
   }
+
+  Battery_UpdateSensor((uint8_t)(st_bat == HAL_OK));
 
   Power_SwitchToRunHSE48MHz();
 
