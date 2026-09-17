@@ -18,37 +18,8 @@ static uint8_t Astro_IsLeap(uint16_t year)
   return (uint8_t)((((year % 4U) == 0U) && ((year % 100U) != 0U)) || ((year % 400U) == 0U));
 }
 
-static uint8_t Astro_LastSunday(uint16_t year, uint8_t month)
-{
-  static const uint8_t t[12] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-  uint16_t y  = (uint16_t)(year - ((month < 3U) ? 1U : 0U));
-  uint8_t  wd = (uint8_t)((y + y / 4U - y / 100U + y / 400U + t[month - 1U] + 31U) % 7U);
-
-  return (uint8_t)(31U - wd);
-}
-
-float Astro_Timezone(uint16_t year, uint8_t month, uint8_t day, uint8_t hour_utc)
-{
-  uint8_t last, summer;
-
-  if ((month < 3U) || (month > 10U)) return 1.0f;
-  if ((month > 3U) && (month < 10U)) return 2.0f;
-
-  last = Astro_LastSunday(year, month);
-
-  if (day == last)
-    summer = (uint8_t)(hour_utc >= 1U);
-  else
-    summer = (uint8_t)(day > last);
-
-  if (month == 10U)
-    summer = (uint8_t)!summer;
-
-  return summer ? 2.0f : 1.0f;
-}
-
 void Astro_Calculate(uint16_t year, uint8_t month, uint8_t day,
-                     float latitude, float longitude, float tz_hours,
+                     float latitude, float longitude, int16_t tz_min,
                      Astro_Result_t *result)
 {
   float   lat, gamma, eqtime, decl, cos_ha, ha, sunrise, sunset;
@@ -61,7 +32,7 @@ void Astro_Calculate(uint16_t year, uint8_t month, uint8_t day,
     doy++;
 
   lat   = latitude * ASTRO_DEG2RAD;
-  gamma = 2.0f * ASTRO_PI / 365.0f * ((float)(doy - 1) + 0.5f);
+  gamma = 2.0f * ASTRO_PI / 365.0f * (float)(doy - 1);
 
   eqtime = 229.18f * (0.000075f + 0.001868f * cosf(gamma)
          - 0.032077f * sinf(gamma) - 0.014615f * cosf(2.0f * gamma)
@@ -78,8 +49,8 @@ void Astro_Calculate(uint16_t year, uint8_t month, uint8_t day,
 
   ha = acosf(cos_ha) / ASTRO_DEG2RAD;
 
-  sunrise = 720.0f - 4.0f * (longitude + ha) - eqtime + tz_hours * 60.0f;
-  sunset  = 720.0f - 4.0f * (longitude - ha) - eqtime + tz_hours * 60.0f;
+  sunrise = 720.0f - 4.0f * (longitude + ha) - eqtime + (float)tz_min;
+  sunset  = 720.0f - 4.0f * (longitude - ha) - eqtime + (float)tz_min;
 
   if (sunrise < 0.0f)     sunrise += 1440.0f;
   if (sunset  < 0.0f)     sunset  += 1440.0f;

@@ -23,6 +23,7 @@
 #define MOTOR_REVERSE_PAUSE_MS   250U
 #define MOTOR_SAMPLE_MS          36U
 #define MOTOR_SENSE_MAX_FAILS    3U
+#define MOTOR_TICK_STALL_MAX     20000UL
 
 #define MOTOR_V_NOMINAL_V        6.0f
 #define MOTOR_V_MARGIN_V         0.4f
@@ -126,7 +127,7 @@ static uint8_t Motor_AtTarget(Motor_Dir_t dir)
 
 static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 {
-  uint32_t t_start, t_sample, t_over = 0U;
+  uint32_t t_start, t_sample, t_last, t_over = 0U, stall = 0U;
   uint8_t  over = 0U, fails = 0U;
   uint16_t duty;
   float    v, i, i_limit;
@@ -141,10 +142,18 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 
   t_start  = HAL_GetTick();
   t_sample = t_start;
+  t_last   = t_start;
 
   while (1) {
     uint32_t now     = HAL_GetTick();
     uint32_t elapsed = TICKS_TO_MS(now - t_start);
+
+    if (now != t_last) {
+      t_last = now;
+      stall  = 0U;
+    } else if (++stall >= MOTOR_TICK_STALL_MAX) {
+      return STROKE_TIMEOUT;
+    }
 
     if (Motor_AtTarget(dir))
       return STROKE_REACHED;

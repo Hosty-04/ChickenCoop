@@ -17,5 +17,7 @@ uint8_t Battery_WorkPending(void);
 uint8_t  Battery_IsCritical(void);
 uint16_t Battery_GetVoltage_mV(void);
 uint16_t Battery_GetPanelVoltage_mV(void);
+uint8_t  Battery_IsVoltageValid(void);
+uint8_t  Battery_IsPanelValid(void);
 
 #endif /* BATTERY_H */

@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
+void Power_Init(void);
+
 void Power_SwitchToLPRunMSI1MHz(void);
 void Power_SwitchToRunHSE48MHz(void);
 

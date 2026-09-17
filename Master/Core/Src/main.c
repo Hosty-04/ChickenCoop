@@ -35,6 +35,7 @@
 #include "ina226.h"
 #include "telemetry.h"
 #include "lora_app.h"
+#include "power.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,6 +114,8 @@ int main(void)
   /* Power_DisableDebug(); */
 
   vcom_DeInit();   /* Debug via printf OFF */
+
+  Power_Init();
 
   INA226_PowerUp();
   INA226_Init();
