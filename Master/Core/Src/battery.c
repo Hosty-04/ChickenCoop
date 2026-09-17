@@ -12,12 +12,14 @@
 #include "timebase.h"
 #include "power.h"
 #include "adc.h"
+#include "lora_app.h"
 #include "stm32_timer.h"
 
 #define BATTERY_CHECK_S        (10UL * 60UL)
 #define BATTERY_CONV_MS        75U
-#define BATTERY_OV_HYST_V      0.1f
-#define BATTERY_CRIT_HYST_V    0.05f
+#define BATTERY_BLOCK_MS       400UL
+#define BATTERY_DEFER_S        10UL
+#define BATTERY_DEFER_MAX      6U
 
 #define PANEL_SETTLE_MS        125U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -36,11 +38,14 @@ static UTIL_TIMER_Object_t battery_timer;
 static volatile uint8_t    battery_pending = 0;
 
 static uint8_t  battery_critical = 0;
+static uint8_t  battery_defer    = 0;
 static uint8_t  panel_connected  = 0;
 static uint8_t  panel_ov_block   = 0;
 static uint8_t  panel_bf_block   = 0;
 static uint16_t battery_mv       = 0;
 static uint16_t panel_mv         = 0;
+static uint8_t  battery_mv_valid = 0;
+static uint8_t  panel_mv_valid   = 0;
 
 static void Battery_SetPanel(uint8_t connected)
 {
@@ -110,26 +115,21 @@ static HAL_StatusTypeDef Battery_ReadPanel(float *v_panel)
 
 static void Battery_UpdateOverVoltage(float v_bat, uint8_t month)
 {
-  float limit = Battery_OverVoltageLimit(month);
-
-  if (!panel_ov_block && (v_bat >= limit))
-    panel_ov_block = 1U;
-  else if (panel_ov_block && (v_bat <= (limit - BATTERY_OV_HYST_V)))
-    panel_ov_block = 0U;
+  panel_ov_block = (uint8_t)(v_bat >= Battery_OverVoltageLimit(month));
 }
 
 static void Battery_UpdateCritical(float v_bat, uint8_t month)
 {
-  float limit = Battery_CriticalLimit(month);
+  uint8_t critical = (uint8_t)(v_bat <= Battery_CriticalLimit(month));
 
-  if (!battery_critical && (v_bat <= (limit - BATTERY_CRIT_HYST_V))) {
-    battery_critical = 1U;
-    Door_Reschedule();
-  } else if (battery_critical && (v_bat >= (limit + BATTERY_CRIT_HYST_V))) {
-    battery_critical = 0U;
-    Door_Reschedule();
+  if (critical == battery_critical)
+    return;
+
+  battery_critical = critical;
+  Door_Reschedule();
+
+  if (!critical)
     Door_Catchup();
-  }
 }
 
 static void Battery_UpdateBackfeed(float v_bat, float v_panel)
@@ -143,14 +143,29 @@ static void Battery_OnTimer(void *ctx)
   battery_pending = 1U;
 }
 
+static void Battery_ArmTimer(uint32_t seconds)
+{
+  UTIL_TIMER_Stop(&battery_timer);
+  UTIL_TIMER_SetPeriod(&battery_timer, ((seconds != 0UL) ? seconds : 1UL) * 1000UL);
+  UTIL_TIMER_Start(&battery_timer);
+}
+
 static void Battery_Schedule(void)
 {
   uint32_t now  = Timebase_GetSecOfDay();
   uint32_t next = ((now / BATTERY_CHECK_S) + 1UL) * BATTERY_CHECK_S;
 
-  UTIL_TIMER_Stop(&battery_timer);
-  UTIL_TIMER_SetPeriod(&battery_timer, (next - now) * 1000UL);
-  UTIL_TIMER_Start(&battery_timer);
+  Battery_ArmTimer(next - now);
+}
+
+static uint8_t Battery_RadioBusy(void)
+{
+  if (LoRaWAN_CanBlockFor(BATTERY_BLOCK_MS) || (++battery_defer >= BATTERY_DEFER_MAX)) {
+    battery_defer = 0U;
+    return 0U;
+  }
+
+  return 1U;
 }
 
 void Battery_Init(void)
@@ -175,6 +190,11 @@ void Battery_Process(void)
     return;
   battery_pending = 0U;
 
+  if (Battery_RadioBusy()) {
+    Battery_ArmTimer(BATTERY_DEFER_S);
+    return;
+  }
+
   Power_SwitchToLPRunMSI1MHz();
 
   st_bat = INA226_PowerUp();
@@ -191,6 +211,9 @@ void Battery_Process(void)
     HAL_Delay(PANEL_SETTLE_MS);
   }
   st_panel = Battery_ReadPanel(&v_panel);
+
+  panel_mv_valid   = (uint8_t)(st_panel == HAL_OK);
+  battery_mv_valid = (uint8_t)(st_bat == HAL_OK);
 
   if (st_panel == HAL_OK)
     panel_mv = (uint16_t)(v_panel * 1000.0f + 0.5f);
@@ -234,4 +257,14 @@ uint16_t Battery_GetVoltage_mV(void)
 uint16_t Battery_GetPanelVoltage_mV(void)
 {
   return panel_mv;
+}
+
+uint8_t Battery_IsVoltageValid(void)
+{
+  return battery_mv_valid;
+}
+
+uint8_t Battery_IsPanelValid(void)
+{
+  return panel_mv_valid;
 }

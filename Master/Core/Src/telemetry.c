@@ -12,9 +12,11 @@
 
 #define PANEL_STEP_MV       100U
 #define PANEL_CODE_MAX      110U
+#define PANEL_CODE_NODATA   127U
 #define BATTERY_OFFSET_MV   5000U
 #define BATTERY_STEP_MV     50U
 #define BATTERY_CODE_MAX    60U
+#define BATTERY_CODE_NODATA 63U
 
 #define UL_CRITICAL_FLAG    0x01U
 #define UL_DOOR_MASK        0x03U
@@ -28,17 +30,27 @@
 
 static uint8_t telemetry_len = 0;
 
-static uint8_t Telemetry_EncodePanel(uint16_t mv)
+static uint8_t Telemetry_EncodePanel(void)
 {
-  uint32_t code = ((uint32_t)mv + (PANEL_STEP_MV / 2U)) / PANEL_STEP_MV;
+  uint32_t code;
+
+  if (!Battery_IsPanelValid())
+    return PANEL_CODE_NODATA;
+
+  code = ((uint32_t)Battery_GetPanelVoltage_mV() + (PANEL_STEP_MV / 2U)) / PANEL_STEP_MV;
 
   return (uint8_t)((code > PANEL_CODE_MAX) ? PANEL_CODE_MAX : code);
 }
 
-static uint8_t Telemetry_EncodeBattery(uint16_t mv)
+static uint8_t Telemetry_EncodeBattery(void)
 {
+  uint16_t mv;
   uint32_t code;
 
+  if (!Battery_IsVoltageValid())
+    return BATTERY_CODE_NODATA;
+
+  mv = Battery_GetVoltage_mV();
   if (mv <= BATTERY_OFFSET_MV)
     return 0U;
 
@@ -81,10 +93,10 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
   if (length < TELEMETRY_LEN_STATUS)
     return 0U;
 
-  buf[0] = (uint8_t)((Telemetry_EncodePanel(Battery_GetPanelVoltage_mV()) << 1)
+  buf[0] = (uint8_t)((Telemetry_EncodePanel() << 1)
          | (Battery_IsCritical() ? UL_CRITICAL_FLAG : 0U));
 
-  buf[1] = (uint8_t)((Telemetry_EncodeBattery(Battery_GetVoltage_mV()) << 2)
+  buf[1] = (uint8_t)((Telemetry_EncodeBattery() << 2)
          | ((uint8_t)Door_GetState() & UL_DOOR_MASK));
 
   for (n = TELEMETRY_LEN_STATUS; n < length; n++)
