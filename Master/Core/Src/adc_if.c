@@ -56,7 +56,9 @@ extern ADC_HandleTypeDef hadc;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static const uint32_t adc_if_channels[] = {
+  ADC_CHANNEL_2, ADC_CHANNEL_VREFINT, ADC_CHANNEL_TEMPSENSOR
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -185,6 +187,7 @@ static uint32_t ADC_ReadChannels(uint32_t channel)
   /* USER CODE END ADC_ReadChannels_1 */
   uint32_t ADCxConvertedValues = 0;
   ADC_ChannelConfTypeDef sConfig = {0};
+  uint32_t n;
 
   MX_ADC_Init();
 
@@ -195,12 +198,15 @@ static uint32_t ADC_ReadChannels(uint32_t channel)
   }
 
   /* Configure Regular Channel */
-  sConfig.Channel = channel;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLINGTIME_COMMON_1;
-  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
+  for (n = 0U; n < (sizeof(adc_if_channels) / sizeof(adc_if_channels[0])); n++)
   {
-    Error_Handler();
+    sConfig.Channel = adc_if_channels[n];
+    sConfig.Rank = (sConfig.Channel == channel) ? ADC_RANK_CHANNEL_NUMBER : ADC_RANK_NONE;
+    if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
+    {
+      Error_Handler();
+    }
   }
 
   if (HAL_ADC_Start(&hadc) != HAL_OK)

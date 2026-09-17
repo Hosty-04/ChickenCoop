@@ -417,6 +417,7 @@ void Door_Process(void)
     door_manual_want   = Door_DesiredDir(now);
     door_retry_pending = 0U;
     door_retry_count   = 0U;
+    door_deferred_req  = DOOR_REQ_NONE;
     door_deferred_evt  = DOOR_EVT_NONE;
     Door_Apply((req == DOOR_REQ_OPEN) ? MOTOR_DIR_UP : MOTOR_DIR_DOWN);
   } else if (evt == DOOR_EVT_RETRY) {
