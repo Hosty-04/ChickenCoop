@@ -45,7 +45,7 @@ extern ADC_HandleTypeDef hadc;
 #define TEMPSENSOR_TYP_AVGSLOPE        (( int32_t) 2500)        /*!< Internal temperature sensor, parameter Avg_Slope (unit: uV/DegCelsius). Refer to device datasheet for min/typ/max values. */
 
 /* USER CODE BEGIN PD */
-
+#define ADC_IF_TIMEOUT_MS              20U
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -209,7 +209,7 @@ static uint32_t ADC_ReadChannels(uint32_t channel)
     Error_Handler();
   }
   /** Wait for end of conversion */
-  HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+  HAL_ADC_PollForConversion(&hadc, ADC_IF_TIMEOUT_MS);
 
   /** Wait for end of conversion */
   HAL_ADC_Stop(&hadc);   /* it calls also ADC_Disable() */

@@ -78,7 +78,7 @@ static void Door_StoreState(void)
 {
   HAL_PWR_EnableBkUpAccess();
   HAL_RTCEx_BKUPWrite(&hrtc, DOOR_BKP_REG,
-                      (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8) | (uint32_t)Endstop_Last());
+                      (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8));
 }
 
 static void Door_LoadState(void)
@@ -137,27 +137,15 @@ static Door_Event_t Door_TakePending(void)
   return evt;
 }
 
-static uint32_t Door_DateKey(void)
-{
-  return (uint32_t)Timebase_GetYear() * 372UL
-       + (uint32_t)Timebase_GetMonth() * 31UL
-       + (uint32_t)Timebase_GetDay();
-}
-
-static int16_t Door_TimezoneMin(void)
-{
-  return (int16_t)(Timebase_GetTimezone() * 60.0f);
-}
-
 static void Door_UpdateSun(void)
 {
   Astro_Result_t res;
 
-  door_sun_key    = Door_DateKey();
-  door_sun_tz_min = Door_TimezoneMin();
+  door_sun_key    = Timebase_GetDateKey();
+  door_sun_tz_min = Timebase_GetTimezoneMin();
 
   Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), Timebase_GetDay(),
-                  door_lat, door_lon, (float)door_sun_tz_min / 60.0f, &res);
+                  door_lat, door_lon, door_sun_tz_min, &res);
 
   door_sunrise_min = res.sunrise_min;
   door_sunset_min  = res.sunset_min;
@@ -165,7 +153,8 @@ static void Door_UpdateSun(void)
 
 static void Door_RefreshSun(void)
 {
-  if ((Door_DateKey() != door_sun_key) || (Door_TimezoneMin() != door_sun_tz_min))
+  if ((Timebase_GetDateKey() != door_sun_key) ||
+      (Timebase_GetTimezoneMin() != door_sun_tz_min))
     Door_UpdateSun();
 }
 

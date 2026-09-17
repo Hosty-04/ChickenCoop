@@ -49,7 +49,11 @@ void Power_SwitchToLPRunMSI1MHz(void)
   osc.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
   osc.MSIClockRange       = RCC_MSIRANGE_4;
   osc.PLL.PLLState        = RCC_PLL_NONE;
-  (void)HAL_RCC_OscConfig(&osc);
+
+  if (HAL_RCC_OscConfig(&osc) != HAL_OK) {
+    (void)smtc_modem_suspend_radio_communications(false);
+    return;
+  }
 
   clk.ClockType      = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK |
                        RCC_CLOCKTYPE_PCLK1  | RCC_CLOCKTYPE_PCLK2 |
@@ -59,7 +63,11 @@ void Power_SwitchToLPRunMSI1MHz(void)
   clk.APB1CLKDivider = RCC_HCLK_DIV1;
   clk.APB2CLKDivider = RCC_HCLK_DIV1;
   clk.AHBCLK3Divider = RCC_SYSCLK_DIV1;
-  (void)HAL_RCC_ClockConfig(&clk, FLASH_LATENCY_0);
+
+  if (HAL_RCC_ClockConfig(&clk, FLASH_LATENCY_0) != HAL_OK) {
+    (void)smtc_modem_suspend_radio_communications(false);
+    return;
+  }
 
   Power_StopHighSpeedClocks();
 

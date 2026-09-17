@@ -17,6 +17,7 @@
 #define BATTERY_CHECK_S        (10UL * 60UL)
 #define BATTERY_CONV_MS        75U
 #define BATTERY_OV_HYST_V      0.1f
+#define BATTERY_CRIT_HYST_V    0.05f
 
 #define PANEL_SETTLE_MS        125U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -121,10 +122,10 @@ static void Battery_UpdateCritical(float v_bat, uint8_t month)
 {
   float limit = Battery_CriticalLimit(month);
 
-  if (!battery_critical && (v_bat <= limit)) {
+  if (!battery_critical && (v_bat <= (limit - BATTERY_CRIT_HYST_V))) {
     battery_critical = 1U;
     Door_Reschedule();
-  } else if (battery_critical && (v_bat > limit)) {
+  } else if (battery_critical && (v_bat >= (limit + BATTERY_CRIT_HYST_V))) {
     battery_critical = 0U;
     Door_Reschedule();
     Door_Catchup();

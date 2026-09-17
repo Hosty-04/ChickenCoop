@@ -822,6 +822,7 @@ static void EventCallback(void)
       case SMTC_MODEM_EVENT_REGIONAL_DUTY_CYCLE:
       {
         uint8_t duty_cycle_status = current_event.event_data.regional_duty_cycle.status;
+        UNUSED(duty_cycle_status);
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: DUTY_CYCLE busy %d\r\n", duty_cycle_status);
       }
       break;
