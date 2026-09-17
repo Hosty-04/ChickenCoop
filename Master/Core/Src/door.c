@@ -365,10 +365,9 @@ void Door_Process(void)
     return;
 
   if (!door_enabled) {
-    if (evt == DOOR_EVT_RESYNC) {
-      Door_Schedule();
+    Door_Schedule();
+    if (evt == DOOR_EVT_RESYNC)
       Door_MaintainTimeSync();
-    }
     return;
   }
 
