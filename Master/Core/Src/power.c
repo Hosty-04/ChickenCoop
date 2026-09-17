@@ -29,6 +29,11 @@ static void Power_StopHighSpeedClocks(void)
   LL_RCC_HSE_Disable();
 }
 
+void Power_Init(void)
+{
+  HAL_PWREx_SMPS_SetMode(PWR_SMPS_STEP_DOWN);
+}
+
 void Power_SwitchToLPRunMSI1MHz(void)
 {
   RCC_OscInitTypeDef osc = {0};
@@ -59,7 +64,6 @@ void Power_SwitchToLPRunMSI1MHz(void)
   Power_StopHighSpeedClocks();
 
   (void)HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE2);
-  HAL_PWREx_SMPS_SetMode(PWR_SMPS_STEP_DOWN);
   HAL_PWREx_EnableLowPowerRunMode();
 
   power_lprun = 1;

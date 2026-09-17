@@ -191,6 +191,9 @@ void Battery_Process(void)
   }
   st_panel = Battery_ReadPanel(&v_panel);
 
+  if (st_panel == HAL_OK)
+    panel_mv = (uint16_t)(v_panel * 1000.0f + 0.5f);
+
   if (st_bat == HAL_OK) {
     month      = Timebase_IsValid() ? Timebase_GetMonth() : 0U;
     battery_mv = (uint16_t)(v_bat * 1000.0f + 0.5f);
@@ -198,10 +201,8 @@ void Battery_Process(void)
     Battery_UpdateOverVoltage(v_bat, month);
     Battery_UpdateCritical(v_bat, month);
 
-    if (st_panel == HAL_OK) {
-      panel_mv = (uint16_t)(v_panel * 1000.0f + 0.5f);
+    if (st_panel == HAL_OK)
       Battery_UpdateBackfeed(v_bat, v_panel);
-    }
 
     Battery_SetPanel((uint8_t)!(panel_ov_block || panel_bf_block));
   } else {

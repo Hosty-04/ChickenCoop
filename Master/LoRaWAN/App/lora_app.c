@@ -342,6 +342,11 @@ static uint32_t LoRaWAN_RetryRemainingMs(void)
   return (elapsed_ms >= LORAWAN_TX_RETRY_MS) ? 0UL : (LORAWAN_TX_RETRY_MS - elapsed_ms);
 }
 
+static uint8_t LoRaWAN_UplinkWaiting(void)
+{
+  return (uint8_t)((Telemetry_Pending() != 0U) && (LoRaWAN_RetryRemainingMs() == 0UL));
+}
+
 uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
 {
   uint32_t elapsed_ms;
@@ -467,7 +472,8 @@ void LoRaWAN_Process(void)
     UTIL_TIMER_Start(&SleepTimer);
 
     UTILS_ENTER_CRITICAL_SECTION();
-    if ((smtc_modem_is_irq_flag_pending() == false) && (System_WorkPending() == 0U))
+    if ((smtc_modem_is_irq_flag_pending() == false) && (System_WorkPending() == 0U) &&
+        (LoRaWAN_UplinkWaiting() == 0U))
     {
       UTIL_LPM_EnterLowPower();
     }

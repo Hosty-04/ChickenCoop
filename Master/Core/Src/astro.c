@@ -61,7 +61,7 @@ void Astro_Calculate(uint16_t year, uint8_t month, uint8_t day,
     doy++;
 
   lat   = latitude * ASTRO_DEG2RAD;
-  gamma = 2.0f * ASTRO_PI / 365.0f * ((float)(doy - 1) + 0.5f);
+  gamma = 2.0f * ASTRO_PI / 365.0f * (float)(doy - 1);
 
   eqtime = 229.18f * (0.000075f + 0.001868f * cosf(gamma)
          - 0.032077f * sinf(gamma) - 0.014615f * cosf(2.0f * gamma)

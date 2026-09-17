@@ -71,7 +71,7 @@ static float    door_lon            = 17.6181f;
 static int16_t  door_sunrise_min    = 360;
 static int16_t  door_sunset_min     = 1080;
 static uint32_t door_sun_key        = 0;
-static float    door_sun_tz         = 0.0f;
+static int16_t  door_sun_tz_min     = 0;
 static uint32_t door_time_sync_unix = 0;
 
 static void Door_StoreState(void)
@@ -144,15 +144,20 @@ static uint32_t Door_DateKey(void)
        + (uint32_t)Timebase_GetDay();
 }
 
+static int16_t Door_TimezoneMin(void)
+{
+  return (int16_t)(Timebase_GetTimezone() * 60.0f);
+}
+
 static void Door_UpdateSun(void)
 {
   Astro_Result_t res;
 
-  door_sun_key = Door_DateKey();
-  door_sun_tz  = Timebase_GetTimezone();
+  door_sun_key    = Door_DateKey();
+  door_sun_tz_min = Door_TimezoneMin();
 
   Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), Timebase_GetDay(),
-                  door_lat, door_lon, door_sun_tz, &res);
+                  door_lat, door_lon, (float)door_sun_tz_min / 60.0f, &res);
 
   door_sunrise_min = res.sunrise_min;
   door_sunset_min  = res.sunset_min;
@@ -160,7 +165,7 @@ static void Door_UpdateSun(void)
 
 static void Door_RefreshSun(void)
 {
-  if ((Door_DateKey() != door_sun_key) || (Timebase_GetTimezone() != door_sun_tz))
+  if ((Door_DateKey() != door_sun_key) || (Door_TimezoneMin() != door_sun_tz_min))
     Door_UpdateSun();
 }
 
@@ -243,11 +248,6 @@ static void Door_Schedule(void)
 {
   uint32_t     now, delay, best;
   Door_Event_t evt = DOOR_EVT_RESYNC;
-
-  if (!door_enabled) {
-    Door_StopTimer();
-    return;
-  }
 
   Door_RefreshSun();
   now  = Timebase_GetSecOfDay();
@@ -372,8 +372,16 @@ void Door_Process(void)
 
   door_request = DOOR_REQ_NONE;
 
-  if (((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE)) || !door_enabled)
+  if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE))
     return;
+
+  if (!door_enabled) {
+    if (evt == DOOR_EVT_RESYNC) {
+      Door_Schedule();
+      Door_MaintainTimeSync();
+    }
+    return;
+  }
 
   if (evt == DOOR_EVT_DEFER) {
     if (req == DOOR_REQ_NONE)
@@ -453,6 +461,7 @@ void Door_Disable(void)
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
   Door_StopTimer();
+  Door_Schedule();
 }
 
 uint8_t Door_IsEnabled(void)
@@ -524,6 +533,7 @@ void Door_ClearFault(void)
   Door_StoreState();
   Door_PublishState();
   Door_Schedule();
+  Door_Catchup();
 }
 
 Door_State_t Door_GetState(void)
