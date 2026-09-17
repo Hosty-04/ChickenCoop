@@ -16,14 +16,14 @@
 #include "stm32_timer.h"
 
 #define BATTERY_CHECK_S        (10UL * 60UL)
-#define BATTERY_CONV_MS        75U
-#define BATTERY_BLOCK_MS       400UL
+#define BATTERY_CONV_MS        80U
+#define BATTERY_BLOCK_MS       500UL
 #define BATTERY_DEFER_S        10UL
 #define BATTERY_DEFER_MAX      6U
 #define BATTERY_MIN_VALID_V    1.0f
 #define BATTERY_MAX_VALID_V    12.0f
 
-#define PANEL_SETTLE_MS        125U
+#define PANEL_SETTLE_MS        200U
 #define PANEL_DIV_R1_OHM       970000.0f
 #define PANEL_DIV_R2_OHM       330000.0f
 #define PANEL_DIV_RATIO        ((PANEL_DIV_R1_OHM + PANEL_DIV_R2_OHM) / PANEL_DIV_R2_OHM)
