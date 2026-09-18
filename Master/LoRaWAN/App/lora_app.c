@@ -310,7 +310,7 @@ static Callbacks_t Callbacks =
 #define GPS_UNIX_OFFSET      315964800UL
 #define GPS_LEAP_SECONDS     18UL
 #define LORAWAN_TX_RETRY_MS  30000UL
-#define LORAWAN_TX_RETRY_MAX 3U
+#define LORAWAN_TX_RETRY_MAX 2U
 
 static volatile uint32_t modem_sleep_ms   = 0;
 static volatile uint32_t modem_sleep_tick = 0;
