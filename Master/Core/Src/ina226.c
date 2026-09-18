@@ -93,17 +93,22 @@ static void INA226_BusRecover(void)
 
 static uint32_t INA226_ComputeTiming(uint32_t i2cclk_hz)
 {
-  const float t_low  = 5.5e-6f;
-  const float t_high = 4.5e-6f;
+  const float t_low   = 5.5e-6f;
+  const float t_high  = 4.5e-6f;
+  const float t_setup = 450e-9f;
   uint32_t presc;
 
   for (presc = 0U; presc <= 15U; presc++) {
     float   t_presc = (float)(presc + 1U) / (float)i2cclk_hz;
-    int32_t scll    = (int32_t)(t_low  / t_presc + 0.5f) - 1;
-    int32_t sclh    = (int32_t)(t_high / t_presc + 0.5f) - 1;
+    int32_t scll    = (int32_t)(t_low   / t_presc + 0.5f) - 1;
+    int32_t sclh    = (int32_t)(t_high  / t_presc + 0.5f) - 1;
+    int32_t scldel  = (int32_t)(t_setup / t_presc + 0.5f) - 1;
 
-    if ((scll >= 0) && (scll <= 255) && (sclh >= 0) && (sclh <= 255))
-      return (presc << 28) | (4UL << 20) | ((uint32_t)sclh << 8) | (uint32_t)scll;
+    if (scldel < 0)
+      scldel = 0;
+
+    if ((scll >= scldel) && (scll <= 255) && (sclh >= 0) && (sclh <= 255) && (scldel <= 15))
+      return (presc << 28) | ((uint32_t)scldel << 20) | ((uint32_t)sclh << 8) | (uint32_t)scll;
   }
 
   return INA226_I2C_TIMING_DEF;

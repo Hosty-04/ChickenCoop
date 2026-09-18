@@ -54,7 +54,7 @@
 #define LORAWAN_MAX_BAT   254
 
 /* USER CODE BEGIN PD */
-#define SYS_EARLY_TICK_SPINS  1024U
+#define SYS_EARLY_TICK_SPINS  4096U
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
