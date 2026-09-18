@@ -24,6 +24,8 @@
 #define DOOR_RESYNC_S          3600UL
 #define DOOR_RESYNC_OFFSET_S   5UL
 #define DOOR_TIME_SYNC_S       (12UL * 3600UL)
+#define DOOR_TIME_SYNC_FAST_S  30UL
+#define DOOR_TIME_SYNC_FAST_MAX 2U
 #define DOOR_MOVE_BUDGET_MS    55000UL
 #define DOOR_DEFER_S           10UL
 #define DOOR_DEFER_MAX         6U
@@ -73,6 +75,7 @@ static int16_t  door_sunset_min     = 1080;
 static uint32_t door_sun_key        = 0;
 static int16_t  door_sun_tz_min     = 0;
 static uint32_t door_time_sync_unix = 0;
+static uint8_t  door_sync_fast      = 0;
 
 static void Door_StoreState(void)
 {
@@ -234,6 +237,12 @@ static uint32_t Door_RetryDelay(void)
   return (elapsed >= DOOR_RETRY_S) ? 0UL : (DOOR_RETRY_S - elapsed);
 }
 
+static uint8_t Door_TimeSyncFast(void)
+{
+  return (uint8_t)(!Timebase_IsValid() && LoRaWAN_IsJoined() &&
+                   (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX));
+}
+
 static void Door_Schedule(void)
 {
   uint32_t     now, delay, best;
@@ -256,6 +265,11 @@ static void Door_Schedule(void)
   if (door_retry_pending && (door_deferred_evt != DOOR_EVT_RETRY)) {
     delay = Door_RetryDelay();
     if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
+  }
+
+  if (Door_TimeSyncFast() && (DOOR_TIME_SYNC_FAST_S < best)) {
+    best = DOOR_TIME_SYNC_FAST_S;
+    evt  = DOOR_EVT_RESYNC;
   }
 
   if (((door_deferred_req != DOOR_REQ_NONE) || (door_deferred_evt != DOOR_EVT_NONE)) &&
@@ -365,6 +379,9 @@ void Door_Process(void)
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE))
     return;
 
+  if ((evt == DOOR_EVT_RESYNC) && Door_TimeSyncFast())
+    door_sync_fast++;
+
   if (!door_enabled) {
     Door_Schedule();
     if (evt == DOOR_EVT_RESYNC)
@@ -470,6 +487,7 @@ void Door_SetUnixTime(uint32_t unix_sec)
 
   Timebase_SetUnix(unix_sec);
   door_time_sync_unix = unix_sec;
+  door_sync_fast      = 0U;
 
   Door_Schedule();
   Door_Catchup();
