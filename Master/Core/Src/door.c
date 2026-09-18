@@ -24,6 +24,8 @@
 #define DOOR_RESYNC_S          3600UL
 #define DOOR_RESYNC_OFFSET_S   5UL
 #define DOOR_TIME_SYNC_S       (12UL * 3600UL)
+#define DOOR_TIME_SYNC_FAST_S  30UL
+#define DOOR_TIME_SYNC_FAST_MAX 3U
 #define DOOR_MOVE_BUDGET_MS    55000UL
 #define DOOR_DEFER_S           10UL
 #define DOOR_DEFER_MAX         6U
@@ -73,6 +75,7 @@ static int16_t  door_sunset_min     = 1080;
 static uint32_t door_sun_key        = 0;
 static int16_t  door_sun_tz_min     = 0;
 static uint32_t door_time_sync_unix = 0;
+static uint8_t  door_sync_fast      = 0;
 
 static void Door_StoreState(void)
 {
@@ -258,6 +261,12 @@ static void Door_Schedule(void)
     if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
   }
 
+  if (!Timebase_IsValid() && (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX) &&
+      (DOOR_TIME_SYNC_FAST_S < best)) {
+    best = DOOR_TIME_SYNC_FAST_S;
+    evt  = DOOR_EVT_RESYNC;
+  }
+
   if (((door_deferred_req != DOOR_REQ_NONE) || (door_deferred_evt != DOOR_EVT_NONE)) &&
       (DOOR_DEFER_S < best)) {
     best = DOOR_DEFER_S;
@@ -365,6 +374,10 @@ void Door_Process(void)
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE))
     return;
 
+  if ((evt == DOOR_EVT_RESYNC) && !Timebase_IsValid() &&
+      (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX))
+    door_sync_fast++;
+
   if (!door_enabled) {
     Door_Schedule();
     if (evt == DOOR_EVT_RESYNC)
@@ -470,6 +483,7 @@ void Door_SetUnixTime(uint32_t unix_sec)
 
   Timebase_SetUnix(unix_sec);
   door_time_sync_unix = unix_sec;
+  door_sync_fast      = 0U;
 
   Door_Schedule();
   Door_Catchup();
