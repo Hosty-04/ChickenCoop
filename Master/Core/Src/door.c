@@ -237,6 +237,12 @@ static uint32_t Door_RetryDelay(void)
   return (elapsed >= DOOR_RETRY_S) ? 0UL : (DOOR_RETRY_S - elapsed);
 }
 
+static uint8_t Door_TimeSyncFast(void)
+{
+  return (uint8_t)(!Timebase_IsValid() && LoRaWAN_IsJoined() &&
+                   (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX));
+}
+
 static void Door_Schedule(void)
 {
   uint32_t     now, delay, best;
@@ -261,8 +267,7 @@ static void Door_Schedule(void)
     if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
   }
 
-  if (!Timebase_IsValid() && (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX) &&
-      (DOOR_TIME_SYNC_FAST_S < best)) {
+  if (Door_TimeSyncFast() && (DOOR_TIME_SYNC_FAST_S < best)) {
     best = DOOR_TIME_SYNC_FAST_S;
     evt  = DOOR_EVT_RESYNC;
   }
@@ -374,8 +379,7 @@ void Door_Process(void)
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE))
     return;
 
-  if ((evt == DOOR_EVT_RESYNC) && !Timebase_IsValid() &&
-      (door_sync_fast < DOOR_TIME_SYNC_FAST_MAX))
+  if ((evt == DOOR_EVT_RESYNC) && Door_TimeSyncFast())
     door_sync_fast++;
 
   if (!door_enabled) {

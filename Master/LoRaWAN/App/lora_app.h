@@ -103,6 +103,8 @@ void LoRaWAN_SendPending(void);
 
 uint8_t LoRaWAN_CanBlockFor(uint32_t ms);
 
+uint8_t LoRaWAN_IsJoined(void);
+
 void LoRaWAN_RequestTime(void);
 
 /* USER CODE END EFP */

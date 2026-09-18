@@ -321,7 +321,7 @@ static uint32_t          tx_retry_tick    = 0;
 /* Exported functions ---------------------------------------------------------*/
 /* USER CODE BEGIN EF */
 
-static uint8_t LoRaWAN_IsJoined(void)
+uint8_t LoRaWAN_IsJoined(void)
 {
   smtc_modem_status_mask_t status = 0;
 
@@ -690,6 +690,7 @@ static void EventCallback(void)
         /* USER CODE BEGIN EventCallback_1 */
         LoRaWAN_RequestTime();
         Telemetry_RequestStatus();
+        Door_Reschedule();
         /* USER CODE END EventCallback_1 */
         if (CertMode == false)
         {
