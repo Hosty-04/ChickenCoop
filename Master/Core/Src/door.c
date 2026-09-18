@@ -482,7 +482,7 @@ uint8_t Door_WorkPending(void)
 
 void Door_SetUnixTime(uint32_t unix_sec)
 {
-  if (unix_sec < TIMEBASE_MIN_UNIX)
+  if ((unix_sec < TIMEBASE_MIN_UNIX) || (unix_sec > TIMEBASE_MAX_UNIX))
     return;
 
   Timebase_SetUnix(unix_sec);

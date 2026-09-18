@@ -145,7 +145,7 @@ uint8_t Timebase_Restore(void)
 {
   uint32_t unix_sec = HAL_RTCEx_BKUPRead(&hrtc, TIMEBASE_BKP_UNIX);
 
-  if (unix_sec < TIMEBASE_MIN_UNIX)
+  if ((unix_sec < TIMEBASE_MIN_UNIX) || (unix_sec > TIMEBASE_MAX_UNIX))
     return 0U;
 
   unix_ref   = unix_sec;

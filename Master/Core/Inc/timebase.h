@@ -24,6 +24,7 @@
 #define TICKS_TO_MS(t)      ((uint32_t)(((uint64_t)(t) * 1000U) / TICKS_PER_SEC))
 
 #define TIMEBASE_MIN_UNIX   1767225600UL
+#define TIMEBASE_MAX_UNIX   4102444800UL
 
 void     Timebase_SetUnix(uint32_t unix_sec);
 void     Timebase_SetFallback(uint32_t unix_sec);
