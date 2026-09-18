@@ -291,18 +291,14 @@ STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabi�
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| LoRa TX | 21 mA | 21 mA | 117 µAh | 468 µAh |
+| LoRa TX | 21 mA | 21 mA | 117 µAh | 117 µAh |
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
-| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **488 µAh** |
+| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
 
 &nbsp;
 
 $$
-t_{v,min} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
-$$
-
-$$
-t_{v,max} = n_r \cdot (24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B}) = 4 \cdot (24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms}) = 77,84\ \text{s} \approx \mathbf{80\ \text{s}}
+t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
 $$
 
 $$
@@ -319,7 +315,6 @@ kde:
 - $t_v$ ... doba vysílání
 - $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
 - $t_{2B}$ ... airtime pro preambuli + 2B + zabezpečení
-- $n_r$ ... maximální počet pokusů pro vysílání
 - $t_{p,min}$ ... minimální doba přijmu
 - $t_{p,max}$ ... maximální doba přijmu
 - $t_{o,min}$ ... minimální doba příjmového okna
@@ -337,12 +332,12 @@ CPU bude většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 6,8 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 16,8 mAh | 85,6 % |
-| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,1 % |
-| Komunikace | 124 µAh | 6,0 % | 488 µAh | 2,5 % |
+| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,0 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 16,8 mAh | 87,1 % |
+| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,2 % |
+| Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,7 % |
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
-| **Celkem** | **2,07 mAh** | **100 %** | **19,6 mAh** | **100 %** |
+| **Celkem** | **2,07 mAh** | **100 %** | **19,3 mAh** | **100 %** |
 
 &nbsp;
 
