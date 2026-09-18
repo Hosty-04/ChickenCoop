@@ -714,14 +714,14 @@ static void EventCallback(void)
       case SMTC_MODEM_EVENT_DOWNDATA:
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: DOWNDATA\r\n");
         /* USER CODE BEGIN EventCallback_3 */
-
+        rx_payload_size = 0U;
         /* USER CODE END EventCallback_3 */
         /* Get downlink data */
         ASSERT_SMTC_MODEM_RC(smtc_modem_get_downlink_data(rx_payload, &rx_payload_size, &rx_metadata, &rx_remaining));
         APP_LOG(TS_OFF, VLEVEL_M, "Data received on port %u\r\n", rx_metadata.fport);
         /* APP_LOG(TS_OFF, VLEVEL_M, "Received payload", rx_payload, rx_payload_size ); */
 
-        if (rx_metadata.fport == LORAWAN_USER_APP_PORT)
+        if ((rx_payload_size != 0U) && (rx_metadata.fport == LORAWAN_USER_APP_PORT))
           Telemetry_HandleDownlink(rx_payload, rx_payload_size);
         break;
 

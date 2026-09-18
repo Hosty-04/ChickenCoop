@@ -1335,6 +1335,10 @@ void lr1_stack_mac_update( lr1_stack_mac_t* lr1_mac )
         ( lr1_mac->no_rx_packet_reset_threshold > 0 ) )
     {
         SMTC_MODEM_HAL_PANIC( "Reach max tx frame without dl, ul cnt:%d\n", lr1_mac->adr_ack_cnt );
+        if( HandlerCallbacks->SystemReset != NULL )
+        {
+            HandlerCallbacks->SystemReset( );
+        }
     }
 
     // If tx_fopts_length > tx_fopts_lengthsticky, first uplink with Answer(s),
