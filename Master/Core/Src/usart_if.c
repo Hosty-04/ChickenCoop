@@ -22,7 +22,7 @@
 #include "usart_if.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "sys_conf.h"
 /* USER CODE END Includes */
 
 /* External variables ---------------------------------------------------------*/
@@ -128,6 +128,8 @@ UTIL_ADV_TRACE_Status_t vcom_DeInit(void)
   /* ##-3- Disable the NVIC for DMA ########################################### */
   /* USER CODE BEGIN 1 */
   HAL_NVIC_DisableIRQ(DMA1_Channel5_IRQn);
+  __HAL_RCC_DMA1_CLK_DISABLE();
+  __HAL_RCC_DMAMUX1_CLK_DISABLE();
 
   return UTIL_ADV_TRACE_OK;
   /* USER CODE END 1 */
@@ -198,7 +200,9 @@ UTIL_ADV_TRACE_Status_t vcom_ReceiveInit(void (*RxCb)(uint8_t *rxChar, uint16_t 
 void vcom_Resume(void)
 {
   /* USER CODE BEGIN vcom_Resume_1 */
-
+#if (VERBOSE_LEVEL == VLEVEL_OFF)
+  return;
+#endif
   /* USER CODE END vcom_Resume_1 */
 
   /*to re-enable lost UART settings*/
