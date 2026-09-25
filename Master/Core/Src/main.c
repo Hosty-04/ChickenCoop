@@ -110,6 +110,8 @@ int main(void)
 
   /* Debug OFF - connection under reset and mass erase needed to flash and debug again
    * (~/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI -c port=SWD mode=UR -e all)
+   *
+   * To fix communication after a mass erase, click Reset used DevNonces on your TTN device page
    */
 
   /* Power_DisableDebug(); */

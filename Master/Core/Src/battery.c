@@ -26,7 +26,7 @@
 
 #define PANEL_SETTLE_MS        200U
 #define PANEL_DIV_R1_OHM       970000.0f
-#define PANEL_DIV_R2_OHM       330000.0f
+#define PANEL_DIV_R2_OHM       326700.0f
 #define PANEL_DIV_RATIO        ((PANEL_DIV_R1_OHM + PANEL_DIV_R2_OHM) / PANEL_DIV_R2_OHM)
 #define PANEL_ADC_CHANNEL      ADC_CHANNEL_2
 
