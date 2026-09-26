@@ -22,7 +22,7 @@
 #define BATTERY_DEFER_MAX      6U
 #define BATTERY_MIN_VALID_V    1.0f
 #define BATTERY_MAX_VALID_V    12.0f
-#define PANEL_MAX_VALID_V      13.5f
+#define PANEL_MAX_VALID_V      12.5f
 
 #define PANEL_SETTLE_MS        200U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -30,7 +30,8 @@
 #define PANEL_DIV_RATIO        ((PANEL_DIV_R1_OHM + PANEL_DIV_R2_OHM) / PANEL_DIV_R2_OHM)
 #define PANEL_ADC_CHANNEL      ADC_CHANNEL_2
 
-#define ADC_FULL_SCALE         4095.0f
+#define ADC_RAW_MAX            4095U
+#define ADC_FULL_SCALE         ((float)ADC_RAW_MAX)
 #define ADC_TIMEOUT_MS         20U
 
 static const uint32_t battery_adc_channels[] = {
@@ -115,7 +116,7 @@ static HAL_StatusTypeDef Battery_ReadPanel(float *v_panel)
       (HAL_ADCEx_Calibration_Start(&hadc) == HAL_OK) &&
       (Battery_AdcRead(ADC_CHANNEL_VREFINT, &raw_vref) == HAL_OK) &&
       (Battery_AdcRead(PANEL_ADC_CHANNEL, &raw_panel) == HAL_OK) &&
-      (raw_vref != 0U)) {
+      (raw_vref != 0U) && (raw_panel < ADC_RAW_MAX)) {
     vdda_mv  = __LL_ADC_CALC_VREFANALOG_VOLTAGE(raw_vref, LL_ADC_RESOLUTION_12B);
     *v_panel = (float)raw_panel * ((float)vdda_mv * 0.001f / ADC_FULL_SCALE) * PANEL_DIV_RATIO;
     st = HAL_OK;

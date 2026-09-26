@@ -11,7 +11,7 @@
 #include "system.h"
 
 #define PANEL_STEP_MV       100U
-#define PANEL_CODE_MAX      110U
+#define PANEL_CODE_MAX      125U
 #define PANEL_CODE_NODATA   127U
 #define BATTERY_OFFSET_MV   5000U
 #define BATTERY_STEP_MV     50U
