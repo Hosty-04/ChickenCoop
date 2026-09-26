@@ -22,6 +22,7 @@
 #define BATTERY_DEFER_MAX      6U
 #define BATTERY_MIN_VALID_V    1.0f
 #define BATTERY_MAX_VALID_V    12.0f
+#define BATTERY_PANEL_HYST_V   0.05f
 #define PANEL_MAX_VALID_V      12.5f
 
 #define PANEL_SETTLE_MS        200U
@@ -160,7 +161,7 @@ static void Battery_UpdateSensor(uint8_t ok)
 
 static void Battery_UpdateBackfeed(float v_bat, float v_panel)
 {
-  panel_bf_block = (uint8_t)(v_panel <= v_bat);
+  panel_bf_block = (uint8_t)(v_panel <= (v_bat - BATTERY_PANEL_HYST_V));
 }
 
 static void Battery_OnTimer(void *ctx)
@@ -208,7 +209,6 @@ void Battery_Init(void)
 void Battery_Process(void)
 {
   float    v_bat = 0.0f, v_panel = 0.0f;
-  uint8_t  was_connected = panel_connected;
   uint8_t  month, bat_ok, panel_ok;
   HAL_StatusTypeDef st_bat, st_panel;
 
@@ -257,7 +257,7 @@ void Battery_Process(void)
 
     Battery_SetPanel((uint8_t)!(panel_ov_block || panel_bf_block));
   } else {
-    Battery_SetPanel(was_connected);
+    Battery_SetPanel(0U);
   }
 
   Battery_UpdateSensor(bat_ok);
