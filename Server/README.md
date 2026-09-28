@@ -231,8 +231,12 @@ otevře bez adresního řádku jako aplikace.
 
 ### Doma z Androidu
 
-**Jména `.local` tady nefungují.** Prohlížeč na Androidu je nepřekládá, takže je potřeba
-zadat přímo IP adresu Pi:
+**Prohlížeč si můžete vybrat** — Chrome, Firefox, Samsung Internet i jiný. Stránka je
+obyčejná webová stránka a funguje ve všech stejně, liší se jen názvy položek v nabídce.
+
+**Jméno `kurnik.local` je tu ale nejisté.** Novější Androidy ho přeložit umí, starší ne,
+a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastavení → Oprávnění
+→ Místní síť**). Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 
 1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
    Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
@@ -241,15 +245,17 @@ zadat přímo IP adresu Pi:
    `ip link show wlan0`, je to řádek `link/ether`. Bez rezervace se adresa po výpadku proudu
    může změnit a uložená ikona přestane fungovat.
 3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
-   Chrome pošle do vyhledávače.
-4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte v Chrome
-   **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**.
-5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak zvolte **⋮ → Přidat na plochu**.
-   Vznikne ikona, která stránku otevře na jedno klepnutí.
+   prohlížeč pošle do vyhledávače.
+4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
+   v Chrome **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**,
+   ve Firefoxu **⋮ → Nastavení → Soukromí a zabezpečení → Režim pouze HTTPS**.
+5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak v nabídce zvolte **Přidat na plochu**.
+   Tuhle volbu má Chrome i Firefox, jen ji každý řadí jinam. Vznikne ikona, která stránku
+   otevře na jedno klepnutí.
 
 > Ikona na Androidu otevře stránku v prohlížeči i s adresním řádkem. Aby se otevírala
-> samostatně jako aplikace, musela by stránka běžet přes HTTPS — na domácím HTTP to Chrome
-> nenabídne. Na funkci to nemá vliv.
+> samostatně jako aplikace, musela by stránka běžet přes HTTPS — po domácím HTTP to žádný
+> prohlížeč nenabídne. Na funkci to nemá vliv.
 
 Některé routery (OpenWrt, MikroTik, novější Asus) umí vlastní DNS záznam. Když se v takovém
 routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
