@@ -318,7 +318,24 @@ Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
    - Ze seznamu připojených zařízení vyberte `kurnik`. Když seznam není, zadejte MAC adresu
      ručně — vypíše ji `ip link show` na Pi, řádek `link/ether` u `wlan0` pro Wi-Fi nebo
      u `eth0` pro kabel.
-   - Uložte a Pi restartujte, aby si novou adresu převzalo.
+   - Uložte a Pi restartujte, aby si novou adresu převzalo. Ověřte ji příkazem
+     `hostname -I`.
+
+   Do některých routerů od poskytovatele se správcovský účet nedostane. Pak jde adresa
+   nastavit přímo na Pi. Název připojení vypíše `nmcli con show` (na Raspberry Pi OS bývá
+   `preconfigured`) a dosadí se do:
+
+   ```bash
+   sudo nmcli con mod preconfigured ipv4.method manual \
+     ipv4.addresses 192.168.1.42/24 \
+     ipv4.gateway 192.168.1.1 \
+     ipv4.dns 192.168.1.1
+   sudo reboot
+   ```
+
+   Adresu volte **mimo rozsah, který router rozdává** — v jeho nastavení je vidět jako
+   **DHCP range**, typicky `.100` až `.200`. Adresa z toho rozsahu se dá jednou přidělit
+   i jinému zařízení a obě se pak o ni perou.
 
 3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
    prohlížeč pošle do vyhledávače.
