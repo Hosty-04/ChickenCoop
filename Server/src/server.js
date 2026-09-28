@@ -23,6 +23,7 @@ const wss = new WebSocketServer({
 const ttn = new TtnBridge();
 
 const state = {
+  device: config.ttn.deviceId,
   latest: null,
   ttnConnected: false,
   dbOk: null,
@@ -85,16 +86,7 @@ function broadcast(type, data) {
   }
 }
 
-app.get('/api/status', (req, res) => {
-  res.json({
-    device: config.ttn.deviceId,
-    ttnConnected: state.ttnConnected,
-    dbOk: state.dbOk,
-    dbError: state.dbError,
-    latest: state.latest,
-    pending: state.pending
-  });
-});
+app.get('/api/status', (req, res) => res.json(state));
 
 app.get('/api/history', async (req, res) => {
   const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
