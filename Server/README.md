@@ -297,9 +297,8 @@ otevře bez adresního řádku jako aplikace.
 
 ### Doma z Androidu
 
-**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne,
-a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastavení → Oprávnění
-→ Místní síť**). Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
+**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne.
+Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 
 1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
    Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
@@ -319,6 +318,10 @@ a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastav
 > Ikona na Androidu otevře stránku v prohlížeči i s adresním řádkem. Aby se otevírala
 > samostatně jako aplikace, musela by stránka běžet přes HTTPS — po domácím HTTP to žádný
 > prohlížeč nenabídne. Na funkci to nemá vliv.
+
+> **Dotaz na přístup k místní síti povolte.** Ptá se Chrome i Firefox, na Androidu 16
+> a novějším i samotný systém. Je to ochrana proti stránkám z internetu, které by jinak
+> mohly prohledávat domácí síť; tahle stránka běží přímo na Pi a nic dalšího nehledá.
 
 Některé routery umí vlastní DNS záznam. Když se v takovém
 routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
