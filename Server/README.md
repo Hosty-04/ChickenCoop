@@ -200,7 +200,7 @@ docker compose logs -f app
 Mají se objevit řádky `dashboard on http://localhost:3000` a `TTN connected`. Sledování
 ukončíte klávesami Ctrl+C, server běží dál.
 
-Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama.
+Databáze se založí při prvním spuštění. Po restartu Pi se všechno spustí samo.
 
 ### Kde jsou data
 
