@@ -11,7 +11,6 @@
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --good: #0ca30c;
-  --warning: #fab219;
   --serious: #ec835a;
   --critical: #d03b3b;
 }
@@ -187,7 +186,7 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   border-radius: 8px;
   background: var(--page);
 }
-.queue.is-waiting { border-color: var(--warning); }
+.queue.is-waiting { border-color: var(--serious); }
 .queue-text { display: grid; gap: 2px; }
 .queue-label { font-size: 13px; color: var(--text-secondary); }
 .queue-value { font-size: 15px; font-variant-numeric: tabular-nums; }
