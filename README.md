@@ -779,8 +779,8 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
 | WAGO svorkovnice 2pól | 1 ks | [Odkaz][wago-2pol] | 12,40 Kč | 15,00 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
-| WAGO svorkovnice 6pól | 2 ks | [Odkaz][wago-6pol] | 64,46 Kč | 78,00 Kč |
-| WAGO svorka | 8 ks | [Odkaz][wago-svorka] | 56,20 Kč | 68,00 Kč |
+| WAGO svorkovnice 6pól | 2 ks | [Odkaz][wago-6pol] | 128,92 Kč | 156,00 Kč |
+| WAGO svorka | 8 ks | [Odkaz][wago-svorka] | 112,40 Kč | 136,00 Kč |
 | Konektor RJ45 | 4 ks | [Odkaz][rj45] | 82,64 Kč | 100,00 Kč |
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580,00 Kč |
@@ -823,7 +823,7 @@ Ze zbytku OSB desky budou vyrobeny ochranné lišty, přišroubované ke spodní
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5707 Kč** | **6906 Kč** |
+| **Celkem** | | | **5828 Kč** | **7052 Kč** |
 
 &nbsp;
 
