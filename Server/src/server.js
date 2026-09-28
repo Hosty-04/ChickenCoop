@@ -10,7 +10,7 @@ import {
   SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials,
   openSession, closeSession, sessionValid, requestAuthenticated
 } from './auth.js';
-import { writeReading, readHistory, readLatest, closeInflux } from './influx.js';
+import { writeReading, readHistory, readLatest, closeDb } from './db.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -25,8 +25,8 @@ const ttn = new TtnBridge();
 const state = {
   latest: null,
   ttnConnected: false,
-  influxOk: null,
-  influxError: null,
+  dbOk: null,
+  dbError: null,
   pending: []
 };
 
@@ -36,6 +36,7 @@ const PUBLIC_PATHS = new Set([
 ]);
 
 app.disable('x-powered-by');
+if (config.trustProxy !== false) app.set('trust proxy', config.trustProxy);
 app.use(express.json({ limit: '8kb' }));
 
 app.post('/api/login', (req, res) => {
@@ -88,8 +89,8 @@ app.get('/api/status', (req, res) => {
   res.json({
     device: config.ttn.deviceId,
     ttnConnected: state.ttnConnected,
-    influxOk: state.influxOk,
-    influxError: state.influxError,
+    dbOk: state.dbOk,
+    dbError: state.dbError,
     latest: state.latest,
     pending: state.pending
   });
@@ -100,7 +101,7 @@ app.get('/api/history', async (req, res) => {
   try {
     res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
-    res.status(502).json({ error: `InfluxDB query failed: ${err.message}` });
+    res.status(502).json({ error: `database query failed: ${err.message}` });
   }
 });
 
@@ -161,32 +162,32 @@ ttn.on('uplink', async (uplink) => {
 
   try {
     await writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
-    state.influxOk = true;
-    state.influxError = null;
+    state.dbOk = true;
+    state.dbError = null;
   } catch (err) {
-    state.influxOk = false;
-    state.influxError = err.message;
-    console.error('InfluxDB write failed:', err.message);
+    state.dbOk = false;
+    state.dbError = err.message;
+    console.error('database write failed:', err.message);
     broadcast('status', state);
   }
 });
 
-async function seedFromInflux() {
+async function seedFromDb() {
   try {
     const latest = await readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
-    state.influxOk = true;
+    state.dbOk = true;
   } catch (err) {
-    state.influxOk = false;
-    state.influxError = err.message;
-    console.error('InfluxDB unreachable at startup:', err.message);
+    state.dbOk = false;
+    state.dbError = err.message;
+    console.error('database unreadable at startup:', err.message);
   }
 }
 
 async function shutdown() {
   console.log('shutting down');
   await ttn.stop();
-  await closeInflux().catch(() => {});
+  await closeDb().catch(() => {});
   http.close(() => process.exit(0));
   setTimeout(() => process.exit(0), 3000).unref();
 }
@@ -194,7 +195,7 @@ async function shutdown() {
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-await seedFromInflux();
+await seedFromDb();
 ttn.start();
 http.listen(config.port, () => {
   console.log(`dashboard on http://localhost:${config.port}`);
