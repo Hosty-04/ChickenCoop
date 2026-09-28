@@ -26,7 +26,8 @@ const state = {
   latest: null,
   ttnConnected: false,
   influxOk: null,
-  influxError: null
+  influxError: null,
+  pending: []
 };
 
 const PUBLIC_PATHS = new Set([
@@ -89,7 +90,8 @@ app.get('/api/status', (req, res) => {
     ttnConnected: state.ttnConnected,
     influxOk: state.influxOk,
     influxError: state.influxError,
-    latest: state.latest
+    latest: state.latest,
+    pending: state.pending
   });
 });
 
@@ -111,8 +113,17 @@ app.post('/api/command', async (req, res) => {
 
   try {
     const sent = await ttn.sendCommand(names);
-    broadcast('command', { ...sent, queuedAt: new Date().toISOString() });
+    broadcast('command', sent);
     res.json({ ok: true, ...sent });
+  } catch (err) {
+    res.status(400).json({ ok: false, error: err.message });
+  }
+});
+
+app.post('/api/command/cancel', async (req, res) => {
+  try {
+    const { cleared } = await ttn.clearQueue();
+    res.json({ ok: true, cleared });
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });
   }
@@ -128,8 +139,18 @@ ttn.on('state', ({ connected }) => {
   console.log(connected ? 'TTN connected' : 'TTN disconnected');
 });
 
-ttn.on('ready', (topic) => console.log(`subscribed to ${topic}`));
+ttn.on('ready', (topics) => console.log(`subscribed to ${topics}`));
 ttn.on('error', (err) => console.error('TTN:', err.message));
+
+ttn.on('pending', (pending) => {
+  state.pending = pending;
+  broadcast('pending', pending);
+});
+
+ttn.on('downlink', ({ event, commands }) => {
+  broadcast('downlink', { event, commands, at: new Date().toISOString() });
+  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')})` : ''}`);
+});
 
 ttn.on('uplink', async (uplink) => {
   state.latest = uplink;

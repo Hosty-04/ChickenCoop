@@ -103,6 +103,13 @@
         <button type="button" data-command="systemOff" class="danger">Vypnout</button>
       </div>
     </div>
+    <div class="queue" id="queue">
+      <div class="queue-text">
+        <span class="queue-label">Ve frontě</span>
+        <span class="queue-value" id="queue-value">nic nečeká</span>
+      </div>
+      <button type="button" id="cancel" class="danger">Zrušit frontu</button>
+    </div>
     <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
     <p class="toast" id="toast" hidden></p>
   </section>

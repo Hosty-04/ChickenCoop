@@ -5,6 +5,22 @@ const DOOR_LABELS = {
   unknown: { text: 'Neznámý', note: '⚠ koncový spínač nehlásí polohu', tone: 'is-warning' }
 };
 
+const COMMAND_LABELS = {
+  systemOn: 'zapnout automatiku',
+  systemOff: 'vypnout automatiku',
+  doorOpen: 'otevřít dvířka',
+  doorClose: 'zavřít dvířka',
+  block: 'zablokovat',
+  unblock: 'odblokovat'
+};
+
+const DOWNLINK_EVENTS = {
+  sent: { text: 'Kurník příkaz přijal', tone: 'is-ok' },
+  ack: { text: 'Kurník příkaz potvrdil', tone: 'is-ok' },
+  nack: { text: 'Kurník příkaz odmítl', tone: 'is-error' },
+  failed: { text: 'Příkaz se nepodařilo doručit', tone: 'is-error' }
+};
+
 const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
@@ -43,9 +59,28 @@ function renderStatus(status) {
   badge.classList.toggle('is-down', status.ttnConnected === false);
   el('link-text').textContent = status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno';
 
+  renderPending(status.pending);
+
   if (status.influxOk === false) {
     showToast(`InfluxDB nedostupná: ${status.influxError ?? 'neznámá chyba'}`, 'is-error');
   }
+}
+
+function describe(commands) {
+  return (commands ?? []).map((name) => COMMAND_LABELS[name] ?? name).join(' + ');
+}
+
+function countCommands(n) {
+  if (n === 1) return '1 příkaz';
+  return n < 5 ? `${n} příkazy` : `${n} příkazů`;
+}
+
+function renderPending(pending) {
+  const list = pending ?? [];
+  el('queue-value').textContent = list.length === 0
+    ? 'nic nečeká'
+    : list.map((entry) => describe(entry.commands)).join(' · ');
+  el('queue').classList.toggle('is-waiting', list.length > 0);
 }
 
 function renderLatest(uplink) {
@@ -223,7 +258,12 @@ function connectSocket() {
     const { type, data } = JSON.parse(event.data);
     if (type === 'status') { renderStatus(data); renderLatest(data.latest); }
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
-    if (type === 'command') showToast(`Příkaz odeslán: 0x${data.byte.toString(16).padStart(2, '0').toUpperCase()} — čeká na další uplink`, 'is-ok');
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další uplink`, 'is-ok');
+    if (type === 'pending') renderPending(data);
+    if (type === 'downlink') {
+      const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
+      showToast(data.commands ? `${info.text}: ${describe(data.commands)}` : info.text, info.tone);
+    }
   });
 
   socket.addEventListener('close', (event) => {
@@ -240,6 +280,24 @@ el('theme').addEventListener('click', () => {
   try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch { void 0; }
   renderLegend();
   renderChart();
+});
+
+el('cancel').addEventListener('click', async () => {
+  const button = el('cancel');
+  button.disabled = true;
+  try {
+    const res = await fetch('/api/command/cancel', { method: 'POST' });
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+    showToast(body.cleared > 0
+      ? `Zrušeno: ${countCommands(body.cleared)}`
+      : 'Fronta vyprázdněna', 'is-ok');
+  } catch (err) {
+    showToast(`Zrušení selhalo: ${err.message}`, 'is-error');
+  } finally {
+    button.disabled = false;
+  }
 });
 
 el('logout').addEventListener('click', async () => {

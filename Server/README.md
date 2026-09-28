@@ -238,6 +238,14 @@ Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
 > Neklikej opakovaně — příkazy se řadí za sebe a provedou se všechny.
 
+Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítkem
+**Zrušit frontu** je smažeš — pokud to stihneš, než se kurník ozve, neprovede se nic.
+Jakmile se příkaz doručí, stránka to napíše a z fronty zmizí.
+
+> Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
+> v síti něco čeká; **Zrušit frontu** ale vždy smaže vše, co v síti opravdu je, takže po
+> restartu na něj klidně klikni, i když se nic nezobrazuje.
+
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
 
