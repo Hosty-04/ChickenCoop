@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurník</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M9 22V13l7-5 7 5v9z' fill='none' stroke='white' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="viz-root">
+
+  <header class="topbar">
+    <div class="topbar-title">
+      <h1>Kurník</h1>
+      <span id="device" class="device"></span>
+    </div>
+    <div class="topbar-actions">
+      <span id="link" class="badge"><span class="dot"></span><span id="link-text">připojuji…</span></span>
+      <button id="theme" type="button" class="ghost" aria-label="Přepnout motiv">Motiv</button>
+    </div>
+  </header>
+
+  <div class="filterbar" role="group" aria-label="Časový rozsah">
+    <button type="button" data-hours="6">6 h</button>
+    <button type="button" data-hours="24" class="is-selected" aria-pressed="true">24 h</button>
+    <button type="button" data-hours="168">7 dní</button>
+    <button type="button" data-hours="720">30 dní</button>
+  </div>
+
+  <section class="kpi" aria-label="Aktuální stav">
+    <div class="tile">
+      <span class="tile-label">Baterie</span>
+      <span class="tile-value" id="battery-value">–</span>
+      <span class="tile-note" id="battery-note"></span>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Panel</span>
+      <span class="tile-value" id="panel-value">–</span>
+      <span class="tile-note" id="panel-note"></span>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Dvířka</span>
+      <span class="tile-value" id="door-value">–</span>
+      <span class="tile-note" id="door-note"></span>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Poslední zpráva</span>
+      <span class="tile-value" id="seen-value">–</span>
+      <span class="tile-note" id="seen-note"></span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Napětí v čase</h2>
+        <p class="card-sub" id="chart-sub">baterie a solární panel</p>
+      </div>
+      <button id="toggle-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
+    </div>
+
+    <div class="legend" id="legend"></div>
+
+    <div class="plot" id="plot-wrap">
+      <canvas id="chart" role="img" aria-label="Graf napětí baterie a panelu v čase"></canvas>
+    </div>
+
+    <div class="table-wrap" id="table-wrap" hidden>
+      <table id="table">
+        <caption class="sr-only">Naměřené hodnoty napětí</caption>
+        <thead><tr><th scope="col">Čas</th><th scope="col">Baterie</th><th scope="col">Panel</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="empty" id="chart-empty" hidden>Zatím žádná data. Graf se naplní po první uložené zprávě.</p>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Ovládání</h2></div>
+    <div class="commands">
+      <div class="command-group">
+        <span class="command-label">Dvířka</span>
+        <button type="button" data-command="doorOpen">Otevřít</button>
+        <button type="button" data-command="doorClose">Zavřít</button>
+      </div>
+      <div class="command-group">
+        <span class="command-label">Blokace</span>
+        <button type="button" data-command="unblock">Odblokovat</button>
+        <button type="button" data-command="block" class="danger">Zablokovat</button>
+      </div>
+      <div class="command-group">
+        <span class="command-label">Automatika</span>
+        <button type="button" data-command="systemOn">Zapnout</button>
+        <button type="button" data-command="systemOff" class="danger">Vypnout</button>
+      </div>
+    </div>
+    <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
+    <p class="toast" id="toast" hidden></p>
+  </section>
+
+</div>
+<script src="/vendor/chart.umd.js"></script>
+<script src="app.js" type="module"></script>
+</body>
+</html>
