@@ -4,7 +4,7 @@ Automatická dvířka kurníku ovládaná přes internet. Kurník posílá každ
 baterie, solárního panelu a dvířek; z webové stránky je lze kdykoli otevřít nebo zavřít.
 
 ```
-kurník ──LoRa──> brána ──internet──> The Things Network ──> server ──> stránka
+kurník ──LoRa──> brána ──internet──> The Things Network ──> server na Pi ──> stránka
 ```
 
 Příprava zabere asi hodinu. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
@@ -276,23 +276,62 @@ další dorazí za deset minut.
 
 ## 7. Přístup ke stránce
 
-Stránka je dostupná z čehokoliv v domácí síti — z počítače i z telefonu. Liší se jen
-drobnosti, proto je dál každé zařízení zvlášť.
+Stránka je dostupná z čehokoliv v domácí síti — z počítače i z telefonu. Nejdřív je
+potřeba znát adresu Pi, zbytek se pak liší jen drobnostmi podle zařízení.
 
 > **Kdo si nastaví Tailscale, vystačí si s ním i doma** a zbytek téhle kapitoly může
 > přeskočit. Jeho adresa odpovídá na domácí Wi-Fi stejně jako z mobilních dat, takže stačí
 > jediná a nemusí se nic přepínat. Domácí adresa má proti tomu tu výhodu, že nevyžaduje
 > žádný účet ani aplikaci.
 
+### Adresa Pi
+
+Stránka běží na Pi, takže se na ni chodí přes jeho adresu. Napsat jde dvěma způsoby.
+
+**Jméno `kurnik.local`** je pohodlnější, protože si není co pamatovat. Funguje na Windows,
+macOS, běžných linuxových distribucích i na iPhonu; na Linuxu k tomu může chybět služba,
+kterou doinstaluje `sudo apt install avahi-daemon`. Na Androidu je to nejisté — novější
+verze systému jméno přeloží, starší ne.
+
+**IP adresa** funguje všude. Vypíše ji na Pi příkaz `hostname -I`, vyjde například
+`192.168.1.42`; druhá možnost je najít `kurnik` v seznamu připojených zařízení v routeru.
+Po výpadku proudu se ale může změnit, a tím přestane fungovat i uložená ikona. Proto ji
+zafixujte. Postup je u všech routerů stejný, liší se jen pojmenování:
+
+1. Otevřete nastavení routeru. Jeho adresu vypíše na Pi příkaz `ip route | grep default`,
+   bývá to `192.168.1.1` nebo `192.168.0.1`. Přihlašovací údaje jsou obvykle na štítku
+   routeru.
+2. Najděte oddíl **LAN** nebo **DHCP**. Hledaná položka se jmenuje **DHCP reservation**,
+   **Address reservation**, **Static lease** nebo česky **rezervace adres**.
+3. Ze seznamu připojených zařízení vyberte `kurnik`. Když seznam není, zadejte MAC adresu
+   ručně — vypíše ji `ip link show` na Pi, řádek `link/ether` u `wlan0` pro Wi-Fi nebo
+   u `eth0` pro kabel.
+4. Uložte a Pi restartujte. Že se adresa opravdu ujala, ověří `hostname -I`.
+
+Do některých routerů od poskytovatele se správcovský účet nedostane. Pak jde adresa nastavit
+přímo na Pi. Název připojení vypíše `nmcli con show` (na Raspberry Pi OS bývá `preconfigured`)
+a dosadí se do:
+
+```bash
+sudo nmcli con mod preconfigured ipv4.method manual \
+  ipv4.addresses 192.168.1.42/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.dns 192.168.1.1
+sudo reboot
+```
+
+> Adresu volte **mimo rozsah, který router rozdává** — v jeho nastavení je vidět jako
+> **DHCP range**, typicky `.100` až `.200`. Adresa z toho rozsahu se dá jednou přidělit
+> i jinému zařízení a obě se pak o ni perou.
+
+Některé routery umí k IP adrese přiřadit i vlastní jméno; bývá to hned vedle rezervace adres,
+případně v oddílu **DNS**. Když se tam `kurnik` přiřadí k adrese Pi, funguje pak na všech
+zařízeních v domácí síti adresa `http://kurnik:3000` a IP adresu si nikdo pamatovat nemusí.
+Umí to ale jen některé routery; u většiny běžných tahle volba chybí.
+
 ### Doma z počítače
 
-Stačí otevřít **`http://kurnik.local:3000`**. Windows, macOS i běžné linuxové distribuce
-jméno `.local` přeloží samy. Na Linuxu může chybět služba, která to umí; doinstaluje se
-`sudo apt install avahi-daemon`.
-
-Kdyby jméno nefungovalo, použijte místo něj IP adresu Pi — jak ji zjistit a zafixovat je
-popsáno o kousek níž u Androidu, platí to stejně.
-
+Otevřete **`http://kurnik.local:3000`**, nebo s IP adresou `http://192.168.1.42:3000`.
 Pro rychlé spuštění si udělejte záložku nebo zástupce na ploše.
 
 ### Doma z iPhonu
@@ -303,29 +342,14 @@ otevře bez adresního řádku jako aplikace.
 
 ### Doma z Androidu
 
-**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne.
-Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
+Protože jméno `kurnik.local` tu nemusí fungovat, počítejte s IP adresou:
 
-1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
-   Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
-2. **Zafixujte ji v routeru**, jinak se po výpadku proudu může změnit a uložená ikona
-   přestane fungovat. Postup je u všech routerů stejný, liší se jen pojmenování:
-   - Otevřete nastavení routeru. Jeho adresu vypíše na Pi příkaz `ip route | grep default`,
-     bývá to `192.168.1.1` nebo `192.168.0.1`. Přihlašovací údaje jsou obvykle na štítku
-     routeru.
-   - Najděte oddíl **LAN** nebo **DHCP**. Hledaná položka se jmenuje **DHCP reservation**,
-     **Address reservation**, **Static lease** nebo česky **rezervace adres**.
-   - Ze seznamu připojených zařízení vyberte `kurnik`. Když seznam není, zadejte MAC adresu
-     ručně — vypíše ji `ip link show` na Pi, řádek `link/ether` u `wlan0` pro Wi-Fi nebo
-     u `eth0` pro kabel.
-   - Uložte a Pi restartujte, aby si novou adresu převzalo.
-
-3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
+1. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
    prohlížeč pošle do vyhledávače.
-4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
+2. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
    v Chrome **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**,
    ve Firefoxu **⋮ → Nastavení → Soukromí a zabezpečení → Režim pouze HTTPS**.
-5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak v nabídce zvolte **Přidat na plochu**.
+3. Přihlaste se jménem `kurnik` a heslem z `.env`, pak v nabídce zvolte **Přidat na plochu**.
    Tuhle volbu má Chrome i Firefox, jen ji každý řadí jinam. Vznikne ikona, která stránku
    otevře na jedno klepnutí.
 
@@ -336,11 +360,6 @@ Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 > **Dotaz na přístup k místní síti povolte.** Ptá se Chrome i Firefox, na Androidu 16
 > a novějším i samotný systém. Je to ochrana proti stránkám z internetu, které by jinak
 > mohly prohledávat domácí síť; tahle stránka běží přímo na Pi a nic dalšího nehledá.
-
-Některé routery umí k IP adrese přiřadit vlastní jméno. Bývá to hned vedle rezervace adres,
-případně v oddílu **DNS**. Když se tam `kurnik` přiřadí k adrese Pi, funguje pak na všech
-zařízeních v domácí síti adresa `http://kurnik:3000` a IP adresu si nikdo pamatovat nemusí.
-Umí to ale jen některé routery; u většiny běžných tahle volba chybí.
 
 ### Mimo domov
 
@@ -403,8 +422,8 @@ Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, s
 poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
 30 dní nebo rok. Tlačítkem **Tabulka** se přepne na stejná data v číslech.
 
-V pravém horním rohu je přepínač světlého a tmavého motivu a odhlášení. Vedle nich svítí
-indikátor spojení serveru s The Things Network.
+Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
+a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
@@ -436,8 +455,10 @@ SETUP a nastavte ji znovu. Ujistěte se také, že byl použit **Claim gateway**
 v kurníku. Opravte ho u zařízení v **General settings → Join settings** podle údaje, který
 jste dostali s kurníkem, a kurník vypněte a zapněte.
 
-**Stránku nelze najít.** Na Androidu zkuste místo `kurnik.local` přímo IP adresu. Pokud prohlížeč
-přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené připojení".
+**Stránku nelze najít.** Zkuste místo `kurnik.local` přímo IP adresu Pi (kapitola 7,
+**Adresa Pi**). Pokud prohlížeč přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené
+připojení". A ověřte, že zařízení je na stejné Wi-Fi jako Pi — ze sítě pro hosty nebo
+z mobilních dat se na něj nedostanete.
 
 **Přihlášení hlásí příliš mnoho pokusů.** Po pěti špatných heslech se přihlašování na 15 minut
 zamkne. Buď je potřeba počkat, nebo zámek zruší restart: `docker compose restart app`.
