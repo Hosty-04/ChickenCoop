@@ -7,7 +7,7 @@ baterie, solárního panelu a dvířek; z webové stránky je lze kdykoli otevř
 kurník ──LoRa──> brána ──internet──> The Things Network ──> server ──> stránka
 ```
 
-Příprava zabere asi půl hodiny. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
+Příprava zabere asi hodinu. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
 
 ## Co je potřeba
 
@@ -145,6 +145,7 @@ Přihlaste se a nainstalujte:
 ```bash
 ssh pi@kurnik.local
 sudo apt update && sudo apt full-upgrade -y
+sudo apt install -y git
 curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 ```
@@ -189,47 +190,170 @@ Heslo si volí uživatel. Dlouhé a náhodné vygeneruje `openssl rand -base64 1
 docker compose up -d
 ```
 
+**Poprvé to chvíli trvá** — server se musí sestavit, na Zero 2 W klidně deset minut.
+Že se rozběhl, ukáže výpis:
+
+```bash
+docker compose logs -f app
+```
+
+Mají se objevit řádky `dashboard on http://localhost:3000` a `TTN connected`. Sledování
+ukončíte klávesami Ctrl+C, server běží dál.
+
 Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama
 a data přežijí i smazání a znovuvytvoření kontejnerů.
 
-### Záloha
+### Běžný provoz
 
-Celá historie měření je jeden soubor. Zkopírovat se dá třeba do domovského adresáře:
+Všechny příkazy se spouštějí ze složky `ChickenCoop/Server`.
+
+| Co | Příkaz |
+|---|---|
+| Zjistit, jestli server běží | `docker compose ps` |
+| Sledovat výpis | `docker compose logs -f app` |
+| Zastavit | `docker compose down` |
+| Spustit | `docker compose up -d` |
+| Změnit heslo nebo klíče | upravit `.env`, pak `docker compose up -d` |
+
+> Po úpravě `.env` nestačí `docker compose restart` — ten kontejner jen restartuje
+> s původním nastavením. Nové hodnoty načte až `docker compose up -d`.
+
+### Aktualizace
 
 ```bash
-docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+cd ~/ChickenCoop
+git pull
+cd Server
+docker compose up -d --build
 ```
 
-Obnova probíhá opačným směrem: zastavit server (`docker compose down`), nakopírovat
-soubor zpět a server zase spustit.
+**Bez `--build`** by Docker spustil dřív sestavenou verzi a změny by se neprojevily.
+Naměřená data zůstanou, ta jsou mimo kontejner.
 
-## 7. Přístup z mobilu
+### Záloha
 
-Na domácí Wi-Fi otevřete **`http://kurnik.local:3000`**. Na iPhonu to funguje rovnou;
-**na Androidu adresy s `.local` často nefungují** a je potřeba použít IP adresu. Zjistí ji
-příkaz `hostname -I` na Pi, vyjde něco jako `192.168.1.42`, takže adresa bude
-`http://192.168.1.42:3000`.
+Celá historie měření je jeden soubor. Server je při kopírování potřeba zastavit, jinak
+může část posledních měření zůstat v pomocném souboru a do zálohy se nedostane:
 
-Aby se adresa neměnila, přiřaďte Raspberry Pi napevno jednu adresu přes **DHCP reservation**
-v routeru.
+```bash
+docker compose stop
+docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+docker compose start
+```
 
-Přihlaste se jménem `kurnik` a heslem z `.env`. Pak v prohlížeči zvolte **Přidat na plochu** —
-vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
+Obnova je totéž obráceně:
+
+```bash
+docker compose stop
+docker compose cp ~/kurnik-zaloha.db app:/data/kurnik.db
+docker compose start
+```
+
+Zastavení trvá pár vteřin. Kdyby kurník zrovna v tu chvíli poslal zprávu, přijde se o ni —
+další dorazí za deset minut.
+
+## 7. Přístup ke stránce
+
+Stránka je dostupná z čehokoliv v domácí síti — z počítače i z telefonu. Liší se jen
+drobnosti, proto je dál každé zařízení zvlášť.
+
+### Doma z počítače
+
+Stačí otevřít **`http://kurnik.local:3000`**. Windows, macOS i běžné linuxové distribuce
+jméno `.local` přeloží samy. Na Linuxu může chybět služba, která to umí; doinstaluje se
+`sudo apt install avahi-daemon`.
+
+Kdyby jméno nefungovalo, použijte místo něj IP adresu Pi — jak ji zjistit a zafixovat je
+popsáno o kousek níž u Androidu, platí to stejně.
+
+Pro rychlé spuštění si udělejte záložku nebo zástupce na ploše.
+
+> Nabídka **Nainstalovat stránku jako aplikaci** se v Chrome ani Edge neobjeví. Prohlížeče
+> ji nabízejí jen stránkám běžícím přes HTTPS a domácí adresa je obyčejné HTTP. Stránka
+> funguje normálně, jen se otevírá v okně prohlížeče jako každá jiná.
+
+### Doma z iPhonu
+
+Stejně jako na počítači: **`http://kurnik.local:3000`**, jméno si telefon přeloží sám.
+Po přihlášení zvolte **Sdílet → Přidat na plochu** a vznikne ikona, ze které se stránka
+otevře bez adresního řádku jako aplikace.
+
+### Doma z Androidu
+
+**Prohlížeč si můžete vybrat** — Chrome, Firefox, Samsung Internet i jiný. Stránka je
+obyčejná webová stránka a funguje ve všech stejně, liší se jen názvy položek v nabídce.
+
+**Jméno `kurnik.local` je tu ale nejisté.** Novější Androidy ho přeložit umí, starší ne,
+a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastavení → Oprávnění
+→ Místní síť**). Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
+
+1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
+   Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
+2. **Zafixujte ji.** V routeru najděte **DHCP reservation** (bývá pod Wi-Fi, LAN nebo DHCP)
+   a přiřaďte tu adresu Raspberry Pi natrvalo. Potřebnou MAC adresu vypíše na Pi příkaz
+   `ip link show wlan0`, je to řádek `link/ether`. Bez rezervace se adresa po výpadku proudu
+   může změnit a uložená ikona přestane fungovat.
+3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
+   prohlížeč pošle do vyhledávače.
+4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
+   v Chrome **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**,
+   ve Firefoxu **⋮ → Nastavení → Soukromí a zabezpečení → Režim pouze HTTPS**.
+5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak v nabídce zvolte **Přidat na plochu**.
+   Tuhle volbu má Chrome i Firefox, jen ji každý řadí jinam. Vznikne ikona, která stránku
+   otevře na jedno klepnutí.
+
+> Ikona na Androidu otevře stránku v prohlížeči i s adresním řádkem. Aby se otevírala
+> samostatně jako aplikace, musela by stránka běžet přes HTTPS — po domácím HTTP to žádný
+> prohlížeč nenabídne. Na funkci to nemá vliv.
+
+Některé routery (OpenWrt, MikroTik, novější Asus) umí vlastní DNS záznam. Když se v takovém
+routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
 
 ### Mimo domov
 
 > **Nikdy neotevírejte port 3000 do internetu.** I když je stránka chráněná heslem,
 > vystavovat ji veřejně je zbytečné riziko — kdo se dostane dovnitř, otevře dvířka.
+> Heslo navíc po holém HTTP cestuje nešifrovaně.
 
-Použijte **Tailscale**, který udělá šifrovaný tunel jen mezi vlastními zařízeními:
+Řešením je **Tailscale**. Vytvoří privátní síť jen z vlastních zařízení: každé dostane
+adresu `100.x.y.z`, kterou nikdo jiný nevidí, a provoz mezi nimi je šifrovaný. Do internetu
+se nic neotevírá a není potřeba veřejná IP adresa, takže to funguje i na připojeních, kde
+přesměrování portů vůbec nejde. Pro osobní použití je zdarma.
+
+#### Na Raspberry Pi
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
 
-Nainstalujte Tailscale i do mobilu, přihlaste se stejným účtem a v aplikaci se objeví
-adresa Pi. Tu pak stačí zadat s `:3000`. Funguje to z domova i z mobilních dat.
+Druhý příkaz vypíše odkaz. Otevřete ho v prohlížeči a přihlaste se — účtem Google, GitHub,
+Microsoft nebo e-mailem. Po přihlášení vypíše adresu Pi:
+
+```bash
+tailscale ip -4
+```
+
+> **Vypněte vypršení klíče.** Tailscale po 180 dnech vyžaduje nové přihlášení a server by
+> ze sítě tiše vypadl. Na <https://login.tailscale.com> u zařízení `kurnik` zvolte
+> **Disable key expiry**. U serveru, který má běžet pořád, je to důležité.
+
+#### Na ostatních zařízeních
+
+Do telefonu nainstalujte aplikaci **Tailscale** z Obchodu Play nebo App Store, do počítače
+program ze stránek <https://tailscale.com/download> (Windows, macOS i Linux). Všude se
+přihlaste **stejným účtem** a zapněte připojení. V seznamu zařízení se objeví `kurnik`
+i se svou adresou.
+
+Stránku pak otevřete na `http://100.x.y.z:3000`. Když v konzoli Tailscale zapnete
+**MagicDNS**, stačí kratší `http://kurnik:3000`.
+
+**Ikonu nebo aplikaci si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat
+a z cizí sítě, takže stačí jediná — na rozdíl od domácí adresy, která mimo domov neodpoví.
+
+Aplikace drží připojení zapnuté; vypnout jde přepínačem, ale pak stránka mimo domov
+nenaběhne. Tunelem prochází jen provoz na vlastní zařízení, běžné prohlížení internetu jde
+mimo něj.
 
 ## Ověření
 
@@ -237,22 +361,34 @@ adresa Pi. Tu pak stačí zadat s `:3000`. Funguje to z domova i z mobilních da
 |---|---|
 | Konzole, Gateways | brána **Connected** |
 | Konzole, zařízení | zpráva každých 10 minut |
+| Pi, `docker compose logs app` | `TTN connected` a každých 10 minut řádek `uplink` |
 | Stránka | po přihlášení naměřená napětí a stav dvířek |
+
+## Co je na stránce
+
+Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
+poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
+30 dní nebo rok. Tlačítkem **Tabulka** se přepne na stejná data v číslech.
+
+V pravém horním rohu je přepínač světlého a tmavého motivu a odhlášení. Vedle nich svítí
+indikátor spojení serveru s The Things Network.
+
+Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
 ## Ovládání
 
-Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
+Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
 > Opakované klikání nepomůže — příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
-**Zrušit frontu** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
+**Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká; **Zrušit frontu** ale vždy smaže vše, co v síti opravdu je, takže po
+> v síti něco čeká; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
 > restartu má smysl na něj kliknout, i když se nic nezobrazuje.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
@@ -272,8 +408,9 @@ přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené připojen
 **Přihlášení hlásí příliš mnoho pokusů.** Po pěti špatných heslech se přihlašování na 15 minut
 zamkne. Buď je potřeba počkat, nebo zámek zruší restart: `docker compose restart app`.
 
-**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontrolujte `TTN_APP_ID` a `TTN_API_KEY`
-v souboru `.env`, pak `docker compose restart`.
+**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontrolujte `TTN_APP_ID`, `TTN_DEVICE_ID`
+a `TTN_API_KEY` v souboru `.env`, pak `docker compose up -d`. Ve výpisu `docker compose logs app`
+musí být `TTN connected`.
 
 **Databáze hlásí chybu.** Podívejte se do výpisu `docker compose logs app`. Když je
 soubor s daty poškozený (třeba po vytažení karty za běhu), obnovte ho ze zálohy; pokud
