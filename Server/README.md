@@ -203,15 +203,36 @@ docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
 Obnova probíhá opačným směrem: zastavit server (`docker compose down`), nakopírovat
 soubor zpět a server zase spustit.
 
-## 7. Přístup z mobilu
+## 7. Přístup ke stránce
 
-### Doma
+Stránka je dostupná z čehokoliv v domácí síti — z počítače i z telefonu. Liší se jen
+drobnosti, proto je dál každé zařízení zvlášť.
 
-Na iPhonu stačí otevřít **`http://kurnik.local:3000`** a je hotovo — jméno `.local` si
-telefon přeloží sám.
+### Doma z počítače
 
-**Na Androidu tohle nefunguje.** Prohlížeč na Androidu jména `.local` nepřekládá, takže
-je potřeba zadat přímo IP adresu Pi:
+Stačí otevřít **`http://kurnik.local:3000`**. Windows, macOS i běžné linuxové distribuce
+jméno `.local` přeloží samy. Na Linuxu může chybět služba, která to umí; doinstaluje se
+`sudo apt install avahi-daemon`.
+
+Kdyby jméno nefungovalo, použijte místo něj IP adresu Pi — jak ji zjistit a zafixovat je
+popsáno o kousek níž u Androidu, platí to stejně.
+
+Pro rychlé spuštění si udělejte záložku nebo zástupce na ploše.
+
+> Nabídka **Nainstalovat stránku jako aplikaci** se v Chrome ani Edge neobjeví. Prohlížeče
+> ji nabízejí jen stránkám běžícím přes HTTPS a domácí adresa je obyčejné HTTP. Stránka
+> funguje normálně, jen se otevírá v okně prohlížeče jako každá jiná.
+
+### Doma z iPhonu
+
+Stejně jako na počítači: **`http://kurnik.local:3000`**, jméno si telefon přeloží sám.
+Po přihlášení zvolte **Sdílet → Přidat na plochu** a vznikne ikona, ze které se stránka
+otevře bez adresního řádku jako aplikace.
+
+### Doma z Androidu
+
+**Jména `.local` tady nefungují.** Prohlížeč na Androidu je nepřekládá, takže je potřeba
+zadat přímo IP adresu Pi:
 
 1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
    Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
@@ -224,7 +245,11 @@ je potřeba zadat přímo IP adresu Pi:
 4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte v Chrome
    **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**.
 5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak zvolte **⋮ → Přidat na plochu**.
-   Vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
+   Vznikne ikona, která stránku otevře na jedno klepnutí.
+
+> Ikona na Androidu otevře stránku v prohlížeči i s adresním řádkem. Aby se otevírala
+> samostatně jako aplikace, musela by stránka běžet přes HTTPS — na domácím HTTP to Chrome
+> nenabídne. Na funkci to nemá vliv.
 
 Některé routery (OpenWrt, MikroTik, novější Asus) umí vlastní DNS záznam. Když se v takovém
 routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
@@ -258,16 +283,18 @@ tailscale ip -4
 > ze sítě tiše vypadl. Na <https://login.tailscale.com> u zařízení `kurnik` zvolte
 > **Disable key expiry**. U serveru, který má běžet pořád, je to důležité.
 
-#### V mobilu
+#### Na ostatních zařízeních
 
-Nainstalujte aplikaci **Tailscale** z Obchodu Play nebo App Store, přihlaste se **stejným
-účtem** a zapněte přepínač. V seznamu zařízení se objeví `kurnik` i se svou adresou.
+Do telefonu nainstalujte aplikaci **Tailscale** z Obchodu Play nebo App Store, do počítače
+program ze stránek <https://tailscale.com/download> (Windows, macOS i Linux). Všude se
+přihlaste **stejným účtem** a zapněte připojení. V seznamu zařízení se objeví `kurnik`
+i se svou adresou.
 
 Stránku pak otevřete na `http://100.x.y.z:3000`. Když v konzoli Tailscale zapnete
 **MagicDNS**, stačí kratší `http://kurnik:3000`.
 
-**Ikonu na plochu si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat, takže
-stačí jediná — na rozdíl od domácí IP adresy, která mimo domov neodpoví.
+**Ikonu nebo aplikaci si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat
+a z cizí sítě, takže stačí jediná — na rozdíl od domácí adresy, která mimo domov neodpoví.
 
 Aplikace drží připojení zapnuté; vypnout jde přepínačem, ale pak stránka mimo domov
 nenaběhne. Tunelem prochází jen provoz na vlastní zařízení, běžné prohlížení internetu jde
