@@ -25,6 +25,7 @@ const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
 const TOAST_MS = 5000;
+const REQUEST_MS = 8000;
 
 let chart = null;
 let hours = 24;
@@ -222,7 +223,18 @@ function renderChart() {
 }
 
 function reason(err) {
-  return err instanceof TypeError ? 'server neodpovídá' : err.message;
+  const lost = err instanceof TypeError || err?.name === 'AbortError' || err?.name === 'TimeoutError';
+  return lost ? 'server neodpovídá' : err.message;
+}
+
+async function request(url, options) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_MS);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function showToast(text, tone) {
@@ -248,7 +260,7 @@ function requireSession(res) {
 async function loadHistory() {
   el('chart-sub').textContent = 'načítám…';
   try {
-    const res = await fetch(`/api/history?hours=${hours}`);
+    const res = await request(`/api/history?hours=${hours}`);
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
@@ -265,7 +277,7 @@ async function loadHistory() {
 
 async function loadStatus() {
   try {
-    const res = await fetch('/api/status');
+    const res = await request('/api/status');
     if (!requireSession(res)) return;
     const status = await res.json();
     renderStatus(status);
@@ -313,7 +325,7 @@ el('cancel').addEventListener('click', async () => {
   const button = el('cancel');
   button.disabled = true;
   try {
-    const res = await fetch('/api/command/cancel', { method: 'POST' });
+    const res = await request('/api/command/cancel', { method: 'POST' });
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
@@ -328,7 +340,7 @@ el('cancel').addEventListener('click', async () => {
 });
 
 el('logout').addEventListener('click', async () => {
-  await fetch('/api/logout', { method: 'POST' }).catch(() => undefined);
+  await request('/api/logout', { method: 'POST' }).catch(() => undefined);
   location.replace('/login.html');
 });
 
@@ -357,7 +369,7 @@ document.querySelectorAll('.commands button').forEach((button) => {
   button.addEventListener('click', async () => {
     button.disabled = true;
     try {
-      const res = await fetch('/api/command', {
+      const res = await request('/api/command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commands: [button.dataset.command] })
