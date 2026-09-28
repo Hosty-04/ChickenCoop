@@ -1,0 +1,22 @@
+{
+  "name": "chickencoop-server",
+  "version": "1.0.0",
+  "description": "MQTT bridge, InfluxDB storage and dashboard for the LoRaWAN chicken coop",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.35.0",
+    "chart.js": "^4.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mqtt": "^5.10.3",
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
