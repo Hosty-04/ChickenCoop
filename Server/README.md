@@ -205,31 +205,73 @@ soubor zpět a server zase spustit.
 
 ## 7. Přístup z mobilu
 
-Na domácí Wi-Fi otevřete **`http://kurnik.local:3000`**. Na iPhonu to funguje rovnou;
-**na Androidu adresy s `.local` často nefungují** a je potřeba použít IP adresu. Zjistí ji
-příkaz `hostname -I` na Pi, vyjde něco jako `192.168.1.42`, takže adresa bude
-`http://192.168.1.42:3000`.
+### Doma
 
-Aby se adresa neměnila, přiřaďte Raspberry Pi napevno jednu adresu přes **DHCP reservation**
-v routeru.
+Na iPhonu stačí otevřít **`http://kurnik.local:3000`** a je hotovo — jméno `.local` si
+telefon přeloží sám.
 
-Přihlaste se jménem `kurnik` a heslem z `.env`. Pak v prohlížeči zvolte **Přidat na plochu** —
-vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
+**Na Androidu tohle nefunguje.** Prohlížeč na Androidu jména `.local` nepřekládá, takže
+je potřeba zadat přímo IP adresu Pi:
+
+1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
+   Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
+2. **Zafixujte ji.** V routeru najděte **DHCP reservation** (bývá pod Wi-Fi, LAN nebo DHCP)
+   a přiřaďte tu adresu Raspberry Pi natrvalo. Potřebnou MAC adresu vypíše na Pi příkaz
+   `ip link show wlan0`, je to řádek `link/ether`. Bez rezervace se adresa po výpadku proudu
+   může změnit a uložená ikona přestane fungovat.
+3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
+   Chrome pošle do vyhledávače.
+4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte v Chrome
+   **⋮ → Nastavení → Soukromí a zabezpečení → Vždy používat zabezpečená připojení**.
+5. Přihlaste se jménem `kurnik` a heslem z `.env`, pak zvolte **⋮ → Přidat na plochu**.
+   Vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
+
+Některé routery (OpenWrt, MikroTik, novější Asus) umí vlastní DNS záznam. Když se v takovém
+routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
 
 ### Mimo domov
 
 > **Nikdy neotevírejte port 3000 do internetu.** I když je stránka chráněná heslem,
 > vystavovat ji veřejně je zbytečné riziko — kdo se dostane dovnitř, otevře dvířka.
+> Heslo navíc po holém HTTP cestuje nešifrovaně.
 
-Použijte **Tailscale**, který udělá šifrovaný tunel jen mezi vlastními zařízeními:
+Řešením je **Tailscale**. Vytvoří privátní síť jen z vlastních zařízení: každé dostane
+adresu `100.x.y.z`, kterou nikdo jiný nevidí, a provoz mezi nimi je šifrovaný. Do internetu
+se nic neotevírá a není potřeba veřejná IP adresa, takže to funguje i na připojeních, kde
+přesměrování portů vůbec nejde. Pro osobní použití je zdarma.
+
+#### Na Raspberry Pi
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
 
-Nainstalujte Tailscale i do mobilu, přihlaste se stejným účtem a v aplikaci se objeví
-adresa Pi. Tu pak stačí zadat s `:3000`. Funguje to z domova i z mobilních dat.
+Druhý příkaz vypíše odkaz. Otevřete ho v prohlížeči a přihlaste se — účtem Google, GitHub,
+Microsoft nebo e-mailem. Po přihlášení vypíše adresu Pi:
+
+```bash
+tailscale ip -4
+```
+
+> **Vypněte vypršení klíče.** Tailscale po 180 dnech vyžaduje nové přihlášení a server by
+> ze sítě tiše vypadl. Na <https://login.tailscale.com> u zařízení `kurnik` zvolte
+> **Disable key expiry**. U serveru, který má běžet pořád, je to důležité.
+
+#### V mobilu
+
+Nainstalujte aplikaci **Tailscale** z Obchodu Play nebo App Store, přihlaste se **stejným
+účtem** a zapněte přepínač. V seznamu zařízení se objeví `kurnik` i se svou adresou.
+
+Stránku pak otevřete na `http://100.x.y.z:3000`. Když v konzoli Tailscale zapnete
+**MagicDNS**, stačí kratší `http://kurnik:3000`.
+
+**Ikonu na plochu si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat, takže
+stačí jediná — na rozdíl od domácí IP adresy, která mimo domov neodpoví.
+
+Aplikace drží připojení zapnuté; vypnout jde přepínačem, ale pak stránka mimo domov
+nenaběhne. Tunelem prochází jen provoz na vlastní zařízení, běžné prohlížení internetu jde
+mimo něj.
 
 ## Ověření
 

@@ -4,6 +4,18 @@ import { config, ttnUsername } from './config.js';
 import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT } from './codec.js';
 
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
+const CORRELATION_PREFIX = 'kurnik';
+
+function correlationIds(message) {
+  const found = [];
+  const visit = (value, depth) => {
+    if (!value || typeof value !== 'object' || depth > 4) return;
+    if (Array.isArray(value.correlation_ids)) found.push(...value.correlation_ids);
+    for (const nested of Object.values(value)) visit(nested, depth + 1);
+  };
+  visit(message, 0);
+  return found;
+}
 
 export class TtnBridge extends EventEmitter {
   constructor() {
@@ -66,8 +78,12 @@ export class TtnBridge extends EventEmitter {
 
     const event = DOWN_EVENTS.find((name) => topic.endsWith(`/down/${name}`));
     if (event) {
-      const done = this.pending[0];
-      if (done) this.#setPending(this.pending.slice(1));
+      const ids = correlationIds(message);
+      const matched = this.pending.findIndex((entry) => ids.includes(entry.correlationId));
+      const index = matched >= 0 ? matched : 0;
+      const done = this.pending[index];
+
+      if (done) this.#setPending(this.pending.filter((_, position) => position !== index));
       this.emit('downlink', { event, commands: done?.commands ?? null });
       return;
     }
@@ -104,23 +120,28 @@ export class TtnBridge extends EventEmitter {
     const payload = encodeDownlink(names);
 
     if (!this.connected) throw new Error('not connected to TTN');
+
+    const id = this.nextId++;
+    const entry = {
+      id,
+      correlationId: `${CORRELATION_PREFIX}:${id}`,
+      commands: names,
+      byte: payload[0],
+      queuedAt: new Date().toISOString()
+    };
+
     const body = JSON.stringify({
       downlinks: [{
         f_port: DOWNLINK_PORT,
         frm_payload: Buffer.from(payload).toString('base64'),
-        priority: 'NORMAL'
+        priority: 'NORMAL',
+        correlation_ids: [entry.correlationId]
       }]
     });
 
     return new Promise((resolve, reject) => {
       this.client.publish(`${this.#base()}/down/push`, body, { qos: 1 }, (err) => {
         if (err) return reject(err);
-        const entry = {
-          id: this.nextId++,
-          commands: names,
-          byte: payload[0],
-          queuedAt: new Date().toISOString()
-        };
         this.#setPending([...this.pending, entry]);
         resolve(entry);
       });
