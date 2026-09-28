@@ -80,31 +80,7 @@ V aplikaci **End devices → Register end device** a zvolte **Enter end device s
 | Additional LoRaWAN class capabilities | None (class A only) |
 | JoinEUI, DevEUI, AppKey | tři údaje ze zařízení |
 
-> **AppKey musí přesně odpovídat tomu, který je v kurníku**, jinak se kurník k síti
-> nepřipojí. Dodává se spolu se zařízením. Při vlastním překladu firmwaru je napřed
-> vhodné přečíst si následující odstavec.
-
 Zapněte kurník. Během pár minut se v **Live data** objeví `Accept join-request` a pak první zpráva.
-
-### Výměna AppKey
-
-AppKey je jediný klíč, ze kterého si kurník se sítí odvodí všechno ostatní. **Ten, který
-je ve zdrojovém kódu na GitHubu, je veřejný** — přečte si ho kdokoliv.
-
-Kdo ho má, dokáže odposlechnutý provoz rozšifrovat a hlavně **poslat kurníku vlastní
-příkaz: otevřít dvířka, vypnout automatiku**. Musel by k tomu stát s vysílačkou v dosahu
-kurníku, přes internet to nejde — souřadnice kurníku jsou ale v kódu také. Před ostrým
-nasazením je proto vhodné klíč vyměnit za vlastní:
-
-1. V TTN u zařízení **AppKey → Generate** a klíč zkopírovat. Je to 32 znaků.
-2. V souboru `Master/LoRaWAN/App/se-identity.h` ho zapsat po dvojicích oddělených
-   čárkami do `LORAWAN_GEN_APP_KEY` i `LORAWAN_APP_KEY` — obě mají stejnou hodnotu.
-3. Přeložit firmware a nahrát ho do kurníku.
-4. **Upravený soubor už nikam nezveřejňovat.** Fork repozitáře je v takovém případě
-   potřeba nastavit jako privátní.
-
-Takto vyrobený klíč zná jen jeho majitel a TTN. Vyměnit ho jde kdykoliv později,
-jen po každé změně kurník znovu projde připojením k síti.
 
 ## 5. Dekódování dat
 
