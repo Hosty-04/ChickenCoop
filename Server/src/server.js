@@ -23,6 +23,7 @@ const wss = new WebSocketServer({
 const ttn = new TtnBridge();
 
 const state = {
+  device: config.ttn.deviceId,
   latest: null,
   ttnConnected: false,
   dbOk: null,
@@ -85,23 +86,14 @@ function broadcast(type, data) {
   }
 }
 
-app.get('/api/status', (req, res) => {
-  res.json({
-    device: config.ttn.deviceId,
-    ttnConnected: state.ttnConnected,
-    dbOk: state.dbOk,
-    dbError: state.dbError,
-    latest: state.latest,
-    pending: state.pending
-  });
-});
+app.get('/api/status', (req, res) => res.json(state));
 
 app.get('/api/history', async (req, res) => {
   const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
   try {
     res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
-    res.status(502).json({ error: `database query failed: ${err.message}` });
+    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
   }
 });
 

@@ -25,6 +25,7 @@ const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
 const TOAST_MS = 5000;
+const REQUEST_MS = 8000;
 
 let chart = null;
 let hours = 24;
@@ -63,18 +64,22 @@ function formatAgo(iso) {
   return h < 48 ? `před ${h} h` : `před ${Math.round(h / 24)} dny`;
 }
 
+function setBadge(up, text) {
+  const badge = el('link');
+  badge.classList.toggle('is-up', up === true);
+  badge.classList.toggle('is-down', up === false);
+  el('link-text').textContent = text;
+}
+
 function renderStatus(status) {
   el('device').textContent = status.device ?? '';
 
-  const badge = el('link');
-  badge.classList.toggle('is-up', status.ttnConnected === true);
-  badge.classList.toggle('is-down', status.ttnConnected === false);
-  el('link-text').textContent = status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno';
+  setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
 
   renderPending(status.pending);
 
   if (status.dbOk === false) {
-    showToast(`Databáze hlásí chybu: ${status.dbError ?? 'neznámá chyba'}`, 'is-error');
+    showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
   }
 }
 
@@ -217,6 +222,21 @@ function renderChart() {
   });
 }
 
+function reason(err) {
+  const lost = err instanceof TypeError || err?.name === 'AbortError' || err?.name === 'TimeoutError';
+  return lost ? 'server neodpovídá' : err.message;
+}
+
+async function request(url, options) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_MS);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function showToast(text, tone) {
   const toast = el('toast');
   toast.textContent = text;
@@ -240,7 +260,7 @@ function requireSession(res) {
 async function loadHistory() {
   el('chart-sub').textContent = 'načítám…';
   try {
-    const res = await fetch(`/api/history?hours=${hours}`);
+    const res = await request(`/api/history?hours=${hours}`);
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
@@ -249,7 +269,7 @@ async function loadHistory() {
   } catch (err) {
     points = [];
     el('chart-sub').textContent = 'historii se nepodařilo načíst';
-    showToast(`Historie: ${err.message}`, 'is-error');
+    showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error');
   }
   renderChart();
   renderTable();
@@ -257,13 +277,14 @@ async function loadHistory() {
 
 async function loadStatus() {
   try {
-    const res = await fetch('/api/status');
+    const res = await request('/api/status');
     if (!requireSession(res)) return;
     const status = await res.json();
     renderStatus(status);
     renderLatest(status.latest);
   } catch (err) {
-    showToast(`Server neodpovídá: ${err.message}`, 'is-error');
+    setBadge(false, 'Server nedostupný');
+    showToast('Server neodpovídá.', 'is-error');
   }
 }
 
@@ -275,7 +296,7 @@ function connectSocket() {
     const { type, data } = JSON.parse(event.data);
     if (type === 'status') { renderStatus(data); renderLatest(data.latest); }
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
-    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další uplink`, 'is-ok');
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
@@ -284,6 +305,7 @@ function connectSocket() {
   });
 
   socket.addEventListener('close', (event) => {
+    setBadge(false, 'Server nedostupný');
     if (event.code === 1008 || event.code === 1006) {
       fetch('/api/status').then((r) => requireSession(r));
     }
@@ -303,7 +325,7 @@ el('cancel').addEventListener('click', async () => {
   const button = el('cancel');
   button.disabled = true;
   try {
-    const res = await fetch('/api/command/cancel', { method: 'POST' });
+    const res = await request('/api/command/cancel', { method: 'POST' });
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
@@ -311,14 +333,14 @@ el('cancel').addEventListener('click', async () => {
       ? `Zrušeno: ${countCommands(body.cleared)}`
       : 'Fronta je prázdná', 'is-ok');
   } catch (err) {
-    showToast(`Zrušení selhalo: ${err.message}`, 'is-error');
+    showToast(`Zrušení selhalo: ${reason(err)}`, 'is-error');
   } finally {
     button.disabled = false;
   }
 });
 
 el('logout').addEventListener('click', async () => {
-  await fetch('/api/logout', { method: 'POST' }).catch(() => undefined);
+  await request('/api/logout', { method: 'POST' }).catch(() => undefined);
   location.replace('/login.html');
 });
 
@@ -347,7 +369,7 @@ document.querySelectorAll('.commands button').forEach((button) => {
   button.addEventListener('click', async () => {
     button.disabled = true;
     try {
-      const res = await fetch('/api/command', {
+      const res = await request('/api/command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commands: [button.dataset.command] })
@@ -356,7 +378,7 @@ document.querySelectorAll('.commands button').forEach((button) => {
       const body = await res.json();
       if (!res.ok) throw new Error(body.error ?? res.statusText);
     } catch (err) {
-      showToast(`Příkaz selhal: ${err.message}`, 'is-error');
+      showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
     } finally {
       button.disabled = false;
     }

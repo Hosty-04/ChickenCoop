@@ -48,8 +48,8 @@ export class TtnBridge extends EventEmitter {
     this.client.on('connect', () => {
       this.connected = true;
       const topics = [
-        `v3/${ttnUsername}/devices/+/up`,
-        ...DOWN_EVENTS.map((event) => `v3/${ttnUsername}/devices/+/down/${event}`)
+        `${this.#base()}/up`,
+        ...DOWN_EVENTS.map((event) => `${this.#base()}/down/${event}`)
       ];
       this.client.subscribe(topics, { qos: 0 }, (err) => {
         if (err) this.emit('error', err);
@@ -119,7 +119,7 @@ export class TtnBridge extends EventEmitter {
   sendCommand(names) {
     const payload = encodeDownlink(names);
 
-    if (!this.connected) throw new Error('not connected to TTN');
+    if (!this.connected) throw new Error('server není spojený s The Things Network');
 
     const id = this.nextId++;
     const entry = {
@@ -149,7 +149,7 @@ export class TtnBridge extends EventEmitter {
   }
 
   clearQueue() {
-    if (!this.connected) throw new Error('not connected to TTN');
+    if (!this.connected) throw new Error('server není spojený s The Things Network');
 
     return new Promise((resolve, reject) => {
       const body = JSON.stringify({ downlinks: [] });
