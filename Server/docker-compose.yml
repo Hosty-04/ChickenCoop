@@ -1,51 +1,23 @@
 services:
-  influxdb:
-    image: influxdb:2.7
-    container_name: kurnik-influxdb
-    ports:
-      - "8086:8086"
-    volumes:
-      - influx-data:/var/lib/influxdb2
-      - influx-config:/etc/influxdb2
-    environment:
-      DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_USER:-kurnik}
-      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD:?nastav INFLUX_PASSWORD v .env}
-      DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG:-kurnik}
-      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET:-coop}
-      DOCKER_INFLUXDB_INIT_RETENTION: 0
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:?nastav INFLUX_TOKEN v .env}
-    healthcheck:
-      test: ["CMD", "influx", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-    restart: unless-stopped
-
   app:
     build: .
     container_name: kurnik-app
     ports:
       - "${PORT:-3000}:3000"
+    volumes:
+      - coop-data:/data
     environment:
       PORT: 3000
+      DB_PATH: /data/kurnik.db
       AUTH_USER: ${AUTH_USER:-kurnik}
       AUTH_PASSWORD: ${AUTH_PASSWORD:?nastav AUTH_PASSWORD v .env}
-      INFLUX_URL: http://influxdb:8086
-      INFLUX_ORG: ${INFLUX_ORG:-kurnik}
-      INFLUX_BUCKET: ${INFLUX_BUCKET:-coop}
-      INFLUX_TOKEN: ${INFLUX_TOKEN:?nastav INFLUX_TOKEN v .env}
       TTN_HOST: ${TTN_HOST:-eu1.cloud.thethings.network}
       TTN_PORT: ${TTN_PORT:-8883}
       TTN_APP_ID: ${TTN_APP_ID:?nastav TTN_APP_ID v .env}
       TTN_TENANT: ${TTN_TENANT:-ttn}
       TTN_DEVICE_ID: ${TTN_DEVICE_ID:?nastav TTN_DEVICE_ID v .env}
       TTN_API_KEY: ${TTN_API_KEY:?nastav TTN_API_KEY v .env}
-    depends_on:
-      influxdb:
-        condition: service_healthy
     restart: unless-stopped
 
 volumes:
-  influx-data:
-  influx-config:
+  coop-data:

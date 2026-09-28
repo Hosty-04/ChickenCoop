@@ -13,7 +13,7 @@ Příprava zabere asi půl hodiny. Postupuj po krocích, každý navazuje na př
 
 - **Kurník** s namontovanou elektronikou
 - **Bránu** The Things Indoor Gateway a v domě Wi-Fi na 2,4 GHz
-- **Raspberry Pi 4** s 2 GB paměti a kartou microSD (postup níž)
+- **Raspberry Pi** a kartu microSD — stačí i to nejmenší, podrobnosti níž
 - **Tři údaje k zařízení**, které dostaneš spolu s kurníkem:
 
 | Údaj | Vypadá jako |
@@ -80,9 +80,31 @@ V aplikaci **End devices → Register end device** a zvol **Enter end device spe
 | Additional LoRaWAN class capabilities | None (class A only) |
 | JoinEUI, DevEUI, AppKey | tvoje tři údaje |
 
-> **AppKey si nenech vygenerovat** tlačítkem. Musí přesně odpovídat tomu, který dostaneš se zařízením, jinak kurník síť odmítne.
+> **AppKey musí přesně odpovídat tomu, který je v kurníku**, jinak se kurník k síti
+> nepřipojí. Dostal jsi ho spolu se zařízením. Jestli si firmware překládáš sám,
+> přečti si napřed následující odstavec.
 
 Zapni kurník. Během pár minut se v **Live data** objeví `Accept join-request` a pak první zpráva.
+
+### Vyměň si AppKey
+
+AppKey je jediný klíč, ze kterého si kurník se sítí odvodí všechno ostatní. **Ten, který
+je ve zdrojovém kódu tady na GitHubu, je veřejný** — přečte si ho kdokoliv.
+
+Kdo ho má, dokáže odposlechnutý provoz rozšifrovat a hlavně **poslat kurníku vlastní
+příkaz: otevřít dvířka, vypnout automatiku**. Musel by k tomu stát s vysílačkou v dosahu
+kurníku, přes internet to nejde — ale souřadnice kurníku jsou v kódu taky. Než ho
+pustíš naostro, vyměň klíč za vlastní:
+
+1. V TTN u zařízení **AppKey → Generate** a klíč si zkopíruj. Je to 32 znaků.
+2. V souboru `Master/LoRaWAN/App/se-identity.h` ho zapiš po dvojicích oddělených
+   čárkami do `LORAWAN_GEN_APP_KEY` i `LORAWAN_APP_KEY` — obě mají stejnou hodnotu.
+3. Přelož firmware a nahraj ho do kurníku.
+4. **Upravený soubor už nikam nezveřejňuj.** Když si repozitář forkuješ, dej ho jako
+   privátní.
+
+Klíč, který si takhle vyrobíš, znáš jen ty a TTN. Vyměnit ho jde kdykoliv později,
+jen po každé změně kurník znovu projde připojením k síti.
 
 ## 5. Dekódování dat
 
@@ -115,20 +137,22 @@ Ulož a počkej na další zprávu. Teď už uvidíš napětí a stav dvířek.
 ## 6. Server
 
 Server přebírá zprávy z The Things Network, ukládá je a zobrazuje na stránce.
-Musí běžet nepřetržitě — co zmešká, to je pryč. Raspberry Pi na to stačí
-a spotřebuje asi 3 W, tedy kolem 130 Kč elektřiny za rok.
+Musí běžet nepřetržitě — co zmešká, to je pryč.
 
 ### Jaké Pi
 
-**Raspberry Pi 4 se 2 GB** nebo novější. Méně paměti nedoporučuju — databáze se
-při úklidu dat nafoukne a na 512 MB ji systém zabije.
+**Stačí i to nejlevnější.** Server si bere asi 90 MB paměti a data ukládá do jediného
+souboru, takže se vejde na **Raspberry Pi Zero 2 W** s 512 MB. Spotřebuje kolem 1 W,
+tedy asi 40 Kč elektřiny za rok. Silnější Pi 4 nebo 5 poslouží taky, jen stojí víc
+a víc žerou; na Zero 2 W ale počítej s tím, že první sestavení serveru potrvá i deset
+minut.
 
-**Systém musí být 64bitový.** Databáze pro 32bitový systém neexistuje a nic se
-nespustí.
+Systém může být 32bitový i 64bitový, na tom nezáleží. Potřebuješ jen kartu microSD,
+8 GB bohatě stačí — měření za celý rok zabere asi 4 MB.
 
 ### Příprava karty
 
-V **Raspberry Pi Imageru** vyber **Raspberry Pi OS Lite (64-bit)**. Pod ozubeným
+V **Raspberry Pi Imageru** vyber **Raspberry Pi OS Lite**. Pod ozubeným
 kolečkem nastav:
 
 - hostname `kurnik`
@@ -169,7 +193,7 @@ cp .env.example .env
 nano .env
 ```
 
-Doplň šest hodnot:
+Doplň čtyři hodnoty:
 
 | Proměnná | Co tam patří |
 |---|---|
@@ -177,14 +201,11 @@ Doplň šest hodnot:
 | `TTN_APP_ID` | ID aplikace z kroku 3 |
 | `TTN_DEVICE_ID` | ID zařízení z kroku 4 |
 | `TTN_API_KEY` | klíč, který jsi právě vytvořil |
-| `INFLUX_TOKEN` | libovolný dlouhý náhodný řetězec |
-| `INFLUX_PASSWORD` | heslo do databáze |
 
-Poslední dvě si vymýšlíš ty, databáze se jimi při prvním spuštění založí.
-Náhodný řetězec vygeneruje `openssl rand -hex 32`.
+Heslo si vymýšlíš ty. Dlouhé a náhodné vygeneruje `openssl rand -base64 18`.
 
 > **Heslo ke stránce nepoužívej nikde jinde.** Je v souboru `.env` v čitelné podobě,
-> stejně jako ostatní klíče. Kdo se dostane k tomu souboru, má stejně tak celý systém.
+> stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.
 
 ### Spuštění
 
@@ -192,7 +213,19 @@ Náhodný řetězec vygeneruje `openssl rand -hex 32`.
 docker compose up -d
 ```
 
-Po restartu Pi se všechno spustí samo.
+Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama
+a data přežijí i smazání a znovuvytvoření kontejnerů.
+
+### Záloha
+
+Celá historie měření je jeden soubor. Zkopíruješ si ho třeba do domovského adresáře:
+
+```bash
+docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+```
+
+Obnovíš ho opačným směrem, když server zastavíš (`docker compose down`), soubor
+nakopíruješ zpět a server zase spustíš.
 
 ## 7. Přístup z mobilu
 
@@ -266,11 +299,13 @@ zamkne. Buď počkej, nebo zámek zrušíš restartem: `docker compose restart a
 **V konzoli jsou zprávy, ale stránka je prázdná.** Zkontroluj `TTN_APP_ID` a `TTN_API_KEY`
 v souboru `.env`, pak `docker compose restart`.
 
-**Databáze hlásí chybu.** Pokud jsi po prvním spuštění měnil `INFLUX_TOKEN`, je potřeba
-databázi založit znovu:
+**Databáze hlásí chybu.** Podívej se do výpisu `docker compose logs app`. Když je
+soubor s daty poškozený (třeba po vytažení karty za běhu), obnov ho ze zálohy; když
+žádnou nemáš, smaž ho a databáze se založí prázdná znovu:
 
 ```bash
-docker compose down -v
+docker compose down
+docker volume rm server_coop-data
 docker compose up -d
 ```
 

@@ -13,8 +13,18 @@ function optional(name, fallback) {
   return value === undefined || value === '' ? fallback : value;
 }
 
+function trustProxy() {
+  const value = optional('TRUST_PROXY', '');
+  if (value === '' || value === '0' || value === 'false') return false;
+  if (/^\d+$/.test(value)) return Number(value);
+  if (value === 'true') return true;
+  return value;
+}
+
 export const config = {
   port: Number(optional('PORT', '3000')),
+  trustProxy: trustProxy(),
+  dbPath: optional('DB_PATH', './data/kurnik.db'),
   auth: {
     user: optional('AUTH_USER', 'kurnik'),
     password: required('AUTH_PASSWORD')
@@ -26,12 +36,6 @@ export const config = {
     tenant: optional('TTN_TENANT', 'ttn'),
     apiKey: required('TTN_API_KEY'),
     deviceId: required('TTN_DEVICE_ID')
-  },
-  influx: {
-    url: optional('INFLUX_URL', 'http://localhost:8086'),
-    token: required('INFLUX_TOKEN'),
-    org: required('INFLUX_ORG'),
-    bucket: optional('INFLUX_BUCKET', 'coop')
   }
 };
 

@@ -61,8 +61,8 @@ function renderStatus(status) {
 
   renderPending(status.pending);
 
-  if (status.influxOk === false) {
-    showToast(`InfluxDB nedostupná: ${status.influxError ?? 'neznámá chyba'}`, 'is-error');
+  if (status.dbOk === false) {
+    showToast(`Databáze hlásí chybu: ${status.dbError ?? 'neznámá chyba'}`, 'is-error');
   }
 }
 

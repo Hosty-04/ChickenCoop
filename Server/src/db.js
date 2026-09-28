@@ -1,0 +1,125 @@
+import { mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
+import { config } from './config.js';
+import { DOOR_STATES } from './codec.js';
+
+mkdirSync(dirname(config.dbPath), { recursive: true });
+
+const db = new DatabaseSync(config.dbPath);
+
+db.exec('PRAGMA journal_mode = WAL');
+db.exec('PRAGMA synchronous = NORMAL');
+db.exec(`
+  CREATE TABLE IF NOT EXISTS readings (
+    device TEXT NOT NULL,
+    time INTEGER NOT NULL,
+    battery_mv INTEGER,
+    panel_mv INTEGER,
+    battery_critical INTEGER NOT NULL DEFAULT 0,
+    battery_saturated INTEGER NOT NULL DEFAULT 0,
+    panel_saturated INTEGER NOT NULL DEFAULT 0,
+    door INTEGER NOT NULL DEFAULT 3,
+    rssi REAL,
+    snr REAL,
+    sf INTEGER,
+    gateway TEXT,
+    PRIMARY KEY (device, time)
+  ) WITHOUT ROWID
+`);
+
+const insert = db.prepare(`
+  INSERT OR REPLACE INTO readings
+    (device, time, battery_mv, panel_mv, battery_critical, battery_saturated,
+     panel_saturated, door, rssi, snr, sf, gateway)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+
+const historyStatements = new Map();
+
+function historyStatement(bucket) {
+  let statement = historyStatements.get(bucket);
+  if (!statement) {
+    statement = db.prepare(`
+      SELECT (time / ${bucket}) * ${bucket} AS slot,
+             AVG(battery_mv) AS battery_mv,
+             AVG(panel_mv) AS panel_mv
+      FROM readings
+      WHERE device = ? AND time >= ?
+      GROUP BY slot
+      ORDER BY slot
+    `);
+    historyStatements.set(bucket, statement);
+  }
+  return statement;
+}
+
+const selectLatest = db.prepare(`
+  SELECT * FROM readings WHERE device = ? ORDER BY time DESC LIMIT 1
+`);
+
+function bucketFor(hours) {
+  if (hours <= 24) return 10 * 60 * 1000;
+  if (hours <= 168) return 60 * 60 * 1000;
+  return 6 * 60 * 60 * 1000;
+}
+
+function round(value) {
+  return value === null || value === undefined ? null : Math.round(value);
+}
+
+export async function writeReading(deviceId, reading, radio, at) {
+  insert.run(
+    deviceId,
+    at.getTime(),
+    reading.batteryMv,
+    reading.panelMv,
+    reading.batteryCritical ? 1 : 0,
+    reading.batterySaturated ? 1 : 0,
+    reading.panelSaturated ? 1 : 0,
+    DOOR_STATES.indexOf(reading.door),
+    radio?.rssi ?? null,
+    radio?.snr ?? null,
+    radio?.spreadingFactor ?? null,
+    radio?.gateway ?? null
+  );
+}
+
+export async function readHistory(deviceId, hours) {
+  const bucket = bucketFor(hours);
+  const since = Date.now() - hours * 60 * 60 * 1000;
+  const now = Date.now();
+
+  return historyStatement(bucket).all(deviceId, since).map((row) => ({
+    time: new Date(Math.min(row.slot + bucket, now)).toISOString(),
+    batteryMv: round(row.battery_mv),
+    panelMv: round(row.panel_mv)
+  }));
+}
+
+export async function readLatest(deviceId) {
+  const row = selectLatest.get(deviceId);
+  if (!row) return null;
+
+  return {
+    receivedAt: new Date(row.time).toISOString(),
+    reading: {
+      batteryMv: row.battery_mv,
+      panelMv: row.panel_mv,
+      batteryCritical: row.battery_critical === 1,
+      batterySaturated: row.battery_saturated === 1,
+      panelSaturated: row.panel_saturated === 1,
+      door: DOOR_STATES[row.door] ?? 'unknown'
+    },
+    radio: {
+      rssi: row.rssi,
+      snr: row.snr,
+      spreadingFactor: row.sf,
+      gateway: row.gateway
+    }
+  };
+}
+
+export async function closeDb() {
+  db.close();
+}
