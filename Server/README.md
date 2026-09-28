@@ -200,8 +200,24 @@ docker compose logs -f app
 Mají se objevit řádky `dashboard on http://localhost:3000` a `TTN connected`. Sledování
 ukončíte klávesami Ctrl+C, server běží dál.
 
-Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama
-a data přežijí i smazání a znovuvytvoření kontejnerů.
+Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama.
+
+### Kde jsou data
+
+Naměřené hodnoty neleží uvnitř kontejneru, ale v odděleném úložišti `server_coop-data`
+na kartě Pi. Proto přežijí:
+
+- restart serveru i celého Pi, včetně výpadku proudu
+- `docker compose down` a nové spuštění
+- aktualizaci a nové sestavení serveru
+- smazání obrazu, třeba příkazem `docker image prune`
+
+Přijít se o ně dá jen dvěma způsoby: příkazem `docker compose down -v` (to `-v` smaže
+i úložiště) nebo `docker volume rm server_coop-data`. Oboje je nevratné, takže se hodí
+mít zálohu.
+
+> Při náhlém výpadku proudu může chybět poslední měření nebo dvě, která ještě nebyla
+> zapsaná na kartu. Databáze jako taková zůstane v pořádku.
 
 ### Běžný provoz
 
