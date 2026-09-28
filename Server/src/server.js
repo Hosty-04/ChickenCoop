@@ -6,12 +6,20 @@ import { WebSocketServer } from 'ws';
 import { config } from './config.js';
 import { COMMANDS } from './codec.js';
 import { TtnBridge } from './ttn.js';
+import {
+  SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials,
+  openSession, closeSession, sessionValid, requestAuthenticated
+} from './auth.js';
 import { writeReading, readHistory, readLatest, closeInflux } from './influx.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const http = createServer(app);
-const wss = new WebSocketServer({ server: http, path: '/ws' });
+const wss = new WebSocketServer({
+  server: http,
+  path: '/ws',
+  verifyClient: ({ req }, done) => done(requestAuthenticated(req), 401, 'Unauthorized')
+});
 const ttn = new TtnBridge();
 
 const state = {
@@ -21,7 +29,50 @@ const state = {
   influxError: null
 };
 
-app.use(express.json());
+const PUBLIC_PATHS = new Set([
+  '/login.html', '/login.js', '/style.css', '/manifest.webmanifest',
+  '/icon.svg', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png'
+]);
+
+app.disable('x-powered-by');
+app.use(express.json({ limit: '8kb' }));
+
+app.post('/api/login', (req, res) => {
+  const waitMs = lockoutRemainingMs(req.ip);
+  if (waitMs > 0) {
+    return res.status(429).json({
+      ok: false,
+      error: `Příliš mnoho pokusů. Zkus to za ${Math.ceil(waitMs / 60000)} min.`
+    });
+  }
+
+  if (!checkCredentials(req.ip, req.body?.user, req.body?.password)) {
+    return res.status(401).json({ ok: false, error: 'Nesprávné jméno nebo heslo.' });
+  }
+
+  res.cookie(SESSION_COOKIE, openSession(), {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: req.secure,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    path: '/'
+  });
+  res.json({ ok: true });
+});
+
+app.post('/api/logout', (req, res) => {
+  closeSession(readCookie(req.headers.cookie, SESSION_COOKIE));
+  res.clearCookie(SESSION_COOKIE, { path: '/' });
+  res.json({ ok: true });
+});
+
+app.use((req, res, next) => {
+  if (PUBLIC_PATHS.has(req.path)) return next();
+  if (sessionValid(readCookie(req.headers.cookie, SESSION_COOKIE))) return next();
+  if (req.path.startsWith('/api/')) return res.status(401).json({ error: 'nepřihlášen' });
+  return res.redirect('/login.html');
+});
+
 app.use(express.static(join(here, '..', 'public')));
 app.use('/vendor', express.static(join(here, '..', 'node_modules', 'chart.js', 'dist')));
 

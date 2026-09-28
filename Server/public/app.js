@@ -177,10 +177,19 @@ function showToast(text, tone) {
   toast.hidden = false;
 }
 
+function requireSession(res) {
+  if (res.status === 401) {
+    location.replace('/login.html');
+    return false;
+  }
+  return true;
+}
+
 async function loadHistory() {
   el('chart-sub').textContent = 'načítám…';
   try {
     const res = await fetch(`/api/history?hours=${hours}`);
+    if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     points = body.points;
@@ -196,7 +205,9 @@ async function loadHistory() {
 
 async function loadStatus() {
   try {
-    const status = await fetch('/api/status').then((r) => r.json());
+    const res = await fetch('/api/status');
+    if (!requireSession(res)) return;
+    const status = await res.json();
     renderStatus(status);
     renderLatest(status.latest);
   } catch (err) {
@@ -215,7 +226,12 @@ function connectSocket() {
     if (type === 'command') showToast(`Příkaz odeslán: 0x${data.byte.toString(16).padStart(2, '0').toUpperCase()} — čeká na další uplink`, 'is-ok');
   });
 
-  socket.addEventListener('close', () => setTimeout(connectSocket, 3000));
+  socket.addEventListener('close', (event) => {
+    if (event.code === 1008 || event.code === 1006) {
+      fetch('/api/status').then((r) => requireSession(r));
+    }
+    setTimeout(connectSocket, 3000);
+  });
 }
 
 el('theme').addEventListener('click', () => {
@@ -224,6 +240,11 @@ el('theme').addEventListener('click', () => {
   try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch { void 0; }
   renderLegend();
   renderChart();
+});
+
+el('logout').addEventListener('click', async () => {
+  await fetch('/api/logout', { method: 'POST' }).catch(() => undefined);
+  location.replace('/login.html');
 });
 
 el('toggle-table').addEventListener('click', (e) => {
@@ -256,6 +277,7 @@ document.querySelectorAll('.commands button').forEach((button) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commands: [button.dataset.command] })
       });
+      if (!requireSession(res)) return;
       const body = await res.json();
       if (!res.ok) throw new Error(body.error ?? res.statusText);
     } catch (err) {

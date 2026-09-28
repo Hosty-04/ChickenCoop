@@ -15,6 +15,10 @@ function optional(name, fallback) {
 
 export const config = {
   port: Number(optional('PORT', '3000')),
+  auth: {
+    user: optional('AUTH_USER', 'kurnik'),
+    password: required('AUTH_PASSWORD')
+  },
   ttn: {
     host: optional('TTN_HOST', 'eu1.cloud.thethings.network'),
     port: Number(optional('TTN_PORT', '8883')),

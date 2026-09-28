@@ -13,7 +13,7 @@ Příprava zabere asi půl hodiny. Postupuj po krocích, každý navazuje na př
 
 - **Kurník** s namontovanou elektronikou
 - **Bránu** The Things Indoor Gateway a v domě Wi-Fi na 2,4 GHz
-- **Počítač**, který běží nepřetržitě (stačí Raspberry Pi) s nainstalovaným Dockerem
+- **Raspberry Pi 4** s 2 GB paměti a kartou microSD (postup níž)
 - **Tři údaje k zařízení**, které dostaneš spolu s kurníkem:
 
 | Údaj | Vypadá jako |
@@ -115,10 +115,45 @@ Ulož a počkej na další zprávu. Teď už uvidíš napětí a stav dvířek.
 ## 6. Server
 
 Server přebírá zprávy z The Things Network, ukládá je a zobrazuje na stránce.
+Musí běžet nepřetržitě — co zmešká, to je pryč. Raspberry Pi na to stačí
+a spotřebuje asi 3 W, tedy kolem 130 Kč elektřiny za rok.
 
-### Klíč pro přístup
+### Jaké Pi
 
-V aplikaci **API keys → Add API key**. Zaškrtni práva:
+**Raspberry Pi 4 se 2 GB** nebo novější. Méně paměti nedoporučuju — databáze se
+při úklidu dat nafoukne a na 512 MB ji systém zabije.
+
+**Systém musí být 64bitový.** Databáze pro 32bitový systém neexistuje a nic se
+nespustí.
+
+### Příprava karty
+
+V **Raspberry Pi Imageru** vyber **Raspberry Pi OS Lite (64-bit)**. Pod ozubeným
+kolečkem nastav:
+
+- hostname `kurnik`
+- zapnuté SSH
+- uživatelské jméno a heslo
+- síť Wi-Fi
+
+Díky tomu nepotřebuješ monitor ani klávesnici.
+
+### Docker
+
+Přihlas se a nainstaluj:
+
+```bash
+ssh pi@kurnik.local
+sudo apt update && sudo apt full-upgrade -y
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+```
+
+**Odhlas se a přihlas znovu**, jinak bude Docker hlásit chybu oprávnění.
+
+### Klíč pro přístup k síti
+
+V konzoli TTN v aplikaci **API keys → Add API key**. Zaškrtni práva:
 
 - Read application traffic (uplink and downlink)
 - Write downlink application traffic
@@ -128,25 +163,28 @@ Klíč začíná `NNSXS.` a **zobrazí se jen jednou** — hned si ho zkopíruj.
 ### Nastavení
 
 ```bash
-cd Server
+git clone https://github.com/Hosty-04/ChickenCoop.git
+cd ChickenCoop/Server
 cp .env.example .env
+nano .env
 ```
 
-Do souboru `.env` doplň pět hodnot:
+Doplň šest hodnot:
 
 | Proměnná | Co tam patří |
 |---|---|
+| `AUTH_PASSWORD` | heslo, kterým se budeš přihlašovat ke stránce |
 | `TTN_APP_ID` | ID aplikace z kroku 3 |
 | `TTN_DEVICE_ID` | ID zařízení z kroku 4 |
 | `TTN_API_KEY` | klíč, který jsi právě vytvořil |
-| `INFLUX_TOKEN` | libovolný dlouhý náhodný řetězec, který si vymyslíš |
-| `INFLUX_PASSWORD` | heslo do databáze, také si ho vymyslíš |
+| `INFLUX_TOKEN` | libovolný dlouhý náhodný řetězec |
+| `INFLUX_PASSWORD` | heslo do databáze |
 
-Náhodný řetězec ti vygeneruje:
+Poslední dvě si vymýšlíš ty, databáze se jimi při prvním spuštění založí.
+Náhodný řetězec vygeneruje `openssl rand -hex 32`.
 
-```bash
-openssl rand -hex 32
-```
+> **Heslo ke stránce nepoužívej nikde jinde.** Je v souboru `.env` v čitelné podobě,
+> stejně jako ostatní klíče. Kdo se dostane k tomu souboru, má stejně tak celý systém.
 
 ### Spuštění
 
@@ -154,7 +192,35 @@ openssl rand -hex 32
 docker compose up -d
 ```
 
-Stránka běží na <http://localhost:3000>. Server se po restartu počítače spustí sám.
+Po restartu Pi se všechno spustí samo.
+
+## 7. Přístup z mobilu
+
+Na domácí Wi-Fi otevři **`http://kurnik.local:3000`**. Na iPhonu to funguje rovnou;
+**na Androidu adresy s `.local` často nefungují** a musíš použít IP adresu. Zjistíš ji
+na Pi příkazem `hostname -I`, vyjde něco jako `192.168.1.42`, takže zadáš
+`http://192.168.1.42:3000`.
+
+Aby se adresa neměnila, najdi v routeru **DHCP reservation** a přiřaď Raspberry Pi
+napevno jednu adresu.
+
+Přihlas se jménem `kurnik` a heslem z `.env`. Pak v prohlížeči dej **Přidat na plochu** —
+vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
+
+### Mimo domov
+
+> **Nikdy neotevírej port 3000 do internetu.** I když je stránka chráněná heslem,
+> vystavovat ji veřejně je zbytečné riziko — kdo se dostane dovnitř, otevře dvířka.
+
+Použij **Tailscale**, který udělá šifrovaný tunel jen mezi tvými zařízeními:
+
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+```
+
+Nainstaluj Tailscale i do mobilu, přihlas se stejným účtem a v aplikaci uvidíš adresu
+Pi. Tu pak zadáš s `:3000`. Funguje to z domova i z mobilních dat.
 
 ## Ověření
 
@@ -162,7 +228,7 @@ Stránka běží na <http://localhost:3000>. Server se po restartu počítače s
 |---|---|
 | Konzole, Gateways | brána **Connected** |
 | Konzole, zařízení | zpráva každých 10 minut |
-| `http://localhost:3000` | naměřená napětí a stav dvířek |
+| Stránka | po přihlášení naměřená napětí a stav dvířek |
 
 ## Ovládání
 
@@ -172,24 +238,36 @@ Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
 > Neklikej opakovaně — příkazy se řadí za sebe a provedou se všechny.
 
-Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší takové změny.
+Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
+takové změny.
 
 ## Když to nejede
 
-**Brána není Connected.** Zkontroluj, že tvoje Wi-Fi vysílá na 2,4 GHz. Pokud ano, podrž SETUP a nastav ji znovu. Ujisti se také, že jsi použil **Claim gateway**, ne Register gateway.
+**Brána není Connected.** Zkontroluj, že tvoje Wi-Fi vysílá na 2,4 GHz. Pokud ano, podrž
+SETUP a nastav ji znovu. Ujisti se také, že jsi použil **Claim gateway**, ne Register gateway.
 
-**Kurník se nepřipojí, v konzoli je `MIC mismatch`.** AppKey v konzoli nesouhlasí s tím v zařízení. Přepiš ho a kurník vypni a zapni.
+**Kurník se nepřipojí, v konzoli je `MIC mismatch`.** AppKey v konzoli nesouhlasí s tím
+v zařízení. Přepiš ho a kurník vypni a zapni.
 
-**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontroluj `TTN_APP_ID` a `TTN_API_KEY` v souboru `.env`, pak `docker compose restart`.
+**Stránku nenajdeš.** Na Androidu zkus místo `kurnik.local` přímo IP adresu. Pokud prohlížeč
+přepíná na HTTPS, vypni v něm „Vždy používat zabezpečené připojení".
 
-**Databáze hlásí chybu.** Pokud jsi po prvním spuštění měnil `INFLUX_TOKEN`, je potřeba databázi založit znovu:
+**Přihlášení hlásí příliš mnoho pokusů.** Po pěti špatných heslech se přihlašování na 15 minut
+zamkne. Buď počkej, nebo zámek zrušíš restartem: `docker compose restart app`.
+
+**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontroluj `TTN_APP_ID` a `TTN_API_KEY`
+v souboru `.env`, pak `docker compose restart`.
+
+**Databáze hlásí chybu.** Pokud jsi po prvním spuštění měnil `INFLUX_TOKEN`, je potřeba
+databázi založit znovu:
 
 ```bash
 docker compose down -v
 docker compose up -d
 ```
 
-**Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraň překážku a klikni na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
+**Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraň
+překážku a klikni na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
 
 ## Příloha: jak zjistit DevEUI
 

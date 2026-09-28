@@ -197,3 +197,34 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+.login-root {
+  max-width: 400px;
+  justify-content: center;
+  padding-top: 8vh;
+}
+.login-card { align-items: stretch; gap: 16px; padding: 28px 24px; }
+.login-card h1 { font-size: 22px; }
+.login-card .card-sub { margin: 0; }
+.login-mark { align-self: center; border-radius: 12px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--text-secondary); }
+.field input {
+  font: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 12px;
+  min-height: 44px;
+}
+.field input:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+
+button.primary {
+  background: var(--series-1);
+  border-color: var(--series-1);
+  color: #ffffff;
+  font-weight: 600;
+}
+button.primary:hover { filter: brightness(1.06); }
