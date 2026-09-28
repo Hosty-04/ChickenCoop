@@ -302,10 +302,18 @@ Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 
 1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
    Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
-2. **Zafixujte ji.** V routeru najděte **DHCP reservation** (bývá pod Wi-Fi, LAN nebo DHCP)
-   a přiřaďte tu adresu Raspberry Pi natrvalo. Potřebnou MAC adresu vypíše na Pi příkaz
-   `ip link show wlan0`, je to řádek `link/ether`. Bez rezervace se adresa po výpadku proudu
-   může změnit a uložená ikona přestane fungovat.
+2. **Zafixujte ji v routeru**, jinak se po výpadku proudu může změnit a uložená ikona
+   přestane fungovat. Postup je u všech routerů stejný, liší se jen pojmenování:
+   - Otevřete nastavení routeru. Jeho adresu vypíše na Pi příkaz `ip route | grep default`,
+     bývá to `192.168.1.1` nebo `192.168.0.1`. Přihlašovací údaje jsou obvykle na štítku
+     routeru.
+   - Najděte oddíl **LAN** nebo **DHCP**. Hledaná položka se jmenuje **DHCP reservation**,
+     **Address reservation**, **Static lease** nebo česky **rezervace adres**.
+   - Ze seznamu připojených zařízení vyberte `kurnik`. Když seznam není, zadejte MAC adresu
+     ručně — vypíše ji `ip link show` na Pi, řádek `link/ether` u `wlan0` pro Wi-Fi nebo
+     u `eth0` pro kabel.
+   - Uložte a Pi restartujte, aby si novou adresu převzalo.
+
 3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
    prohlížeč pošle do vyhledávače.
 4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
@@ -323,8 +331,10 @@ Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 > a novějším i samotný systém. Je to ochrana proti stránkám z internetu, které by jinak
 > mohly prohledávat domácí síť; tahle stránka běží přímo na Pi a nic dalšího nehledá.
 
-Některé routery umí vlastní DNS záznam. Když se v takovém
-routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
+Některé routery umí k IP adrese přiřadit vlastní jméno. Bývá to hned vedle rezervace adres,
+případně v oddílu **DNS**. Když se tam `kurnik` přiřadí k adrese Pi, funguje pak na všech
+zařízeních v domácí síti adresa `http://kurnik:3000` a IP adresu si nikdo pamatovat nemusí.
+Umí to ale jen některé routery; u většiny běžných tahle volba chybí.
 
 ### Mimo domov
 
