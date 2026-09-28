@@ -317,11 +317,11 @@ Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a
 > Opakované klikání nepomůže — příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
-**Zrušit frontu** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
+**Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká; **Zrušit frontu** ale vždy smaže vše, co v síti opravdu je, takže po
+> v síti něco čeká; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
 > restartu má smysl na něj kliknout, i když se nic nezobrazuje.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
