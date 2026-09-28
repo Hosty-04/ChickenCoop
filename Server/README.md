@@ -273,6 +273,11 @@ další dorazí za deset minut.
 Stránka je dostupná z čehokoliv v domácí síti — z počítače i z telefonu. Liší se jen
 drobnosti, proto je dál každé zařízení zvlášť.
 
+> **Kdo si nastaví Tailscale, vystačí si s ním i doma** a zbytek téhle kapitoly může
+> přeskočit. Jeho adresa odpovídá na domácí Wi-Fi stejně jako z mobilních dat, takže stačí
+> jediná a nemusí se nic přepínat. Domácí adresa má proti tomu tu výhodu, že nevyžaduje
+> žádný účet ani aplikaci.
+
 ### Doma z počítače
 
 Stačí otevřít **`http://kurnik.local:3000`**. Windows, macOS i běžné linuxové distribuce
