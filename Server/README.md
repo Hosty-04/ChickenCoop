@@ -289,10 +289,6 @@ popsáno o kousek níž u Androidu, platí to stejně.
 
 Pro rychlé spuštění si udělejte záložku nebo zástupce na ploše.
 
-> Nabídka **Nainstalovat stránku jako aplikaci** se v Chrome ani Edge neobjeví. Prohlížeče
-> ji nabízejí jen stránkám běžícím přes HTTPS a domácí adresa je obyčejné HTTP. Stránka
-> funguje normálně, jen se otevírá v okně prohlížeče jako každá jiná.
-
 ### Doma z iPhonu
 
 Stejně jako na počítači: **`http://kurnik.local:3000`**, jméno si telefon přeloží sám.
@@ -301,10 +297,7 @@ otevře bez adresního řádku jako aplikace.
 
 ### Doma z Androidu
 
-**Prohlížeč si můžete vybrat** — Chrome, Firefox, Samsung Internet i jiný. Stránka je
-obyčejná webová stránka a funguje ve všech stejně, liší se jen názvy položek v nabídce.
-
-**Jméno `kurnik.local` je tu ale nejisté.** Novější Androidy ho přeložit umí, starší ne,
+**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne,
 a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastavení → Oprávnění
 → Místní síť**). Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 
@@ -327,7 +320,7 @@ a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastav
 > samostatně jako aplikace, musela by stránka běžet přes HTTPS — po domácím HTTP to žádný
 > prohlížeč nenabídne. Na funkci to nemá vliv.
 
-Některé routery (OpenWrt, MikroTik, novější Asus) umí vlastní DNS záznam. Když se v takovém
+Některé routery umí vlastní DNS záznam. Když se v takovém
 routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
 
 ### Mimo domov
