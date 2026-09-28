@@ -7,7 +7,7 @@ baterie, solárního panelu a dvířek; z webové stránky je lze kdykoli otevř
 kurník ──LoRa──> brána ──internet──> The Things Network ──> server ──> stránka
 ```
 
-Příprava zabere asi půl hodiny. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
+Příprava zabere asi hodinu. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
 
 ## Co je potřeba
 
@@ -145,6 +145,7 @@ Přihlaste se a nainstalujte:
 ```bash
 ssh pi@kurnik.local
 sudo apt update && sudo apt full-upgrade -y
+sudo apt install -y git
 curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 ```
@@ -189,19 +190,67 @@ Heslo si volí uživatel. Dlouhé a náhodné vygeneruje `openssl rand -base64 1
 docker compose up -d
 ```
 
+**Poprvé to chvíli trvá** — server se musí sestavit, na Zero 2 W klidně deset minut.
+Že se rozběhl, ukáže výpis:
+
+```bash
+docker compose logs -f app
+```
+
+Mají se objevit řádky `dashboard on http://localhost:3000` a `TTN connected`. Sledování
+ukončíte klávesami Ctrl+C, server běží dál.
+
 Po restartu Pi se všechno spustí samo. Databáze se založí při prvním spuštění sama
 a data přežijí i smazání a znovuvytvoření kontejnerů.
 
-### Záloha
+### Běžný provoz
 
-Celá historie měření je jeden soubor. Zkopírovat se dá třeba do domovského adresáře:
+Všechny příkazy se spouštějí ze složky `ChickenCoop/Server`.
+
+| Co | Příkaz |
+|---|---|
+| Zjistit, jestli server běží | `docker compose ps` |
+| Sledovat výpis | `docker compose logs -f app` |
+| Zastavit | `docker compose down` |
+| Spustit | `docker compose up -d` |
+| Změnit heslo nebo klíče | upravit `.env`, pak `docker compose up -d` |
+
+> Po úpravě `.env` nestačí `docker compose restart` — ten kontejner jen restartuje
+> s původním nastavením. Nové hodnoty načte až `docker compose up -d`.
+
+### Aktualizace
 
 ```bash
-docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+cd ~/ChickenCoop
+git pull
+cd Server
+docker compose up -d --build
 ```
 
-Obnova probíhá opačným směrem: zastavit server (`docker compose down`), nakopírovat
-soubor zpět a server zase spustit.
+**Bez `--build`** by Docker spustil dřív sestavenou verzi a změny by se neprojevily.
+Naměřená data zůstanou, ta jsou mimo kontejner.
+
+### Záloha
+
+Celá historie měření je jeden soubor. Server je při kopírování potřeba zastavit, jinak
+může část posledních měření zůstat v pomocném souboru a do zálohy se nedostane:
+
+```bash
+docker compose stop
+docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+docker compose start
+```
+
+Obnova je totéž obráceně:
+
+```bash
+docker compose stop
+docker compose cp ~/kurnik-zaloha.db app:/data/kurnik.db
+docker compose start
+```
+
+Zastavení trvá pár vteřin. Kdyby kurník zrovna v tu chvíli poslal zprávu, přijde se o ni —
+další dorazí za deset minut.
 
 ## 7. Přístup ke stránce
 
@@ -312,11 +361,23 @@ mimo něj.
 |---|---|
 | Konzole, Gateways | brána **Connected** |
 | Konzole, zařízení | zpráva každých 10 minut |
+| Pi, `docker compose logs app` | `TTN connected` a každých 10 minut řádek `uplink` |
 | Stránka | po přihlášení naměřená napětí a stav dvířek |
+
+## Co je na stránce
+
+Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
+poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
+30 dní nebo rok. Tlačítkem **Tabulka** se přepne na stejná data v číslech.
+
+V pravém horním rohu je přepínač světlého a tmavého motivu a odhlášení. Vedle nich svítí
+indikátor spojení serveru s The Things Network.
+
+Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
 ## Ovládání
 
-Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
+Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
@@ -347,8 +408,9 @@ přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené připojen
 **Přihlášení hlásí příliš mnoho pokusů.** Po pěti špatných heslech se přihlašování na 15 minut
 zamkne. Buď je potřeba počkat, nebo zámek zruší restart: `docker compose restart app`.
 
-**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontrolujte `TTN_APP_ID` a `TTN_API_KEY`
-v souboru `.env`, pak `docker compose restart`.
+**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontrolujte `TTN_APP_ID`, `TTN_DEVICE_ID`
+a `TTN_API_KEY` v souboru `.env`, pak `docker compose up -d`. Ve výpisu `docker compose logs app`
+musí být `TTN connected`.
 
 **Databáze hlásí chybu.** Podívejte se do výpisu `docker compose logs app`. Když je
 soubor s daty poškozený (třeba po vytažení karty za běhu), obnovte ho ze zálohy; pokud
