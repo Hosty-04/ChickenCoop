@@ -400,7 +400,7 @@ i se svou adresou.
 Stránku pak otevřete na `http://100.x.y.z:3000`. Když v konzoli Tailscale zapnete
 **MagicDNS**, stačí kratší `http://kurnik:3000`.
 
-**Ikonu nebo aplikaci si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat
+**Ikonu si udělejte právě z téhle adresy.** Funguje doma i z mobilních dat
 a z cizí sítě, takže stačí jediná — na rozdíl od domácí adresy, která mimo domov neodpoví.
 
 Aplikace drží připojení zapnuté; vypnout jde přepínačem, ale pak stránka mimo domov
