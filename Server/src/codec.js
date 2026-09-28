@@ -51,17 +51,17 @@ export function decodeUplink(bytes) {
 
 export function encodeDownlink(names) {
   if (!Array.isArray(names) || names.length === 0) {
-    throw new Error('at least one command is required');
+    throw new Error('je potřeba alespoň jeden příkaz');
   }
 
   const unknown = names.filter((name) => !(name in COMMANDS));
   if (unknown.length > 0) {
-    throw new Error(`unknown command: ${unknown.join(', ')}`);
+    throw new Error(`neznámý příkaz: ${unknown.join(', ')}`);
   }
 
   for (const [a, b] of EXCLUSIVE_PAIRS) {
     if (names.includes(a) && names.includes(b)) {
-      throw new Error(`${a} and ${b} cancel each other out and would be ignored by the device`);
+      throw new Error(`příkazy ${a} a ${b} se navzájem ruší, kurník by je ignoroval`);
     }
   }
 

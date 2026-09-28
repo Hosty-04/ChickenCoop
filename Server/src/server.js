@@ -101,7 +101,7 @@ app.get('/api/history', async (req, res) => {
   try {
     res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
-    res.status(502).json({ error: `database query failed: ${err.message}` });
+    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
   }
 });
 

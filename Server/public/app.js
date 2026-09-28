@@ -63,18 +63,22 @@ function formatAgo(iso) {
   return h < 48 ? `před ${h} h` : `před ${Math.round(h / 24)} dny`;
 }
 
+function setBadge(up, text) {
+  const badge = el('link');
+  badge.classList.toggle('is-up', up === true);
+  badge.classList.toggle('is-down', up === false);
+  el('link-text').textContent = text;
+}
+
 function renderStatus(status) {
   el('device').textContent = status.device ?? '';
 
-  const badge = el('link');
-  badge.classList.toggle('is-up', status.ttnConnected === true);
-  badge.classList.toggle('is-down', status.ttnConnected === false);
-  el('link-text').textContent = status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno';
+  setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
 
   renderPending(status.pending);
 
   if (status.dbOk === false) {
-    showToast(`Databáze hlásí chybu: ${status.dbError ?? 'neznámá chyba'}`, 'is-error');
+    showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
   }
 }
 
@@ -217,6 +221,10 @@ function renderChart() {
   });
 }
 
+function reason(err) {
+  return err instanceof TypeError ? 'server neodpovídá' : err.message;
+}
+
 function showToast(text, tone) {
   const toast = el('toast');
   toast.textContent = text;
@@ -249,7 +257,7 @@ async function loadHistory() {
   } catch (err) {
     points = [];
     el('chart-sub').textContent = 'historii se nepodařilo načíst';
-    showToast(`Historie: ${err.message}`, 'is-error');
+    showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error');
   }
   renderChart();
   renderTable();
@@ -263,7 +271,8 @@ async function loadStatus() {
     renderStatus(status);
     renderLatest(status.latest);
   } catch (err) {
-    showToast(`Server neodpovídá: ${err.message}`, 'is-error');
+    setBadge(false, 'Server nedostupný');
+    showToast('Server neodpovídá.', 'is-error');
   }
 }
 
@@ -275,7 +284,7 @@ function connectSocket() {
     const { type, data } = JSON.parse(event.data);
     if (type === 'status') { renderStatus(data); renderLatest(data.latest); }
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
-    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další uplink`, 'is-ok');
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
@@ -284,6 +293,7 @@ function connectSocket() {
   });
 
   socket.addEventListener('close', (event) => {
+    setBadge(false, 'Server nedostupný');
     if (event.code === 1008 || event.code === 1006) {
       fetch('/api/status').then((r) => requireSession(r));
     }
@@ -311,7 +321,7 @@ el('cancel').addEventListener('click', async () => {
       ? `Zrušeno: ${countCommands(body.cleared)}`
       : 'Fronta je prázdná', 'is-ok');
   } catch (err) {
-    showToast(`Zrušení selhalo: ${err.message}`, 'is-error');
+    showToast(`Zrušení selhalo: ${reason(err)}`, 'is-error');
   } finally {
     button.disabled = false;
   }
@@ -356,7 +366,7 @@ document.querySelectorAll('.commands button').forEach((button) => {
       const body = await res.json();
       if (!res.ok) throw new Error(body.error ?? res.statusText);
     } catch (err) {
-      showToast(`Příkaz selhal: ${err.message}`, 'is-error');
+      showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
     } finally {
       button.disabled = false;
     }
