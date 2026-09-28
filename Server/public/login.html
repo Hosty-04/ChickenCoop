@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurník — přihlášení</title>
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#f9f9f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="viz-root login-root">
+  <form class="card login-card" id="form" autocomplete="on">
+    <img src="/icon.svg" alt="" width="56" height="56" class="login-mark">
+    <h1>Kurník</h1>
+    <p class="card-sub">Přihlas se pro přístup k ovládání.</p>
+
+    <label class="field">
+      <span>Jméno</span>
+      <input id="user" name="username" type="text" autocomplete="username" required autofocus>
+    </label>
+
+    <label class="field">
+      <span>Heslo</span>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+    </label>
+
+    <button type="submit" id="submit" class="primary">Přihlásit</button>
+    <p class="toast is-error" id="error" hidden role="alert"></p>
+  </form>
+</div>
+<script src="/login.js" type="module"></script>
+</body>
+</html>

@@ -29,6 +29,8 @@ services:
       - "${PORT:-3000}:3000"
     environment:
       PORT: 3000
+      AUTH_USER: ${AUTH_USER:-kurnik}
+      AUTH_PASSWORD: ${AUTH_PASSWORD:?nastav AUTH_PASSWORD v .env}
       INFLUX_URL: http://influxdb:8086
       INFLUX_ORG: ${INFLUX_ORG:-kurnik}
       INFLUX_BUCKET: ${INFLUX_BUCKET:-coop}
