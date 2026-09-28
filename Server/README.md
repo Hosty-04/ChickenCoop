@@ -1,20 +1,20 @@
 # Kurník
 
 Automatická dvířka kurníku ovládaná přes internet. Kurník posílá každých 10 minut stav
-baterie, solárního panelu a dvířek; z webové stránky je můžeš kdykoli otevřít nebo zavřít.
+baterie, solárního panelu a dvířek; z webové stránky je lze kdykoli otevřít nebo zavřít.
 
 ```
-kurník ──LoRa──> brána ──internet──> The Things Network ──> tvůj server ──> stránka
+kurník ──LoRa──> brána ──internet──> The Things Network ──> server ──> stránka
 ```
 
-Příprava zabere asi půl hodiny. Postupuj po krocích, každý navazuje na předchozí.
+Příprava zabere asi půl hodiny. Kroky na sebe navazují, proto je vhodné dodržet jejich pořadí.
 
-## Co budeš potřebovat
+## Co je potřeba
 
 - **Kurník** s namontovanou elektronikou
-- **Bránu** The Things Indoor Gateway a v domě Wi-Fi na 2,4 GHz
-- **Raspberry Pi** a kartu microSD — stačí i to nejmenší, podrobnosti níž
-- **Tři údaje k zařízení**, které dostaneš spolu s kurníkem:
+- **Brána** The Things Indoor Gateway a v domě Wi-Fi na 2,4 GHz
+- **Raspberry Pi** a karta microSD — stačí i to nejmenší, podrobnosti níž
+- **Tři údaje k zařízení**, které se dodávají spolu s kurníkem:
 
 | Údaj | Vypadá jako |
 |---|---|
@@ -22,38 +22,38 @@ Příprava zabere asi půl hodiny. Postupuj po krocích, každý navazuje na př
 | JoinEUI | `0101010101010101` |
 | AppKey | 32 znaků, například `2B7E1516…` |
 
-Bez nich se kurník k síti nepřipojí. Kdyby ses o ně připravil, najdeš v příloze, jak DevEUI vyčíst ze zařízení.
+Bez nich se kurník k síti nepřipojí. Pokud se údaje ztratily, v příloze je popsáno, jak DevEUI vyčíst ze zařízení.
 
 ## 1. Účet v The Things Network
 
 Síť The Things Network je pro tohle využití zdarma.
 
-1. Zaregistruj se na <https://www.thethingsnetwork.org/>
-2. Přihlas se do konzole na <https://eu1.cloud.thethings.network/console/>
+1. Registrace na <https://www.thethingsnetwork.org/>
+2. Přihlášení do konzole na <https://eu1.cloud.thethings.network/console/>
 
-Přihlas se do evropské konzole (`eu1`) — brána i kurník s ní počítají.
+Je potřeba použít evropskou konzoli (`eu1`) — brána i kurník s ní počítají.
 
 ## 2. Brána
 
-Na spodní straně brány je štítek se dvěma údaji: **Gateway EUI** a **WiFi PW**. Budeš potřebovat oba.
+Na spodní straně brány je štítek se dvěma údaji: **Gateway EUI** a **WiFi PW**. Potřeba jsou oba.
 
 ### Wi-Fi
 
-1. Zapoj bránu do zásuvky
-2. Podrž tlačítko **SETUP** asi 5 vteřin, dokud kontrolka nezačne rychle blikat
-3. Brána si vytvoří vlastní Wi-Fi síť **MINIHUB-xxxxxx**; připoj se k ní z mobilu, heslo je **WiFi PW** ze štítku
-4. V prohlížeči otevři **192.168.4.1**
-5. U své domácí sítě klikni na **+**, zadej k ní heslo
-6. Klikni na **Save and Reboot**
+1. Zapojte bránu do zásuvky
+2. Podržte tlačítko **SETUP** asi 5 vteřin, dokud kontrolka nezačne rychle blikat
+3. Brána si vytvoří vlastní Wi-Fi síť **MINIHUB-xxxxxx**; připojte se k ní z mobilu, heslo je **WiFi PW** ze štítku
+4. V prohlížeči otevřete **192.168.4.1**
+5. U domácí sítě klikněte na **+** a zadejte k ní heslo
+6. Klikněte na **Save and Reboot**
 
 Kontrolka chvíli bliká zeleně, pak střídavě zeleně a červeně. Za minutu až dvě je hotovo.
 
-> **Brána umí jen 2,4 GHz.** Síť, která vysílá pouze na 5 GHz, v seznamu vůbec neuvidí.
+> **Brána umí jen 2,4 GHz.** Síť, která vysílá pouze na 5 GHz, se v seznamu vůbec neobjeví.
 > Nefungují ani sítě s přihlašovací stránkou v prohlížeči a firemní sítě typu eduroam.
 
 ### Registrace v konzoli
 
-V konzoli jdi na **Gateways** a zvol **Claim gateway** — *ne* Register gateway. Claim bránu zaregistruje sám a pošle jí přihlašovací údaje; bez něj se k síti nepřipojí.
+V konzoli otevřete **Gateways** a zvolte **Claim gateway** — *ne* Register gateway. Claim bránu zaregistruje sám a pošle jí přihlašovací údaje; bez něj se k síti nepřipojí.
 
 | Pole | Hodnota |
 |---|---|
@@ -65,11 +65,11 @@ Do minuty má brána nahoře svítit **Connected**.
 
 ## 3. Aplikace
 
-V konzoli **Applications → Add application**. Vyplň jen ID, například `kurnik`. Ostatní nech být.
+V konzoli **Applications → Add application**. Vyplňte jen ID, například `kurnik`. Ostatní pole nechte být.
 
 ## 4. Zařízení
 
-V aplikaci **End devices → Register end device** a zvol **Enter end device specifics manually**.
+V aplikaci **End devices → Register end device** a zvolte **Enter end device specifics manually**.
 
 | Pole | Hodnota |
 |---|---|
@@ -78,39 +78,39 @@ V aplikaci **End devices → Register end device** a zvol **Enter end device spe
 | Regional Parameters version | RP002 Regional Parameters 1.0.4 |
 | Activation mode | Over the air activation (OTAA) |
 | Additional LoRaWAN class capabilities | None (class A only) |
-| JoinEUI, DevEUI, AppKey | tvoje tři údaje |
+| JoinEUI, DevEUI, AppKey | tři údaje ze zařízení |
 
 > **AppKey musí přesně odpovídat tomu, který je v kurníku**, jinak se kurník k síti
-> nepřipojí. Dostal jsi ho spolu se zařízením. Jestli si firmware překládáš sám,
-> přečti si napřed následující odstavec.
+> nepřipojí. Dodává se spolu se zařízením. Při vlastním překladu firmwaru je napřed
+> vhodné přečíst si následující odstavec.
 
-Zapni kurník. Během pár minut se v **Live data** objeví `Accept join-request` a pak první zpráva.
+Zapněte kurník. Během pár minut se v **Live data** objeví `Accept join-request` a pak první zpráva.
 
-### Vyměň si AppKey
+### Výměna AppKey
 
 AppKey je jediný klíč, ze kterého si kurník se sítí odvodí všechno ostatní. **Ten, který
-je ve zdrojovém kódu tady na GitHubu, je veřejný** — přečte si ho kdokoliv.
+je ve zdrojovém kódu na GitHubu, je veřejný** — přečte si ho kdokoliv.
 
 Kdo ho má, dokáže odposlechnutý provoz rozšifrovat a hlavně **poslat kurníku vlastní
 příkaz: otevřít dvířka, vypnout automatiku**. Musel by k tomu stát s vysílačkou v dosahu
-kurníku, přes internet to nejde — ale souřadnice kurníku jsou v kódu taky. Než ho
-pustíš naostro, vyměň klíč za vlastní:
+kurníku, přes internet to nejde — souřadnice kurníku jsou ale v kódu také. Před ostrým
+nasazením je proto vhodné klíč vyměnit za vlastní:
 
-1. V TTN u zařízení **AppKey → Generate** a klíč si zkopíruj. Je to 32 znaků.
-2. V souboru `Master/LoRaWAN/App/se-identity.h` ho zapiš po dvojicích oddělených
+1. V TTN u zařízení **AppKey → Generate** a klíč zkopírovat. Je to 32 znaků.
+2. V souboru `Master/LoRaWAN/App/se-identity.h` ho zapsat po dvojicích oddělených
    čárkami do `LORAWAN_GEN_APP_KEY` i `LORAWAN_APP_KEY` — obě mají stejnou hodnotu.
-3. Přelož firmware a nahraj ho do kurníku.
-4. **Upravený soubor už nikam nezveřejňuj.** Když si repozitář forkuješ, dej ho jako
-   privátní.
+3. Přeložit firmware a nahrát ho do kurníku.
+4. **Upravený soubor už nikam nezveřejňovat.** Fork repozitáře je v takovém případě
+   potřeba nastavit jako privátní.
 
-Klíč, který si takhle vyrobíš, znáš jen ty a TTN. Vyměnit ho jde kdykoliv později,
+Takto vyrobený klíč zná jen jeho majitel a TTN. Vyměnit ho jde kdykoliv později,
 jen po každé změně kurník znovu projde připojením k síti.
 
 ## 5. Dekódování dat
 
-Bez tohoto kroku uvidíš místo napětí jen čísla v šestnáctkové soustavě.
+Bez tohoto kroku jsou místo napětí vidět jen čísla v šestnáctkové soustavě.
 
-V aplikaci **Payload formatters → Uplink**, zvol **Custom Javascript formatter** a vlož:
+V aplikaci **Payload formatters → Uplink** zvolte **Custom Javascript formatter** a vložte:
 
 ```js
 function decodeUplink(input) {
@@ -132,7 +132,7 @@ function decodeUplink(input) {
 }
 ```
 
-Ulož a počkej na další zprávu. Teď už uvidíš napětí a stav dvířek.
+Uložte a počkejte na další zprávu. Pak už jsou vidět napětí a stav dvířek.
 
 ## 6. Server
 
@@ -143,28 +143,28 @@ Musí běžet nepřetržitě — co zmešká, to je pryč.
 
 **Stačí i to nejlevnější.** Server si bere asi 90 MB paměti a data ukládá do jediného
 souboru, takže se vejde na **Raspberry Pi Zero 2 W** s 512 MB. Spotřebuje kolem 1 W,
-tedy asi 40 Kč elektřiny za rok. Silnější Pi 4 nebo 5 poslouží taky, jen stojí víc
-a víc žerou; na Zero 2 W ale počítej s tím, že první sestavení serveru potrvá i deset
-minut.
+tedy asi 40 Kč elektřiny za rok. Silnější Pi 4 nebo 5 poslouží také, jen stojí víc
+a víc žerou; u Zero 2 W je naopak potřeba počítat s tím, že první sestavení serveru
+potrvá i deset minut.
 
-Systém může být 32bitový i 64bitový, na tom nezáleží. Potřebuješ jen kartu microSD,
-8 GB bohatě stačí — měření za celý rok zabere asi 4 MB.
+Systém může být 32bitový i 64bitový, na tom nezáleží. Kromě Pi stačí karta microSD,
+8 GB bohatě vystačí — měření za celý rok zabere asi 4 MB.
 
 ### Příprava karty
 
-V **Raspberry Pi Imageru** vyber **Raspberry Pi OS Lite**. Pod ozubeným
-kolečkem nastav:
+V **Raspberry Pi Imageru** zvolte **Raspberry Pi OS Lite**. Pod ozubeným
+kolečkem nastavte:
 
 - hostname `kurnik`
 - zapnuté SSH
 - uživatelské jméno a heslo
 - síť Wi-Fi
 
-Díky tomu nepotřebuješ monitor ani klávesnici.
+Díky tomu není potřeba monitor ani klávesnice.
 
 ### Docker
 
-Přihlas se a nainstaluj:
+Přihlaste se a nainstalujte:
 
 ```bash
 ssh pi@kurnik.local
@@ -173,16 +173,16 @@ curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 ```
 
-**Odhlas se a přihlas znovu**, jinak bude Docker hlásit chybu oprávnění.
+**Pak se odhlaste a přihlaste znovu**, jinak bude Docker hlásit chybu oprávnění.
 
 ### Klíč pro přístup k síti
 
-V konzoli TTN v aplikaci **API keys → Add API key**. Zaškrtni práva:
+V konzoli TTN v aplikaci **API keys → Add API key**. Zaškrtněte práva:
 
 - Read application traffic (uplink and downlink)
 - Write downlink application traffic
 
-Klíč začíná `NNSXS.` a **zobrazí se jen jednou** — hned si ho zkopíruj.
+Klíč začíná `NNSXS.` a **zobrazí se jen jednou** — je potřeba ho hned zkopírovat.
 
 ### Nastavení
 
@@ -193,18 +193,18 @@ cp .env.example .env
 nano .env
 ```
 
-Doplň čtyři hodnoty:
+Doplňte čtyři hodnoty:
 
 | Proměnná | Co tam patří |
 |---|---|
-| `AUTH_PASSWORD` | heslo, kterým se budeš přihlašovat ke stránce |
+| `AUTH_PASSWORD` | heslo pro přihlášení ke stránce |
 | `TTN_APP_ID` | ID aplikace z kroku 3 |
 | `TTN_DEVICE_ID` | ID zařízení z kroku 4 |
-| `TTN_API_KEY` | klíč, který jsi právě vytvořil |
+| `TTN_API_KEY` | klíč vytvořený v předchozím kroku |
 
-Heslo si vymýšlíš ty. Dlouhé a náhodné vygeneruje `openssl rand -base64 18`.
+Heslo si volí uživatel. Dlouhé a náhodné vygeneruje `openssl rand -base64 18`.
 
-> **Heslo ke stránce nepoužívej nikde jinde.** Je v souboru `.env` v čitelné podobě,
+> **Heslo ke stránce nepoužívejte nikde jinde.** Je v souboru `.env` v čitelné podobě,
 > stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.
 
 ### Spuštění
@@ -218,42 +218,42 @@ a data přežijí i smazání a znovuvytvoření kontejnerů.
 
 ### Záloha
 
-Celá historie měření je jeden soubor. Zkopíruješ si ho třeba do domovského adresáře:
+Celá historie měření je jeden soubor. Zkopírovat se dá třeba do domovského adresáře:
 
 ```bash
 docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
 ```
 
-Obnovíš ho opačným směrem, když server zastavíš (`docker compose down`), soubor
-nakopíruješ zpět a server zase spustíš.
+Obnova probíhá opačným směrem: zastavit server (`docker compose down`), nakopírovat
+soubor zpět a server zase spustit.
 
 ## 7. Přístup z mobilu
 
-Na domácí Wi-Fi otevři **`http://kurnik.local:3000`**. Na iPhonu to funguje rovnou;
-**na Androidu adresy s `.local` často nefungují** a musíš použít IP adresu. Zjistíš ji
-na Pi příkazem `hostname -I`, vyjde něco jako `192.168.1.42`, takže zadáš
+Na domácí Wi-Fi otevřete **`http://kurnik.local:3000`**. Na iPhonu to funguje rovnou;
+**na Androidu adresy s `.local` často nefungují** a je potřeba použít IP adresu. Zjistí ji
+příkaz `hostname -I` na Pi, vyjde něco jako `192.168.1.42`, takže adresa bude
 `http://192.168.1.42:3000`.
 
-Aby se adresa neměnila, najdi v routeru **DHCP reservation** a přiřaď Raspberry Pi
-napevno jednu adresu.
+Aby se adresa neměnila, přiřaďte Raspberry Pi napevno jednu adresu přes **DHCP reservation**
+v routeru.
 
-Přihlas se jménem `kurnik` a heslem z `.env`. Pak v prohlížeči dej **Přidat na plochu** —
+Přihlaste se jménem `kurnik` a heslem z `.env`. Pak v prohlížeči zvolte **Přidat na plochu** —
 vznikne ikona a stránka se otevře bez adresního řádku jako aplikace.
 
 ### Mimo domov
 
-> **Nikdy neotevírej port 3000 do internetu.** I když je stránka chráněná heslem,
+> **Nikdy neotevírejte port 3000 do internetu.** I když je stránka chráněná heslem,
 > vystavovat ji veřejně je zbytečné riziko — kdo se dostane dovnitř, otevře dvířka.
 
-Použij **Tailscale**, který udělá šifrovaný tunel jen mezi tvými zařízeními:
+Použijte **Tailscale**, který udělá šifrovaný tunel jen mezi vlastními zařízeními:
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
 
-Nainstaluj Tailscale i do mobilu, přihlas se stejným účtem a v aplikaci uvidíš adresu
-Pi. Tu pak zadáš s `:3000`. Funguje to z domova i z mobilních dat.
+Nainstalujte Tailscale i do mobilu, přihlaste se stejným účtem a v aplikaci se objeví
+adresa Pi. Tu pak stačí zadat s `:3000`. Funguje to z domova i z mobilních dat.
 
 ## Ověření
 
@@ -269,39 +269,39 @@ Na stránce jsou tlačítka pro otevření a zavření dvířek, zablokování a
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Neklikej opakovaně — příkazy se řadí za sebe a provedou se všechny.
+> Opakované klikání nepomůže — příkazy se řadí za sebe a provedou se všechny.
 
-Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítkem
-**Zrušit frontu** je smažeš — pokud to stihneš, než se kurník ozve, neprovede se nic.
-Jakmile se příkaz doručí, stránka to napíše a z fronty zmizí.
+Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
+**Zrušit frontu** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
+Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká; **Zrušit frontu** ale vždy smaže vše, co v síti opravdu je, takže po
-> restartu na něj klidně klikni, i když se nic nezobrazuje.
+> restartu má smysl na něj kliknout, i když se nic nezobrazuje.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
 
 ## Když to nejede
 
-**Brána není Connected.** Zkontroluj, že tvoje Wi-Fi vysílá na 2,4 GHz. Pokud ano, podrž
-SETUP a nastav ji znovu. Ujisti se také, že jsi použil **Claim gateway**, ne Register gateway.
+**Brána není Connected.** Zkontrolujte, že domácí Wi-Fi vysílá na 2,4 GHz. Pokud ano, podržte
+SETUP a nastavte ji znovu. Ujistěte se také, že byl použit **Claim gateway**, ne Register gateway.
 
 **Kurník se nepřipojí, v konzoli je `MIC mismatch`.** AppKey v konzoli nesouhlasí s tím
-v zařízení. Přepiš ho a kurník vypni a zapni.
+v zařízení. Přepište ho a kurník vypněte a zapněte.
 
-**Stránku nenajdeš.** Na Androidu zkus místo `kurnik.local` přímo IP adresu. Pokud prohlížeč
-přepíná na HTTPS, vypni v něm „Vždy používat zabezpečené připojení".
+**Stránku nelze najít.** Na Androidu zkuste místo `kurnik.local` přímo IP adresu. Pokud prohlížeč
+přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené připojení".
 
 **Přihlášení hlásí příliš mnoho pokusů.** Po pěti špatných heslech se přihlašování na 15 minut
-zamkne. Buď počkej, nebo zámek zrušíš restartem: `docker compose restart app`.
+zamkne. Buď je potřeba počkat, nebo zámek zruší restart: `docker compose restart app`.
 
-**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontroluj `TTN_APP_ID` a `TTN_API_KEY`
+**V konzoli jsou zprávy, ale stránka je prázdná.** Zkontrolujte `TTN_APP_ID` a `TTN_API_KEY`
 v souboru `.env`, pak `docker compose restart`.
 
-**Databáze hlásí chybu.** Podívej se do výpisu `docker compose logs app`. Když je
-soubor s daty poškozený (třeba po vytažení karty za běhu), obnov ho ze zálohy; když
-žádnou nemáš, smaž ho a databáze se založí prázdná znovu:
+**Databáze hlásí chybu.** Podívejte se do výpisu `docker compose logs app`. Když je
+soubor s daty poškozený (třeba po vytažení karty za běhu), obnovte ho ze zálohy; pokud
+žádná není, smažte ho a databáze se založí prázdná znovu:
 
 ```bash
 docker compose down
@@ -309,12 +309,12 @@ docker volume rm server_coop-data
 docker compose up -d
 ```
 
-**Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraň
-překážku a klikni na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
+**Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraňte
+překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
 
 ## Příloha: jak zjistit DevEUI
 
-Když DevEUI nemáš, dá se vyčíst přímo z čipu. Potřebuješ programátor ST-LINK a nástroj
+Když DevEUI chybí, dá se vyčíst přímo z čipu. Potřeba je programátor ST-LINK a nástroj
 STM32CubeProgrammer.
 
 ```bash
@@ -327,5 +327,5 @@ Výpis vypadá takto:
 0x1FFF7580 : AABBCCDD 0080E115
 ```
 
-DevEUI složíš tak, že **druhé číslo dáš před první**: `0080E115AABBCCDD`.
-Druhé číslo musí být `0080E115` — podle toho poznáš, že čteš správné místo.
+DevEUI se složí tak, že **druhé číslo se dá před první**: `0080E115AABBCCDD`.
+Druhé číslo musí být `0080E115` — podle toho se pozná, že jde o správné místo.

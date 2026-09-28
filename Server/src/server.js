@@ -97,7 +97,7 @@ app.get('/api/status', (req, res) => {
 });
 
 app.get('/api/history', async (req, res) => {
-  const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 720);
+  const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
   try {
     res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {

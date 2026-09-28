@@ -61,7 +61,8 @@ const selectLatest = db.prepare(`
 function bucketFor(hours) {
   if (hours <= 24) return 10 * 60 * 1000;
   if (hours <= 168) return 60 * 60 * 1000;
-  return 6 * 60 * 60 * 1000;
+  if (hours <= 720) return 6 * 60 * 60 * 1000;
+  return 24 * 60 * 60 * 1000;
 }
 
 function round(value) {

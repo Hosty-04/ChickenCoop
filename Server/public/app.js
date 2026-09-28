@@ -24,9 +24,12 @@ const DOWNLINK_EVENTS = {
 const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
+const TOAST_MS = 5000;
+
 let chart = null;
 let hours = 24;
 let points = [];
+let toastTimer = null;
 
 function volts(mv) {
   return mv === null || mv === undefined ? null : mv / 1000;
@@ -36,10 +39,19 @@ function formatVolts(mv) {
   return mv === null || mv === undefined ? '–' : `${(mv / 1000).toFixed(2)} V`;
 }
 
-function formatTime(iso, withDate) {
+function labelMode() {
+  if (hours > 720) return 'date';
+  return hours > 24 ? 'datetime' : 'time';
+}
+
+function formatTime(iso, mode) {
   const d = new Date(iso);
+  if (mode === 'date') {
+    return d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' });
+  }
   const time = d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
-  return withDate ? `${d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' })} ${time}` : time;
+  if (mode !== 'datetime') return time;
+  return `${d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric' })} ${time}`;
 }
 
 function formatAgo(iso) {
@@ -104,7 +116,7 @@ function renderLatest(uplink) {
   el('door-note').textContent = door.note;
   el('door-note').className = `tile-note ${door.tone}`;
 
-  el('seen-value').textContent = formatTime(uplink.receivedAt, false);
+  el('seen-value').textContent = formatTime(uplink.receivedAt, 'time');
   el('seen-note').textContent = [
     formatAgo(uplink.receivedAt),
     uplink.radio?.rssi != null ? `${uplink.radio.rssi} dBm` : null
@@ -121,9 +133,9 @@ function renderLegend() {
 }
 
 function renderTable() {
-  const withDate = hours > 24;
+  const mode = labelMode();
   el('table').querySelector('tbody').innerHTML = points.slice().reverse().map((p) =>
-    `<tr><td>${formatTime(p.time, withDate)}</td><td>${formatVolts(p.batteryMv)}</td><td>${formatVolts(p.panelMv)}</td></tr>`
+    `<tr><td>${formatTime(p.time, mode)}</td><td>${formatVolts(p.batteryMv)}</td><td>${formatVolts(p.panelMv)}</td></tr>`
   ).join('');
 }
 
@@ -137,8 +149,8 @@ function renderChart() {
     return;
   }
 
-  const withDate = hours > 24;
-  const labels = points.map((p) => formatTime(p.time, withDate));
+  const mode = labelMode();
+  const labels = points.map((p) => formatTime(p.time, mode));
   const datasets = [
     { label: 'Baterie', data: points.map((p) => volts(p.batteryMv)), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p) => volts(p.panelMv)), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -210,6 +222,11 @@ function showToast(text, tone) {
   toast.textContent = text;
   toast.className = `toast ${tone ?? ''}`;
   toast.hidden = false;
+
+  clearTimeout(toastTimer);
+  if (tone === 'is-ok') {
+    toastTimer = setTimeout(() => { toast.hidden = true; }, TOAST_MS);
+  }
 }
 
 function requireSession(res) {
@@ -292,7 +309,7 @@ el('cancel').addEventListener('click', async () => {
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     showToast(body.cleared > 0
       ? `Zrušeno: ${countCommands(body.cleared)}`
-      : 'Fronta vyprázdněna', 'is-ok');
+      : 'Fronta je prázdná', 'is-ok');
   } catch (err) {
     showToast(`Zrušení selhalo: ${err.message}`, 'is-error');
   } finally {
