@@ -46,7 +46,8 @@ Na spodní straně brány je štítek se dvěma údaji: **Gateway EUI** a **WiFi
 5. U domácí sítě klikněte na **+** a zadejte k ní heslo
 6. Klikněte na **Save and Reboot**
 
-Kontrolka chvíli bliká zeleně, pak střídavě zeleně a červeně. Za minutu až dvě je hotovo.
+Kontrolka chvíli bliká zeleně, pak střídavě zeleně a červeně. To je v pořádku: brána už je
+na Wi-Fi, ale ještě nemá, kam se přihlásit — účet jí dá až registrace v dalším kroku.
 
 > **Brána umí jen 2,4 GHz.** Síť, která vysílá pouze na 5 GHz, se v seznamu vůbec neobjeví.
 > Nefungují ani sítě s přihlašovací stránkou v prohlížeči a firemní sítě typu eduroam.
@@ -80,7 +81,8 @@ V aplikaci **End devices → Register end device** a zvolte **Enter end device s
 | Additional LoRaWAN class capabilities | None (class A only) |
 | JoinEUI, DevEUI, AppKey | tři údaje ze zařízení |
 
-Zapněte kurník. Během pár minut se v **Live data** objeví `Accept join-request` a pak první zpráva.
+Zapněte kurník. Během pár minut se na kartě **Live data** (v konzoli u zařízení) objeví
+`Accept join-request` a pak první zpráva.
 
 ## 5. Dekódování dat
 
@@ -108,7 +110,8 @@ function decodeUplink(input) {
 }
 ```
 
-Uložte a počkejte na další zprávu. Pak už jsou vidět napětí a stav dvířek.
+Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
+v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek.
 
 ## 6. Server
 
@@ -143,23 +146,26 @@ Díky tomu není potřeba monitor ani klávesnice.
 Přihlaste se a nainstalujte:
 
 ```bash
-ssh pi@kurnik.local
+ssh uzivatel@kurnik.local
 sudo apt update && sudo apt full-upgrade -y
 sudo apt install -y git
 curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 ```
 
+Místo `uzivatel` patří jméno zadané v Imageru.
+
 **Pak se odhlaste a přihlaste znovu**, jinak bude Docker hlásit chybu oprávnění.
 
 ### Klíč pro přístup k síti
 
-V konzoli TTN v aplikaci **API keys → Add API key**. Zaškrtněte práva:
+V konzoli TTN v aplikaci **API keys → Add API key**. Klíč pojmenujte, zvolte **Grant
+individual rights** a zaškrtněte:
 
 - Read application traffic (uplink and downlink)
 - Write downlink application traffic
 
-Klíč začíná `NNSXS.` a **zobrazí se jen jednou** — je potřeba ho hned zkopírovat.
+Po uložení se klíč začínající `NNSXS.` **zobrazí jen jednou** — zkopírujte si ho hned.
 
 ### Nastavení
 
@@ -179,7 +185,7 @@ Doplňte čtyři hodnoty:
 | `TTN_DEVICE_ID` | ID zařízení z kroku 4 |
 | `TTN_API_KEY` | klíč vytvořený v předchozím kroku |
 
-Heslo si volí uživatel. Dlouhé a náhodné vygeneruje `openssl rand -base64 18`.
+Heslo si zvolte sami; dlouhé a náhodné vygeneruje příkaz `openssl rand -base64 18`.
 
 > **Heslo ke stránce nepoužívejte nikde jinde.** Je v souboru `.env` v čitelné podobě,
 > stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.
@@ -297,16 +303,23 @@ otevře bez adresního řádku jako aplikace.
 
 ### Doma z Androidu
 
-**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne,
-a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastavení → Oprávnění
-→ Místní síť**). Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
+**Jméno `kurnik.local` je tu nejisté.** Novější Androidy ho přeložit umí, starší ne.
+Zkusit to jde, spolehlivá cesta je ale zadat přímo IP adresu Pi:
 
 1. **Zjistěte adresu.** Na Pi ji vypíše `hostname -I`, vyjde například `192.168.1.42`.
    Druhá možnost je podívat se v routeru do seznamu připojených zařízení a najít `kurnik`.
-2. **Zafixujte ji.** V routeru najděte **DHCP reservation** (bývá pod Wi-Fi, LAN nebo DHCP)
-   a přiřaďte tu adresu Raspberry Pi natrvalo. Potřebnou MAC adresu vypíše na Pi příkaz
-   `ip link show wlan0`, je to řádek `link/ether`. Bez rezervace se adresa po výpadku proudu
-   může změnit a uložená ikona přestane fungovat.
+2. **Zafixujte ji v routeru**, jinak se po výpadku proudu může změnit a uložená ikona
+   přestane fungovat. Postup je u všech routerů stejný, liší se jen pojmenování:
+   - Otevřete nastavení routeru. Jeho adresu vypíše na Pi příkaz `ip route | grep default`,
+     bývá to `192.168.1.1` nebo `192.168.0.1`. Přihlašovací údaje jsou obvykle na štítku
+     routeru.
+   - Najděte oddíl **LAN** nebo **DHCP**. Hledaná položka se jmenuje **DHCP reservation**,
+     **Address reservation**, **Static lease** nebo česky **rezervace adres**.
+   - Ze seznamu připojených zařízení vyberte `kurnik`. Když seznam není, zadejte MAC adresu
+     ručně — vypíše ji `ip link show` na Pi, řádek `link/ether` u `wlan0` pro Wi-Fi nebo
+     u `eth0` pro kabel.
+   - Uložte a Pi restartujte, aby si novou adresu převzalo.
+
 3. **Zadejte celou adresu včetně `http://`**, tedy `http://192.168.1.42:3000`. Bez toho ji
    prohlížeč pošle do vyhledávače.
 4. **Kdyby prohlížeč přepnul na `https://`** a stránka nenaběhla, vypněte vynucování:
@@ -320,8 +333,14 @@ a Chrome k tomu navíc potřebuje povolený přístup k místní síti (**Nastav
 > samostatně jako aplikace, musela by stránka běžet přes HTTPS — po domácím HTTP to žádný
 > prohlížeč nenabídne. Na funkci to nemá vliv.
 
-Některé routery umí vlastní DNS záznam. Když se v takovém
-routeru přiřadí jméno `kurnik` k adrese Pi, funguje pak i na Androidu.
+> **Dotaz na přístup k místní síti povolte.** Ptá se Chrome i Firefox, na Androidu 16
+> a novějším i samotný systém. Je to ochrana proti stránkám z internetu, které by jinak
+> mohly prohledávat domácí síť; tahle stránka běží přímo na Pi a nic dalšího nehledá.
+
+Některé routery umí k IP adrese přiřadit vlastní jméno. Bývá to hned vedle rezervace adres,
+případně v oddílu **DNS**. Když se tam `kurnik` přiřadí k adrese Pi, funguje pak na všech
+zařízeních v domácí síti adresa `http://kurnik:3000` a IP adresu si nikdo pamatovat nemusí.
+Umí to ale jen některé routery; u většiny běžných tahle volba chybí.
 
 ### Mimo domov
 
@@ -342,7 +361,7 @@ sudo tailscale up
 ```
 
 Druhý příkaz vypíše odkaz. Otevřete ho v prohlížeči a přihlaste se — účtem Google, GitHub,
-Microsoft nebo e-mailem. Po přihlášení vypíše adresu Pi:
+Microsoft nebo e-mailem. Adresu, kterou Pi v téhle síti dostalo, pak vypíše:
 
 ```bash
 tailscale ip -4
@@ -414,7 +433,8 @@ takové změny.
 SETUP a nastavte ji znovu. Ujistěte se také, že byl použit **Claim gateway**, ne Register gateway.
 
 **Kurník se nepřipojí, v konzoli je `MIC mismatch`.** AppKey v konzoli nesouhlasí s tím
-v zařízení. Přepište ho a kurník vypněte a zapněte.
+v kurníku. Opravte ho u zařízení v **General settings → Join settings** podle údaje, který
+jste dostali s kurníkem, a kurník vypněte a zapněte.
 
 **Stránku nelze najít.** Na Androidu zkuste místo `kurnik.local` přímo IP adresu. Pokud prohlížeč
 přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené připojení".
