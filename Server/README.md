@@ -86,7 +86,7 @@ Zapněte kurník. Během pár minut se na kartě **Live data** (v konzoli u zař
 
 ## 5. Dekódování dat
 
-Bez tohoto kroku jsou místo napětí vidět jen čísla v šestnáctkové soustavě.
+Bez tohoto kroku jsou místo napětí vidět jen čísla v hexadecimální soustavě.
 
 V aplikaci **Payload formatters → Uplink** zvolte **Custom Javascript formatter** a vložte:
 
