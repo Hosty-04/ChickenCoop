@@ -525,7 +525,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/separator_flowchart_white.png" width="800px">
-  <source media="(prefers-color-scheme: light)" srcset="Flowcharts/separator_flowchart_white.png" width="800px">
+  <source media="(prefers-color-scheme: light)" srcset="Flowcharts/egg_flowchart_black.png" width="800px">
   <img alt="separator_flowchart" src="Flowcharts/separator_flowchart_black.png" width="800px">
 </picture>
 
