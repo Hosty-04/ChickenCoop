@@ -129,7 +129,7 @@ U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepn
 
 &nbsp;
 
-### Kontrola fotovoltaického panelu a akumulátoru (1 s a 11 s)
+### Kontrola fotovoltaického panelu a akumulátoru (30 s a 12 s)
 
 &nbsp;
 
@@ -150,7 +150,7 @@ t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 5,54\ \text{ms}) \
 $$
 
 $$
-t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} = 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}
+t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} \approx 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}
 $$
 
 &nbsp;
