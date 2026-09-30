@@ -308,9 +308,18 @@ zafixujte. Postup je u všech routerů stejný, liší se jen pojmenování:
    u `eth0` pro kabel.
 4. Uložte a Pi restartujte. Že se adresa opravdu ujala, ověří `hostname -I`.
 
-Do některých routerů od poskytovatele se správcovský účet nedostane. Pak jde adresa nastavit
-přímo na Pi. Název připojení vypíše `nmcli con show` (na Raspberry Pi OS bývá `preconfigured`)
-a dosadí se do:
+**Když se do routeru nedostanete** — u krabic od poskytovatele bývá správcovský účet
+zamčený — dá se adresa zafixovat přímo na Pi. Nejdřív si na něm zjistěte tři údaje:
+
+```bash
+hostname -I               # současná adresa Pi, třeba 192.168.1.42
+ip route | grep default   # adresa routeru, je za slovem via
+nmcli con show            # název připojení, na Raspberry Pi OS bývá preconfigured
+```
+
+Ty tři hodnoty se dosadí do následujícího příkazu. `preconfigured` je název připojení,
+`192.168.1.42` adresa, kterou má Pi napevno dostat, a `192.168.1.1` router — ten slouží
+zároveň jako DNS:
 
 ```bash
 sudo nmcli con mod preconfigured ipv4.method manual \
@@ -320,9 +329,14 @@ sudo nmcli con mod preconfigured ipv4.method manual \
 sudo reboot
 ```
 
-> Adresu volte **mimo rozsah, který router rozdává** — v jeho nastavení je vidět jako
-> **DHCP range**, typicky `.100` až `.200`. Adresa z toho rozsahu se dá jednou přidělit
-> i jinému zařízení a obě se pak o ni perou.
+`/24` na konci adresy říká, že první tři čísla jsou společná pro celou domácí síť. U sítí
+začínajících `192.168.` to platí prakticky vždy, takže ho nechte být.
+
+> **Vybraná adresa musí být volná a volná i zůstat.** Router rozdává adresy z nějakého
+> rozsahu, obvykle od `.100` do `.200`; kdyby ta vaše byla uvnitř, mohl by ji časem přidělit
+> i jinému zařízení a obě by se o ni praly. Bezpečné je proto nízké číslo, třeba `.42`.
+> Že je volné, ověříte z jiného počítače v síti — Pi zatím vypněte a zkuste
+> `ping 192.168.1.42`. Nesmí odpovídat nikdo.
 
 Některé routery umí k IP adrese přiřadit i vlastní jméno; bývá to hned vedle rezervace adres,
 případně v oddílu **DNS**. Když se tam `kurnik` přiřadí k adrese Pi, funguje pak na všech
