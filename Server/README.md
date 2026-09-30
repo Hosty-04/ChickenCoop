@@ -330,7 +330,7 @@ sudo reboot
 ```
 
 `/24` na konci adresy říká, že první tři čísla jsou společná pro celou domácí síť. U sítí
-začínajících `192.168.` to platí prakticky vždy, takže ho nechte být.
+začínajících `192.168.` to platí prakticky vždy.
 
 > **Vybraná adresa musí být volná a volná i zůstat.** Router rozdává adresy z nějakého
 > rozsahu, obvykle od `.100` do `.200`; kdyby ta vaše byla uvnitř, mohl by ji časem přidělit
