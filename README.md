@@ -62,7 +62,11 @@ Výrobu energie zajistí fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 
 
 &nbsp;
 
-<img src="Plots/panel_characteristic_github.png" alt="panel_characteristic">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Plots/panel_characteristic_white.png">
+  <source media="(prefers-color-scheme: light)" srcset="Plots/panel_characteristic_black.png">
+  <img alt="panel_characteristic" src="Plots/panel_characteristic_black.png">
+</picture>
 
 &nbsp;
 
@@ -519,7 +523,11 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-<img src="Flowcharts/separator_flowchart_github.png" alt="separator_flowchart" width="800px">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/separator_flowchart_white.png" width="800px">
+  <source media="(prefers-color-scheme: light)" srcset="Flowcharts/separator_flowchart_black.png" width="800px">
+  <img alt="separator_flowchart" src="Flowcharts/separator_flowchart_black.png" width="800px">
+</picture>
 
 &nbsp;
 
