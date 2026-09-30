@@ -18,8 +18,8 @@ Příprava zabere asi hodinu. Kroky na sebe navazují, proto je vhodné dodržet
 
 | Údaj | Vypadá jako | Odkud se bere |
 |---|---|---|
-| DevEUI | `0080E115XXXXXXXX` | vyčte se z čipu, viz níž |
 | JoinEUI | `0101010101010101` | vždy tahle hodnota |
+| DevEUI | `0080E115XXXXXXXX` | vyčte se z čipu, viz níž |
 | AppKey | 32 znaků, například `2B7E1516…` | vygeneruje se, viz níž |
 
 Bez nich se kurník k síti nepřipojí.
