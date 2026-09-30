@@ -515,7 +515,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče bude M př
 
 &nbsp;
 
-<img src="Flowcharts/separator_flowchart_white.png" alt="separator_flowchart" width="800px">
+<img src="Flowcharts/separator_flowchart_github.png" alt="separator_flowchart" width="800px">
 
 &nbsp;
 
@@ -523,7 +523,7 @@ Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišení
 
 &nbsp;
 
-<img src="Flowcharts/door_flowchart_white.png" alt="door_flowchart" width="800px">
+<img src="Flowcharts/door_flowchart_github.png" alt="door_flowchart" width="800px">
 
 &nbsp;
 
