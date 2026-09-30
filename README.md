@@ -94,7 +94,6 @@ Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s nap
 | Spínač (N) | 7,1 µA | 7,1 µA | 14,2 µAh | 71 µAh |
 | Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
-| Mx (Stop bez RTC) | 5 × 0,38 µA | 5 × 1,9 µA | 5 × 9,12 µAh | 5 × 45,6 µAh |
 | **Celkem** | **11,9 µA** | **45,8 µA** | **129 µAh** | **1 mAh** |
 
 &nbsp;
