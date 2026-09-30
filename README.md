@@ -535,7 +535,11 @@ Další funkce napěťového a proudového senzoru bude s 16bitovým rozlišení
 
 &nbsp;
 
-<img src="Flowcharts/door_flowchart_github.png" alt="door_flowchart" width="800px">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/door_flowchart_white.png" width="800px">
+  <source media="(prefers-color-scheme: light)" srcset="Flowcharts/door_flowchart_black.png" width="800px">
+  <img alt="door_flowchart" src="Flowcharts/door_flowchart_black.png" width="800px">
+</picture>
 
 &nbsp;
 
@@ -598,7 +602,11 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="Schematics/separator_schematic_github.png" alt="separator_schematic">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Schematics/separator_schematic_white.png">
+  <source media="(prefers-color-scheme: light)" srcset="Schematics/separator_schematic_black.png">
+  <img alt="separator_schematic" src="Schematics/separator_schematic_black.png">
+</picture>
 
 &nbsp;
 
@@ -641,7 +649,11 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="Schematics/peripheral_switches_schematic_github.png" alt="peripheral_switches_schematic" width="800px">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Schematics/peripheral_switches_schematic_white.png" width="800px">
+  <source media="(prefers-color-scheme: light)" srcset="Schematics/peripheral_switches_schematic_black.png" width="800px">
+  <img alt="peripheral_switches_schematic" src="Schematics/peripheral_switches_schematic_black.png" width="800px">
+</picture>
 
 &nbsp;
 
