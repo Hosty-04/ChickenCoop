@@ -169,7 +169,7 @@ kde:
 
 &nbsp;
 
-### Pohyb dvířek (32–240 s)
+### Pohyb dvířek (32–215 s)
 
 &nbsp;
 
@@ -200,13 +200,15 @@ t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{m
 $$
 
 $$
-t_{max} = 2 \cdot t_{lim} + \frac{h}{v_{min}} = 2 \cdot 50\ \text{s} + \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 2 \cdot 50\ \text{s} + 17,9\ \text{s} \approx \mathbf{240\ \text{s}}
+t_{max} = n_u \cdot n_p \cdot 2 \cdot \frac{h}{v_{min}} = 2 \cdot 3 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
 $$
 
 &nbsp;
 
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
+- $n_u$ ... počet událostí (otevření ráno a zavření večer)
+- $n_p$ ... počet pokusů pro otevření/zavření dvířek
 - $t_{lim}$ ... časový limit pohybu dvířek
 - $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
