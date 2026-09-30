@@ -22,7 +22,11 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="Schematics/block_schematic_github.png" alt="block_schematic">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_white.png">
+  <source media="(prefers-color-scheme: light)" srcset="Schematics/block_schematic_black.png">
+  <img alt="block_schematic" src="Schematics/block_schematic_black.png">
+</picture>
 
 &nbsp;
 
