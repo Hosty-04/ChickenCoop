@@ -175,11 +175,11 @@ kde:
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Motor | 100 mA | 250 mA | 0,889 mAh | 16,7 mAh |
-| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 40 µAh |
-| INA226 | 330 µA | 420 µA | 2,93 µAh | 28 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 8 µAh |
-| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **16,8 mAh** |
+| Motor | 100 mA | 250 mA | 0,889 mAh | 14,9 mAh |
+| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 35,8 µAh |
+| INA226 | 330 µA | 420 µA | 2,93 µAh | 25,1 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,17 µAh |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **15 mAh** |
 
 &nbsp;
 
@@ -340,12 +340,12 @@ CPU je většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,0 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 16,8 mAh | 87,1 % |
-| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,2 % |
-| Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,7 % |
+| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,7 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 15 mAh | 85,8 % |
+| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,7 % |
+| Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,8 % |
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
-| **Celkem** | **2,07 mAh** | **100 %** | **19,3 mAh** | **100 %** |
+| **Celkem** | **2,07 mAh** | **100 %** | **17,5 mAh** | **100 %** |
 
 &nbsp;
 
