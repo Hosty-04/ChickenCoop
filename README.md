@@ -209,7 +209,6 @@ kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $n_u$ ... počet událostí (otevření ráno a zavření večer)
 - $n_p$ ... počet pokusů pro otevření/zavření dvířek
-- $t_{lim}$ ... časový limit pohybu dvířek
 - $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
 - $v_{min}$ ... minimální rychlost otáčení špulky
