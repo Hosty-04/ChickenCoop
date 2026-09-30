@@ -22,7 +22,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 
 &nbsp;
 
-<img src="Schematics/block_schematic_white.png" alt="block_schematic">
+<img src="Schematics/block_schematic_github.png" alt="block_schematic">
 
 &nbsp;
 
@@ -58,7 +58,7 @@ Výrobu energie zajistí fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 
 
 &nbsp;
 
-<img src="Plots/panel_characteristic_white.png" alt="panel_characteristic">
+<img src="Plots/panel_characteristic_github.png" alt="panel_characteristic">
 
 &nbsp;
 
@@ -586,7 +586,7 @@ MOSFET odpojovač bude tvořen dvěma P-MOS tranzistory AO3401A zapojenými back
 
 &nbsp;
 
-<img src="Schematics/separator_schematic_white.png" alt="separator_schematic">
+<img src="Schematics/separator_schematic_github.png" alt="separator_schematic">
 
 &nbsp;
 
@@ -629,7 +629,7 @@ Pro dosažení nízké klidové spotřeby bude větev zodpovědná za kontrolu v
 
 &nbsp;
 
-<img src="Schematics/peripheral_switches_schematic_white.png" alt="peripheral_switches_schematic" width="800px">
+<img src="Schematics/peripheral_switches_schematic_github.png" alt="peripheral_switches_schematic" width="800px">
 
 &nbsp;
 
