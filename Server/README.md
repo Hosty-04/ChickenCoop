@@ -14,15 +14,61 @@ Příprava zabere asi hodinu. Kroky na sebe navazují, proto je vhodné dodržet
 - **Kurník** s namontovanou elektronikou
 - **Brána** The Things Indoor Gateway a v domě Wi-Fi na 2,4 GHz
 - **Raspberry Pi** a karta microSD — stačí i to nejmenší, podrobnosti níž
-- **Tři údaje k zařízení**, které se dodávají spolu s kurníkem:
+- **Tři údaje k zařízení**:
 
-| Údaj | Vypadá jako |
-|---|---|
-| DevEUI | `0080E115XXXXXXXX` |
-| JoinEUI | `0101010101010101` |
-| AppKey | 32 znaků, například `2B7E1516…` |
+| Údaj | Vypadá jako | Odkud se bere |
+|---|---|---|
+| DevEUI | `0080E115XXXXXXXX` | vyčte se z čipu, viz níž |
+| JoinEUI | `0101010101010101` | vždy tahle hodnota |
+| AppKey | 32 znaků, například `2B7E1516…` | vygeneruje se, viz níž |
 
-Bez nich se kurník k síti nepřipojí. Pokud se údaje ztratily, v příloze je popsáno, jak DevEUI vyčíst ze zařízení.
+Bez nich se kurník k síti nepřipojí.
+
+### DevEUI
+
+Je to výrobní číslo čipu, nikde vytištěné není a musí se vyčíst přímo z něj. Potřeba je
+programátor ST-LINK a nástroj STM32CubeProgrammer.
+
+```bash
+STM32_Programmer_CLI -c port=SWD -r32 0x1FFF7580 8
+```
+
+Výpis vypadá takto:
+
+```
+0x1FFF7580 : AABBCCDD 0080E115
+```
+
+DevEUI se složí tak, že **druhé číslo se dá před první**: `0080E115AABBCCDD`.
+Druhé číslo musí být `0080E115` — podle toho se pozná, že jde o správné místo.
+
+### AppKey
+
+Tenhle klíč nikde vytištěný není a ani být nemůže: vymýšlí se a musí sedět na dvou místech
+zároveň — v konzoli TTN a ve firmwaru kurníku. Když se liší, konzole hlásí `MIC mismatch`
+a kurník se k síti nepřipojí.
+
+Nejsnazší je nechat si ho vygenerovat. Při registraci zařízení (krok 4) je u pole **AppKey**
+tlačítko **Generate**; objeví se 32 znaků, které si zkopírujte.
+
+Do firmwaru patří do souboru `Master/LoRaWAN/App/se-identity.h`, po dvojicích oddělených
+čárkami, a to do obou maker — mají stejnou hodnotu:
+
+```c
+#define LORAWAN_GEN_APP_KEY   2B,7E,15,16,28,AE,D2,A6,AB,F7,15,88,09,CF,4F,3C
+#define LORAWAN_APP_KEY       2B,7E,15,16,28,AE,D2,A6,AB,F7,15,88,09,CF,4F,3C
+```
+
+Čárky doplní příkaz:
+
+```bash
+echo 2B7E151628AED2A6ABF7158809CF4F3C | sed 's/../&,/g; s/,$//'
+```
+
+Pak firmware přeložte, nahrajte do kurníku a kurník vypněte a zapněte.
+
+> Klíč, který je ve zdrojovém kódu v tomhle repozitáři, si přečte kdokoliv. Pro ostré
+> nasazení si vygenerujte vlastní a upravený soubor nezveřejňujte.
 
 ## 1. Účet v The Things Network
 
@@ -79,7 +125,8 @@ V aplikaci **End devices → Register end device** a zvolte **Enter end device s
 | Regional Parameters version | RP002 Regional Parameters 1.0.4 |
 | Activation mode | Over the air activation (OTAA) |
 | Additional LoRaWAN class capabilities | None (class A only) |
-| JoinEUI, DevEUI, AppKey | tři údaje ze zařízení |
+| JoinEUI, DevEUI | dva údaje z úvodu |
+| AppKey | tlačítkem **Generate**, pak ho zapište do firmwaru |
 
 Zapněte kurník. Během pár minut se na kartě **Live data** (v konzoli u zařízení) objeví
 `Accept join-request` a pak první zpráva.
@@ -466,8 +513,7 @@ takové změny.
 SETUP a nastavte ji znovu. Ujistěte se také, že byl použit **Claim gateway**, ne Register gateway.
 
 **Kurník se nepřipojí, v konzoli je `MIC mismatch`.** AppKey v konzoli nesouhlasí s tím
-v kurníku. Opravte ho u zařízení v **General settings → Join settings** podle údaje, který
-jste dostali s kurníkem, a kurník vypněte a zapněte.
+v kurníku. Opravte ho u zařízení v **General settings → Join settings** a kurník vypněte a zapněte.
 
 **Stránku nelze najít.** Zkuste místo `kurnik.local` přímo IP adresu Pi (kapitola 7,
 **Adresa Pi**). Pokud prohlížeč přepíná na HTTPS, vypněte v něm „Vždy používat zabezpečené
@@ -493,21 +539,3 @@ docker compose up -d
 
 **Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraňte
 překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
-
-## Příloha: jak zjistit DevEUI
-
-Když DevEUI chybí, dá se vyčíst přímo z čipu. Potřeba je programátor ST-LINK a nástroj
-STM32CubeProgrammer.
-
-```bash
-STM32_Programmer_CLI -c port=SWD -r32 0x1FFF7580 8
-```
-
-Výpis vypadá takto:
-
-```
-0x1FFF7580 : AABBCCDD 0080E115
-```
-
-DevEUI se složí tak, že **druhé číslo se dá před první**: `0080E115AABBCCDD`.
-Druhé číslo musí být `0080E115` — podle toho se pozná, že jde o správné místo.
