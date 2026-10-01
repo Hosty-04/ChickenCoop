@@ -13,16 +13,54 @@ nastane doopravdy.
 
 ## Jak databázi nasadit
 
-Server čte soubor, na který ukazuje `DB_PATH`, ve výchozím nastavení `Server/data/kurnik.db`.
-Kopírováním se přepíšou uložená měření, proto si je nejdřív odložte:
+Server je k tomu potřeba zastavit, jinak může část posledních měření zůstat v pomocném
+souboru. Nejdřív si odložte, co máte uložené, pak nakopírujte testovací databázi:
 
 ```bash
-cp Server/data/kurnik.db Server/data/kurnik-zaloha.db
-cp Tests/kurnik-test.db Server/data/kurnik.db
+cd ~/ChickenCoop/Server
+docker compose stop
+docker compose cp app:/data/kurnik.db ~/kurnik-zaloha.db
+docker compose cp ~/ChickenCoop/Tests/kurnik-test.db app:/data/kurnik.db
+docker compose start
 ```
 
-Pak server restartujte. Měření, která z kurníku dorazí potom, se ukládají do nasazené
-databáze dál.
+Kopíruje se celý soubor a uloží se pod jménem z cílové cesty, takže se z `kurnik-test.db`
+uvnitř stane `kurnik.db` a původní databázi přepíše. Měření, která z kurníku dorazí potom,
+se ukládají do té testovací.
+
+Když server pouštíte přímo přes `node src/server.js`, je to prosté kopírování souboru, na
+který ukazuje `DB_PATH` (ve výchozím nastavení `Server/data/kurnik.db`) — i tak server
+nejdřív zastavte.
+
+## Jak se vrátit ke svým datům
+
+Stejný postup obráceně:
+
+```bash
+cd ~/ChickenCoop/Server
+docker compose stop
+docker compose cp ~/kurnik-zaloha.db app:/data/kurnik.db
+docker compose start
+```
+
+Kdyby mezitím vypadl proud nebo se Pi vypnulo natvrdo, zůstanou v úložišti vedle databáze
+ještě soubory `kurnik.db-wal` a `kurnik.db-shm` z testovací databáze. SQLite by je na
+obnovenou zálohu přehrál a poškodil ji, proto se se zastaveným serverem nejdřív podívejte,
+co v úložišti leží:
+
+```bash
+docker run --rm -v server_coop-data:/data alpine ls -l /data
+```
+
+Je tam jen `kurnik.db`? Kopírujte zálohu podle postupu výše. Je tam i `-wal` nebo `-shm`?
+Nejdřív je smažte:
+
+```bash
+docker run --rm -v server_coop-data:/data alpine rm -f /data/kurnik.db-wal /data/kurnik.db-shm
+```
+
+Po běžném `docker compose stop` tam nic takového nebude. Celé zálohování je popsané
+v `Server/README.md`.
 
 ## Co je co
 
