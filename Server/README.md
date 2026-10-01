@@ -551,6 +551,34 @@ a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášen�
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
+### Když data chybí
+
+Kurník se ozývá každých 10 minut. Když zpráva nedorazí, neuloží se nic: **v grafu vznikne
+díra široká jako výpadek** a v tabulce prostě chybí řádky, takže se výpadek pozná skokem
+v časovém sloupci. Jedna ztracená zpráva graf nepřeruší — čára se spojí, dokud mezera
+nepřeroste dvě okna zvoleného rozsahu. V grafu je proto výpadek vidět zhruba od 20 minut
+ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech, 2 dnů v roce a 2 týdnů ve Vše.
+V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích do 24 hodin tedy i po
+jediné ztracené zprávě.
+
+Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo naměří nesmysl
+(baterie mimo rozsah 1–10 V, panel nad 12,5 V). Dlaždice pak ukáže pomlčku a oranžové
+**⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci a v grafu se přeruší jen ta jedna
+čára — druhá pokračuje dál. V delších rozsazích taková hodnota zmizí beze stopy, protože se
+do průměru okna nepočítá.
+
+**Odpojený, zastíněný nebo rozbitý panel** čidlo hlásit umí: naměří 0,00 V. Denní hrb
+v grafu proto klesne na nulu a v tabulce je `0.00 V`, ne pomlčka. Pomlčka u panelu znamená,
+že selhalo samotné měření, ne že panel nic nedává.
+
+**Odpojená baterie** vypadá jinak, protože z ní běží celý kurník: přestanou chodit zprávy
+a na stránce je to obyčejný výpadek. Pomlčka u baterie znamená, že kurník běží dál, jen se
+neozval senzor INA226; v takovém případě kurník pro jistotu odpojí i panel.
+
+Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na konec toho, co se vejde
+do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může být vyšší, dlaždice,
+graf i tabulka ukazují tuhle mez.
+
 ## Ovládání
 
 Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
