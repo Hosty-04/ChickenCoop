@@ -2,11 +2,7 @@
 
 Systém pro automatizaci kurníku s detekcí snesených vajec
 
-&nbsp;
-
 ## Zadání
-
-&nbsp;
 
 - Prostudujte možnosti automatizace uzavírání kurníku, možné metody detekce snesených vajec a dostupné možnosti komunikace a připojení zařízení do IoT sítě (např. NB-IoT, WiFi, LoRaWAN).
 - Navrhněte systém pro automatické otevírání a uzavírání dvířek kurníku s možností rozšíření o jednotky se senzory ve snáškových hnízdech (min. 5 hnízd). Prostudujte možnosti napájení z akumulátoru nebo fotovoltaického panelu. Proveďte analýzu možnosti přenosu dat do cloudu a jejich zobrazení uživateli včetně historie snášek a možnosti vzdáleného ovládání, například skrze aplikaci.
@@ -16,11 +12,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
-&nbsp;
-
 ## Schéma
-
-&nbsp;
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_white.png">
@@ -28,21 +20,16 @@ Systém pro automatizaci kurníku s detekcí snesených vajec
   <img alt="block_schematic" src="Schematics/block_schematic_black.png">
 </picture>
 
-&nbsp;
-
 ### Legenda  
 K - hlavní krabička  
 Kx - hnízdová krabička  
 M - hlavní mikrořadič  
 Mx - hnízdový mikrořadič  
 
-&nbsp;
-
 ## Popis
 
-&nbsp;
-
 ### Kabeláž
+
 Pro připojení solárního panelu a akumulátoru je použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Stejným způsobem je k desce plošných spojů připojen motor a mikrospínače, avšak s licnou o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici.
 
 Kabely vedou v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Speciální UV odolná lišta není potřeba, protože stěna kurníku, na které jsou lišty umístěny, je vystavena slunci pouze při jeho západu; životnost běžné lišty se odhaduje na 5–10 let.
@@ -55,12 +42,9 @@ Oplet kabelu (pocínované měděné drátky) se izoluje smršťovací bužírko
 
 U prototypu jsou využity stejné kabely, svorkovnice a svorky. Dále jsou použity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
 
-&nbsp;
-
 ### Napájení
-Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 V / Isc = 1,23 A / Impp = 1,11 A. Panel je svisle připevněný na stěnu mimo výběh pod malou stříškou a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž mimo výběh zároveň omezuje usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká. Vlivem teplotních ztrát a nepatrného úbytku napětí na krátké kabeláži je účinnost panelu přibližně 95 %.
 
-&nbsp;
+Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 V / Isc = 1,23 A / Impp = 1,11 A. Panel je svisle připevněný na stěnu mimo výběh pod malou stříškou a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž mimo výběh zároveň omezuje usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká. Vlivem teplotních ztrát a nepatrného úbytku napětí na krátké kabeláži je účinnost panelu přibližně 95 %.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Plots/panel_characteristic_white.png">
@@ -68,23 +52,15 @@ Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp =
   <img alt="panel_characteristic" src="Plots/panel_characteristic_black.png">
 </picture>
 
-&nbsp;
-
 Systém je napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost je přibližně 88 %, samovybíjení činí 3 % měsíčně a v zimě akumulátor ztrácí přibližně 30 % kapacity. Tento typ nesmí být hluboce vybíjen, což je kvůli velmi nízké spotřebě systému splněno. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet při teplotě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k venkovnímu umístění (zvolenému kvůli snížení vlivu amoniaku ze slepičího trusu na elektroniku) a požadavku na jednoduchý nabíjecí systém je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a roční ztrátu kapacity 15 %. Napájecí kabely jsou připojeny přes konektory Faston F1.
 
 Před akumulátorem je zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje 81,6 %, neboť akumulátor stahuje napětí panelu na svou úroveň (průměrně 6,8 V) a panel tak nepracuje v bodě maximálního výkonu, ale v oblasti konstantního proudu; účinnost MOSFET odpojovače dosahuje 96,5 %.
 
 Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajišťuje nízkopříkonový LDO regulátor MCP1702 s přesnou stabilizací, dostačujícím výstupním proudem 250 mA a velmi nízkým klidovým proudem. Na jeho vstupu i výstupu je připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí. Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by měnič paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
-&nbsp;
-
 ## Denní přehled (5 hnízd)
 
-&nbsp;
-
 ### Klidová spotřeba (24 h / 2–10 h)
-
-&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -95,8 +71,6 @@ Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s nap
 | Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | **Celkem** | **11,9 µA** | **45,8 µA** | **129 µAh** | **1 mAh** |
-
-&nbsp;
 
 $$
 I_N = \frac{U_{nap}}{R_{pd} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
@@ -110,8 +84,6 @@ $$
 I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
 $$
 
-&nbsp;
-
 kde:
 - $I_N$ ... proud tekoucí pull-down rezistorem u spínače s N-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
@@ -123,23 +95,15 @@ kde:
 - $I_{DSS,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
 - $I_{GSS}$ ... svodový proud tekoucí přes gate
 
-&nbsp;
-
 U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
 
-&nbsp;
-
 ### Kontrola fotovoltaického panelu a akumulátoru (30 s a 12 s)
-
-&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | INA226 | 330 µA | 420 µA | 1,01 µAh | 1,28 µAh |
 | M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,4 µAh | 4,55 µAh |
 | **Celkem** | **450 µA** | **810 µA** | **2,41 µAh** | **5,83 µAh** |
-
-&nbsp;
 
 $$
 t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{500\ \text{kHz}} = 16 \cdot 346\ \text{µs} = 5,54\ \text{ms}
@@ -153,8 +117,6 @@ $$
 t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} \approx 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}
 $$
 
-&nbsp;
-
 kde:
 - $t_p$ ... doba měření napětí na panelu
 - $t_u$ ... doba ustálení napětí na panelu
@@ -167,11 +129,7 @@ kde:
 - $t_{a,v}$ ... doba převodu jednoho vzorku napětí na akumulátoru
 - $n_{a,v}$ ... počet vzorků napětí na akumulátoru
 
-&nbsp;
-
 ### Pohyb dvířek (32–215 s)
-
-&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -180,8 +138,6 @@ kde:
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 25,1 µAh |
 | M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,17 µAh |
 | **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **15 mAh** |
-
-&nbsp;
 
 $$
 O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
@@ -203,8 +159,6 @@ $$
 t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 3 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
 $$
 
-&nbsp;
-
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $n_p$ ... počet pokusů pro otevření/zavření dvířek
@@ -217,15 +171,9 @@ kde:
 - $d_s$ ... průměr špulky
 - $h$ ... výška dvířek
 
-&nbsp;
-
 Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; výpočet astronomických hodin trvá pouze jednu milisekundu.
 
-&nbsp;
-
 ### Kontrola vajec (24 min / 16 min / 8–8,53 min)
-
-&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -237,8 +185,6 @@ Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; v�
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
 | **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,34 mAh** |
-
-&nbsp;
 
 $$
 t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
@@ -268,8 +214,6 @@ $$
 t_{P,pd} = 24 \cdot t_{P,pd,off} = 24 \cdot (16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{16\ \text{min}}
 $$
 
-&nbsp;
-
 kde:
 - $t_{max}$ ... maximální doba každohodinové kontroly h hnízd
 - $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů
@@ -286,23 +230,15 @@ kde:
 - $t_{P,pd}$ ... čas, po který teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pd,off}$ ... čas, po který jsou spínače s P-MOS tranzistorem s pull-down rezistorem rozepnuty
 
-&nbsp;
-
 STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje, což znamená několikanásobně nižší spotřebu. Využito je šest spínačů s P-MOS tranzistorem a pull-up rezistorem a pět spínačů s P-MOS tranzistorem a pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pull-down rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8 µAh/den).
 
-&nbsp;
-
 ### Komunikace (20 s a 5–15 s)
-
-&nbsp;
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | LoRa TX | 21 mA | 21 mA | 117 µAh | 117 µAh |
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
 | **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
-
-&nbsp;
 
 $$
 t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
@@ -316,8 +252,6 @@ $$
 t_{p,max} = 2 \cdot 146 \cdot t_{o,max} = 2 \cdot 146 \cdot 50\ \text{ms} = 14,6\ \text{s} \approx \mathbf{15\ \text{s}}
 $$
 
-&nbsp;
-
 kde:
 - $t_v$ ... doba vysílání
 - $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
@@ -327,15 +261,9 @@ kde:
 - $t_{o,min}$ ... minimální doba příjmového okna
 - $t_{o,max}$ ... maximální doba příjmového okna
 
-&nbsp;
-
 CPU je většinu času v režimu Stop2 s RTC.
 
-&nbsp;
-
 ### Procentuální rozložení a celková denní spotřeba
-
-&nbsp;
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
@@ -346,11 +274,7 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
 | **Celkem** | **2,07 mAh** | **100 %** | **17,5 mAh** | **100 %** |
 
-&nbsp;
-
 ### Energie dodávaná do akumulátoru
-
-&nbsp;
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
@@ -358,8 +282,6 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Východ | 2547 | 453 |
 | Západ | 2662 | 567 |
 | Jihozápad | 2772 | 1248 |
-
-&nbsp;
 
 $$
 P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
@@ -381,11 +303,7 @@ $$
 \eta_{mos} = \frac{P_{vst} - P_{ztr}}{P_{vst}} = \frac{8,16\ \text{W} - 288\ \text{mW}}{8,16\ \text{W}} = 0,965
 $$
 
-&nbsp;
-
 **Příklad výpočtu pro léto, jih**
-
-&nbsp;
 
 $$
 E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} = 26,1\ \text{Wh/den}
@@ -398,8 +316,6 @@ $$
 $$
 Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} = \mathbf{2662\ \text{mAh/den}}
 $$
-
-&nbsp;
 
 kde:
 - $E_{den}$ ... energie vyrobená za jeden den
@@ -416,15 +332,9 @@ kde:
 - $Q_{aku}$ ... náboj nabíjející akumulátor
 - $U_{aku}$ ... průměrné napětí akumulátoru
 
-&nbsp;
-
 Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit nástroj PVGIS. Úbytek napětí MOSFET odpojovače nijak neovlivňuje účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vnitřního odporu N-MOS tranzistoru je na účinnost MOSFET odpojovače a pracovního bodu panelu minimální. Svodový proud drainu P-MOS i N-MOS tranzistoru je ve srovnání s napájecím proudem z panelu zanedbatelný a teče pouze tehdy, když jsou spínače rozepnuty.
 
-&nbsp;
-
 ### Energetická bilance
-
-&nbsp;
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
@@ -433,30 +343,21 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 | Západ | +2612 | +517 |
 | Jihozápad | +2722 | +1198 |
 
-&nbsp;
-
 $$
 Q_{ztr} = Q_{aku} \cdot \frac{rate}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{\\%}}{30} = \mathbf{4\ \text{mAh/den}}
 $$
-
-&nbsp;
 
 kde:
 - $Q_{ztr}$ ... náboj ztracený samovybíjením akumulátoru
 - $Q_{aku}$ ... náboj akumulátoru
 - $rate$ ... míra samovybíjení za měsíc
 
-&nbsp;
-
 Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 50 mAh — přibližně dvojnásobek).
-
-&nbsp;
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou nehledě na orientaci fotovoltaického panelu. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi provozní dobu omezuje spíše několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru než samotná spotřeba systému a samovybíjení.
 
-&nbsp;
-
 ### Řízení
+
 Hlavní řídicí jednotkou systému je mikrořadič LoRa-E5 mini (M) se STM32WLE5JC a integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožňuje na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda je umístěn mikrořadič STM32 NUCLEO-L031K6 (Mx). K programování slouží programátor ST-Link V2. Před programováním je potřeba programátor připojit k dané desce klasickými kabely DuPont — stačí propojit piny 3V3, SWCLK, SWDIO, GND a nRST. U finální verze jsou desky osazeny v paticích (dutinkových lištách).
 
 Firmware je vyvíjen v prostředí Visual Studio Code s rozšířením STM32CubeIDE a využívá knihovny HAL. U LoRa-E5 mini je potřeba nejprve odstranit tovární AT firmware. Součástí firmwaru hlavního mikrořadiče jsou astronomické hodiny, jež každý den o půlnoci pomocí RTC obvodu spočítají čas východu a západu slunce; podle těchto údajů se pak automaticky otevírají a zavírají dvířka kurníku. Z kalendáře dokáže řadič určit i roční období. Drift krystalu LSE, který zajišťuje datum a čas, činí i v nejhorších podmínkách nejvýše 3 minuty za měsíc. Prostý časovač nebyl zvolen kvůli proměnlivé délce dne a světelný senzor byl zavržen, protože by mohl vyvolat chybné sepnutí motoru dvířek při zatažené obloze (déšť, bouřka) nebo vlivem pouličního osvětlení či světlometů automobilů.
@@ -467,11 +368,7 @@ LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a
 
 Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech (0–10 vajec na hnízdo). Kurník odesílá data každých 10 minut po kontrole stavu panelu a akumulátoru, dále po kontrole stavu hnízd a při změně stavu dvířek; po kontrole stavu hnízd se odešle všech 5 bajtů, kdykoliv jindy pouze první 2 bajty. Příjem dat (manuální ovládání) následuje vždy po skončení vysílání a využívá jediný bajt: bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny.
 
-&nbsp;
-
 **Stavový automat pro algoritmus detekce snesených vajec**
-
-&nbsp;
 
 - Probuzení mikrořadičů a připojení napájení k potřebným částem systému
 - Čekání 500 ms na dokončení inicializace
@@ -488,23 +385,15 @@ Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bit
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
-&nbsp;
-
 Pro komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, je použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů není nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost je 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě slouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytváří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převádí jednotlivé bajty na sériový datový tok, doplňuje start a stop bity a zajišťuje jejich přenos po sběrnici; na straně přijímače probíhá opačný proces.
 
 K solárnímu panelu je připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 330 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (330 kΩ) je zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie: interní vzorkovací kondenzátor uvnitř M se nabíjí přes vysokou výstupní impedanci děliče, a bez tohoto kondenzátoru by se proto nabíjel příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů hodin ADC (160,5). Dělič slouží k monitorování napětí panelu; napětí se do M přivádí přes ADC pin v analogovém režimu, pro zvýšení přesnosti se provádí kalibrace a výsledkem je aritmetický průměr 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý svodový proud do M zajišťují zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 je v krabičce K zapojen mezi akumulátor a vstup Vin pro napájení motoru přes H-bridge; jednou z jeho funkcí je s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
-&nbsp;
-
 **Napěťový rozsah děliče**
-
-&nbsp;
 
 $$
 U_{r} = U_{max} \cdot \frac{R_2}{R_1 + R_2} = 11\ \text{V} \cdot \frac{330\ \text{k}\Omega}{1\ \text{M}\Omega + 330\ \text{k}\Omega} = \mathbf{2,73\ \text{V} < 3,3\ \text{V}}
 $$
-
-&nbsp;
 
 kde:
 - $U_r$ ... maximální napětí na řadiči
@@ -512,15 +401,9 @@ kde:
 - $R_1$ ... první rezistor děliče
 - $R_2$ ... druhý rezistor děliče
 
-&nbsp;
-
 I při maximálním napětí na solárním panelu nepřesahuje napětí na ADC pinu napájecí napětí M. Napětí na ADC pinu se tudíž pohybuje v bezpečných mezích pro M.
 
-&nbsp;
-
 Na základě údajů z napěťového senzoru a napěťového děliče vyhodnocuje M přes sběrnici I²C, respektive přes ADC pin, stav akumulátoru a solárního panelu. Dostane-li se napětí akumulátoru nad limitní hodnotu (v létě 7,2 V, na jaře a na podzim 7,3 V, v zimě 7,5 V), M panel odpojí. Při vybití akumulátoru pod 50 %, kdy jeho napětí klesne pod kritickou hodnotu (v létě 6 V, v zimě 6,15 V), přejde M do kritického režimu, ve kterém už jen kontroluje napětí panelu a akumulátoru a komunikuje s uživatelem. V zimě je kritická hodnota vyšší, protože čím více je akumulátor vybitý, tím snadněji elektrolyt zamrzne, což vede ke zničení akumulátoru. Jakmile napětí akumulátoru klesne pod limitní hodnotu nebo stoupne nad kritickou hodnotu, M panel znovu připojí. Během nedostatečného slunečního svitu nebo v noci, kdy je napětí panelu nižší než napětí akumulátoru snížené o 50 mV, musí M panel odpojit, aby nevznikl zpětný proud do panelu.
-
-&nbsp;
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/separator_flowchart_white.png" width="800px">
@@ -528,11 +411,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče vyhodnocuj
   <img alt="separator_flowchart" src="Flowcharts/separator_flowchart_black.png" width="800px">
 </picture>
 
-&nbsp;
-
 Další funkcí napěťového a proudového senzoru je s 16bitovým rozlišením a průměrováním 16 vzorků (2,2 ms/vzorek) neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se upravuje střída PWM a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms signalizuje překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě M motor na 250 ms zastaví, pokusí se obrátit směr jeho otáčení a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max. 3 pokusy), systém odešle zprávu o poruše dvířek a až do pokynu uživatele s nimi nemanipuluje. Zpráva o poruše je odeslána také tehdy, když motor běží déle než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když dvířka na začátku pohybu nejsou v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
-
-&nbsp;
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/door_flowchart_white.png" width="800px">
@@ -540,11 +419,7 @@ Další funkcí napěťového a proudového senzoru je s 16bitovým rozlišením
   <img alt="door_flowchart" src="Flowcharts/door_flowchart_black.png" width="800px">
 </picture>
 
-&nbsp;
-
 **Řízení motoru**
-
-&nbsp;
 
 $$
 R_b = \frac{U_{aku} - U_{m}}{I_{aku}} = \frac{x\ \text{V} - x\ \text{V}}{x\ \text{mA}} = x\ \Omega
@@ -558,8 +433,6 @@ $$
 I_{m,pwm} = I_{m} \cdot \frac{U_{m,p} + U_b + U_k}{U_{aku}} = I_{m} \cdot \frac{U_{m,p} + I_{aku} \cdot R_{b} + U_k}{U_{aku}} = 450\ \text{mA} \cdot \frac{6\ \text{V} + x\ \text{mA} \cdot x\ \Omega + 0,4\ \text{V}}{x\ \text{V}} = \mathbf{x\ \text{mA}}
 $$
 
-&nbsp;
-
 kde:
 - $R_{b}$ ... náhradní odpor pro H-bridge
 - $U_{m}$ ... napětí na motoru při běhu a zátěži
@@ -572,11 +445,7 @@ kde:
 - $U_{aku}$ ... napětí akumulátoru při běhu a zátěži
 - $I_{aku}$ ... proud na motoru při běhu a zátěži
 
-&nbsp;
-
 Kompenzace přes náhradní odpor udržuje napětí na motoru typicky v rozmezí 200–400 mV od cílové hodnoty. Odchylku způsobuje hlavně závislost odporu MOSFETů na proudu a teplotě a to, že jde jen o zjednodušený model úbytků na můstku a kabeláži. Pokud je napětí akumulátoru větší než 6,3 V (dolní hranice plného nabití), je napětí na motoru téměř vždy větší než 6 V.
-
-&nbsp;
 
 Většinu dne je hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu Standby s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován přesným externím krystalem LSE 32 kHz, umístěným na LoRa-E5 mini. Jakmile ale RTC signalizuje, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktován úsporným interním oscilátorem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič volí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. Během přenosu dat je rádio automaticky taktováno přesným externím krystalem HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit dobu probuzení rádia (radio wakeup time) na 5 ms. V režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič využívá úsporný napájecí režim SMPS.
 
@@ -588,9 +457,8 @@ Před odpojením napájení VCC od jednotlivých částí systému, před jejich
 
 Kvůli nízkopříkonové povaze systému je nutné u mikrořadiče LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, Schottkyho diodu a lineární LDO regulátor. U hnízdových mikrořadičů je nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je u obou mikrořadičů třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru. Nakonec je u LoRa-E5 mini potřeba, pokud se rádio nepoužívá, nastavit externí RF switch (piny PA4 a PA5) na logickou nulu a vypnout TCXO; u hnízdových mikrořadičů je pak potřeba v power registrech (PWR) zapnout ultra low power režim (bit ULP) a vypnout fast wakeup (bit FWU).
 
-&nbsp;
-
 ### Elektronika
+
 Prototyp je sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze obsahuje jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách jsou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
 Za akumulátorem je do napájecí větve zařazena rychlá trubičková pojistka o jmenovitém proudu 1 A, umístěná v pouzdře. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provoznímu odběru systému, který při pohybu dvířek dosahuje pouhých 250 mA, a pojistka snese i krátkodobé proudové špičky do 550 mA při rozběhu nebo zaseknutí motoru. Zároveň je však tato hodnota dostatečně nízká na to, aby pojistka při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud mohl cokoliv poškodit.
@@ -599,19 +467,13 @@ Samostatná přepěťová ochrana ani ochrana proti přepólování není do sys
 
 MOSFET odpojovač je tvořen dvěma P-MOS tranzistory AO3401A zapojenými back-to-back (drainy proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému a zamezuje zpětnému toku proudu z akumulátoru do panelu, způsobenému parazitními diodami P-MOS tranzistorů. Tyto tranzistory řídí M přes budicí logic-level N-MOS tranzistor BSS138 (sepnutí odpojovače probíhá nastavením logické jedničky na gate N-MOS), protože napětí 3,3 V není při napájení z 9V solárního panelu pro jejich rozepnutí dostatečné. Za M je sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení kapacity gate. Mezi gate a společnou zem N-MOS tranzistoru je paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain je připojen na gate obou P-MOS tranzistorů a přes 100 kΩ pull-up rezistor k 9V panelu. Source je připojen ke společné zemi. Na P-MOS tranzistorech je napětí U<sub>GS</sub> při sepnutém N-MOS tranzistoru vždy nižší než −4,5 V a při rozepnutém nulové. Z toho vyplývá, že R<sub>DSon</sub> je maximálně 50–100 mΩ. Na N-MOS tranzistoru je napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> je maximálně 5 Ω. Jelikož jsou tranzistory typu SMD, je pro prototyp potřeba SMD adaptér SOT23 a kolíkové lišty. Co nejblíže za MOSFET odpojovačem jsou v krabičce K paralelně mezi výstupní napájecí větev a společnou zem zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
 
-&nbsp;
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Schematics/separator_schematic_white.png">
   <source media="(prefers-color-scheme: light)" srcset="Schematics/separator_schematic_black.png">
   <img alt="separator_schematic" src="Schematics/separator_schematic_black.png">
 </picture>
 
-&nbsp;
-
 **Ověření funkce MOSFET odpojovače**
-
-&nbsp;
 
 $$
 U_{G,P} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \Omega}{100\ \text{k}\Omega + 5\ \Omega} = \mathbf{450\ \text{µV} \approx 0\ \text{V}}
@@ -625,8 +487,6 @@ $$
 U_{G,N} = U_r \cdot \frac{R_{pulldown}}{R_G + R_{pulldown}} = 3,3\ \text{V} \cdot \frac{470\ \text{k}\Omega}{220\ \Omega + 470\ \text{k}\Omega} = \mathbf{3,29\ \text{V}}
 $$
 
-&nbsp;
-
 kde:
 - $U_{G,P}$ ... napětí na gate P-MOS tranzistoru
 - $U_{max}$ ... maximální napětí panelu
@@ -638,15 +498,9 @@ kde:
 - $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
 - $R_G$ ... ochranný rezistor
 
-&nbsp;
-
 I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pull-down rezistor dokáže i navzdory svodovému proudu gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8–1,5 V. Pokles napětí na gate N-MOS tranzistoru způsobený ochranným rezistorem je při jeho spínání zanedbatelný.
 
-&nbsp;
-
 Pro dosažení nízké klidové spotřeby je větev zodpovědná za kontrolu vajec napájena přes tranzistorové spínače a senzor INA226 využívá režim shutdown stejně jako driver DRV8838 (z modulu Pololu je nutné odpájet nSLEEP pull-up rezistor) — většina elektroniky totiž pracuje jen krátkodobě, při měření, komunikaci nebo pohybu dvířek, a trvalé napájení všech obvodů by zbytečně odebíralo energii z akumulátoru. Přes hlavní z těchto spínačů řídí M napájení hlavního MAX3485 a zároveň všech krabiček Kx (rozepnutí logickou jedničkou). V každé krabičce Kx jsou pak dva další spínače: první, ve výchozím stavu sepnutý (logická nula na gate), přes Mx napájí místní MAX3485 a HX711; druhý, ve výchozím stavu rozepnutý (logická jednička na gate), řídí napájení další krabičky Kx v řadě. Každý z těchto spínačů tvoří pouze jeden přímo řízený P-MOS tranzistor AO3401A, jehož source je připojen na lineární LDO regulátor. Za M je, ze stejného důvodu jako u MOSFET odpojovače, sériově zapojen 220 Ω rezistor a mezi gate tranzistoru a lineární LDO regulátor je zapojen 100 kΩ pull-up rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Ve výchozím stavu sepnuté spínače mají místo pull-up rezistoru pull-down o stejné hodnotě. Typ N-MOS (low-side spínání) nebyl zvolen, protože by u komponent v krabičkách Kx hrozilo uzemnění přes cesty, které k tomu nejsou určeny. Mezi source spínačů a společnou zem je připojen kondenzátor 1 µF / 50 V, který kryje proudový odběr při sepnutí a chrání sdílenou 3,3V větev před poklesem napětí.
-
-&nbsp;
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Schematics/peripheral_switches_schematic_white.png" width="800px">
@@ -654,11 +508,7 @@ Pro dosažení nízké klidové spotřeby je větev zodpovědná za kontrolu vaj
   <img alt="peripheral_switches_schematic" src="Schematics/peripheral_switches_schematic_black.png" width="800px">
 </picture>
 
-&nbsp;
-
 **Funkce a parametry spínačů**
-
-&nbsp;
 
 $$
 U_G = U_{nap} \cdot \frac{R_G}{R_{pullup} + R_G} = 3,3\ \text{V} \cdot \frac{220\ \Omega}{100\ \text{k}\Omega + 220\ \Omega} = \mathbf{7,24\ \text{mV} \approx 0\ \text{V}}
@@ -680,8 +530,6 @@ $$
 t_n = 5 \cdot \tau = 5 \cdot R_{DSon} \cdot C = 5 \cdot 150\ \text{m}\Omega \cdot 1\ \text{µF} \approx \mathbf{1\ \text{µs}}
 $$
 
-&nbsp;
-
 kde:
 - $U_G$ ... napětí na gate
 - $U_{nap}$ ... napájecí napětí
@@ -698,11 +546,7 @@ kde:
 - $R_{DSon}$ ... maximální vnitřní odpor sepnutého tranzistoru
 - $C$ ... kapacita kondenzátoru
 
-&nbsp;
-
 I s ochranným rezistorem dokáže spínač spolehlivě stáhnout gate tranzistoru k zemi a tím ho otevřít. U spínačů s pull-down rezistorem platí, že pokles napětí na gate způsobený tímto rezistorem je při jejich rozpínání zanedbatelný. Spínače s pull-up i pull-down rezistorem mají stejný svodový proud gate jako dříve zmíněný spínač s N-MOS tranzistorem, ale silnější pull-down/pull-up rezistor; U<sub>th</sub> je −1,3 až −0,5 V — pull rezistory udržují spínače rozepnuté. Napětí U<sub>GS</sub> je vždy buď nižší než −2,5 V, nebo téměř nulové, tudíž R<sub>DSon</sub> je maximálně 80–150 mΩ — i nejvyšší možný úbytek napětí na spínači je tedy zanedbatelný. Náboj gate Q<sub>g</sub> je maximálně 7–9,4 nC. Běžná doba změny stavu tranzistoru, ke které byla přičtena rezerva kvůli odporu pinu a hradla (přibližně 25 Ω), je stejně jako doba nabití kondenzátoru zanedbatelná.
-
-&nbsp;
 
 Velmi úsporný modul H-bridge Pololu DRV8838 pomocí PWM s frekvencí 20 kHz reguluje napětí na motoru (rozlišení 2 %), aby střední hodnota odpovídala 6 V bez ohledu na aktuální napětí akumulátoru. Tato frekvence byla zvolena s ohledem na tři podmínky. Vzhledem k časové konstantě vinutí motoru (u malých kartáčových motorů s převodovkou typicky v řádu stovek µs) je perioda PWM (50 µs) dostatečně krátká, aby proud vinutím zůstal v kontinuálním režimu a nestihl mezi jednotlivými pulzy poklesnout k nule — motor tak pracuje s vyhlazeným stejnosměrným napětím místo trhavých pulzů, což nezvyšuje jeho mechanické namáhání. Během jednoho měření napětí a proudu modulem INA226 (40 ms) proběhne při této frekvenci 800 period PWM, takže výsledek zůstává spolehlivě zprůměrován nezávisle na tom, v jaké fázi PWM cyklu zrovna vzorkování proběhlo. Z hlediska elektrolytického kondenzátoru leží 20 kHz blízko horní hranice jeho frekvenčního rozsahu, kde má nejnižší ESR a snese nejvyšší ripple proud bez nadměrného zahřívání. Při 20 kHz činí dovolený zvlněný proud přibližně 152 mA, což bezpečně pokrývá typický proud motoru (100 mA); krátkodobé špičky při zaseknutí (550 mA po dobu 150 ms) tento limit sice převyšují, ale díky tepelné setrvačnosti kondenzátoru a krátkému trvání nepředstavují riziko pro jeho životnost. Zvolená frekvence zároveň zůstává s velkou rezervou pod maximální PWM frekvencí driveru DRV8838 (250 kHz) i mimo slyšitelné pásmo.
 
@@ -714,9 +558,8 @@ Měření hmotnosti snáškového hnízda zprostředkovává tenzometr se zanedb
 
 Na deskách plošných spojů musí být všechny součástky v jednotlivých krabičkách co nejblíže u sebe a kondenzátory co nejblíže příslušným pinům; silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu tvoří záporný pól solárního panelu a akumulátoru.
 
-&nbsp;
-
 ### Mechanika
+
 Hlavní část systému je umístěna na vnější stěně kurníku, která splňuje požadavky na umístění solárního panelu popsané v kapitole Napájení. Toto řešení zjednodušuje montáž a zároveň z velké části eliminuje vliv amoniaku ze slepičího trusu na elektroniku.
 
 Solární panel je uchycen v rámečku vytištěném z materiálu PETG, jehož vnější rozměr (360 × 240 mm) přesahuje rozměr panelu (340 × 220 mm) o 10 mm po každé straně. Kapsa pro panel je hluboká 4 mm, tedy o 1 mm více než tloušťka panelu, aby panel po vložení mírně zapadl pod úroveň okraje rámečku a nedocházelo k zadržování vody na jeho povrchu. Dno kapsy je opatřeno výřezem o rozměru 320 × 200 mm, odpovídajícím aktivní ploše panelu, takže rámeček má tvar pasparty a nestíní dopadající sluneční záření. Po vložení panelu do kapsy je spára mezi jeho okrajem a stěnou rámečku vyplněna venkovním UV odolným silikonovým tmelem, čímž vzniká vodotěsné a zároveň mechanicky pevné spojení bez nutnosti vrtat do samotného panelu. Rámeček je přišroubován přímo ke stěně kurníku vruty do zdiva 6 × 80 mm s plastovými hmoždinkami 8 mm, a to přes čtyři otvory o průměru 5 mm v rozích mimo aktivní plochu panelu.
@@ -735,11 +578,7 @@ Lanko vede kolmo vzhůru do krabičky K, kde je navíjeno na špulku vytištěno
 
 Špulka má packy pro uchycení ke dnu krabičky K a otvor s D-profilem (průměr 3 mm, hloubka 10 mm); pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) je upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), a to ze strany, kde vstupuje lanko.
 
-&nbsp;
-
 **Tah motoru pro různé krouticí momenty**
-
-&nbsp;
 
 $$
 M = F \cdot r
@@ -757,8 +596,6 @@ $$
 F_k = \frac{M_k}{r_s} = \frac{25\ \text{N·cm}}{12,5\ \text{mm}} = 20\ \text{N} \approx \mathbf{2\ \text{kg tahu}}
 $$
 
-&nbsp;
-
 kde:
 
 - $F_j$ ... síla při jmenovitém krouticím momentu
@@ -768,8 +605,6 @@ kde:
 - $M_d$ ... krouticí moment při doporučeném dlouhodobém trvalém zatížení
 - $M_k$ ... krouticí moment při maximálním krátkodobém zatížení
 - $r_s$ ... poloměr špulky
-
-&nbsp;
 
 Dvířka o hmotnosti 350 g představují mírně vyšší zátěž, než je doporučené trvalé zatížení, tudíž lze očekávat pokles otáček motoru na 15–17 ot./min. Počítá se i s rezervou pro případ mírného drhnutí dvířek v drážkách. Nízkootáčkový motor spolu s menším vnějším průměrem špulky byl zvolen pro zvýšení síly motoru a snížení rizika přetrhnutí lanka nebo vykolejení dvířek.
 
@@ -783,11 +618,7 @@ Optická závora není pro počítání vajec v kurníku vhodná mimo jiné kvů
 
 Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované ke spodní straně vážicí desky. Lišty jsou vysoké 15 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem — zároveň musí zůstat zachována vůle alespoň 3 mm. Do zadní lišty je vyvrtán otvor, kterým prochází již prodloužený kabel od tenzometru; kabel nesmí být mechanicky namáhán tahem. Kabel dále vede vzhůru po stěně do krabičky Kx, odkud je z boku vyveden datový kabel, vedoucí vysoko po stěně až do krabičky K. Uprostřed konstrukce, naproti košíku, je vytvořen stavitelný doraz pomocí zápustného imbusového šroubu M5 z nerezové oceli A2 (délka 30 mm), procházejícího spodní deskou skrz otvor o průměru 4,5 mm a zapuštěného do záhlubení o průměru 10 mm a hloubce 6 mm. Doraz tvoří mosazná kloboučková matice M5 (délka 10 mm, délka závitu 7,5 mm), zvolená kvůli omezení ulpívání nečistot. Optimální vůle dorazu je 0,8 mm, což odpovídá jedné otáčce šroubu M5 nebo přibližně tloušťce běžné platební karty.
 
-&nbsp;
-
 ## Nákup
-
-&nbsp;
 
 | Položka | Množství | Odkaz | Cena (bez DPH) | Cena (s DPH) |
 |:---|:---:|:---:|:---:|:---:|
@@ -848,9 +679,8 @@ Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované ke spodní 
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
 | **Celkem** | | | **5828 Kč** | **7052 Kč** |
 
-&nbsp;
-
 *Poznámka: Do celkové ceny není započtena doprava.*
+
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
 [cya-15-cerny]: https://www.gme.cz/v/1512357/elektrokabel-cya-1x15-cerny-h07v-k-izolovany-vodic-lanko
