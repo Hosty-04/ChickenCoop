@@ -30,7 +30,7 @@ const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
 const TICK_LENGTH_PX = 6;
 const TIME_LABEL_PX = 60;
-const DATE_LABEL_PX = 100;
+const DATE_LABEL_PX = 115;
 const MAX_TICKS = 8;
 const MIN_TICK_GAP = 0.75;
 const NOON_HOUR = 12;
@@ -40,7 +40,7 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
-let shownTicks = null;
+let axisTicks = [];
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -59,58 +59,42 @@ function snapUnit(times) {
 }
 
 function snapTarget(ideal, unit) {
-  const target = new Date(ideal);
+  const target = new Date(unit === DAY_MS ? ideal : ideal + HOUR_MS / 2);
 
   if (unit === DAY_MS) target.setHours(NOON_HOUR, 0, 0, 0);
   else target.setMinutes(0, 0, 0);
   return target.getTime();
 }
 
-function nearestTick(times, target) {
-  let best = 0;
-  for (let i = 1; i < times.length; i++) {
-    if (Math.abs(times[i] - target) < Math.abs(times[best] - target)) best = i;
-  }
-  return best;
-}
-
-function pickTicks(series) {
+function pickTickTimes(times) {
   const limit = tickLimit();
-  const count = series.length;
-  if (count <= limit) return null;
+  const first = times[0];
+  const last = times[times.length - 1];
+  const spanMs = last - first;
+  if (spanMs <= 0) return [first];
 
-  const times = series.map((p) => new Date(p.time).getTime());
-  const step = (count - 1) / (limit - 1);
   const unit = snapUnit(times);
-
-  const room = step * MIN_TICK_GAP;
-  const picked = [0];
-  const add = (index) => {
-    const fits = index - picked[picked.length - 1] >= room && count - 1 - index >= room;
-    if (fits) picked.push(index);
+  const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
+  const picked = [first];
+  const add = (at) => {
+    if (at - picked[picked.length - 1] >= room && last - at >= room) picked.push(at);
   };
 
   if (unit) {
-    const spanMs = times[count - 1] - times[0];
-    const strideMs = Math.max(1, Math.ceil(spanMs / (limit - 1) / unit)) * unit;
-    for (let at = times[0] + strideMs; at < times[count - 1]; at += strideMs) {
-      add(nearestTick(times, snapTarget(at, unit)));
-    }
+    const strideMs = Math.ceil(spanMs / (limit - 1) / unit) * unit;
+    for (let at = first + strideMs; at < last; at += strideMs) add(snapTarget(at, unit));
   } else {
-    for (let i = 1; i < limit - 1; i++) add(Math.round(i * step));
+    const step = spanMs / (limit - 1);
+    for (let i = 1; i < limit - 1; i++) add(first + Math.round(i * step));
   }
 
-  picked.push(count - 1);
-  return new Set(picked);
-}
-
-function showTick(index) {
-  return shownTicks === null || shownTicks.has(index);
+  picked.push(last);
+  return picked;
 }
 
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
-  const gaps = ctx.chart.data.labels.length - 1;
+  const gaps = ctx.chart.data.datasets[0].data.length - 1;
   if (!area || gaps < 1) return POINT_RADIUS;
   return area.width / gaps >= POINT_GAP_PX ? POINT_RADIUS : 0;
 }
@@ -254,12 +238,11 @@ function renderChart() {
     return;
   }
 
-  const mode = labelMode();
-  const labels = points.map((p) => formatTime(p.time, mode));
-  shownTicks = pickTicks(points);
+  const times = points.map((p) => new Date(p.time).getTime());
+  axisTicks = pickTickTimes(times);
   const datasets = [
-    { label: 'Baterie', data: points.map((p) => volts(p.batteryMv)), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
-    { label: 'Panel', data: points.map((p) => volts(p.panelMv)), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
+    { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
+    { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
   ].map((d) => ({
     ...d,
     borderWidth: 2,
@@ -272,7 +255,8 @@ function renderChart() {
   }));
 
   if (chart) {
-    chart.data.labels = labels;
+    chart.options.scales.x.min = times[0];
+    chart.options.scales.x.max = times[times.length - 1];
     chart.data.datasets.forEach((d, i) => {
       d.data = datasets[i].data;
       d.borderColor = datasets[i].borderColor;
@@ -293,7 +277,7 @@ function renderChart() {
 
   chart = new Chart(el('chart'), {
     type: 'line',
-    data: { labels, datasets },
+    data: { datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -303,19 +287,22 @@ function renderChart() {
         tooltip: {
           displayColors: true,
           callbacks: {
+            title: (items) => formatTime(items[0].parsed.x, labelMode()),
             label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y === null ? '–' : ctx.parsed.y.toFixed(2)} V`
           }
         }
       },
       scales: {
         x: {
+          type: 'linear',
+          min: times[0],
+          max: times[times.length - 1],
+          afterBuildTicks: (scale) => { scale.ticks = axisTicks.map((value) => ({ value })); },
           grid: {
             color: css('--grid'),
             drawTicks: true,
             tickLength: TICK_LENGTH_PX,
-            tickColor: css('--text-muted'),
-            tickWidth: (ctx) => (showTick(ctx.index) ? 1 : 0),
-            lineWidth: (ctx) => (showTick(ctx.index) ? 1 : 0)
+            tickColor: css('--text-muted')
           },
           border: { color: css('--axis') },
           ticks: {
@@ -323,9 +310,7 @@ function renderChart() {
             autoSkip: false,
             maxRotation: 0,
             align: 'inner',
-            callback(value, index) {
-              return showTick(index) ? this.getLabelForValue(value) : '';
-            }
+            callback: (value) => formatTime(value, labelMode())
           }
         },
         y: {
