@@ -32,7 +32,7 @@ const POINT_GAP_PX = 14;
 let chart = null;
 let hours = 24;
 let points = [];
-let toastTimer = null;
+const toastTimers = new Map();
 
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
@@ -98,8 +98,9 @@ function describe(commands) {
 }
 
 function pocet(n, jeden, dva, vice) {
-  if (n === 1) return `${n} ${jeden}`;
-  return n >= 2 && n <= 4 ? `${n} ${dva}` : `${n} ${vice}`;
+  const cislo = n.toLocaleString('cs-CZ');
+  if (n === 1) return `${cislo} ${jeden}`;
+  return n >= 2 && n <= 4 ? `${cislo} ${dva}` : `${cislo} ${vice}`;
 }
 
 function countCommands(n) {
@@ -259,15 +260,15 @@ async function request(url, options) {
   }
 }
 
-function showToast(text, tone) {
-  const toast = el('toast');
+function showToast(text, tone, id = 'toast') {
+  const toast = el(id);
   toast.textContent = text;
   toast.className = `toast ${tone ?? ''}`;
   toast.hidden = false;
 
-  clearTimeout(toastTimer);
+  clearTimeout(toastTimers.get(id));
   if (tone === 'is-ok') {
-    toastTimer = setTimeout(() => { toast.hidden = true; }, TOAST_MS);
+    toastTimers.set(id, setTimeout(() => { toast.hidden = true; }, TOAST_MS));
   }
 }
 
@@ -347,6 +348,7 @@ function renderCount(stored) {
   el('data-count').textContent = stored === null
     ? '–'
     : pocet(stored, 'záznam', 'záznamy', 'záznamů');
+  el('wipe').disabled = stored === 0;
 }
 
 el('wipe').addEventListener('click', () => {
@@ -371,7 +373,9 @@ el('wipe-confirm').addEventListener('click', async () => {
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     el('wipe-dialog').close();
-    showToast(`Historie smazána: ${pocet(body.removed, 'záznam', 'záznamy', 'záznamů')}`, 'is-ok');
+    showToast(body.removed > 0
+      ? `Historie smazána: ${pocet(body.removed, 'záznam', 'záznamy', 'záznamů')}`
+      : 'Nebylo co mazat', 'is-ok', 'data-toast');
     await loadHistory();
   } catch (err) {
     el('wipe-error').textContent = reason(err);
