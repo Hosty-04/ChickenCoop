@@ -25,6 +25,7 @@ const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
 const TOAST_MS = 5000;
+const TOAST_ERROR_MS = 12000;
 const REQUEST_MS = 8000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
@@ -363,9 +364,9 @@ function showToast(text, tone, id = 'toast') {
   toast.hidden = false;
 
   clearTimeout(toastTimers.get(id));
-  if (tone === 'is-ok') {
-    toastTimers.set(id, setTimeout(() => { toast.hidden = true; }, TOAST_MS));
-  }
+  toastTimers.set(id, setTimeout(() => {
+    toast.hidden = true;
+  }, tone === 'is-error' ? TOAST_ERROR_MS : TOAST_MS));
 }
 
 function requireSession(res) {
@@ -415,6 +416,15 @@ function connectSocket() {
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
     if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
+    if (type === 'cancelled') {
+      showToast(data.cleared > 0 ? `Zrušeno: ${countCommands(data.cleared)}` : 'Fronta je prázdná', 'is-ok');
+    }
+    if (type === 'cleared') {
+      showToast(data.removed > 0
+        ? `Historie smazána: ${pocet(data.removed, 'záznam', 'záznamy', 'záznamů')}`
+        : 'Nebylo co mazat', 'is-ok', 'data-toast');
+      loadHistory();
+    }
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
       showToast(data.commands ? `${info.text}: ${describe(data.commands)}` : info.text, info.tone);
@@ -424,7 +434,7 @@ function connectSocket() {
   socket.addEventListener('close', (event) => {
     setBadge(false, 'Server nedostupný');
     if (event.code === 1008 || event.code === 1006) {
-      fetch('/api/status').then((r) => requireSession(r));
+      fetch('/api/status').then((r) => requireSession(r)).catch(() => undefined);
     }
     setTimeout(connectSocket, 3000);
   });
@@ -467,10 +477,6 @@ el('wipe-confirm').addEventListener('click', async () => {
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     el('wipe-dialog').close();
-    showToast(body.removed > 0
-      ? `Historie smazána: ${pocet(body.removed, 'záznam', 'záznamy', 'záznamů')}`
-      : 'Nebylo co mazat', 'is-ok', 'data-toast');
-    await loadHistory();
   } catch (err) {
     el('wipe-error').textContent = reason(err);
     el('wipe-error').hidden = false;
@@ -487,9 +493,6 @@ el('cancel').addEventListener('click', async () => {
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
-    showToast(body.cleared > 0
-      ? `Zrušeno: ${countCommands(body.cleared)}`
-      : 'Fronta je prázdná', 'is-ok');
   } catch (err) {
     showToast(`Zrušení selhalo: ${reason(err)}`, 'is-error');
   } finally {
