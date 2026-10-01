@@ -72,6 +72,8 @@ Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s nap
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | **Celkem** | **11,9 µA** | **45,8 µA** | **129 µAh** | **1 mAh** |
 
+---
+
 $$
 I_N = \frac{U_{nap}}{R_{pd} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
 $$
@@ -104,6 +106,8 @@ U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepn
 | INA226 | 330 µA | 420 µA | 1,01 µAh | 1,28 µAh |
 | M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,4 µAh | 4,55 µAh |
 | **Celkem** | **450 µA** | **810 µA** | **2,41 µAh** | **5,83 µAh** |
+
+---
 
 $$
 t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{500\ \text{kHz}} = 16 \cdot 346\ \text{µs} = 5,54\ \text{ms}
@@ -138,6 +142,8 @@ kde:
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 25,1 µAh |
 | M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,17 µAh |
 | **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **15 mAh** |
+
+---
 
 $$
 O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
@@ -185,6 +191,8 @@ Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; v�
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
 | **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,34 mAh** |
+
+---
 
 $$
 t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
@@ -240,6 +248,8 @@ STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabi�
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
 | **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
 
+---
+
 $$
 t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
 $$
@@ -282,6 +292,8 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Východ | 2547 | 453 |
 | Západ | 2662 | 567 |
 | Jihozápad | 2772 | 1248 |
+
+---
 
 $$
 P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
@@ -342,6 +354,8 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 | Východ | +2497 | +403 |
 | Západ | +2612 | +517 |
 | Jihozápad | +2722 | +1198 |
+
+---
 
 $$
 Q_{ztr} = Q_{aku} \cdot \frac{rate}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{\\%}}{30} = \mathbf{4\ \text{mAh/den}}
