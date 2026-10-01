@@ -270,11 +270,10 @@ function renderChart() {
   ].map((d) => ({
     ...d,
     borderWidth: 2,
-    pointStyle: 'crossRot',
     pointRadius,
     pointHoverRadius: 6,
     pointBorderWidth: 2,
-    pointBorderColor: d.borderColor,
+    pointBorderColor: css('--surface-1'),
     tension: 0,
     spanGaps: false
   }));
