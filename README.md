@@ -72,7 +72,7 @@ Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp =
 
 Systém je napájen z bezúdržbového olověného AGM akumulátoru 6 V / 4 Ah, umístěného venku ve stínu asi 25 cm pod stříškou. Jeho nabíjecí účinnost je přibližně 88 %, samovybíjení činí 3 % měsíčně a v zimě akumulátor ztrácí přibližně 30 % kapacity. Tento typ nesmí být hluboce vybíjen, což je kvůli velmi nízké spotřebě systému splněno. Akumulátor typu LiFePO4 je sice v mnoha ohledech kvalitnější, nesmí se však nabíjet při teplotě pod 0 °C a vyžaduje složitější nabíjecí systém. Vzhledem k venkovnímu umístění (zvolenému kvůli snížení vlivu amoniaku ze slepičího trusu na elektroniku) a požadavku na jednoduchý nabíjecí systém je pro celoroční provoz vhodnější olověný akumulátor. Je důležité mít na paměti životnost kolem 5 let a roční ztrátu kapacity 15 %. Napájecí kabely jsou připojeny přes konektory Faston F1.
 
-Před akumulátorem je zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení, probíhajícího jen několik minut denně, nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje 81,6 %, neboť akumulátor stahuje napětí panelu na svou úroveň (průměrně 6,8 V) a panel tak nepracuje v bodě maximálního výkonu, ale v oblasti konstantního proudu; účinnost MOSFET odpojovače dosahuje 96,5 %.
+Před akumulátorem je zapojen nízkopříkonový, mikrořadičem řízený MOSFET odpojovač fotovoltaického zdroje s ochranou akumulátoru. Od použití MPPT regulátoru se ustoupilo kvůli vyšší složitosti a vlastní spotřebě spínaného měniče — u systému s velmi nízkým denním odběrem by zlepšení účinnosti nabíjení nepřineslo oproti jednoduchému odpojovači s téměř nulovou klidovou spotřebou žádný významný energetický přínos. Účinnost pracovního bodu dosahuje 81,6 %, neboť akumulátor stahuje napětí panelu na svou úroveň (průměrně 6,8 V) a panel tak nepracuje v bodě maximálního výkonu, ale v oblasti konstantního proudu; účinnost MOSFET odpojovače dosahuje 96,5 %.
 
 Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s napětím 3,3 V. Snížení napětí zajišťuje nízkopříkonový LDO regulátor MCP1702 s přesnou stabilizací, dostačujícím výstupním proudem 250 mA a velmi nízkým klidovým proudem. Na jeho vstupu i výstupu je připojen blokovací keramický kondenzátor 1 µF / 50 V — na vstupu jako filtrace, na výstupu pro stabilizaci napětí. Použití spínaného buck měniče není vhodné kvůli horší dostupnosti nízkopříkonových variant a velmi nízkému odběru systému po většinu dne. Jeho vyšší účinnost by se projevila jen po několik minut denně a kvůli vlastní spotřebě by měnič paradoxně dosahoval nižší celkové účinnosti než jednoduchý lineární LDO regulátor.
 
@@ -200,14 +200,13 @@ t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{m
 $$
 
 $$
-t_{max} = n_u \cdot n_p \cdot 2 \cdot \frac{h}{v_{min}} = 2 \cdot 3 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
+t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 3 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
 $$
 
 &nbsp;
 
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
-- $n_u$ ... počet událostí (otevření ráno a zavření večer)
 - $n_p$ ... počet pokusů pro otevření/zavření dvířek
 - $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
