@@ -26,11 +26,20 @@ const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getP
 
 const TOAST_MS = 5000;
 const REQUEST_MS = 8000;
+const POINT_RADIUS = 4;
+const POINT_GAP_PX = 14;
 
 let chart = null;
 let hours = 24;
 let points = [];
 let toastTimer = null;
+
+function pointRadius(ctx) {
+  const area = ctx.chart.chartArea;
+  const gaps = ctx.chart.data.labels.length - 1;
+  if (!area || gaps < 1) return POINT_RADIUS;
+  return area.width / gaps >= POINT_GAP_PX ? POINT_RADIUS : 0;
+}
 
 function volts(mv) {
   return mv === null || mv === undefined ? null : mv / 1000;
@@ -176,7 +185,7 @@ function renderChart() {
   ].map((d) => ({
     ...d,
     borderWidth: 2,
-    pointRadius: points.length > 120 ? 0 : 4,
+    pointRadius,
     pointHoverRadius: 6,
     pointBorderWidth: 2,
     pointBorderColor: css('--surface-1'),
@@ -190,7 +199,6 @@ function renderChart() {
       d.data = datasets[i].data;
       d.borderColor = datasets[i].borderColor;
       d.backgroundColor = datasets[i].backgroundColor;
-      d.pointRadius = datasets[i].pointRadius;
       d.pointBorderColor = datasets[i].pointBorderColor;
     });
     chart.options.scales.x.ticks.color = css('--text-muted');
