@@ -85,13 +85,21 @@ function pickTicks(series) {
 
   const room = step * MIN_TICK_GAP;
   const picked = [0];
-
-  for (let i = 1; i < limit - 1; i++) {
-    const ideal = Math.round(i * step);
-    const index = unit ? nearestTick(times, snapTarget(times[ideal], unit)) : ideal;
+  const add = (index) => {
     const fits = index - picked[picked.length - 1] >= room && count - 1 - index >= room;
     if (fits) picked.push(index);
+  };
+
+  if (unit) {
+    const spanMs = times[count - 1] - times[0];
+    const strideMs = Math.max(1, Math.ceil(spanMs / (limit - 1) / unit)) * unit;
+    for (let at = times[0] + strideMs; at < times[count - 1]; at += strideMs) {
+      add(nearestTick(times, snapTarget(at, unit)));
+    }
+  } else {
+    for (let i = 1; i < limit - 1; i++) add(Math.round(i * step));
   }
+
   picked.push(count - 1);
   return new Set(picked);
 }
