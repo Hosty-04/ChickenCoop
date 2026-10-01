@@ -172,6 +172,7 @@ function renderChart() {
   const tableShown = !el('table-wrap').hidden;
   el('chart-empty').hidden = !empty;
   el('plot-wrap').hidden = empty || tableShown;
+  el('legend').hidden = empty || tableShown;
   el('chart-hint').hidden = empty || !(hours === 'all' || hours > 24);
 
   if (empty) {
@@ -413,6 +414,7 @@ el('toggle-table').addEventListener('click', (e) => {
   const showTable = el('table-wrap').hidden;
   el('table-wrap').hidden = !showTable;
   el('plot-wrap').hidden = showTable || points.length === 0;
+  el('legend').hidden = showTable || points.length === 0;
   e.currentTarget.setAttribute('aria-pressed', String(showTable));
   e.currentTarget.textContent = showTable ? 'Graf' : 'Tabulka';
 });

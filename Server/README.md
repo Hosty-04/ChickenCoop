@@ -330,8 +330,8 @@ další dorazí za deset minut.
 > natvrdo tam zůstanou. Kdyby je potom našla vedle sebe nově nakopírovaná databáze, SQLite
 > je na ni přehraje a poškodí ji.
 
-Vypsat obsah úložiště jde i při zastaveném serveru; při prvním spuštění se stáhne malý
-pomocný obraz:
+Obsah úložiště jde vypsat, i když server neběží. Příkaz si k tomu na chvíli půjčí malý
+systémový obraz `alpine`, který se při prvním použití stáhne z internetu:
 
 ```bash
 docker run --rm -v server_coop-data:/data alpine ls -l /data
