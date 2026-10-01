@@ -522,7 +522,7 @@ takové změny.
 
 ### Smazání historie
 
-Tlačítko **Smazat historii** na kartě Data vyhodí všechna uložená měření. Než se to stane,
+Tlačítko **Smazat** na kartě Data vyhodí všechna uložená měření. Než se to stane,
 stránka se zeptá na heslo — totéž, kterým se přihlašujete; samotné přihlášení k tomuhle
 kroku nestačí.
 
