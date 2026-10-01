@@ -318,8 +318,31 @@ docker compose cp ~/kurnik-zaloha.db app:/data/kurnik.db
 docker compose start
 ```
 
+Kopíruje se vždy celý soubor a uloží se pod jménem z cílové cesty: ze `kurnik-zaloha.db` se
+uvnitř stane `kurnik.db` a původní databázi přepíše.
+
 Zastavení trvá pár vteřin. Kdyby kurník zrovna v tu chvíli poslal zprávu, přijde se o ni —
 další dorazí za deset minut.
+
+> **Po výpadku proudu se před obnovou podívejte, co v úložišti leží.** Server si za běhu
+> vedle `kurnik.db` drží ještě `kurnik.db-wal` a `kurnik.db-shm`. Při čistém zastavení se
+> jejich obsah zapíše do `kurnik.db` a samy zmizí, ale po výpadku proudu nebo po vypnutí Pi
+> natvrdo tam zůstanou. Kdyby je potom našla vedle sebe nově nakopírovaná databáze, SQLite
+> je na ni přehraje a poškodí ji.
+
+Vypsat obsah úložiště jde i při zastaveném serveru; při prvním spuštění se stáhne malý
+pomocný obraz:
+
+```bash
+docker run --rm -v server_coop-data:/data alpine ls -l /data
+```
+
+Pokud ve výpisu kromě `kurnik.db` opravdu jsou i soubory `-wal` nebo `-shm`, smažte je
+a teprve pak kopírujte zálohu:
+
+```bash
+docker run --rm -v server_coop-data:/data alpine rm -f /data/kurnik.db-wal /data/kurnik.db-shm
+```
 
 ## 7. Přístup ke stránce
 
