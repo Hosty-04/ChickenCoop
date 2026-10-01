@@ -35,13 +35,15 @@ const insert = db.prepare(`
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
+const MONDAY_OFFSET = 4 * 24 * 60 * 60 * 1000;
+
 const historyStatements = new Map();
 
 function historyStatement(bucket) {
   let statement = historyStatements.get(bucket);
   if (!statement) {
     statement = db.prepare(`
-      SELECT ((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000) / ${bucket}) * ${bucket} AS slot,
+      SELECT (((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000 - ${MONDAY_OFFSET}) / ${bucket}) * ${bucket}) + ${MONDAY_OFFSET} AS slot,
              AVG(battery_mv) AS battery_mv,
              COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
