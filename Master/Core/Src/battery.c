@@ -21,7 +21,7 @@
 #define BATTERY_DEFER_S        10UL
 #define BATTERY_DEFER_MAX      6U
 #define BATTERY_MIN_VALID_V    1.0f
-#define BATTERY_MAX_VALID_V    12.0f
+#define BATTERY_MAX_VALID_V    10.0f
 #define BATTERY_PANEL_HYST_V   0.05f
 #define PANEL_MAX_VALID_V      12.5f
 
