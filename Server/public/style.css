@@ -166,6 +166,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .card-sub { margin: 3px 0 0; font-size: 13px; color: var(--text-muted); }
 
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); }
+.legend[hidden] { display: none; }
 .legend-item { display: inline-flex; align-items: center; gap: 7px; }
 .legend-swatch { width: 12px; height: 3px; border-radius: 2px; flex: none; }
 

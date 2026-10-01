@@ -330,15 +330,13 @@ další dorazí za deset minut.
 > natvrdo tam zůstanou. Kdyby je potom našla vedle sebe nově nakopírovaná databáze, SQLite
 > je na ni přehraje a poškodí ji.
 
-Vypsat obsah úložiště jde i při zastaveném serveru; při prvním spuštění se stáhne malý
-pomocný obraz:
+Se zastaveným serverem vypište, co v úložišti je:
 
 ```bash
 docker run --rm -v server_coop-data:/data alpine ls -l /data
 ```
 
-Pokud ve výpisu kromě `kurnik.db` opravdu jsou i soubory `-wal` nebo `-shm`, smažte je
-a teprve pak kopírujte zálohu:
+Je tam jen `kurnik.db`? Kopírujte zálohu. Je tam i `-wal` nebo `-shm`? Nejdřív tohle:
 
 ```bash
 docker run --rm -v server_coop-data:/data alpine rm -f /data/kurnik.db-wal /data/kurnik.db-shm
