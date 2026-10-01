@@ -28,11 +28,34 @@ const TOAST_MS = 5000;
 const REQUEST_MS = 8000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
+const TIME_LABEL_PX = 60;
+const DATE_LABEL_PX = 100;
+const MAX_TICKS = 8;
 
 let chart = null;
 let hours = 24;
 let points = [];
+let shownTicks = null;
 const toastTimers = new Map();
+
+function tickLimit() {
+  const room = el('plot-wrap').clientWidth / (labelMode() === 'time' ? TIME_LABEL_PX : DATE_LABEL_PX);
+  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+}
+
+function pickTicks(count) {
+  const limit = tickLimit();
+  if (count <= limit) return null;
+
+  const step = (count - 1) / (limit - 1);
+  const picked = new Set();
+  for (let i = 0; i < limit; i++) picked.add(Math.round(i * step));
+  return picked;
+}
+
+function showTick(index) {
+  return shownTicks === null || shownTicks.has(index);
+}
 
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
@@ -182,6 +205,7 @@ function renderChart() {
 
   const mode = labelMode();
   const labels = points.map((p) => formatTime(p.time, mode));
+  shownTicks = pickTicks(points.length);
   const datasets = [
     { label: 'Baterie', data: points.map((p) => volts(p.batteryMv)), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p) => volts(p.panelMv)), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -232,9 +256,21 @@ function renderChart() {
       },
       scales: {
         x: {
-          grid: { color: css('--grid'), drawTicks: false },
+          grid: {
+            color: css('--grid'),
+            drawTicks: false,
+            lineWidth: (ctx) => (showTick(ctx.index) ? 1 : 0)
+          },
           border: { color: css('--axis') },
-          ticks: { color: css('--text-muted'), maxTicksLimit: 8, autoSkip: true, maxRotation: 0 }
+          ticks: {
+            color: css('--text-muted'),
+            autoSkip: false,
+            maxRotation: 0,
+            align: 'inner',
+            callback(value, index) {
+              return showTick(index) ? this.getLabelForValue(value) : '';
+            }
+          }
         },
         y: {
           grid: { color: css('--grid'), drawTicks: false },
