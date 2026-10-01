@@ -4,7 +4,6 @@ import { dirname, join } from 'node:path';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
-import { COMMANDS } from './codec.js';
 import { TtnBridge } from './ttn.js';
 import {
   SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
@@ -101,15 +100,9 @@ app.get('/api/history', async (req, res) => {
   }
 });
 
-app.get('/api/commands', (req, res) => res.json({ commands: Object.keys(COMMANDS) }));
-
 app.post('/api/command', async (req, res) => {
-  const names = Array.isArray(req.body?.commands)
-    ? req.body.commands
-    : (req.body?.command ? [req.body.command] : []);
-
   try {
-    const sent = await ttn.sendCommand(names);
+    const sent = await ttn.sendCommand(req.body?.commands ?? []);
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
@@ -184,8 +177,9 @@ ttn.on('uplink', async (uplink) => {
     state.dbOk = false;
     state.dbError = err.message;
     console.error('database write failed:', err.message);
-    broadcast('status', state);
   }
+
+  broadcast('status', state);
 });
 
 async function seedFromDb() {

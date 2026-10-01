@@ -40,7 +40,7 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
-let axisTicks = [];
+let chartTimes = [];
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -145,6 +145,7 @@ function renderStatus(status) {
 
   renderPending(status.pending);
   renderCount(status.readings ?? null);
+  renderLatest(status.latest);
 
   if (status.dbOk === false) {
     showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
@@ -239,7 +240,7 @@ function renderChart() {
   }
 
   const times = points.map((p) => new Date(p.time).getTime());
-  axisTicks = pickTickTimes(times);
+  chartTimes = times;
   const datasets = [
     { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -281,6 +282,7 @@ function renderChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
@@ -297,7 +299,9 @@ function renderChart() {
           type: 'linear',
           min: times[0],
           max: times[times.length - 1],
-          afterBuildTicks: (scale) => { scale.ticks = axisTicks.map((value) => ({ value })); },
+          afterBuildTicks: (scale) => {
+            if (chartTimes.length > 0) scale.ticks = pickTickTimes(chartTimes).map((value) => ({ value }));
+          },
           grid: {
             color: css('--grid'),
             drawTicks: true,
@@ -386,9 +390,7 @@ async function loadStatus() {
   try {
     const res = await request('/api/status');
     if (!requireSession(res)) return;
-    const status = await res.json();
-    renderStatus(status);
-    renderLatest(status.latest);
+    renderStatus(await res.json());
   } catch (err) {
     setBadge(false, 'Server nedostupný');
     showToast('Server neodpovídá.', 'is-error');
@@ -401,7 +403,7 @@ function connectSocket() {
 
   socket.addEventListener('message', (event) => {
     const { type, data } = JSON.parse(event.data);
-    if (type === 'status') { renderStatus(data); renderLatest(data.latest); }
+    if (type === 'status') renderStatus(data);
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
     if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
