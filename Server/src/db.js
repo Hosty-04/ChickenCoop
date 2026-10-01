@@ -45,7 +45,7 @@ function historyStatement(bucket) {
              AVG(battery_mv) AS battery_mv,
              COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
-      WHERE device = ? AND time >= ?
+      WHERE device = ? AND time >= ? AND time <= ?
       GROUP BY slot
       ORDER BY slot
     `);
@@ -55,7 +55,7 @@ function historyStatement(bucket) {
 }
 
 const selectLatest = db.prepare(`
-  SELECT * FROM readings WHERE device = ? ORDER BY time DESC LIMIT 1
+  SELECT * FROM readings WHERE device = ? AND time <= ? ORDER BY time DESC LIMIT 1
 `);
 
 const selectOldest = db.prepare(`
@@ -111,7 +111,7 @@ export async function readHistory(deviceId, hours) {
   const bucket = bucketFor(hours);
   const since = now - hours * 60 * 60 * 1000;
 
-  return historyStatement(bucket).all(deviceId, since).map((row) => ({
+  return historyStatement(bucket).all(deviceId, since, now).map((row) => ({
     time: fromLocalClock(row.slot).toISOString(),
     batteryMv: round(row.battery_mv),
     panelMv: round(row.panel_mv)
@@ -119,7 +119,7 @@ export async function readHistory(deviceId, hours) {
 }
 
 export async function readLatest(deviceId) {
-  const row = selectLatest.get(deviceId);
+  const row = selectLatest.get(deviceId, Date.now());
   if (!row) return null;
 
   return {
