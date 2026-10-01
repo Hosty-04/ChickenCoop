@@ -38,7 +38,7 @@ function denVRoce(t) {
 }
 
 function delkaDne(t) {
-  return 8 + 8 * Math.sin((2 * Math.PI * (denVRoce(t) - 80)) / 365);
+  return 12 + 4 * Math.sin((2 * Math.PI * (denVRoce(t) - 80)) / 365);
 }
 
 function sezona(t) {
@@ -49,6 +49,17 @@ function pocasi(t) {
   const den = Math.floor(t / DEN);
   const x = Math.sin(den * 12.9898) * 43758.5453;
   return 0.35 + 0.65 * (x - Math.floor(x));
+}
+
+function voc(t) {
+  return 11.5 - 1.3 * sezona(t);
+}
+
+function mezPrepeti(t) {
+  const mesic = new Date(t).getMonth() + 1;
+  if (mesic >= 6 && mesic <= 8) return 7.2;
+  if (mesic === 12 || mesic <= 2) return 7.5;
+  return 7.3;
 }
 
 function slunce(t) {
@@ -156,8 +167,11 @@ for (let t = zacatek; t <= konec; t += KROK) {
   drift = Math.max(-0.12, Math.min(0.12, drift + (nahoda() - 0.5) * 0.02));
 
   const mraky = pocasi(t);
-  let bat = 6.85 + 0.35 * s + 0.45 * sun * (0.45 + 0.55 * mraky) - 0.1 * (1 - sun) + drift;
-  let pan = sun > 0 ? (2.6 + 2.2 * s) * sun * mraky + (nahoda() - 0.5) * 0.1 : 0;
+  const osvit = sun * mraky;
+  let bat = Math.min(mezPrepeti(t), 6.85 + 0.35 * s + 0.45 * sun * (0.45 + 0.55 * mraky) - 0.1 * (1 - sun) + drift);
+  let pan = osvit > 0.005
+    ? voc(t) * Math.max(0.6, 1 + 0.16 * Math.log10(osvit)) + (nahoda() - 0.5) * 0.1
+    : 0;
   let dvere = sun > 0 ? 1 : 0;
   let batNull = false;
   let panNull = false;
