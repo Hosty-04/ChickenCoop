@@ -481,7 +481,12 @@ mimo něj.
 
 Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
 poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
-30 dní nebo rok. Tlačítkem **Tabulka** se přepne na stejná data v číslech.
+30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se přepne na
+stejná data v číslech.
+
+Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
+měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
+stovku bodů, ať pokrývá den nebo pět let.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
 a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.

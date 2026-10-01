@@ -89,9 +89,10 @@ function broadcast(type, data) {
 app.get('/api/status', (req, res) => res.json(state));
 
 app.get('/api/history', async (req, res) => {
-  const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
+  const all = req.query.hours === 'all';
+  const hours = all ? null : Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
   try {
-    res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
+    res.json({ hours: all ? 'all' : hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
     res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
   }

@@ -58,11 +58,16 @@ const selectLatest = db.prepare(`
   SELECT * FROM readings WHERE device = ? ORDER BY time DESC LIMIT 1
 `);
 
+const selectOldest = db.prepare(`
+  SELECT MIN(time) AS oldest FROM readings WHERE device = ?
+`);
+
 function bucketFor(hours) {
   if (hours <= 24) return 10 * 60 * 1000;
   if (hours <= 168) return 60 * 60 * 1000;
   if (hours <= 720) return 6 * 60 * 60 * 1000;
-  return 24 * 60 * 60 * 1000;
+  if (hours <= 8760) return 24 * 60 * 60 * 1000;
+  return 7 * 24 * 60 * 60 * 1000;
 }
 
 function round(value) {
@@ -87,9 +92,16 @@ export async function writeReading(deviceId, reading, radio, at) {
 }
 
 export async function readHistory(deviceId, hours) {
-  const bucket = bucketFor(hours);
-  const since = Date.now() - hours * 60 * 60 * 1000;
   const now = Date.now();
+
+  if (hours === null) {
+    const oldest = selectOldest.get(deviceId)?.oldest;
+    if (!oldest) return [];
+    hours = Math.max((now - oldest) / (60 * 60 * 1000), 1);
+  }
+
+  const bucket = bucketFor(hours);
+  const since = now - hours * 60 * 60 * 1000;
 
   return historyStatement(bucket).all(deviceId, since).map((row) => ({
     time: new Date(Math.min(row.slot + bucket, now)).toISOString(),

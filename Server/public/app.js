@@ -41,7 +41,7 @@ function formatVolts(mv) {
 }
 
 function labelMode() {
-  if (hours > 720) return 'date';
+  if (hours === 'all' || hours > 720) return 'date';
   return hours > 24 ? 'datetime' : 'time';
 }
 
@@ -360,7 +360,7 @@ document.querySelectorAll('.filterbar button').forEach((button) => {
     });
     button.classList.add('is-selected');
     button.setAttribute('aria-pressed', 'true');
-    hours = Number(button.dataset.hours);
+    hours = button.dataset.hours === 'all' ? 'all' : Number(button.dataset.hours);
     loadHistory();
   });
 });
