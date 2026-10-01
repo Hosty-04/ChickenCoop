@@ -104,7 +104,7 @@ export async function readHistory(deviceId, hours) {
   const since = now - hours * 60 * 60 * 1000;
 
   return historyStatement(bucket).all(deviceId, since).map((row) => ({
-    time: new Date(Math.min(row.slot + bucket, now)).toISOString(),
+    time: new Date(row.slot).toISOString(),
     batteryMv: round(row.battery_mv),
     panelMv: round(row.panel_mv)
   }));
