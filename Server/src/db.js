@@ -41,7 +41,7 @@ function historyStatement(bucket) {
   let statement = historyStatements.get(bucket);
   if (!statement) {
     statement = db.prepare(`
-      SELECT (time / ${bucket}) * ${bucket} AS slot,
+      SELECT ((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000) / ${bucket}) * ${bucket} AS slot,
              AVG(battery_mv) AS battery_mv,
              COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
@@ -68,6 +68,14 @@ function bucketFor(hours) {
   if (hours <= 720) return 6 * 60 * 60 * 1000;
   if (hours <= 8760) return 24 * 60 * 60 * 1000;
   return 7 * 24 * 60 * 60 * 1000;
+}
+
+function fromLocalClock(ms) {
+  const parts = new Date(ms);
+  return new Date(
+    parts.getUTCFullYear(), parts.getUTCMonth(), parts.getUTCDate(),
+    parts.getUTCHours(), parts.getUTCMinutes()
+  );
 }
 
 function round(value) {
@@ -104,7 +112,7 @@ export async function readHistory(deviceId, hours) {
   const since = now - hours * 60 * 60 * 1000;
 
   return historyStatement(bucket).all(deviceId, since).map((row) => ({
-    time: new Date(Math.min(row.slot + bucket, now)).toISOString(),
+    time: fromLocalClock(row.slot).toISOString(),
     batteryMv: round(row.battery_mv),
     panelMv: round(row.panel_mv)
   }));

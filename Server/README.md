@@ -234,6 +234,9 @@ Doplňte čtyři hodnoty:
 
 Heslo si zvolte sami; dlouhé a náhodné vygeneruje příkaz `openssl rand -base64 18`.
 
+Řádek `TZ=Europe/Prague` nechte být, pokud kurník nestojí v jiném časovém pásmu. Podle něj
+server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně.
+
 > **Heslo ke stránce nepoužívejte nikde jinde.** Je v souboru `.env` v čitelné podobě,
 > stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.
 

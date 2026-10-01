@@ -28,11 +28,77 @@ const TOAST_MS = 5000;
 const REQUEST_MS = 8000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
+const TICK_LENGTH_PX = 6;
+const TIME_LABEL_PX = 60;
+const DATE_LABEL_PX = 100;
+const MAX_TICKS = 8;
+const MIN_TICK_GAP = 0.75;
+const NOON_HOUR = 12;
+const HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * HOUR_MS;
 
 let chart = null;
 let hours = 24;
 let points = [];
+let shownTicks = null;
 const toastTimers = new Map();
+
+function tickLimit() {
+  const room = el('plot-wrap').clientWidth / (labelMode() === 'time' ? TIME_LABEL_PX : DATE_LABEL_PX);
+  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+}
+
+function snapUnit(times) {
+  let bucketMs = Infinity;
+  for (let i = 1; i < times.length; i++) bucketMs = Math.min(bucketMs, times[i] - times[i - 1]);
+
+  const spanMs = times[times.length - 1] - times[0];
+  if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
+  if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
+  return 0;
+}
+
+function snapTarget(ideal, unit) {
+  const target = new Date(ideal);
+
+  if (unit === DAY_MS) target.setHours(NOON_HOUR, 0, 0, 0);
+  else target.setMinutes(0, 0, 0);
+  return target.getTime();
+}
+
+function nearestTick(times, target) {
+  let best = 0;
+  for (let i = 1; i < times.length; i++) {
+    if (Math.abs(times[i] - target) < Math.abs(times[best] - target)) best = i;
+  }
+  return best;
+}
+
+function pickTicks(series) {
+  const limit = tickLimit();
+  const count = series.length;
+  if (count <= limit) return null;
+
+  const times = series.map((p) => new Date(p.time).getTime());
+  const step = (count - 1) / (limit - 1);
+  const unit = snapUnit(times);
+
+  const room = step * MIN_TICK_GAP;
+  const picked = [0];
+
+  for (let i = 1; i < limit - 1; i++) {
+    const ideal = Math.round(i * step);
+    const index = unit ? nearestTick(times, snapTarget(times[ideal], unit)) : ideal;
+    const fits = index - picked[picked.length - 1] >= room && count - 1 - index >= room;
+    if (fits) picked.push(index);
+  }
+  picked.push(count - 1);
+  return new Set(picked);
+}
+
+function showTick(index) {
+  return shownTicks === null || shownTicks.has(index);
+}
 
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
@@ -182,6 +248,7 @@ function renderChart() {
 
   const mode = labelMode();
   const labels = points.map((p) => formatTime(p.time, mode));
+  shownTicks = pickTicks(points);
   const datasets = [
     { label: 'Baterie', data: points.map((p) => volts(p.batteryMv)), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p) => volts(p.panelMv)), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -210,6 +277,8 @@ function renderChart() {
     chart.options.scales.y.grid.color = css('--grid');
     chart.options.scales.x.border.color = css('--axis');
     chart.options.scales.y.border.color = css('--axis');
+    chart.options.scales.x.grid.tickColor = css('--text-muted');
+    chart.options.scales.y.grid.tickColor = css('--text-muted');
     chart.update();
     return;
   }
@@ -232,12 +301,32 @@ function renderChart() {
       },
       scales: {
         x: {
-          grid: { color: css('--grid'), drawTicks: false },
+          grid: {
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted'),
+            tickWidth: (ctx) => (showTick(ctx.index) ? 1 : 0),
+            lineWidth: (ctx) => (showTick(ctx.index) ? 1 : 0)
+          },
           border: { color: css('--axis') },
-          ticks: { color: css('--text-muted'), maxTicksLimit: 8, autoSkip: true, maxRotation: 0 }
+          ticks: {
+            color: css('--text-muted'),
+            autoSkip: false,
+            maxRotation: 0,
+            align: 'inner',
+            callback(value, index) {
+              return showTick(index) ? this.getLabelForValue(value) : '';
+            }
+          }
         },
         y: {
-          grid: { color: css('--grid'), drawTicks: false },
+          grid: {
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted')
+          },
           border: { color: css('--axis') },
           ticks: { color: css('--text-muted'), callback: (v) => `${v} V` },
           title: { display: false }
