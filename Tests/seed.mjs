@@ -14,8 +14,8 @@ const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
   plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
-  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'kriticky vybitá baterie, mrtvé čidlo panelu, neznámá dvířka' },
-  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'dvířka v poruše, mrtvé čidlo baterie' },
+  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka' },
+  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu' },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
@@ -132,8 +132,8 @@ function nastaveni(stav) {
   const chvost = (typ, jmeno) => ({ jmeno, typ, od: ted - 20 * MIN, do: konec + KROK, kde: 'dlaždice' });
 
   if (stav === 'plny') return { zacatek: ted - 730 * DEN, konec, udalosti: dlouheUdalosti() };
-  if (stav === 'poplach') return { zacatek: ted - 7 * DEN, konec, udalosti: [chvost('poplach', 'kritická baterie, mrtvé čidlo panelu, neznámá dvířka'), ...kratkeUdalosti()] };
-  if (stav === 'porucha') return { zacatek: ted - 7 * DEN, konec, udalosti: [chvost('porucha', 'mrtvé čidlo baterie, dvířka v poruše'), ...kratkeUdalosti()] };
+  if (stav === 'poplach') return { zacatek: ted - 7 * DEN, konec, udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka'), ...kratkeUdalosti()] };
+  if (stav === 'porucha') return { zacatek: ted - 7 * DEN, konec, udalosti: [chvost('porucha', 'kriticky vybitá baterie, dvířka v poruše'), ...kratkeUdalosti()] };
   if (stav === 'meze') return { zacatek: ted - 7 * DEN, konec, udalosti: [chvost('nasyceno', 'baterie 8,00 V a panel 12,50 V'), ...kratkeUdalosti()] };
   if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [] };
   if (stav === 'jedno') return { zacatek: ted, konec: ted, udalosti: [] };
@@ -197,8 +197,8 @@ function vytvor(stav) {
     if (u?.typ === 'bezObojiho') { batNull = true; panNull = true; }
     if (u?.typ === 'bezBaterie') batNull = true;
     if (u?.typ === 'bezPanelu') panNull = true;
-    if (u?.typ === 'poplach') { bat = 5.9; panNull = true; dvere = 3; }
-    if (u?.typ === 'porucha') { batNull = true; dvere = 2; }
+    if (u?.typ === 'poplach') { batNull = true; panNull = true; dvere = 3; }
+    if (u?.typ === 'porucha') { bat = 5.9; dvere = 2; }
     if (u?.typ === 'nasyceno') { bat = 8.2; pan = 12.8; }
     if (u?.typ === 'baterieNasycena') bat = 8.2;
     if (u?.typ === 'panelNasycen' && sun > 0) pan = 12.8;
