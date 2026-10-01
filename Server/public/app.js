@@ -41,6 +41,7 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
+let odchazim = false;
 let chartWindow = null;
 let chartBucket = 0;
 const toastTimers = new Map();
@@ -426,7 +427,7 @@ async function loadStatus() {
     if (!requireSession(res)) return;
     renderStatus(await res.json());
   } catch {
-    setBadge(false, 'Server nedostupný');
+    if (!odchazim) setBadge(false, 'Server nedostupný');
   }
 }
 
@@ -456,6 +457,7 @@ function connectSocket() {
   });
 
   socket.addEventListener('close', (event) => {
+    if (odchazim) return;
     setBadge(false, 'Server nedostupný');
     if (event.code === 1008 || event.code === 1006) {
       fetch('/api/status').then((r) => requireSession(r)).catch(() => undefined);
@@ -463,6 +465,8 @@ function connectSocket() {
     setTimeout(connectSocket, 3000);
   });
 }
+
+window.addEventListener('pagehide', () => { odchazim = true; });
 
 el('theme').addEventListener('click', () => {
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -525,6 +529,7 @@ el('cancel').addEventListener('click', async () => {
 });
 
 el('logout').addEventListener('click', async () => {
+  odchazim = true;
   await request('/api/logout', { method: 'POST' }).catch(() => undefined);
   location.replace('/login.html');
 });
