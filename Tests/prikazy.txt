@@ -1,0 +1,4 @@
+Přegenerování testovacích databází (spouštějte z kořene repozitáře):
+
+node Tests/seed.mjs Tests/kurnik-test.db
+node Tests/seed.mjs Tests/kurnik-test-poplach.db --poplach
