@@ -40,7 +40,8 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
-let chartTimes = [];
+let chartWindow = null;
+let chartBucket = 0;
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -48,14 +49,21 @@ function tickLimit() {
   return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
 }
 
-function snapUnit(times) {
-  let bucketMs = Infinity;
-  for (let i = 1; i < times.length; i++) bucketMs = Math.min(bucketMs, times[i] - times[i - 1]);
-
-  const spanMs = times[times.length - 1] - times[0];
+function snapUnit(spanMs, bucketMs) {
   if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
   if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
   return 0;
+}
+
+function bucketOf(times) {
+  let bucketMs = Infinity;
+  for (let i = 1; i < times.length; i++) bucketMs = Math.min(bucketMs, times[i] - times[i - 1]);
+  return Number.isFinite(bucketMs) ? bucketMs : 0;
+}
+
+function windowOf(times) {
+  const to = Date.now();
+  return { from: hours === 'all' ? Math.min(times[0], to) : to - hours * HOUR_MS, to };
 }
 
 function snapTarget(ideal, unit) {
@@ -66,14 +74,12 @@ function snapTarget(ideal, unit) {
   return target.getTime();
 }
 
-function pickTickTimes(times) {
+function pickTickTimes(first, last, bucketMs) {
   const limit = tickLimit();
-  const first = times[0];
-  const last = times[times.length - 1];
   const spanMs = last - first;
   if (spanMs <= 0) return [first];
 
-  const unit = snapUnit(times);
+  const unit = snapUnit(spanMs, bucketMs > 0 ? bucketMs : spanMs);
   const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
   const picked = [first];
   const add = (at) => {
@@ -240,7 +246,8 @@ function renderChart() {
   }
 
   const times = points.map((p) => new Date(p.time).getTime());
-  chartTimes = times;
+  chartBucket = bucketOf(times);
+  chartWindow = windowOf(times);
   const datasets = [
     { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -256,8 +263,8 @@ function renderChart() {
   }));
 
   if (chart) {
-    chart.options.scales.x.min = times[0];
-    chart.options.scales.x.max = times[times.length - 1];
+    chart.options.scales.x.min = chartWindow.from;
+    chart.options.scales.x.max = chartWindow.to;
     chart.data.datasets.forEach((d, i) => {
       d.data = datasets[i].data;
       d.borderColor = datasets[i].borderColor;
@@ -297,10 +304,11 @@ function renderChart() {
       scales: {
         x: {
           type: 'linear',
-          min: times[0],
-          max: times[times.length - 1],
+          min: chartWindow.from,
+          max: chartWindow.to,
           afterBuildTicks: (scale) => {
-            if (chartTimes.length > 0) scale.ticks = pickTickTimes(chartTimes).map((value) => ({ value }));
+            if (!chartWindow) return;
+            scale.ticks = pickTickTimes(chartWindow.from, chartWindow.to, chartBucket).map((value) => ({ value }));
           },
           grid: {
             color: css('--grid'),
