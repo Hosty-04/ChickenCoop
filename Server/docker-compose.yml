@@ -8,6 +8,7 @@ services:
       - coop-data:/data
     environment:
       PORT: 3000
+      TZ: ${TZ:-Europe/Prague}
       DB_PATH: /data/kurnik.db
       AUTH_USER: ${AUTH_USER:-kurnik}
       AUTH_PASSWORD: ${AUTH_PASSWORD:?nastav AUTH_PASSWORD v .env}
