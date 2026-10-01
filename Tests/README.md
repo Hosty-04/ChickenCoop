@@ -29,8 +29,8 @@ databáze dál.
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
 | `kurnik-test.db` | běžný stav | dva roky měření, všechny události v grafech |
-| `kurnik-test-poplach.db` | kriticky vybitá baterie, mrtvé čidlo panelu, neznámá dvířka | červená hláška a dvě oranžové naráz |
-| `kurnik-test-porucha.db` | mrtvé čidlo baterie, dvířka v poruše | „Porucha" a „⚠ čeká na odblokování" |
+| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka | tři oranžové hlášky naráz |
+| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše | dvě červené hlášky: „⚠ kriticky vybitá" a „⚠ čeká na odblokování" |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V | „na horní mezi rozsahu" u obou dlaždic |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
