@@ -25,7 +25,6 @@ const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
 const TOAST_MS = 5000;
-const TOAST_ERROR_MS = 12000;
 const REQUEST_MS = 8000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
@@ -169,7 +168,9 @@ function renderStatus(status) {
   renderLatest(status.latest);
 
   if (status.dbOk === false) {
-    showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
+    showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error', 'data-toast', 'databaze');
+  } else {
+    hideToast('data-toast', 'databaze');
   }
 }
 
@@ -269,11 +270,10 @@ function renderChart() {
   ].map((d) => ({
     ...d,
     borderWidth: 2,
-    pointStyle: 'crossRot',
     pointRadius,
     pointHoverRadius: 6,
     pointBorderWidth: 2,
-    pointBorderColor: d.borderColor,
+    pointBorderColor: css('--surface-1'),
     tension: 0,
     spanGaps: false
   }));
@@ -373,16 +373,24 @@ async function request(url, options) {
   }
 }
 
-function showToast(text, tone, id = 'toast') {
+function showToast(text, tone, id = 'toast', duvod = '') {
   const toast = el(id);
   toast.textContent = text;
   toast.className = `toast ${tone ?? ''}`;
+  toast.dataset.duvod = duvod;
   toast.hidden = false;
 
   clearTimeout(toastTimers.get(id));
+  if (tone === 'is-error') return;
+
   toastTimers.set(id, setTimeout(() => {
     toast.hidden = true;
-  }, tone === 'is-error' ? TOAST_ERROR_MS : TOAST_MS));
+  }, TOAST_MS));
+}
+
+function hideToast(id, duvod) {
+  const toast = el(id);
+  if (toast.dataset.duvod === duvod) toast.hidden = true;
 }
 
 function requireSession(res) {
@@ -402,10 +410,11 @@ async function loadHistory() {
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     points = body.points;
     el('chart-sub').textContent = `baterie a solární panel · ${points.length} měření`;
+    hideToast('chart-toast', 'historie');
   } catch (err) {
     points = [];
     el('chart-sub').textContent = 'historii se nepodařilo načíst';
-    showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error');
+    showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error', 'chart-toast', 'historie');
   }
   renderChart();
   renderTable();
