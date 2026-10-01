@@ -145,10 +145,10 @@ function renderLatest(uplink) {
   el('door-note').className = `tile-note ${door.tone}`;
 
   el('seen-value').textContent = formatTime(uplink.receivedAt, 'time');
-  el('seen-note').textContent = [
-    formatAgo(uplink.receivedAt),
-    uplink.radio?.rssi != null ? `${uplink.radio.rssi} dBm` : null
-  ].filter(Boolean).join(' · ');
+  const ago = formatAgo(uplink.receivedAt);
+  el('seen-note').textContent = uplink.radio?.rssi == null
+    ? ago
+    : `${ago} (${uplink.radio.rssi} dBm)`;
 }
 
 function renderLegend() {
@@ -169,8 +169,9 @@ function renderTable() {
 
 function renderChart() {
   const empty = points.length === 0;
+  const tableShown = !el('table-wrap').hidden;
   el('chart-empty').hidden = !empty;
-  el('plot-wrap').hidden = empty;
+  el('plot-wrap').hidden = empty || tableShown;
   el('chart-hint').hidden = empty || !(hours === 'all' || hours > 24);
 
   if (empty) {
