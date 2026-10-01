@@ -116,7 +116,32 @@
     <p class="toast" id="toast" hidden></p>
   </section>
 
+  <section class="card">
+    <div class="card-head"><h2>Data</h2></div>
+    <div class="queue">
+      <div class="queue-text">
+        <span class="queue-label">Uložená měření</span>
+        <span class="queue-value" id="data-count">–</span>
+      </div>
+      <button type="button" id="wipe" class="danger">Smazat historii</button>
+    </div>
+    <p class="hint">Smazání se nedá vrátit. Měření, která dorazí potom, se ukládají dál.</p>
+  </section>
+
 </div>
+
+<dialog id="wipe-dialog">
+  <h2>Opravdu smazat historii?</h2>
+  <p class="hint">Přijdete o všechna uložená měření. Zálohu najdete v návodu.</p>
+  <label class="field" for="wipe-password">Pro potvrzení zadejte heslo
+    <input type="password" id="wipe-password" autocomplete="current-password">
+  </label>
+  <p class="toast is-error" id="wipe-error" hidden></p>
+  <div class="dialog-actions">
+    <button type="button" id="wipe-cancel">Zrušit</button>
+    <button type="button" id="wipe-confirm" class="danger">Smazat</button>
+  </div>
+</dialog>
 <script src="/vendor/chart.umd.js"></script>
 <script src="app.js" type="module"></script>
 </body>

@@ -77,6 +77,7 @@ function renderStatus(status) {
   setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
 
   renderPending(status.pending);
+  renderCount(status.readings ?? null);
 
   if (status.dbOk === false) {
     showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
@@ -87,9 +88,13 @@ function describe(commands) {
   return (commands ?? []).map((name) => COMMAND_LABELS[name] ?? name).join(' + ');
 }
 
+function pocet(n, jeden, dva, vice) {
+  if (n === 1) return `${n} ${jeden}`;
+  return n >= 2 && n <= 4 ? `${n} ${dva}` : `${n} ${vice}`;
+}
+
 function countCommands(n) {
-  if (n === 1) return '1 příkaz';
-  return n < 5 ? `${n} příkazy` : `${n} příkazů`;
+  return pocet(n, 'příkaz', 'příkazy', 'příkazů');
 }
 
 function renderPending(pending) {
@@ -101,7 +106,15 @@ function renderPending(pending) {
 }
 
 function renderLatest(uplink) {
-  if (!uplink) return;
+  if (!uplink) {
+    for (const id of ['battery', 'panel', 'door', 'seen']) {
+      el(`${id}-value`).textContent = '–';
+      el(`${id}-note`).textContent = '';
+      el(`${id}-note`).className = 'tile-note';
+    }
+    return;
+  }
+
   const r = uplink.reading;
 
   el('battery-value').textContent = formatVolts(r.batteryMv);
@@ -319,6 +332,44 @@ el('theme').addEventListener('click', () => {
   try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch { void 0; }
   renderLegend();
   renderChart();
+});
+
+function renderCount(stored) {
+  el('data-count').textContent = stored === null
+    ? '–'
+    : pocet(stored, 'záznam', 'záznamy', 'záznamů');
+}
+
+el('wipe').addEventListener('click', () => {
+  el('wipe-password').value = '';
+  el('wipe-error').hidden = true;
+  el('wipe-dialog').showModal();
+  el('wipe-password').focus();
+});
+
+el('wipe-cancel').addEventListener('click', () => el('wipe-dialog').close());
+
+el('wipe-confirm').addEventListener('click', async () => {
+  const button = el('wipe-confirm');
+  button.disabled = true;
+  try {
+    const res = await request('/api/data/clear', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: el('wipe-password').value })
+    });
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+    el('wipe-dialog').close();
+    showToast(`Historie smazána: ${pocet(body.removed, 'záznam', 'záznamy', 'záznamů')}`, 'is-ok');
+    await loadHistory();
+  } catch (err) {
+    el('wipe-error').textContent = reason(err);
+    el('wipe-error').hidden = false;
+  } finally {
+    button.disabled = false;
+  }
 });
 
 el('cancel').addEventListener('click', async () => {

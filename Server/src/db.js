@@ -133,6 +133,16 @@ export async function readLatest(deviceId) {
   };
 }
 
+export async function countReadings(deviceId) {
+  return Number(db.prepare('SELECT COUNT(*) AS n FROM readings WHERE device = ?').get(deviceId).n);
+}
+
+export async function clearReadings(deviceId) {
+  const { changes } = db.prepare('DELETE FROM readings WHERE device = ?').run(deviceId);
+  db.exec('VACUUM');
+  return Number(changes);
+}
+
 export async function closeDb() {
   db.close();
 }

@@ -488,6 +488,8 @@ stejná data v číslech.
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
 stovku bodů, ať pokrývá den nebo pět let.
 
+Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
+
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
 a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
 
@@ -511,6 +513,17 @@ Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
+
+### Smazání historie
+
+Tlačítko **Smazat historii** na kartě Data vyhodí všechna uložená měření. Než se to stane,
+stránka se zeptá na heslo — totéž, kterým se přihlašujete; samotné přihlášení k tomuhle
+kroku nestačí.
+
+> **Nedá se to vrátit.** Dlaždice se vyprázdní, graf zůstane bez dat a vrátit je jde jen
+> ze zálohy. Zálohování je popsané v kapitole 6.
+
+Kurníku se to nijak nedotkne: posílá dál a první zpráva po smazání se zase uloží.
 
 ## Když to nejede
 
