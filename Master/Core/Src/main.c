@@ -128,7 +128,7 @@ int main(void)
 
   Battery_Init();
   Door_Init();
-  Door_Setup(2026, 1, 1, 0, 0, 0, 49.5170f, 17.6181f);
+  Door_Setup(2026, 1, 1, 0, 0, 0, COOP_LATITUDE, COOP_LONGITUDE);
 
   /* USER CODE END 2 */
 

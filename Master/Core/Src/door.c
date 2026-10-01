@@ -68,8 +68,8 @@ static uint8_t     door_retry_count   = 0;
 static Motor_Dir_t door_retry_dir     = MOTOR_DIR_UP;
 static uint32_t    door_retry_tick    = 0;
 
-static float    door_lat            = 49.5170f;
-static float    door_lon            = 17.6181f;
+static float    door_lat            = COOP_LATITUDE;
+static float    door_lon            = COOP_LONGITUDE;
 static int16_t  door_sunrise_min    = 360;
 static int16_t  door_sunset_min     = 1080;
 static uint32_t door_sun_key        = 0;

@@ -100,7 +100,8 @@ void Error_Handler(void);
 #define RF_CTRL2_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-
+#define COOP_LATITUDE   49.5170f
+#define COOP_LONGITUDE  17.6181f
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

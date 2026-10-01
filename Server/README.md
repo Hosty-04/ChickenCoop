@@ -70,6 +70,26 @@ Pak firmware přeložte, nahrajte do kurníku a kurník vypněte a zapněte.
 > Klíč, který je ve zdrojovém kódu v tomhle repozitáři, si přečte kdokoliv. Pro ostré
 > nasazení si vygenerujte vlastní a upravený soubor nezveřejňujte.
 
+### Souřadnice kurníku
+
+Dvířka se otevírají za svítání a zavírají za soumraku a kurník si oba časy počítá sám ze
+zeměpisné polohy. Ve firmwaru je přednastavené místo z vývoje; vlastní souřadnice patří do
+souboru `Master/Core/Inc/main.h`:
+
+```c
+#define COOP_LATITUDE   49.5170f
+#define COOP_LONGITUDE  17.6181f
+```
+
+Kladná čísla znamenají sever a východ, což platí pro celou Českou republiku. Polohu zjistíte
+v mapách kliknutím pravým tlačítkem na dané místo. Stačí čtyři desetinná místa, to je zhruba
+deset metrů; chyba jednoho stupně směrem na východ nebo západ posune oba časy o čtyři minuty.
+
+Po úpravě firmware znovu přeložte a nahrajte do kurníku.
+
+> Kurník počítá se středoevropským časem včetně přechodu na letní čas. Mimo tohle pásmo by
+> se musel upravit i soubor `Master/Core/Src/timebase.c`.
+
 ## 1. Účet v The Things Network
 
 Síť The Things Network je pro tohle využití zdarma.
@@ -327,23 +347,29 @@ uvnitř stane `kurnik.db` a původní databázi přepíše.
 Zastavení trvá pár vteřin. Kdyby kurník zrovna v tu chvíli poslal zprávu, přijde se o ni —
 další dorazí za deset minut.
 
-> **Po výpadku proudu se před obnovou podívejte, co v úložišti leží.** Server si za běhu
-> vedle `kurnik.db` drží ještě `kurnik.db-wal` a `kurnik.db-shm`. Při čistém zastavení se
-> jejich obsah zapíše do `kurnik.db` a samy zmizí, ale po výpadku proudu nebo po vypnutí Pi
-> natvrdo tam zůstanou. Kdyby je potom našla vedle sebe nově nakopírovaná databáze, SQLite
-> je na ni přehraje a poškodí ji.
+### Obnova po výpadku proudu
 
-Se zastaveným serverem vypište, co v úložišti je:
+Server si za běhu vedle `kurnik.db` drží ještě `kurnik.db-wal` a `kurnik.db-shm`. Při čistém
+zastavení se jejich obsah zapíše do `kurnik.db` a samy zmizí, ale po výpadku proudu nebo po
+vypnutí Pi natvrdo tam zůstanou. Kdyby je potom našla vedle sebe nově nakopírovaná databáze,
+SQLite je na ni přehraje a poškodí ji. **Proto se v takovém případě před obnovou podívejte,
+co v úložišti leží.**
+
+Se zastaveným serverem vypište jeho obsah:
 
 ```bash
 docker run --rm -v server_coop-data:/data alpine ls -l /data
 ```
 
-Je tam jen `kurnik.db`? Kopírujte zálohu. Je tam i `-wal` nebo `-shm`? Nejdřív tohle:
+Je tam jen `kurnik.db`? Kopírujte zálohu podle postupu výše. Je tam i `-wal` nebo `-shm`?
+Nejdřív je smažte:
 
 ```bash
 docker run --rm -v server_coop-data:/data alpine rm -f /data/kurnik.db-wal /data/kurnik.db-shm
 ```
+
+Po běžném zastavení příkazem `docker compose stop` tam nic takového nebude a obnova se dá
+spustit rovnou.
 
 ## 7. Přístup ke stránce
 

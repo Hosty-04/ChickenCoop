@@ -149,7 +149,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .tile-label { font-size: 13px; color: var(--text-secondary); }
 .tile-value { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
 .tile-note { font-size: 13px; color: var(--text-muted); min-height: 18px; }
-.tile-note.is-good { color: var(--good); }
 .tile-note.is-warning { color: var(--text-secondary); }
 .tile-note.is-critical { color: var(--critical); }
 

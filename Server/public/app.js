@@ -145,6 +145,7 @@ function renderStatus(status) {
 
   renderPending(status.pending);
   renderCount(status.readings ?? null);
+  renderLatest(status.latest);
 
   if (status.dbOk === false) {
     showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error');
@@ -389,9 +390,7 @@ async function loadStatus() {
   try {
     const res = await request('/api/status');
     if (!requireSession(res)) return;
-    const status = await res.json();
-    renderStatus(status);
-    renderLatest(status.latest);
+    renderStatus(await res.json());
   } catch (err) {
     setBadge(false, 'Server nedostupný');
     showToast('Server neodpovídá.', 'is-error');
@@ -404,7 +403,7 @@ function connectSocket() {
 
   socket.addEventListener('message', (event) => {
     const { type, data } = JSON.parse(event.data);
-    if (type === 'status') { renderStatus(data); renderLatest(data.latest); }
+    if (type === 'status') renderStatus(data);
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
     if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);

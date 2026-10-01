@@ -1,6 +1,6 @@
 export const UPLINK_PORT = 2;
 export const DOWNLINK_PORT = 2;
-export const STATUS_LENGTH = 2;
+const STATUS_LENGTH = 2;
 
 const PANEL_STEP_MV = 100;
 const PANEL_CODE_MAX = 125;
