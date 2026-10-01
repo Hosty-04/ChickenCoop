@@ -115,9 +115,9 @@ function pickTickTimes(first, last, bucketMs) {
 
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
-  const gaps = ctx.chart.data.datasets[0].data.length - 1;
-  if (!area || gaps < 1) return POINT_RADIUS;
-  return area.width / gaps >= POINT_GAP_PX ? POINT_RADIUS : 0;
+  if (!area || !chartWindow || chartBucket <= 0) return POINT_RADIUS;
+  const rozestup = (area.width * chartBucket) / (chartWindow.to - chartWindow.from);
+  return rozestup >= POINT_GAP_PX ? POINT_RADIUS : 0;
 }
 
 function volts(mv) {
@@ -269,10 +269,11 @@ function renderChart() {
   ].map((d) => ({
     ...d,
     borderWidth: 2,
+    pointStyle: 'crossRot',
     pointRadius,
     pointHoverRadius: 6,
     pointBorderWidth: 2,
-    pointBorderColor: css('--surface-1'),
+    pointBorderColor: d.borderColor,
     tension: 0,
     spanGaps: false
   }));
