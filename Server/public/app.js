@@ -209,13 +209,13 @@ function renderLatest(uplink) {
 
   el('battery-value').textContent = formatVolts(r.batteryMv);
   el('battery-note').textContent = r.batteryMv === null
-    ? 'čidlo neodpovídá'
+    ? '⚠ čidlo neodpovídá'
     : (r.batteryCritical ? '⚠ kriticky vybitá' : (r.batterySaturated ? 'na horní mezi rozsahu' : ''));
   el('battery-note').className = `tile-note ${r.batteryCritical ? 'is-critical' : (r.batteryMv === null ? 'is-warning' : '')}`;
 
   el('panel-value').textContent = formatVolts(r.panelMv);
   el('panel-note').textContent = r.panelMv === null
-    ? 'čidlo neodpovídá'
+    ? '⚠ čidlo neodpovídá'
     : (r.panelSaturated ? 'na horní mezi rozsahu' : '');
   el('panel-note').className = `tile-note ${r.panelMv === null ? 'is-warning' : ''}`;
 
