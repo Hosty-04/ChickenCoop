@@ -226,7 +226,7 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   color: var(--text-secondary);
 }
 
-dialog {
+dialog[open] {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-1);
