@@ -34,6 +34,7 @@ const TIME_LABEL_PX = 60;
 const DATE_LABEL_PX = 115;
 const MAX_TICKS = 8;
 const MIN_TICK_GAP = 0.75;
+const MAX_JOIN_BUCKETS = 2.5;
 const NOON_HOUR = 12;
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
@@ -54,6 +55,19 @@ function snapUnit(spanMs, bucketMs) {
   if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
   if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
   return 0;
+}
+
+function series(points, times, hodnota) {
+  const limit = chartBucket * MAX_JOIN_BUCKETS;
+  const out = [];
+
+  for (let i = 0; i < points.length; i++) {
+    if (i > 0 && times[i] - times[i - 1] > limit) {
+      out.push({ x: (times[i - 1] + times[i]) / 2, y: null });
+    }
+    out.push({ x: times[i], y: hodnota(points[i]) });
+  }
+  return out;
 }
 
 function bucketOf(times) {
@@ -250,8 +264,8 @@ function renderChart() {
   chartBucket = bucketOf(times);
   chartWindow = windowOf(times);
   const datasets = [
-    { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
-    { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
+    { label: 'Baterie', data: series(points, times, (p) => volts(p.batteryMv)), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
+    { label: 'Panel', data: series(points, times, (p) => volts(p.panelMv)), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
   ].map((d) => ({
     ...d,
     borderWidth: 2,
@@ -260,7 +274,7 @@ function renderChart() {
     pointBorderWidth: 2,
     pointBorderColor: css('--surface-1'),
     tension: 0,
-    spanGaps: true
+    spanGaps: false
   }));
 
   if (chart) {
@@ -268,6 +282,7 @@ function renderChart() {
     chart.options.scales.x.max = chartWindow.to;
     chart.data.datasets.forEach((d, i) => {
       d.data = datasets[i].data;
+      d.spanGaps = datasets[i].spanGaps;
       d.borderColor = datasets[i].borderColor;
       d.backgroundColor = datasets[i].backgroundColor;
       d.pointBorderColor = datasets[i].pointBorderColor;
@@ -400,9 +415,8 @@ async function loadStatus() {
     const res = await request('/api/status');
     if (!requireSession(res)) return;
     renderStatus(await res.json());
-  } catch (err) {
+  } catch {
     setBadge(false, 'Server nedostupný');
-    showToast('Server neodpovídá.', 'is-error');
   }
 }
 
