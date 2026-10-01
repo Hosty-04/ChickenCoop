@@ -14,10 +14,11 @@
 #define TELEMETRY_EGGS_MAX       10U
 
 #define TELEMETRY_LEN_STATUS     2U
-#define TELEMETRY_LEN_FULL       5U
+#define TELEMETRY_LEN_FULL       (2U + ((TELEMETRY_NEST_COUNT + 1U) / 2U))
 #define TELEMETRY_LEN_DOWNLINK   1U
 
 void    Telemetry_RequestStatus(void);
+void    Telemetry_RequestFull(void);
 uint8_t Telemetry_Pending(void);
 void    Telemetry_Requeue(uint8_t length);
 void    Telemetry_Clear(void);
