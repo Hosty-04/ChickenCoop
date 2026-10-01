@@ -210,6 +210,11 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   .filterbar button { padding: 7px 10px; }
 }
 
+@media (max-height: 520px) {
+  .plot { height: 200px; }
+  .table-wrap { max-height: 200px; }
+}
+
 @media (max-width: 400px) {
   .filterbar { display: grid; grid-template-columns: repeat(3, 1fr); }
   .filterbar button { padding: 7px 4px; }

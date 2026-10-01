@@ -40,7 +40,7 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
-let axisTicks = [];
+let chartTimes = [];
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -239,7 +239,7 @@ function renderChart() {
   }
 
   const times = points.map((p) => new Date(p.time).getTime());
-  axisTicks = pickTickTimes(times);
+  chartTimes = times;
   const datasets = [
     { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -281,6 +281,7 @@ function renderChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
@@ -297,7 +298,9 @@ function renderChart() {
           type: 'linear',
           min: times[0],
           max: times[times.length - 1],
-          afterBuildTicks: (scale) => { scale.ticks = axisTicks.map((value) => ({ value })); },
+          afterBuildTicks: (scale) => {
+            if (chartTimes.length > 0) scale.ticks = pickTickTimes(chartTimes).map((value) => ({ value }));
+          },
           grid: {
             color: css('--grid'),
             drawTicks: true,

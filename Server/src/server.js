@@ -184,8 +184,9 @@ ttn.on('uplink', async (uplink) => {
     state.dbOk = false;
     state.dbError = err.message;
     console.error('database write failed:', err.message);
-    broadcast('status', state);
   }
+
+  broadcast('status', state);
 });
 
 async function seedFromDb() {
