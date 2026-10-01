@@ -55,6 +55,10 @@ export function checkCredentials(ip, user, password) {
   return true;
 }
 
+export function passwordMatches(password) {
+  return sameSecret(password, config.auth.password);
+}
+
 export function openSession() {
   const token = randomBytes(32).toString('base64url');
   sessions.set(token, Date.now() + SESSION_TTL_MS);

@@ -209,6 +209,11 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   .filterbar button { padding: 7px 10px; }
 }
 
+@media (max-width: 400px) {
+  .filterbar { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .filterbar button { padding: 7px 4px; }
+}
+
 .command-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -220,6 +225,21 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+dialog {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  padding: 22px;
+  width: min(380px, calc(100vw - 32px));
+  display: grid;
+  gap: 14px;
+  min-height: 0;
+}
+dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+dialog h2 { font-size: 17px; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
 
 .login-root {
   max-width: 400px;

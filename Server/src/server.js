@@ -7,10 +7,12 @@ import { config } from './config.js';
 import { COMMANDS } from './codec.js';
 import { TtnBridge } from './ttn.js';
 import {
-  SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials,
+  SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
   openSession, closeSession, sessionValid, requestAuthenticated
 } from './auth.js';
-import { writeReading, readHistory, readLatest, closeDb } from './db.js';
+import {
+  writeReading, readHistory, readLatest, countReadings, clearReadings, closeDb
+} from './db.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -28,6 +30,7 @@ const state = {
   ttnConnected: false,
   dbOk: null,
   dbError: null,
+  readings: 0,
   pending: []
 };
 
@@ -89,9 +92,10 @@ function broadcast(type, data) {
 app.get('/api/status', (req, res) => res.json(state));
 
 app.get('/api/history', async (req, res) => {
-  const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
+  const all = req.query.hours === 'all';
+  const hours = all ? null : Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
   try {
-    res.json({ hours, points: await readHistory(config.ttn.deviceId, hours) });
+    res.json({ hours: all ? 'all' : hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
     res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
   }
@@ -110,6 +114,25 @@ app.post('/api/command', async (req, res) => {
     res.json({ ok: true, ...sent });
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });
+  }
+});
+
+app.post('/api/data/clear', async (req, res) => {
+  if (!passwordMatches(req.body?.password)) {
+    return res.status(403).json({ ok: false, error: 'Nesprávné heslo.' });
+  }
+
+  try {
+    const removed = await clearReadings(config.ttn.deviceId);
+    state.readings = 0;
+    state.latest = null;
+    state.dbOk = true;
+    state.dbError = null;
+    broadcast('status', state);
+    console.log(`history cleared, ${removed} readings removed`);
+    res.json({ ok: true, removed });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: `mazání selhalo: ${err.message}` });
   }
 });
 
@@ -154,6 +177,7 @@ ttn.on('uplink', async (uplink) => {
 
   try {
     await writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
+    state.readings = await countReadings(config.ttn.deviceId);
     state.dbOk = true;
     state.dbError = null;
   } catch (err) {
@@ -168,6 +192,7 @@ async function seedFromDb() {
   try {
     const latest = await readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
+    state.readings = await countReadings(config.ttn.deviceId);
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;

@@ -43,7 +43,7 @@ function historyStatement(bucket) {
     statement = db.prepare(`
       SELECT (time / ${bucket}) * ${bucket} AS slot,
              AVG(battery_mv) AS battery_mv,
-             AVG(panel_mv) AS panel_mv
+             COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
       WHERE device = ? AND time >= ?
       GROUP BY slot
@@ -58,11 +58,16 @@ const selectLatest = db.prepare(`
   SELECT * FROM readings WHERE device = ? ORDER BY time DESC LIMIT 1
 `);
 
+const selectOldest = db.prepare(`
+  SELECT MIN(time) AS oldest FROM readings WHERE device = ?
+`);
+
 function bucketFor(hours) {
   if (hours <= 24) return 10 * 60 * 1000;
   if (hours <= 168) return 60 * 60 * 1000;
   if (hours <= 720) return 6 * 60 * 60 * 1000;
-  return 24 * 60 * 60 * 1000;
+  if (hours <= 8760) return 24 * 60 * 60 * 1000;
+  return 7 * 24 * 60 * 60 * 1000;
 }
 
 function round(value) {
@@ -87,9 +92,16 @@ export async function writeReading(deviceId, reading, radio, at) {
 }
 
 export async function readHistory(deviceId, hours) {
-  const bucket = bucketFor(hours);
-  const since = Date.now() - hours * 60 * 60 * 1000;
   const now = Date.now();
+
+  if (hours === null) {
+    const oldest = selectOldest.get(deviceId)?.oldest;
+    if (!oldest) return [];
+    hours = Math.max((now - oldest) / (60 * 60 * 1000), 1);
+  }
+
+  const bucket = bucketFor(hours);
+  const since = now - hours * 60 * 60 * 1000;
 
   return historyStatement(bucket).all(deviceId, since).map((row) => ({
     time: new Date(Math.min(row.slot + bucket, now)).toISOString(),
@@ -119,6 +131,16 @@ export async function readLatest(deviceId) {
       gateway: row.gateway
     }
   };
+}
+
+export async function countReadings(deviceId) {
+  return Number(db.prepare('SELECT COUNT(*) AS n FROM readings WHERE device = ?').get(deviceId).n);
+}
+
+export async function clearReadings(deviceId) {
+  const { changes } = db.prepare('DELETE FROM readings WHERE device = ?').run(deviceId);
+  db.exec('VACUUM');
+  return Number(changes);
 }
 
 export async function closeDb() {

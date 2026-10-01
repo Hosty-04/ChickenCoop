@@ -481,7 +481,20 @@ mimo něj.
 
 Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
 poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
-30 dní nebo rok. Tlačítkem **Tabulka** se přepne na stejná data v číslech.
+30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se přepne na
+stejná data v číslech.
+
+Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
+měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
+stovku bodů, ať pokrývá den nebo pět let.
+
+U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
+průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
+ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
+zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje.
+
+Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
 a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
@@ -506,6 +519,17 @@ Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
+
+### Smazání historie
+
+Tlačítko **Smazat historii** na kartě Data vyhodí všechna uložená měření. Než se to stane,
+stránka se zeptá na heslo — totéž, kterým se přihlašujete; samotné přihlášení k tomuhle
+kroku nestačí.
+
+> **Nedá se to vrátit.** Dlaždice se vyprázdní, graf zůstane bez dat a vrátit je jde jen
+> ze zálohy. Zálohování je popsané v kapitole 6.
+
+Kurníku se to nijak nedotkne: posílá dál a první zpráva po smazání se zase uloží.
 
 ## Když to nejede
 
