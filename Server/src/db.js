@@ -43,7 +43,7 @@ function historyStatement(bucket) {
     statement = db.prepare(`
       SELECT (time / ${bucket}) * ${bucket} AS slot,
              AVG(battery_mv) AS battery_mv,
-             AVG(panel_mv) AS panel_mv
+             COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
       WHERE device = ? AND time >= ?
       GROUP BY slot

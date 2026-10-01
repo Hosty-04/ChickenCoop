@@ -488,6 +488,12 @@ stejná data v číslech.
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
 stovku bodů, ať pokrývá den nebo pět let.
 
+U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
+průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
+ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
+zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje.
+
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači

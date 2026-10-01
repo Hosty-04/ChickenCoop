@@ -161,6 +161,7 @@ function renderChart() {
   const empty = points.length === 0;
   el('chart-empty').hidden = !empty;
   el('plot-wrap').hidden = empty;
+  el('chart-hint').hidden = empty || !(hours === 'all' || hours > 24);
 
   if (empty) {
     if (chart) { chart.destroy(); chart = null; }
