@@ -122,6 +122,7 @@ app.post('/api/data/clear', async (req, res) => {
     state.dbOk = true;
     state.dbError = null;
     broadcast('status', state);
+    broadcast('cleared', { removed });
     console.log(`history cleared, ${removed} readings removed`);
     res.json({ ok: true, removed });
   } catch (err) {
@@ -132,6 +133,7 @@ app.post('/api/data/clear', async (req, res) => {
 app.post('/api/command/cancel', async (req, res) => {
   try {
     const { cleared } = await ttn.clearQueue();
+    broadcast('cancelled', { cleared });
     res.json({ ok: true, cleared });
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });

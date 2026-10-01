@@ -565,7 +565,12 @@ Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
-> restartu má smysl na něj kliknout, i když se nic nezobrazuje.
+> restartu má smysl na něj kliknout, i když se nic nezobrazuje. Restart serveru také
+> odhlásí všechna otevřená okna a stránka se sama vrátí na přihlášení.
+
+Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
+hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
+historie.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.

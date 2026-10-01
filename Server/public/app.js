@@ -25,6 +25,7 @@ const el = (id) => document.getElementById(id);
 const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(name).trim();
 
 const TOAST_MS = 5000;
+const TOAST_ERROR_MS = 12000;
 const REQUEST_MS = 8000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
@@ -40,7 +41,8 @@ const DAY_MS = 24 * HOUR_MS;
 let chart = null;
 let hours = 24;
 let points = [];
-let chartTimes = [];
+let chartWindow = null;
+let chartBucket = 0;
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -48,14 +50,21 @@ function tickLimit() {
   return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
 }
 
-function snapUnit(times) {
-  let bucketMs = Infinity;
-  for (let i = 1; i < times.length; i++) bucketMs = Math.min(bucketMs, times[i] - times[i - 1]);
-
-  const spanMs = times[times.length - 1] - times[0];
+function snapUnit(spanMs, bucketMs) {
   if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
   if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
   return 0;
+}
+
+function bucketOf(times) {
+  let bucketMs = Infinity;
+  for (let i = 1; i < times.length; i++) bucketMs = Math.min(bucketMs, times[i] - times[i - 1]);
+  return Number.isFinite(bucketMs) ? bucketMs : 0;
+}
+
+function windowOf(times) {
+  const to = Date.now();
+  return { from: hours === 'all' ? Math.min(times[0], to) : to - hours * HOUR_MS, to };
 }
 
 function snapTarget(ideal, unit) {
@@ -66,14 +75,12 @@ function snapTarget(ideal, unit) {
   return target.getTime();
 }
 
-function pickTickTimes(times) {
+function pickTickTimes(first, last, bucketMs) {
   const limit = tickLimit();
-  const first = times[0];
-  const last = times[times.length - 1];
   const spanMs = last - first;
   if (spanMs <= 0) return [first];
 
-  const unit = snapUnit(times);
+  const unit = snapUnit(spanMs, bucketMs > 0 ? bucketMs : spanMs);
   const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
   const picked = [first];
   const add = (at) => {
@@ -240,7 +247,8 @@ function renderChart() {
   }
 
   const times = points.map((p) => new Date(p.time).getTime());
-  chartTimes = times;
+  chartBucket = bucketOf(times);
+  chartWindow = windowOf(times);
   const datasets = [
     { label: 'Baterie', data: points.map((p, i) => ({ x: times[i], y: volts(p.batteryMv) })), borderColor: css('--series-1'), backgroundColor: css('--series-1') },
     { label: 'Panel', data: points.map((p, i) => ({ x: times[i], y: volts(p.panelMv) })), borderColor: css('--series-2'), backgroundColor: css('--series-2') }
@@ -256,8 +264,8 @@ function renderChart() {
   }));
 
   if (chart) {
-    chart.options.scales.x.min = times[0];
-    chart.options.scales.x.max = times[times.length - 1];
+    chart.options.scales.x.min = chartWindow.from;
+    chart.options.scales.x.max = chartWindow.to;
     chart.data.datasets.forEach((d, i) => {
       d.data = datasets[i].data;
       d.borderColor = datasets[i].borderColor;
@@ -297,10 +305,11 @@ function renderChart() {
       scales: {
         x: {
           type: 'linear',
-          min: times[0],
-          max: times[times.length - 1],
+          min: chartWindow.from,
+          max: chartWindow.to,
           afterBuildTicks: (scale) => {
-            if (chartTimes.length > 0) scale.ticks = pickTickTimes(chartTimes).map((value) => ({ value }));
+            if (!chartWindow) return;
+            scale.ticks = pickTickTimes(chartWindow.from, chartWindow.to, chartBucket).map((value) => ({ value }));
           },
           grid: {
             color: css('--grid'),
@@ -355,9 +364,9 @@ function showToast(text, tone, id = 'toast') {
   toast.hidden = false;
 
   clearTimeout(toastTimers.get(id));
-  if (tone === 'is-ok') {
-    toastTimers.set(id, setTimeout(() => { toast.hidden = true; }, TOAST_MS));
-  }
+  toastTimers.set(id, setTimeout(() => {
+    toast.hidden = true;
+  }, tone === 'is-error' ? TOAST_ERROR_MS : TOAST_MS));
 }
 
 function requireSession(res) {
@@ -407,6 +416,15 @@ function connectSocket() {
     if (type === 'uplink') { renderLatest(data); loadHistory(); }
     if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
+    if (type === 'cancelled') {
+      showToast(data.cleared > 0 ? `Zrušeno: ${countCommands(data.cleared)}` : 'Fronta je prázdná', 'is-ok');
+    }
+    if (type === 'cleared') {
+      showToast(data.removed > 0
+        ? `Historie smazána: ${pocet(data.removed, 'záznam', 'záznamy', 'záznamů')}`
+        : 'Nebylo co mazat', 'is-ok', 'data-toast');
+      loadHistory();
+    }
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
       showToast(data.commands ? `${info.text}: ${describe(data.commands)}` : info.text, info.tone);
@@ -416,7 +434,7 @@ function connectSocket() {
   socket.addEventListener('close', (event) => {
     setBadge(false, 'Server nedostupný');
     if (event.code === 1008 || event.code === 1006) {
-      fetch('/api/status').then((r) => requireSession(r));
+      fetch('/api/status').then((r) => requireSession(r)).catch(() => undefined);
     }
     setTimeout(connectSocket, 3000);
   });
@@ -459,10 +477,6 @@ el('wipe-confirm').addEventListener('click', async () => {
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     el('wipe-dialog').close();
-    showToast(body.removed > 0
-      ? `Historie smazána: ${pocet(body.removed, 'záznam', 'záznamy', 'záznamů')}`
-      : 'Nebylo co mazat', 'is-ok', 'data-toast');
-    await loadHistory();
   } catch (err) {
     el('wipe-error').textContent = reason(err);
     el('wipe-error').hidden = false;
@@ -479,9 +493,6 @@ el('cancel').addEventListener('click', async () => {
     if (!requireSession(res)) return;
     const body = await res.json();
     if (!res.ok) throw new Error(body.error ?? res.statusText);
-    showToast(body.cleared > 0
-      ? `Zrušeno: ${countCommands(body.cleared)}`
-      : 'Fronta je prázdná', 'is-ok');
   } catch (err) {
     showToast(`Zrušení selhalo: ${reason(err)}`, 'is-error');
   } finally {
