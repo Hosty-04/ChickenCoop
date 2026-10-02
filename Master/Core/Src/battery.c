@@ -187,7 +187,7 @@ static void Battery_Schedule(void)
 
 static uint8_t Battery_RadioBusy(void)
 {
-  if (LoRaWAN_CanBlockFor(BATTERY_BLOCK_MS) || (++battery_defer >= BATTERY_DEFER_MAX)) {
+  if (LoRaWAN_IsIdleFor(BATTERY_BLOCK_MS) || (++battery_defer >= BATTERY_DEFER_MAX)) {
     battery_defer = 0U;
     return 0U;
   }

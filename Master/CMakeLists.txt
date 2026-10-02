@@ -39,6 +39,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     Core/Src/motor.c
     Core/Src/endstop.c
     Core/Src/battery.c
+    Core/Src/coops.c
     Core/Src/ina226.c
     Core/Src/telemetry.c
     Core/Src/timebase.c

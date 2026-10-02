@@ -9,13 +9,14 @@
 #define TELEMETRY_H
 
 #include "main.h"
+#include "coops.h"
 
-#define TELEMETRY_NEST_COUNT     2U
 #define TELEMETRY_EGGS_MAX       10U
 
 #define TELEMETRY_LEN_STATUS     2U
-#define TELEMETRY_LEN_FULL       (2U + ((TELEMETRY_NEST_COUNT + 1U) / 2U))
+#define TELEMETRY_LEN_FULL       (2U + ((COOPS_NEST_COUNT + 1U) / 2U))
 #define TELEMETRY_LEN_DOWNLINK   1U
+#define TELEMETRY_LEN_DL_NEST    2U
 
 void    Telemetry_RequestStatus(void);
 void    Telemetry_RequestFull(void);

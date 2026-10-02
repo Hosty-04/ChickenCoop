@@ -8,6 +8,7 @@
 #include "telemetry.h"
 #include "door.h"
 #include "battery.h"
+#include "coops.h"
 #include "system.h"
 
 #define PANEL_STEP_MV       100U
@@ -17,6 +18,10 @@
 #define BATTERY_STEP_MV     50U
 #define BATTERY_CODE_MAX    60U
 #define BATTERY_CODE_NODATA 63U
+#define NEST_CODE_BROODY    11U
+#define NEST_CODE_UNCALIB   12U
+#define NEST_CODE_FAULT     14U
+#define NEST_CODE_NODATA    15U
 
 #define UL_CRITICAL_FLAG    0x01U
 #define UL_DOOR_MASK        0x03U
@@ -27,6 +32,9 @@
 #define DL_DOOR_CLOSE       0x08U
 #define DL_BLOCK            0x10U
 #define DL_UNBLOCK          0x20U
+#define DL_NEST_MASK        0x0FU
+#define DL_NEST_TARE        0x10U
+#define DL_NEST_CALIBRATE   0x20U
 
 static uint8_t telemetry_len = 0;
 
@@ -59,9 +67,49 @@ static uint8_t Telemetry_EncodeBattery(void)
   return (uint8_t)((code > BATTERY_CODE_MAX) ? BATTERY_CODE_MAX : code);
 }
 
+static uint8_t Telemetry_EncodeNest(uint8_t nest)
+{
+  uint8_t eggs;
+
+  if (nest >= COOPS_NEST_COUNT)
+    return NEST_CODE_NODATA;
+
+  switch (Coops_GetState(nest)) {
+    case COOPS_NEST_OK:           break;
+    case COOPS_NEST_BROODY:       return NEST_CODE_BROODY;
+    case COOPS_NEST_UNCALIBRATED: return NEST_CODE_UNCALIB;
+    case COOPS_NEST_FAULT:        return NEST_CODE_FAULT;
+    default:                      return NEST_CODE_NODATA;
+  }
+
+  eggs = Coops_GetEggs(nest);
+
+  return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
+}
+
+static void Telemetry_HandleNest(uint8_t cmd)
+{
+  uint8_t nest = cmd & DL_NEST_MASK;
+
+  if ((nest == 0U) || (nest > COOPS_NEST_COUNT))
+    return;
+
+  switch (cmd & (DL_NEST_TARE | DL_NEST_CALIBRATE)) {
+    case DL_NEST_TARE:      Coops_RequestTare((uint8_t)(nest - 1U));      break;
+    case DL_NEST_CALIBRATE: Coops_RequestCalibrate((uint8_t)(nest - 1U)); break;
+    default:                                                               break;
+  }
+}
+
 void Telemetry_RequestStatus(void)
 {
-  telemetry_len = TELEMETRY_LEN_STATUS;
+  if (telemetry_len < TELEMETRY_LEN_STATUS)
+    telemetry_len = TELEMETRY_LEN_STATUS;
+}
+
+void Telemetry_RequestFull(void)
+{
+  telemetry_len = TELEMETRY_LEN_FULL;
 }
 
 uint8_t Telemetry_Pending(void)
@@ -82,7 +130,7 @@ void Telemetry_Clear(void)
 
 uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
 {
-  uint8_t length, n;
+  uint8_t length, n, nest;
 
   if (buf == NULL)
     return 0U;
@@ -99,8 +147,10 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
   buf[1] = (uint8_t)((Telemetry_EncodeBattery() << 2)
          | ((uint8_t)Door_GetState() & UL_DOOR_MASK));
 
-  for (n = TELEMETRY_LEN_STATUS; n < length; n++)
-    buf[n] = 0U;
+  for (n = TELEMETRY_LEN_STATUS; n < length; n++) {
+    nest   = (uint8_t)(2U * (n - TELEMETRY_LEN_STATUS));
+    buf[n] = (uint8_t)((Telemetry_EncodeNest(nest) << 4) | Telemetry_EncodeNest(nest + 1U));
+  }
 
   return length;
 }
@@ -109,7 +159,7 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
 {
   uint8_t cmd;
 
-  if ((buf == NULL) || (length != TELEMETRY_LEN_DOWNLINK))
+  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK) || (length > TELEMETRY_LEN_DL_NEST))
     return;
 
   cmd = buf[0];
@@ -131,4 +181,7 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
     case DL_DOOR_CLOSE: Door_RequestClose(); break;
     default:                                 break;
   }
+
+  if (length == TELEMETRY_LEN_DL_NEST)
+    Telemetry_HandleNest(buf[1]);
 }
