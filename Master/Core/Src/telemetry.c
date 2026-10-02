@@ -32,9 +32,10 @@
 #define DL_DOOR_CLOSE       0x08U
 #define DL_BLOCK            0x10U
 #define DL_UNBLOCK          0x20U
-#define DL_NEST_MASK        0x0FU
-#define DL_NEST_TARE        0x10U
-#define DL_NEST_CALIBRATE   0x20U
+#define DL_NEST_TARE        0x01U
+#define DL_NEST_CALIBRATE   0x02U
+#define DL_NEST_PAIR        0x03U
+#define DL_NESTS_PER_BYTE   4U
 
 static uint8_t telemetry_len = 0;
 
@@ -87,17 +88,18 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
 }
 
-static void Telemetry_HandleNest(uint8_t cmd)
+static void Telemetry_HandleNests(const uint8_t *buf, uint8_t length)
 {
-  uint8_t nest = cmd & DL_NEST_MASK;
+  uint8_t nest, pair;
 
-  if ((nest == 0U) || (nest > NESTS_COUNT))
-    return;
+  for (nest = 0U; (nest < NESTS_COUNT) && ((nest / DL_NESTS_PER_BYTE) < length); nest++) {
+    pair = (uint8_t)((buf[nest / DL_NESTS_PER_BYTE] >> (2U * (nest % DL_NESTS_PER_BYTE))) & DL_NEST_PAIR);
 
-  switch (cmd & (DL_NEST_TARE | DL_NEST_CALIBRATE)) {
-    case DL_NEST_TARE:      Nests_RequestTare((uint8_t)(nest - 1U));      break;
-    case DL_NEST_CALIBRATE: Nests_RequestCalibrate((uint8_t)(nest - 1U)); break;
-    default:                                                               break;
+    switch (pair) {
+      case DL_NEST_TARE:      Nests_RequestTare(nest);      break;
+      case DL_NEST_CALIBRATE: Nests_RequestCalibrate(nest); break;
+      default:                                              break;
+    }
   }
 }
 
@@ -159,7 +161,7 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
 {
   uint8_t cmd;
 
-  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK) || (length > TELEMETRY_LEN_DL_NEST))
+  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK) || (length > TELEMETRY_LEN_DL_MAX))
     return;
 
   cmd = buf[0];
@@ -182,6 +184,5 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
     default:                                 break;
   }
 
-  if (length == TELEMETRY_LEN_DL_NEST)
-    Telemetry_HandleNest(buf[1]);
+  Telemetry_HandleNests(&buf[TELEMETRY_LEN_DOWNLINK], (uint8_t)(length - TELEMETRY_LEN_DOWNLINK));
 }

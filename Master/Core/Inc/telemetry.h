@@ -16,7 +16,7 @@
 #define TELEMETRY_LEN_STATUS     2U
 #define TELEMETRY_LEN_FULL       (2U + ((NESTS_COUNT + 1U) / 2U))
 #define TELEMETRY_LEN_DOWNLINK   1U
-#define TELEMETRY_LEN_DL_NEST    2U
+#define TELEMETRY_LEN_DL_MAX     (1U + ((NESTS_COUNT + 3U) / 4U))
 
 void    Telemetry_RequestStatus(void);
 void    Telemetry_RequestFull(void);
