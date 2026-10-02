@@ -24,7 +24,7 @@ function trustProxy() {
 function nestCount() {
   const value = Number(optional('NEST_COUNT', '2'));
   if (!Number.isInteger(value) || value < 1 || value > 15) {
-    throw new Error('NEST_COUNT must be a whole number from 1 to 15, the same as COOPS_NEST_COUNT in the firmware');
+    throw new Error('NEST_COUNT must be a whole number from 1 to 15, the same as NESTS_COUNT in the firmware');
   }
   return value;
 }

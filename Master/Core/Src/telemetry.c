@@ -8,7 +8,7 @@
 #include "telemetry.h"
 #include "door.h"
 #include "battery.h"
-#include "coops.h"
+#include "nests.h"
 #include "system.h"
 
 #define PANEL_STEP_MV       100U
@@ -71,18 +71,18 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
 {
   uint8_t eggs;
 
-  if (nest >= COOPS_NEST_COUNT)
+  if (nest >= NESTS_COUNT)
     return NEST_CODE_NODATA;
 
-  switch (Coops_GetState(nest)) {
-    case COOPS_NEST_OK:           break;
-    case COOPS_NEST_BROODY:       return NEST_CODE_BROODY;
-    case COOPS_NEST_UNCALIBRATED: return NEST_CODE_UNCALIB;
-    case COOPS_NEST_FAULT:        return NEST_CODE_FAULT;
-    default:                      return NEST_CODE_NODATA;
+  switch (Nests_GetState(nest)) {
+    case NESTS_STATE_OK:           break;
+    case NESTS_STATE_BROODY:       return NEST_CODE_BROODY;
+    case NESTS_STATE_UNCALIBRATED: return NEST_CODE_UNCALIB;
+    case NESTS_STATE_FAULT:        return NEST_CODE_FAULT;
+    default:                       return NEST_CODE_NODATA;
   }
 
-  eggs = Coops_GetEggs(nest);
+  eggs = Nests_GetEggs(nest);
 
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
 }
@@ -91,12 +91,12 @@ static void Telemetry_HandleNest(uint8_t cmd)
 {
   uint8_t nest = cmd & DL_NEST_MASK;
 
-  if ((nest == 0U) || (nest > COOPS_NEST_COUNT))
+  if ((nest == 0U) || (nest > NESTS_COUNT))
     return;
 
   switch (cmd & (DL_NEST_TARE | DL_NEST_CALIBRATE)) {
-    case DL_NEST_TARE:      Coops_RequestTare((uint8_t)(nest - 1U));      break;
-    case DL_NEST_CALIBRATE: Coops_RequestCalibrate((uint8_t)(nest - 1U)); break;
+    case DL_NEST_TARE:      Nests_RequestTare((uint8_t)(nest - 1U));      break;
+    case DL_NEST_CALIBRATE: Nests_RequestCalibrate((uint8_t)(nest - 1U)); break;
     default:                                                               break;
   }
 }

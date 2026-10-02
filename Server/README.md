@@ -94,10 +94,10 @@ Po úpravě firmware znovu přeložte a nahrajte do kurníku.
 ### Počet hnízd
 
 Firmware je nastavený na dvě snášková hnízda. Jiný počet (1 až 15) patří do souboru
-`Master/Core/Inc/coops.h`:
+`Master/Core/Inc/nests.h`:
 
 ```c
-#define COOPS_NEST_COUNT     2U
+#define NESTS_COUNT          2U
 ```
 
 Stejné číslo pak dostane i server, viz `NEST_COUNT` v kapitole 6. Hnízda se číslují od
@@ -662,8 +662,8 @@ takové změny.
 
 Každé hnízdo váží vlastní tenzometr a ten je potřeba po montáži nastavit — dokud se to
 nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu závaží o hmotnosti přesně
-1 kg; jinou hmotnost by bylo potřeba změnit ve firmwaru (`COOPS_CALIB_MASS_G` v souboru
-`Master/Core/Inc/coops.h`).
+1 kg; jinou hmotnost by bylo potřeba změnit ve firmwaru (`NESTS_CALIB_MASS_G` v souboru
+`Master/Core/Inc/nests.h`).
 
 1. Z hnízda vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
 2. V **Ovládání** vyberte hnízdo a klikněte na **Vynulovat**.
@@ -722,4 +722,4 @@ překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypn
 
 **Hnízdo neodpovídá.** Zkontrolujte datový kabel do jeho krabičky a do krabiček před ním —
 když se neozve jedno hnízdo, neozvou se ani všechna za ním. Pak ověřte, že `NEST_COUNT`
-v `.env` sedí s `COOPS_NEST_COUNT` ve firmwaru a že řadič v krabičce má správnou adresu.
+v `.env` sedí s `NESTS_COUNT` ve firmwaru a že řadič v krabičce má správnou adresu.

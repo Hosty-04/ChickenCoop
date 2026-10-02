@@ -8,19 +8,19 @@
 #include "system.h"
 #include "door.h"
 #include "battery.h"
-#include "coops.h"
+#include "nests.h"
 #include "telemetry.h"
 
 void System_Process(void)
 {
-  Coops_Process();
+  Nests_Process();
   Battery_Process();
   Door_Process();
 }
 
 uint8_t System_WorkPending(void)
 {
-  return (uint8_t)(Door_WorkPending() || Battery_WorkPending() || Coops_WorkPending());
+  return (uint8_t)(Door_WorkPending() || Battery_WorkPending() || Nests_WorkPending());
 }
 
 void System_Enable(void)
@@ -29,7 +29,7 @@ void System_Enable(void)
     return;
 
   Door_Enable();
-  Coops_Enable();
+  Nests_Enable();
   Telemetry_RequestStatus();
 }
 
@@ -39,7 +39,7 @@ void System_Disable(void)
     return;
 
   Door_Disable();
-  Coops_Disable();
+  Nests_Disable();
   Telemetry_RequestStatus();
 }
 

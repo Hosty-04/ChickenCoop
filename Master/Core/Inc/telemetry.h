@@ -9,12 +9,12 @@
 #define TELEMETRY_H
 
 #include "main.h"
-#include "coops.h"
+#include "nests.h"
 
 #define TELEMETRY_EGGS_MAX       10U
 
 #define TELEMETRY_LEN_STATUS     2U
-#define TELEMETRY_LEN_FULL       (2U + ((COOPS_NEST_COUNT + 1U) / 2U))
+#define TELEMETRY_LEN_FULL       (2U + ((NESTS_COUNT + 1U) / 2U))
 #define TELEMETRY_LEN_DOWNLINK   1U
 #define TELEMETRY_LEN_DL_NEST    2U
 
