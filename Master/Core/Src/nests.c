@@ -21,8 +21,9 @@
 #define NESTS_BOOT_MS          10U
 #define NESTS_SAMPLE_MS        3700U
 #define NESTS_POLL_MS          250U
-#define NESTS_DONE_MS          9000UL
+#define NESTS_DONE_MS          10000UL
 #define NESTS_REPLY_MS         200UL
+#define NESTS_READ_MS          (NESTS_REPLY_MS + 20UL)
 #define NESTS_GAP_MS           5UL
 #define NESTS_TX_TIMEOUT_MS    100U
 #define NESTS_ATTEMPTS         3U
@@ -288,7 +289,7 @@ static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
     done = (uint8_t)((Nests_Read(addr, NESTS_REG_STATUS, res, NESTS_STATUS_REGS) == HAL_OK) &&
                      (res[0] == NESTS_STATUS_DONE));
 
-    if (done || (TICKS_TO_MS(HAL_GetTick() - start) >= NESTS_DONE_MS))
+    if (done || (TICKS_TO_MS(HAL_GetTick() - start) + NESTS_POLL_MS + NESTS_READ_MS > NESTS_DONE_MS))
       break;
 
     HAL_Delay(NESTS_POLL_MS);
