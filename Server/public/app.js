@@ -5,6 +5,18 @@ const DOOR_LABELS = {
   unknown: { text: 'Neznámý', note: '⚠ koncový spínač nehlásí polohu', tone: 'is-warning' }
 };
 
+const NEST_LABELS = {
+  broody: { note: '⚠ sedí kvočna', tone: 'is-warning' },
+  uncalibrated: { note: '⚠ váha není zkalibrovaná', tone: 'is-warning' },
+  fault: { note: '⚠ porucha váhy', tone: 'is-critical' },
+  offline: { note: '⚠ hnízdo neodpovídá', tone: 'is-warning' }
+};
+
+const NEST_COMMAND_LABELS = {
+  tare: 'vynulovat váhu',
+  calibrate: 'zkalibrovat váhu'
+};
+
 const COMMAND_LABELS = {
   systemOn: 'zapnout automatiku',
   systemOff: 'vypnout automatiku',
@@ -37,6 +49,7 @@ const MAX_JOIN_BUCKETS = 2.5;
 const NOON_HOUR = 12;
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
+const WEEK_MS = 7 * DAY_MS;
 
 let chart = null;
 let hours = 24;
@@ -45,6 +58,10 @@ let odchazim = false;
 let socket = null;
 let chartWindow = null;
 let chartBucket = 0;
+let eggChart = null;
+let eggPoints = [];
+let eggBucket = 0;
+let nestCount = 0;
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -168,6 +185,7 @@ function renderStatus(status) {
   renderPending(status.pending);
   renderCount(status.readings ?? null);
   renderLatest(status.latest);
+  renderNests(status);
 
   if (status.dbOk === false) {
     showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error', 'data-toast', 'databaze');
@@ -176,8 +194,10 @@ function renderStatus(status) {
   }
 }
 
-function describe(commands) {
-  return (commands ?? []).map((name) => COMMAND_LABELS[name] ?? name).join(' + ');
+function describe(commands, nest) {
+  return (commands ?? []).map((name) => (name in NEST_COMMAND_LABELS
+    ? `${NEST_COMMAND_LABELS[name]} hnízda ${nest ?? '?'}`
+    : COMMAND_LABELS[name] ?? name)).join(' + ');
 }
 
 function pocet(n, jeden, dva, vice) {
@@ -190,11 +210,19 @@ function countCommands(n) {
   return pocet(n, 'příkaz', 'příkazy', 'příkazů');
 }
 
+function countEggs(n) {
+  return pocet(n, 'vejce', 'vejce', 'vajec');
+}
+
+function laidToday(n) {
+  return n > 0 ? `dnes +${countEggs(n)}` : 'dnes zatím nic';
+}
+
 function renderPending(pending) {
   const list = pending ?? [];
   el('queue-value').textContent = list.length === 0
     ? 'nic nečeká'
-    : list.map((entry) => describe(entry.commands)).join(' · ');
+    : list.map((entry) => describe(entry.commands, entry.nest)).join(' · ');
   el('queue').classList.toggle('is-waiting', list.length > 0);
 }
 
@@ -232,6 +260,188 @@ function renderLatest(uplink) {
   el('seen-note').textContent = uplink.radio?.rssi == null
     ? ago
     : `${ago} (${uplink.radio.rssi} dBm)`;
+}
+
+function buildNests(count, eggsMax) {
+  el('nests').innerHTML = Array.from({ length: count }, (_, i) => `
+    <div class="nest">
+      <span class="tile-label">Hnízdo ${i + 1}</span>
+      <span class="tile-value" id="nest-${i}-value">–</span>
+      <span class="tray" id="nest-${i}-tray" aria-hidden="true">${'<span class="egg"></span>'.repeat(eggsMax)}</span>
+      <span class="tile-note" id="nest-${i}-note"></span>
+    </div>`).join('');
+
+  el('nest-select').innerHTML = Array.from({ length: count }, (_, i) =>
+    `<option value="${i + 1}">Hnízdo ${i + 1}</option>`
+  ).join('');
+}
+
+function renderNests(status) {
+  const count = status.nestCount ?? 0;
+  const eggsMax = status.eggsMax ?? 10;
+  const snapshot = status.nests;
+
+  if (count !== nestCount) {
+    nestCount = count;
+    buildNests(count, eggsMax);
+  }
+
+  const today = Boolean(snapshot) && new Date(snapshot.checkedAt).toDateString() === new Date().toDateString();
+
+  if (!snapshot) {
+    el('nests-sub').textContent = 'zatím žádná kontrola';
+  } else if (today) {
+    el('nests-sub').textContent = `poslední kontrola ${formatTime(snapshot.checkedAt, 'time')} · ${laidToday(snapshot.laidToday)}`;
+  } else {
+    el('nests-sub').textContent = `poslední kontrola ${formatTime(snapshot.checkedAt, 'datetime')}`;
+  }
+
+  for (let i = 0; i < count; i++) {
+    const nest = snapshot?.nests?.[i] ?? { state: null, eggs: null, laidToday: 0 };
+    const known = nest.eggs !== null && nest.state !== 'uncalibrated';
+    const full = nest.state === 'ok' && nest.eggs >= eggsMax;
+    const label = NEST_LABELS[nest.state];
+
+    el(`nest-${i}-value`).textContent = known ? countEggs(nest.eggs) : '–';
+
+    el(`nest-${i}-tray`).classList.toggle('is-stale', nest.state !== 'ok');
+    el(`nest-${i}-tray`).querySelectorAll('.egg').forEach((egg, slot) => {
+      egg.classList.toggle('is-laid', known && slot < nest.eggs);
+    });
+
+    let note = nest.state === 'ok' && today ? laidToday(nest.laidToday) : '';
+    let tone = '';
+    if (full) { note = '⚠ košík je plný'; tone = 'is-warning'; }
+    if (label) { note = label.note; tone = label.tone; }
+
+    el(`nest-${i}-note`).textContent = note;
+    el(`nest-${i}-note`).className = `tile-note ${tone}`;
+  }
+}
+
+function eggLabel(iso, long) {
+  const d = new Date(iso);
+  const date = (options) => d.toLocaleDateString('cs-CZ', options);
+
+  if (eggBucket < DAY_MS) {
+    const time = d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+    return long ? `${date({ day: 'numeric', month: 'numeric' })} ${time}` : time;
+  }
+  if (eggBucket < WEEK_MS) {
+    return long
+      ? date({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })
+      : date({ day: 'numeric', month: 'numeric' });
+  }
+  const from = date({ day: 'numeric', month: 'numeric', year: 'numeric' });
+  return long ? `týden od ${from}` : from;
+}
+
+function eggStep() {
+  if (eggBucket < DAY_MS) return 'po hodinách';
+  return eggBucket < WEEK_MS ? 'po dnech' : 'po týdnech';
+}
+
+function formatEggs(n) {
+  return n === null || n === undefined ? '–' : String(n);
+}
+
+function renderEggTable() {
+  const nests = eggPoints[0]?.laid.length ?? 0;
+  el('eggs-table').querySelector('thead').innerHTML = `<tr><th scope="col">Čas</th><th scope="col">Celkem</th>${
+    Array.from({ length: nests }, (_, i) => `<th scope="col">Hnízdo ${i + 1}</th>`).join('')
+  }</tr>`;
+  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.slice().reverse().map((p) =>
+    `<tr><td>${eggLabel(p.time, true)}</td><td>${formatEggs(p.total)}</td>${
+      p.laid.map((n) => `<td>${formatEggs(n)}</td>`).join('')
+    }</tr>`
+  ).join('');
+}
+
+function renderEggChart() {
+  const empty = eggPoints.every((p) => p.total === null);
+  const tableShown = !el('eggs-table-wrap').hidden;
+  el('eggs-empty').hidden = !empty;
+  el('eggs-plot-wrap').hidden = empty || tableShown;
+
+  if (empty) {
+    if (eggChart) { eggChart.destroy(); eggChart = null; }
+    return;
+  }
+
+  const labels = eggPoints.map((p) => eggLabel(p.time, false));
+  const data = eggPoints.map((p) => p.total);
+
+  if (eggChart) {
+    eggChart.data.labels = labels;
+    eggChart.data.datasets[0].data = data;
+    eggChart.data.datasets[0].backgroundColor = css('--series-4');
+    eggChart.options.scales.x.ticks.color = css('--text-muted');
+    eggChart.options.scales.y.ticks.color = css('--text-muted');
+    eggChart.options.scales.y.grid.color = css('--grid');
+    eggChart.options.scales.x.border.color = css('--axis');
+    eggChart.options.scales.y.border.color = css('--axis');
+    eggChart.options.scales.y.grid.tickColor = css('--text-muted');
+    eggChart.update();
+    return;
+  }
+
+  eggChart = new Chart(el('eggs-chart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Snesená vejce',
+        data,
+        backgroundColor: css('--series-4'),
+        borderRadius: 4,
+        borderSkipped: 'start',
+        maxBarThickness: 24,
+        categoryPercentage: 0.8,
+        barPercentage: 0.9
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          callbacks: {
+            title: (items) => eggLabel(eggPoints[items[0].dataIndex].time, true),
+            label: (ctx) => {
+              const p = eggPoints[ctx.dataIndex];
+              if (p.total === null) return 'bez dat';
+              return [
+                `Celkem: ${countEggs(p.total)}`,
+                ...p.laid.map((n, i) => `Hnízdo ${i + 1}: ${formatEggs(n)}`)
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { color: css('--axis') },
+          ticks: { color: css('--text-muted'), maxRotation: 0, autoSkipPadding: 12 }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted')
+          },
+          border: { color: css('--axis') },
+          ticks: { color: css('--text-muted'), precision: 0 }
+        }
+      }
+    }
+  });
 }
 
 function renderLegend() {
@@ -422,6 +632,27 @@ async function loadHistory() {
   renderTable();
 }
 
+async function loadEggs() {
+  el('eggs-sub').textContent = 'načítám…';
+  try {
+    const res = await request(`/api/eggs?hours=${hours}`);
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+    eggPoints = body.points;
+    eggBucket = body.bucketMs;
+    const total = eggPoints.reduce((sum, p) => sum + (p.total ?? 0), 0);
+    el('eggs-sub').textContent = `snesená vejce ${eggStep()} · celkem ${countEggs(total)}`;
+    hideToast('eggs-toast', 'snaska');
+  } catch (err) {
+    eggPoints = [];
+    el('eggs-sub').textContent = 'historii snášky se nepodařilo načíst';
+    showToast(`Historii snášky se nepodařilo načíst: ${reason(err)}`, 'is-error', 'eggs-toast', 'snaska');
+  }
+  renderEggChart();
+  renderEggTable();
+}
+
 async function loadStatus() {
   try {
     const res = await request('/api/status');
@@ -441,8 +672,12 @@ function connectSocket() {
   socket.addEventListener('message', (event) => {
     const { type, data } = JSON.parse(event.data);
     if (type === 'status') renderStatus(data);
-    if (type === 'uplink') { renderLatest(data); loadHistory(); }
-    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
+    if (type === 'uplink') {
+      renderLatest(data);
+      loadHistory();
+      if (data.reading?.nests) loadEggs();
+    }
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands, data.nest)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
     if (type === 'cancelled') {
       showToast(data.cleared > 0 ? `Zrušeno: ${countCommands(data.cleared)}` : 'Fronta je prázdná', 'is-ok');
@@ -452,10 +687,11 @@ function connectSocket() {
         ? `Historie smazána: ${pocet(data.removed, 'záznam', 'záznamy', 'záznamů')}`
         : 'Nebylo co mazat', 'is-ok', 'data-toast');
       loadHistory();
+      loadEggs();
     }
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
-      showToast(data.commands ? `${info.text}: ${describe(data.commands)}` : info.text, info.tone);
+      showToast(data.commands ? `${info.text}: ${describe(data.commands, data.nest)}` : info.text, info.tone);
     }
   });
 
@@ -477,6 +713,7 @@ window.addEventListener('pageshow', (event) => {
   connectSocket();
   loadStatus();
   loadHistory();
+  loadEggs();
 });
 
 el('theme').addEventListener('click', () => {
@@ -485,6 +722,7 @@ el('theme').addEventListener('click', () => {
   try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch { void 0; }
   renderLegend();
   renderChart();
+  renderEggChart();
 });
 
 function renderCount(stored) {
@@ -545,6 +783,15 @@ el('logout').addEventListener('click', async () => {
   location.replace('/login.html');
 });
 
+el('toggle-eggs-table').addEventListener('click', (e) => {
+  const showTable = el('eggs-table-wrap').hidden;
+  const empty = eggPoints.every((p) => p.total === null);
+  el('eggs-table-wrap').hidden = !showTable;
+  el('eggs-plot-wrap').hidden = showTable || empty;
+  e.currentTarget.setAttribute('aria-pressed', String(showTable));
+  e.currentTarget.textContent = showTable ? 'Graf' : 'Tabulka';
+});
+
 el('toggle-table').addEventListener('click', (e) => {
   const showTable = el('table-wrap').hidden;
   el('table-wrap').hidden = !showTable;
@@ -564,27 +811,37 @@ document.querySelectorAll('.filterbar button').forEach((button) => {
     button.setAttribute('aria-pressed', 'true');
     hours = button.dataset.hours === 'all' ? 'all' : Number(button.dataset.hours);
     loadHistory();
+    loadEggs();
   });
 });
 
-document.querySelectorAll('.commands button').forEach((button) => {
-  button.addEventListener('click', async () => {
-    button.disabled = true;
-    try {
-      const res = await request('/api/command', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commands: [button.dataset.command] })
-      });
-      if (!requireSession(res)) return;
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error ?? res.statusText);
-    } catch (err) {
-      showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
-    } finally {
-      button.disabled = false;
-    }
-  });
+async function sendCommand(button, command) {
+  button.disabled = true;
+  try {
+    const res = await request('/api/command', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(command)
+    });
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+  } catch (err) {
+    showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
+  } finally {
+    button.disabled = false;
+  }
+}
+
+document.querySelectorAll('.commands button[data-command]').forEach((button) => {
+  button.addEventListener('click', () => sendCommand(button, { commands: [button.dataset.command] }));
+});
+
+document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
+  button.addEventListener('click', () => sendCommand(button, {
+    commands: [button.dataset.nestCommand],
+    nest: Number(el('nest-select').value)
+  }));
 });
 
 try {
@@ -595,5 +852,6 @@ try {
 renderLegend();
 loadStatus();
 loadHistory();
+loadEggs();
 connectSocket();
 setInterval(loadStatus, 60000);

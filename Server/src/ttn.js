@@ -84,7 +84,7 @@ export class TtnBridge extends EventEmitter {
       const done = this.pending[index];
 
       if (done) this.#setPending(this.pending.filter((_, position) => position !== index));
-      this.emit('downlink', { event, commands: done?.commands ?? null });
+      this.emit('downlink', { event, commands: done?.commands ?? null, nest: done?.nest ?? null });
       return;
     }
 
@@ -93,7 +93,7 @@ export class TtnBridge extends EventEmitter {
 
     let reading;
     try {
-      reading = decodeUplink(new Uint8Array(Buffer.from(uplink.frm_payload, 'base64')));
+      reading = decodeUplink(new Uint8Array(Buffer.from(uplink.frm_payload, 'base64')), config.nestCount);
     } catch (err) {
       this.emit('error', err);
       return;
@@ -116,8 +116,8 @@ export class TtnBridge extends EventEmitter {
     });
   }
 
-  sendCommand(names) {
-    const payload = encodeDownlink(names);
+  sendCommand(names, nest) {
+    const payload = encodeDownlink(names, nest, config.nestCount);
 
     if (!this.connected) throw new Error('server není spojený s The Things Network');
 
@@ -126,6 +126,7 @@ export class TtnBridge extends EventEmitter {
       id,
       correlationId: `${CORRELATION_PREFIX}:${id}`,
       commands: names,
+      nest: payload.length > 1 ? nest : null,
       byte: payload[0],
       queuedAt: new Date().toISOString()
     };

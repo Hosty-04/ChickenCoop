@@ -11,7 +11,14 @@ const BATTERY_STEP_MV = 50;
 const BATTERY_CODE_MAX = 60;
 const BATTERY_CODE_NODATA = 63;
 
+export const EGGS_MAX = 10;
+const NEST_CODE_BROODY = 11;
+const NEST_CODE_UNCALIBRATED = 12;
+const NEST_CODE_FAULT = 14;
+const NEST_CODE_NODATA = 15;
+
 export const DOOR_STATES = ['closed', 'open', 'fault', 'unknown'];
+export const NEST_STATES = ['ok', 'broody', 'uncalibrated', 'fault', 'offline'];
 
 export const COMMANDS = {
   systemOn: 0x01,
@@ -22,13 +29,33 @@ export const COMMANDS = {
   unblock: 0x20
 };
 
+export const NEST_COMMANDS = {
+  tare: 0x10,
+  calibrate: 0x20
+};
+
 const EXCLUSIVE_PAIRS = [
   ['systemOn', 'systemOff'],
   ['doorOpen', 'doorClose'],
-  ['block', 'unblock']
+  ['block', 'unblock'],
+  ['tare', 'calibrate']
 ];
 
-export function decodeUplink(bytes) {
+function decodeNest(code) {
+  if (code <= EGGS_MAX) return { eggs: code, state: 'ok' };
+  if (code === NEST_CODE_BROODY) return { eggs: null, state: 'broody' };
+  if (code === NEST_CODE_UNCALIBRATED) return { eggs: null, state: 'uncalibrated' };
+  if (code === NEST_CODE_FAULT) return { eggs: null, state: 'fault' };
+  return { eggs: null, state: 'offline' };
+}
+
+function nestCode(bytes, index) {
+  const byte = bytes[STATUS_LENGTH + (index >> 1)];
+  if (byte === undefined) return NEST_CODE_NODATA;
+  return index % 2 === 0 ? byte >> 4 : byte & 0x0f;
+}
+
+export function decodeUplink(bytes, nestCount) {
   if (!(bytes instanceof Uint8Array) || bytes.length < STATUS_LENGTH) {
     throw new Error(`payload must be at least ${STATUS_LENGTH} bytes, got ${bytes?.length ?? 0}`);
   }
@@ -45,16 +72,19 @@ export function decodeUplink(bytes) {
       : BATTERY_OFFSET_MV + batteryCode * BATTERY_STEP_MV,
     batterySaturated: batteryCode === BATTERY_CODE_MAX,
     batteryCritical: (bytes[0] & 0x01) === 0x01,
-    door: DOOR_STATES[doorCode]
+    door: DOOR_STATES[doorCode],
+    nests: bytes.length > STATUS_LENGTH
+      ? Array.from({ length: nestCount }, (_, index) => decodeNest(nestCode(bytes, index)))
+      : null
   };
 }
 
-export function encodeDownlink(names) {
+export function encodeDownlink(names, nest, nestCount) {
   if (!Array.isArray(names) || names.length === 0) {
     throw new Error('je potřeba alespoň jeden příkaz');
   }
 
-  const unknown = names.filter((name) => !(name in COMMANDS));
+  const unknown = names.filter((name) => !(name in COMMANDS) && !(name in NEST_COMMANDS));
   if (unknown.length > 0) {
     throw new Error(`neznámý příkaz: ${unknown.join(', ')}`);
   }
@@ -65,7 +95,14 @@ export function encodeDownlink(names) {
     }
   }
 
-  const byte = names.reduce((acc, name) => acc | COMMANDS[name], 0);
+  const byte = names.reduce((acc, name) => acc | (COMMANDS[name] ?? 0), 0);
+  const nestByte = names.reduce((acc, name) => acc | (NEST_COMMANDS[name] ?? 0), 0);
 
-  return Uint8Array.of(byte);
+  if (nestByte === 0) return Uint8Array.of(byte);
+
+  if (!Number.isInteger(nest) || nest < 1 || nest > nestCount) {
+    throw new Error(`hnízdo musí být číslo od 1 do ${nestCount}`);
+  }
+
+  return Uint8Array.of(byte, nestByte | nest);
 }

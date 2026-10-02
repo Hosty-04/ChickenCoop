@@ -10,6 +10,7 @@
   --border: rgba(11, 11, 11, 0.10);
   --series-1: #2a78d6;
   --series-2: #eb6834;
+  --series-4: #eda100;
   --good: #0ca30c;
   --serious: #ec835a;
   --warning: #b05600;
@@ -29,6 +30,7 @@
     --border: rgba(255, 255, 255, 0.10);
     --series-1: #3987e5;
     --series-2: #d95926;
+    --series-4: #c98500;
     --warning: #ec835a;
   }
 }
@@ -45,6 +47,7 @@
   --border: rgba(255, 255, 255, 0.10);
   --series-1: #3987e5;
   --series-2: #d95926;
+  --series-4: #c98500;
   --warning: #ec835a;
 }
 
@@ -167,6 +170,37 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .card-sub { margin: 3px 0 0; font-size: 13px; color: var(--text-muted); }
 
+.nests {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+.nest {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--page);
+}
+.nest .tile-value { font-size: 26px; }
+.tray {
+  display: grid;
+  grid-template-columns: repeat(5, 16px);
+  gap: 6px;
+  margin: 6px 0 4px;
+}
+.tray.is-stale { opacity: 0.45; }
+.egg {
+  width: 16px;
+  height: 20px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: color-mix(in oklab, var(--series-4) 18%, var(--page));
+}
+.egg.is-laid { background: var(--series-4); }
+
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); }
 .legend[hidden] { display: none; }
 .legend-item { display: inline-flex; align-items: center; gap: 7px; }
@@ -233,6 +267,19 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   font-size: 13px;
   color: var(--text-secondary);
 }
+.command-select {
+  grid-column: 1 / -1;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  min-height: 40px;
+}
+.command-select:hover { border-color: var(--axis); }
+.command-select:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
 
 dialog[open] {
   border: 1px solid var(--border);
