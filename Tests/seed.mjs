@@ -8,8 +8,6 @@ const MIN = 60 * 1000;
 const HOD = 60 * MIN;
 const DEN = 24 * HOD;
 const KROK = 10 * MIN;
-const HNIZDA = 2;
-const PODIL = [0.6, 0.4];
 const PLNY = 10;
 const SBER = 17;
 
@@ -18,13 +16,17 @@ const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
   plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
-  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka' },
-  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše' },
-  meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu' },
+  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá' },
+  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
+  meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
+  instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
+  patnact: { soubor: 'kurnik-test-15.db', popis: 'patnáct hnízd, poslední kontrola se všemi stavy', hnizd: 15 },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
 };
+
+const STAV = { ok: 0, kvocna: 1, nekalibrovano: 2, porucha: 3, offline: 4 };
 
 let seminko = 20260101;
 
@@ -96,6 +98,17 @@ function snaska(t) {
   return (denne * Math.exp(-((hodina(t) - 10) ** 2) / 4)) / 3.545;
 }
 
+function podily(hnizd) {
+  const vahy = Array.from({ length: hnizd }, (_, i) => 1 - i / (hnizd + 1));
+  const soucet = vahy.reduce((a, b) => a + b, 0);
+  return vahy.map((v) => v / soucet);
+}
+
+function stavHnizda(h, i) {
+  const stav = typeof h?.stavy === 'string' ? h.stavy : h?.stavy?.[i];
+  return STAV[stav ?? 'ok'];
+}
+
 function bezSberu(t) {
   const x = Math.sin(Math.floor(t / DEN) * 78.233) * 12345.6789;
   return x - Math.floor(x) < 0.15;
@@ -128,19 +141,45 @@ function kratkeUdalosti() {
 
 function kratkaHnizda() {
   return [
-    { jmeno: 'kvočna v hnízdě 2 (4 h)', typ: 'kvocna', od: ted - 9 * HOD, do: ted - 5 * HOD, kde: '24 h' },
-    { jmeno: 'tři dny bez sběru, plný košík', typ: 'bezSberu', od: ted - 6 * DEN, do: ted - 3 * DEN, kde: '7 dní' },
-    { jmeno: 'hnízda neodpovídají (6 h)', typ: 'hnizdaOffline', od: ted - 4 * DEN - 6 * HOD, do: ted - 4 * DEN, kde: '7 dní' }
+    { jmeno: 'kvočna v hnízdě 2 (4 h)', stavy: ['ok', 'kvocna'], od: ted - 9 * HOD, do: ted - 5 * HOD, kde: '24 h' },
+    { jmeno: 'tři dny bez sběru, plný košík', typ: 'bezSberu', plne: [0], od: ted - 6 * DEN, do: ted - 3 * DEN, kde: '7 dní' },
+    { jmeno: 'hnízda neodpovídají (6 h)', stavy: 'offline', od: ted - 4 * DEN - 6 * HOD, do: ted - 4 * DEN, kde: '7 dní' }
   ];
 }
 
 function dlouhaHnizda(zacatek) {
   return [
     ...kratkaHnizda(),
-    { jmeno: 'kvočna v hnízdě 2 (3 dny)', typ: 'kvocna', od: ted - 20 * DEN, do: ted - 17 * DEN, kde: '30 dní' },
-    { jmeno: 'porucha váhy v hnízdě 1 (1 den)', typ: 'poruchaVahy', od: ted - 40 * DEN, do: ted - 39 * DEN, kde: '1 rok' },
-    { jmeno: 'váha po instalaci nezkalibrovaná', typ: 'nekalibrovano', od: zacatek, do: zacatek + 5 * HOD, kde: 'vše' }
+    { jmeno: 'kvočna v hnízdě 2 (3 dny)', stavy: ['ok', 'kvocna'], od: ted - 20 * DEN, do: ted - 17 * DEN, kde: '30 dní' },
+    { jmeno: 'porucha váhy v hnízdě 1 (1 den)', stavy: ['porucha'], od: ted - 40 * DEN, do: ted - 39 * DEN, kde: '1 rok' },
+    { jmeno: 'váha po instalaci nezkalibrovaná', stavy: 'nekalibrovano', od: zacatek, do: zacatek + 5 * HOD, kde: 'vše' }
   ];
+}
+
+function instalaceHnizd(zacatek, konec) {
+  let vynulovani = zacatek + 2 * HOD;
+  if (new Date(vynulovani).getMinutes() === 0) vynulovani += KROK;
+  const kalibrace = vynulovani + 2 * KROK;
+
+  return [
+    { jmeno: 'váhy nezkalibrované od instalace', stavy: 'nekalibrovano', od: zacatek, do: vynulovani, kde: 'dlaždice, Snáška' },
+    { jmeno: 'hnízdo 1 vynulované (zpráva mimo celou hodinu)', stavy: 'nekalibrovano', zprava: true, od: vynulovani, do: kalibrace, kde: 'Snáška' },
+    { jmeno: 'hnízdo 1 zkalibrované (zpráva mimo celou hodinu)', stavy: ['ok', 'nekalibrovano'], zprava: true, od: kalibrace, do: konec + KROK, kde: 'dlaždice, Snáška' }
+  ];
+}
+
+function plneKosiky(hnizda, konec) {
+  return { jmeno: 'košíky se plní, nesbírá se', plne: hnizda, od: ted - 3 * DEN, do: konec + KROK, kde: 'dlaždice, 7 dní' };
+}
+
+function vsechnyStavy(konec) {
+  return [{
+    jmeno: 'všechny stavy hnízd naráz',
+    stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'ok', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
+    od: ted - 3 * HOD,
+    do: konec + KROK,
+    kde: 'dlaždice'
+  }, plneKosiky([5], konec)];
 }
 
 function dlouheUdalosti() {
@@ -170,7 +209,7 @@ function nastaveni(stav) {
       zacatek: tyden,
       konec,
       udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka'), ...kratkeUdalosti()],
-      hnizda: [{ jmeno: 'hnízda neodpovídají', typ: 'hnizdaOffline', od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
+      hnizda: [{ jmeno: 'kvočna v hnízdě 1, hnízdo 2 neodpovídá', stavy: ['kvocna', 'offline'], od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
     };
   }
   if (stav === 'porucha') {
@@ -178,7 +217,7 @@ function nastaveni(stav) {
       zacatek: tyden,
       konec,
       udalosti: [chvost('porucha', 'kriticky vybitá baterie, dvířka v poruše'), ...kratkeUdalosti()],
-      hnizda: [{ jmeno: 'porucha váhy v hnízdě 1, kvočna v hnízdě 2', typ: 'poruchaHnizd', od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
+      hnizda: [{ jmeno: 'porucha váhy v hnízdě 1', stavy: ['porucha'], od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
     };
   }
   if (stav === 'meze') {
@@ -186,8 +225,15 @@ function nastaveni(stav) {
       zacatek: tyden,
       konec,
       udalosti: [chvost('nasyceno', 'baterie 8,00 V a panel 12,50 V'), ...kratkeUdalosti()],
-      hnizda: [{ jmeno: 'obě hnízda plná', typ: 'plne', od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
+      hnizda: [plneKosiky([0, 1], konec), ...kratkaHnizda()]
     };
+  }
+  if (stav === 'instalace') {
+    const zacatek = ted - 20 * HOD;
+    return { zacatek, konec, udalosti: [], hnizda: instalaceHnizd(zacatek, konec) };
+  }
+  if (stav === 'patnact') {
+    return { zacatek: tyden, konec, udalosti: kratkeUdalosti(), hnizda: [...vsechnyStavy(konec), ...kratkaHnizda()] };
   }
   if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [], hnizda: [] };
   if (stav === 'jedno') return { zacatek: ted, konec: ted, udalosti: [], hnizda: [] };
@@ -195,7 +241,8 @@ function nastaveni(stav) {
 }
 
 function vytvor(stav) {
-  const { soubor, popis } = DATABAZE[stav];
+  const { soubor, popis, hnizd = 2 } = DATABAZE[stav];
+  const podil = podily(hnizd);
   const cesta = join(SLOZKA, soubor);
   const { zacatek, konec, udalosti, hnizda } = nastaveni(stav);
 
@@ -245,7 +292,7 @@ function vytvor(stav) {
   let zapsano = 0;
   let kontrol = 0;
   let drift = 0;
-  const kosik = Array(HNIZDA).fill(0);
+  const kosik = Array(hnizd).fill(0);
 
   db.exec('BEGIN');
   for (let t = zacatek; t <= konec; t += KROK) {
@@ -297,27 +344,29 @@ function vytvor(stav) {
     zapsano++;
 
     if (u?.typ === 'kriticka' || u?.typ === 'porucha') continue;
-    if (stav !== 'jedno' && new Date(t).getMinutes() !== 0) continue;
 
-    const h = hnizda.find((e) => t >= e.od && t < e.do);
-    const plne = h?.typ === 'plne';
+    const aktivni = hnizda.filter((e) => t >= e.od && t < e.do);
+    const h = aktivni.find((e) => e.stavy);
+    const plne = aktivni.find((e) => e.plne)?.plne ?? [];
+    const povel = aktivni.some((e) => e.zprava && t === e.od);
+    if (!povel && stav !== 'jedno' && new Date(t).getMinutes() !== 0) continue;
 
-    for (let i = 0; i < HNIZDA; i++) {
-      let stavHnizda = 0;
-      if (h?.typ === 'nekalibrovano') stavHnizda = 2;
-      if (h?.typ === 'hnizdaOffline') stavHnizda = 4;
-      if (h?.typ === 'kvocna' && i === 1) stavHnizda = 1;
-      if (h?.typ === 'poruchaVahy' && i === 0) stavHnizda = 3;
-      if (h?.typ === 'poruchaHnizd') stavHnizda = i === 0 ? 3 : 1;
+    for (let i = 0; i < hnizd; i++) {
+      const kod = stavHnizda(h, i);
+      const vazi = kod !== STAV.kvocna && kod !== STAV.nekalibrovano;
+      const snese = plne.includes(i)
+        ? hodina(t) >= 8 && hodina(t) <= 12
+        : nahoda() < snaska(t) * (hnizd / 2) * podil[i];
 
-      if (stavHnizda !== 1 && nahoda() < snaska(t) * PODIL[i]) kosik[i] = Math.min(PLNY, kosik[i] + 1);
-      if (plne) kosik[i] = PLNY;
+      if (vazi && !povel && snese) kosik[i] = Math.min(PLNY, kosik[i] + 1);
 
-      vlozHnizdo.run(DEVICE, t, i + 1, stavHnizda === 0 ? kosik[i] : null, stavHnizda);
+      vlozHnizdo.run(DEVICE, t, i + 1, kod === STAV.ok ? kosik[i] : null, kod);
     }
     kontrol++;
 
-    if (hodina(t) === SBER && !plne && h?.typ !== 'bezSberu' && !bezSberu(t)) kosik.fill(0);
+    if (hodina(t) === SBER && !aktivni.some((e) => e.typ === 'bezSberu') && !bezSberu(t)) {
+      for (let i = 0; i < hnizd; i++) if (!plne.includes(i)) kosik[i] = 0;
+    }
   }
   db.exec('COMMIT');
   db.close();

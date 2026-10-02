@@ -10,6 +10,8 @@ nastane doopravdy.
 - **`TTN_DEVICE_ID=lora-e5-mini`** v `.env`, protože pod tímhle zařízením jsou měření
   uložená. S jiným názvem zůstane nástěnka prázdná.
 - **Dvě hnízda**, tedy `NEST_COUNT=2` nebo žádný řádek `NEST_COUNT` — data jsou pro dvě.
+  Výjimkou je `kurnik-test-15.db`, ta potřebuje `NEST_COUNT=15`. S jiným počtem se nic
+  nerozbije: přebývající hnízda ukazují pomlčku bez poznámky, chybějící se nezobrazí.
 - **Node.js 22** jen tehdy, když budete data přegenerovávat.
 
 ## Jak databázi nasadit
@@ -68,23 +70,34 @@ v `Server/README.md`.
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
 | `kurnik-test.db` | běžný stav | dva roky měření, všechny události v grafech |
-| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, hnízda neodpovídají | pět oranžových hlášek naráz |
-| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1, kvočna v hnízdě 2 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; oranžová „⚠ sedí kvočna" |
+| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá | pět oranžových hlášek naráz; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
+| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
+| `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
+| `kurnik-test-15.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
-Krátké databáze mají týden historie a kolem 120 kB, `kurnik-test.db` dva roky a 8,7 MB.
+Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-15.db` 200 kB),
+`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má dva roky a 8,7 MB.
 
-U `kurnik-test-porucha.db` je stav hnízd z kontroly před dvěma hodinami: s kriticky
+U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím baterie: s kriticky
 vybitou baterií kurník hnízda nekontroluje, takže karta Hnízda zůstane u poslední kontroly.
+
+V `kurnik-test-instalace.db` jsou obě váhy od instalace nezkalibrované. Za dvě hodiny se
+hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva o hnízdech
+mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkalibrované.
+
+V `kurnik-test-15.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
+nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
+ostatní počítají normálně.
 
 ## Co je v grafech
 
 Platí pro `kurnik-test.db`; krátké databáze mají z tohohle seznamu první dva řádky.
 
-| Rozsah | Události |
+| Rozsah | Události v Napájení |
 |---|---|
 | 6 h, 24 h | tři zprávy bez hodnot (v tabulce pomlčky), výpadek 40 minut, dvě hodiny s baterií na 8,00 V a panelem na 12,50 V |
 | 7 dní | výpadek 6 hodin, 8 hodin kriticky vybitá baterie, den s odpojeným panelem |
@@ -96,7 +109,7 @@ Hnízda se kontrolují každou celou hodinu. Slepice snáší hlavně dopoledne,
 v zimě, a do prvního hnízda chodí raději než do druhého; vejce se sbírají v 17 hodin, jen
 některé dny se na to zapomene. Během kriticky vybité baterie se hnízda nekontrolují vůbec.
 
-| Rozsah | Události v hnízdech |
+| Rozsah | Události v hnízdech (karta Hnízda a Snáška) |
 |---|---|
 | 24 h | 4 hodiny kvočna v hnízdě 2 (v tabulce Snášky pomlčky ve sloupci Hnízdo 2) |
 | 7 dní | 6 hodin hnízda neodpovídají, tři dny bez sběru — první hnízdo se zaplní |
@@ -120,7 +133,7 @@ node Tests/seed.mjs plny poplach
 ```
 
 První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`,
-`poplach`, `porucha`, `meze`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
+`poplach`, `porucha`, `meze`, `instalace`, `patnact`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
 vypíše seznam událostí i s časy, takže je jasné, kam se v grafu dívat.
 
 Hodnoty sedí na mřížce protokolu — baterie po 50 mV v rozsahu 5–8 V, panel po 100 mV do
