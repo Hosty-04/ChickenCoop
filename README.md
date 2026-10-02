@@ -133,15 +133,15 @@ kde:
 - $t_{a,v}$ ... doba převodu jednoho vzorku napětí na akumulátoru
 - $n_{a,v}$ ... počet vzorků napětí na akumulátoru
 
-### Pohyb dvířek (32–215 s)
+### Pohyb dvířek (32–144 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Motor | 100 mA | 250 mA | 0,889 mAh | 14,9 mAh |
-| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 35,8 µAh |
-| INA226 | 330 µA | 420 µA | 2,93 µAh | 25,1 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,17 µAh |
-| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **15 mAh** |
+| Motor | 100 mA | 250 mA | 0,889 mAh | 10 mAh |
+| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 24 µAh |
+| INA226 | 330 µA | 420 µA | 2,93 µAh | 16,8 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 15,6 µAh |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **10,1 mAh** |
 
 ---
 
@@ -162,7 +162,7 @@ t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{m
 $$
 
 $$
-t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 3 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
+t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}
 $$
 
 kde:
@@ -203,10 +203,6 @@ t_{min} = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{m
 $$
 
 $$
-t_r = 2 \cdot h \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
-$$
-
-$$
 t_{max} = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{8,53\ \text{min}}
 $$
 
@@ -224,7 +220,6 @@ $$
 
 kde:
 - $t_{max}$ ... maximální doba každohodinové kontroly h hnízd
-- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů
 - $t_{min}$ ... minimální doba každohodinové kontroly h hnízd
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
@@ -278,7 +273,7 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
 | Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,7 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 15 mAh | 85,8 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 10,1 mAh | 85,8 % |
 | Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,7 % |
 | Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,8 % |
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
@@ -380,7 +375,11 @@ Hlavní mikrořadič se společně s nezbytnými částmi systému probouzí rá
 
 LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jeho vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání má možnost přijímat data, což umožňuje manuální ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A — primární příjmové okno RX1 a záložní okno RX2. V domě je umístěna LoRaWAN gateway (zapůjčená ze školy), plnící funkci internetové brány. Veškerá přijatá data jsou odesílána do cloudu (TTN) a odtud přes MQTT na backend server (Node.js), který je ukládá do databáze (SQLite) a zobrazuje na dashboardu. Při odesílání dat do kurníku probíhá proces obráceně. Server běží na Raspberry Pi 3 Model B+. Více informací je k dispozici <a href="./Server/README.md">zde</a>.
 
-Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech; hodnota 0–10 udává počet vajec, 11 kvočnu, 12 nezkalibrovanou váhu, 14 poruchu váhy a 15 hnízdo, které neodpovídá. Po kontrole stavu hnízd a po vynulování nebo kalibraci váhy se odešlou všechny bajty, kdykoliv jindy pouze první dva. Příjem dat (manuální ovládání) následuje vždy po skončení vysílání, tedy maximálně co 10 minut, a využívá jediný bajt: bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny.
+Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech; hodnota 0–10 udává počet vajec, 11 kvočnu, 12 nezkalibrovanou váhu, 14 poruchu váhy a 15 hnízdo, které neodpovídá. Po kontrole stavu hnízd a po vynulování nebo kalibraci váhy se odešlou všechny bajty, kdykoliv jindy pouze první dva.
+
+Příjem dat (manuální ovládání) následuje vždy po skončení vysílání, tedy maximálně co 10 minut, a využívá jeden nebo více bajtů. V prvním bajtu bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Od druhého bajtu připadají na každé snáškové hnízdo dva bity, čtyři hnízda na bajt, hnízdo 1 v bitech 0 a 1: kombinace 01 váhu hnízda vynuluje a 10 ji zkalibruje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny. Zpráva smí mít nejvýše 1 + ⌈h/4⌉ bajtů, při pěti hnízdech tedy 3; delší zpráva se zahodí celá.
+
+Kalibrace tenzometrů probíhá vůči etalonu o hmotnosti 1 kg a oba její kroky se spouštějí z webové stránky právě tímto manuálním ovládáním. S prázdným hnízdem se nejprve vynulováním uloží referenční nulová hodnota, poté se s etalonem uprostřed hnízda kalibrací spočítá převodní konstanta (gramy na jeden dílek převodníku); obojí si hnízdový řadič uloží do paměti EEPROM. Vynulování i kalibrace proběhnou ihned po přijetí, a to jen u vybraných hnízd; ostatní hnízda se přitom neměří a po dokončení se odešlou všechny bajty, takže stránka hned ukáže výsledek.
 
 **Stavový automat pro algoritmus detekce snesených vajec**
 
@@ -399,9 +398,9 @@ Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bit
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
-Kalibrace tenzometru probíhá vůči etalonu o hmotnosti 1 kg. S prázdným hnízdem se nejprve uloží referenční nulová hodnota, poté se s etalonem v hnízdě spočítá převodní konstanta (gramy na jeden dílek převodníku); obojí si hnízdový řadič uloží do paměti EEPROM. Oba kroky se spouštějí z webové stránky.
+Hnízdové řadiče mají adresy 1 až N podle pořadí v řetězci a hlavní řadič je obsluhuje jeden po druhém. Nejprve funkcí 0x10 zapíše do registrů 0 a 1 příkaz a jeho parametr: 1 = změřit (parametrem je dnešní datum, aby hnízdový řadič kontroloval drift nanejvýš jednou denně), 2 = vynulovat, 3 = zkalibrovat (parametrem je hmotnost etalonu v gramech) a 4 = uvolnit sběrnici. Na odpověď čeká nejvýše 200 ms; nepřijde-li, zápis zopakuje, celkem nejvýše třikrát. Potom 3,7 s mlčí, aby hnízdový řadič mohl v klidu ustálit HX711 a odebrat 32 vzorků, a následně se ho každých 250 ms, nejdéle však 10 s, ptá na výsledek, což pokryje i kontrolu driftu. Funkcí 0x03 přitom čte registry 2 až 4: stav (0 = čeká, 1 = měří, 2 = hotovo), počet vajec a příznaky (bit 0 kvočna, bit 1 nezkalibrovaná váha, bit 2 porucha váhy). Obsluha jednoho hnízda tak trvá obvykle asi 4 s, nejdéle 15 s. Po příkazu „uvolnit“ vypne hnízdový řadič místní MAX3485 a HX711, připojí napájení další krabičky a přejde do režimu Stop bez RTC; po obsloužení všech hnízd odpojí hlavní řadič napájení celé větve. Neozve-li se některé hnízdo, nedostanou napájení ani hnízda za ním.
 
-Pro komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, je použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů není nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost je 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě slouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytváří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převádí jednotlivé bajty na sériový datový tok, doplňuje start a stop bity a zajišťuje jejich přenos po sběrnici; na straně přijímače probíhá opačný proces.
+Komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, zajišťuje protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů není nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost je 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě slouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytváří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převádí jednotlivé bajty na sériový datový tok, doplňuje start a stop bity a zajišťuje jejich přenos po sběrnici; na straně přijímače probíhá opačný proces.
 
 K solárnímu panelu je připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 330 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (330 kΩ) je zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie: interní vzorkovací kondenzátor uvnitř M se nabíjí přes vysokou výstupní impedanci děliče, a bez tohoto kondenzátoru by se proto nabíjel příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů hodin ADC (160,5). Dělič slouží k monitorování napětí panelu; napětí se do M přivádí přes ADC pin v analogovém režimu, pro zvýšení přesnosti se provádí kalibrace a výsledkem je aritmetický průměr 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý svodový proud do M zajišťují zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 je v krabičce K zapojen mezi akumulátor a vstup Vin pro napájení motoru přes H-bridge; jednou z jeho funkcí je s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
