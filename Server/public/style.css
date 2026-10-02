@@ -267,19 +267,23 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   font-size: 13px;
   color: var(--text-secondary);
 }
-.command-select {
-  grid-column: 1 / -1;
-  font: inherit;
+.nest-picks { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+.pick { position: relative; display: inline-flex; }
+.pick input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.pick span {
+  display: inline-flex;
+  align-items: center;
   font-size: 14px;
-  color: var(--text-primary);
-  background: var(--surface-1);
+  padding: 7px 12px;
+  min-height: 36px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 9px 12px;
-  min-height: 40px;
+  background: var(--surface-1);
 }
-.command-select:hover { border-color: var(--axis); }
-.command-select:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+.pick:hover span { border-color: var(--axis); }
+.pick input:checked + span { border-color: var(--series-1); color: var(--series-1); font-weight: 600; }
+.pick input:checked + span::before { content: "✓"; margin-right: 6px; }
+.pick input:focus-visible + span { outline: 2px solid var(--series-1); outline-offset: 2px; }
 
 dialog[open] {
   border: 1px solid var(--border);

@@ -30,9 +30,11 @@ export const COMMANDS = {
 };
 
 export const NEST_COMMANDS = {
-  tare: 0x10,
-  calibrate: 0x20
+  tare: 0x01,
+  calibrate: 0x02
 };
+
+const NESTS_PER_BYTE = 4;
 
 const EXCLUSIVE_PAIRS = [
   ['systemOn', 'systemOff'],
@@ -79,7 +81,7 @@ export function decodeUplink(bytes, nestCount) {
   };
 }
 
-export function encodeDownlink(names, nest, nestCount) {
+export function encodeDownlink(names, nests, nestCount) {
   if (!Array.isArray(names) || names.length === 0) {
     throw new Error('je potřeba alespoň jeden příkaz');
   }
@@ -96,13 +98,24 @@ export function encodeDownlink(names, nest, nestCount) {
   }
 
   const byte = names.reduce((acc, name) => acc | (COMMANDS[name] ?? 0), 0);
-  const nestByte = names.reduce((acc, name) => acc | (NEST_COMMANDS[name] ?? 0), 0);
+  const nestCommand = names.find((name) => name in NEST_COMMANDS);
 
-  if (nestByte === 0) return Uint8Array.of(byte);
+  if (!nestCommand) return Uint8Array.of(byte);
 
-  if (!Number.isInteger(nest) || nest < 1 || nest > nestCount) {
+  if (!Array.isArray(nests) || nests.length === 0) {
+    throw new Error('vyberte aspoň jedno hnízdo');
+  }
+
+  if (nests.some((nest) => !Number.isInteger(nest) || nest < 1 || nest > nestCount)) {
     throw new Error(`hnízdo musí být číslo od 1 do ${nestCount}`);
   }
 
-  return Uint8Array.of(byte, nestByte | nest);
+  const bytes = new Uint8Array(1 + Math.ceil(Math.max(...nests) / NESTS_PER_BYTE));
+  bytes[0] = byte;
+  for (const nest of nests) {
+    const index = nest - 1;
+    bytes[1 + Math.floor(index / NESTS_PER_BYTE)] |= NEST_COMMANDS[nestCommand] << (2 * (index % NESTS_PER_BYTE));
+  }
+
+  return bytes;
 }

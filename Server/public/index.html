@@ -145,10 +145,10 @@
         <button type="button" data-command="systemOff" class="danger">Vypnout</button>
       </div>
       <div class="command-group">
-        <label class="command-label" for="nest-select">Váha hnízda</label>
-        <select id="nest-select" class="command-select"></select>
-        <button type="button" data-nest-command="tare">Vynulovat</button>
-        <button type="button" data-nest-command="calibrate">Kalibrovat</button>
+        <span class="command-label" id="nest-picks-label">Váha hnízd</span>
+        <div class="nest-picks" id="nest-picks" role="group" aria-labelledby="nest-picks-label"></div>
+        <button type="button" data-nest-command="tare" disabled>Vynulovat</button>
+        <button type="button" data-nest-command="calibrate" disabled>Kalibrovat</button>
       </div>
     </div>
     <div class="queue" id="queue">
@@ -159,7 +159,7 @@
       <button type="button" id="cancel" class="danger">Zrušit</button>
     </div>
     <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
-    <p class="hint">Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda. Závaží nechte ležet, dokud kurník příkaz nepřijme a hnízda se znovu neozvou.</p>
+    <p class="hint">Vynulování i kalibrace proběhnou hned, jak kurník příkaz přijme, a jen u zaškrtnutých hnízd — ostatní se kvůli tomu neměří. Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda a sundejte ho, až se karta Hnízda obnoví.</p>
     <p class="toast" id="toast" hidden></p>
   </section>
 

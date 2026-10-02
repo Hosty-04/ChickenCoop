@@ -194,9 +194,15 @@ function renderStatus(status) {
   }
 }
 
-function describe(commands, nest) {
+function nestList(nests) {
+  const list = nests ?? [];
+  if (list.length === 1) return `hnízda ${list[0]}`;
+  return `hnízd ${list.slice(0, -1).join(', ')} a ${list[list.length - 1]}`;
+}
+
+function describe(commands, nests) {
   return (commands ?? []).map((name) => (name in NEST_COMMAND_LABELS
-    ? `${NEST_COMMAND_LABELS[name]} hnízda ${nest ?? '?'}`
+    ? `${NEST_COMMAND_LABELS[name]} ${nestList(nests)}`
     : COMMAND_LABELS[name] ?? name)).join(' + ');
 }
 
@@ -222,7 +228,7 @@ function renderPending(pending) {
   const list = pending ?? [];
   el('queue-value').textContent = list.length === 0
     ? 'nic nečeká'
-    : list.map((entry) => describe(entry.commands, entry.nest)).join(' · ');
+    : list.map((entry) => describe(entry.commands, entry.nests)).join(' · ');
   el('queue').classList.toggle('is-waiting', list.length > 0);
 }
 
@@ -271,9 +277,21 @@ function buildNests(count, eggsMax) {
       <span class="tile-note" id="nest-${i}-note"></span>
     </div>`).join('');
 
-  el('nest-select').innerHTML = Array.from({ length: count }, (_, i) =>
-    `<option value="${i + 1}">Hnízdo ${i + 1}</option>`
+  el('nest-picks').innerHTML = Array.from({ length: count }, (_, i) =>
+    `<label class="pick"><input type="checkbox" value="${i + 1}"><span>Hnízdo ${i + 1}</span></label>`
   ).join('');
+  renderPicks();
+}
+
+function pickedNests() {
+  return [...el('nest-picks').querySelectorAll('input:checked')].map((input) => Number(input.value));
+}
+
+function renderPicks() {
+  const none = pickedNests().length === 0;
+  document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
+    button.disabled = none;
+  });
 }
 
 function renderNests(status) {
@@ -677,7 +695,7 @@ function connectSocket() {
       loadHistory();
       if (data.reading?.nests) loadEggs();
     }
-    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands, data.nest)} — čeká na další zprávu z kurníku`, 'is-ok');
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands, data.nests)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
     if (type === 'cancelled') {
       showToast(data.cleared > 0 ? `Zrušeno: ${countCommands(data.cleared)}` : 'Fronta je prázdná', 'is-ok');
@@ -691,7 +709,7 @@ function connectSocket() {
     }
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
-      showToast(data.commands ? `${info.text}: ${describe(data.commands, data.nest)}` : info.text, info.tone);
+      showToast(data.commands ? `${info.text}: ${describe(data.commands, data.nests)}` : info.text, info.tone);
     }
   });
 
@@ -830,6 +848,7 @@ async function sendCommand(button, command) {
     showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
   } finally {
     button.disabled = false;
+    renderPicks();
   }
 }
 
@@ -840,9 +859,11 @@ document.querySelectorAll('.commands button[data-command]').forEach((button) => 
 document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
   button.addEventListener('click', () => sendCommand(button, {
     commands: [button.dataset.nestCommand],
-    nest: Number(el('nest-select').value)
+    nests: pickedNests()
   }));
 });
+
+el('nest-picks').addEventListener('change', renderPicks);
 
 try {
   const stored = localStorage.getItem('theme');

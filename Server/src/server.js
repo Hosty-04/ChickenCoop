@@ -132,7 +132,7 @@ app.get('/api/eggs', async (req, res) => {
 
 app.post('/api/command', async (req, res) => {
   try {
-    const sent = await ttn.sendCommand(req.body?.commands ?? [], req.body?.nest);
+    const sent = await ttn.sendCommand(req.body?.commands ?? [], req.body?.nests);
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
@@ -189,9 +189,9 @@ ttn.on('pending', (pending) => {
   broadcast('pending', pending);
 });
 
-ttn.on('downlink', ({ event, commands, nest }) => {
-  broadcast('downlink', { event, commands, nest, at: new Date().toISOString() });
-  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nest ? ` nest ${nest}` : ''})` : ''}`);
+ttn.on('downlink', ({ event, commands, nests }) => {
+  broadcast('downlink', { event, commands, nests, at: new Date().toISOString() });
+  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
 });
 
 ttn.on('uplink', async (uplink) => {

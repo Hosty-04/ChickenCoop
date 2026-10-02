@@ -591,7 +591,9 @@ Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 Každé hnízdo má svůj zásobník s deseti místy, která se plní tak, jak přibývají vejce. Nad ním
 je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje každou
 celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
-poslední kontroly je v záhlaví karty i se součtem za celý den.
+poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulování nebo kalibraci
+váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
+mají stav z poslední kontroly.
 
 | Poznámka | Co znamená |
 |---|---|
@@ -666,14 +668,18 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
 1 kg; jinou hmotnost by bylo potřeba změnit ve firmwaru (`NESTS_CALIB_MASS_G` v souboru
 `Master/Core/Inc/nests.h`).
 
-1. Z hnízda vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
-2. V **Ovládání** vyberte hnízdo a klikněte na **Vynulovat**.
+1. Z hnízd vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
+2. V **Ovládání** zaškrtněte hnízda, která chcete nastavit, a klikněte na **Vynulovat**.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
-   kontrolu. Kurník hnízda po přijetí příkazu přeměří hned, nečeká na celou hodinu.
-4. Položte závaží doprostřed hnízda a klikněte na **Kalibrovat**.
-5. Po další kontrole závaží sundejte.
+   kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
+   hodinu; ostatní hnízda přitom neměří.
+4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
+   jedno závaží, kalibruje hnízda po jednom.
+5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
+Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se ale do kurníku
+dostává po jednom, s každou jeho zprávou, tedy zhruba po deseti minutách.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
 
