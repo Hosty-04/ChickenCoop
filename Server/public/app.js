@@ -283,14 +283,17 @@ function buildNests(count, eggsMax) {
     : '') + Array.from({ length: count }, (_, i) =>
     `<label class="picker-item"><input type="checkbox" value="${i + 1}">Hnízdo ${i + 1}</label>`
   ).join('');
+  chosenNests = [];
   renderPicks();
 }
+
+let chosenNests = [];
 
 function nestBoxes() {
   return [...el('nest-picks').querySelectorAll('input[value]')];
 }
 
-function pickedNests() {
+function tickedNests() {
   return nestBoxes().filter((input) => input.checked).map((input) => Number(input.value));
 }
 
@@ -299,22 +302,25 @@ function pickedText(picked) {
   if (picked.length === 1) return `Hnízdo ${picked[0]}`;
   if (picked.length === nestCount) return 'Všechna hnízda';
   if (picked.length > nestCount / 2) {
-    return `Všechna kromě ${nestBoxes().filter((input) => !input.checked).map((input) => input.value).join(', ')}`;
+    const left = Array.from({ length: nestCount }, (_, i) => i + 1).filter((nest) => !picked.includes(nest));
+    return `Všechna kromě ${left.join(', ')}`;
   }
   return `Hnízda ${picked.join(', ')}`;
 }
 
-function renderPicks() {
-  const picked = pickedNests();
+function renderTicks() {
+  const ticked = tickedNests();
   const all = el('nest-all');
-
   if (all) {
-    all.checked = picked.length === nestCount;
-    all.indeterminate = picked.length > 0 && picked.length < nestCount;
+    all.checked = ticked.length === nestCount;
+    all.indeterminate = ticked.length > 0 && ticked.length < nestCount;
   }
-  el('nest-picker-text').textContent = pickedText(picked);
+}
+
+function renderPicks() {
+  el('nest-picker-text').textContent = pickedText(chosenNests);
   document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
-    button.disabled = picked.length === 0;
+    button.disabled = chosenNests.length === 0;
   });
 }
 
@@ -912,6 +918,10 @@ async function sendCommand(button, command) {
     });
     if (!requireSession(res)) return;
     const body = await res.json();
+    if (res.status === 409) {
+      showToast('Stejný příkaz už ve frontě čeká, podruhé se nezařadil.', '');
+      return;
+    }
     if (!res.ok) throw new Error(body.error ?? res.statusText);
   } catch (err) {
     showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
@@ -928,24 +938,27 @@ document.querySelectorAll('.commands button[data-command]').forEach((button) => 
 document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
   button.addEventListener('click', () => sendCommand(button, {
     commands: [button.dataset.nestCommand],
-    nests: pickedNests()
+    nests: chosenNests
   }));
+});
+
+el('nest-picker').addEventListener('click', () => {
+  nestBoxes().forEach((input) => { input.checked = chosenNests.includes(Number(input.value)); });
+  renderTicks();
+  el('nest-dialog').showModal();
 });
 
 el('nest-picks').addEventListener('change', (e) => {
   if (e.target.id === 'nest-all') nestBoxes().forEach((input) => { input.checked = e.target.checked; });
+  renderTicks();
+});
+
+el('nest-cancel').addEventListener('click', () => el('nest-dialog').close());
+
+el('nest-confirm').addEventListener('click', () => {
+  chosenNests = tickedNests();
   renderPicks();
-});
-
-document.addEventListener('click', (e) => {
-  if (!el('nest-picker').contains(e.target)) el('nest-picker').open = false;
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && el('nest-picker').open) {
-    el('nest-picker').open = false;
-    el('nest-picker').querySelector('summary').focus();
-  }
+  el('nest-dialog').close();
 });
 
 try {

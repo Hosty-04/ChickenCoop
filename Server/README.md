@@ -600,6 +600,9 @@ poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulová
 váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
 mají stav z poslední kontroly.
 
+Na telefonu je každé hnízdo jeden řádek: vlevo název a počet, vpravo zásobník a pod ním
+poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
+
 | Poznámka | Co znamená |
 |---|---|
 | **⚠ košík je plný** | v hnízdě je deset vajec, víc se jich do zprávy nevejde — je čas je vybrat |
@@ -648,14 +651,15 @@ a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kont
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Opakované klikání nepomůže — příkazy se řadí za sebe a provedou se všechny.
+> Opakované klikání nepomůže — stejný příkaz se do fronty zařadí jen jednou a stránka další
+> kliknutí odmítne s upozorněním. Různé příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
+> v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
 > restartu má smysl na něj kliknout, i když se nic nezobrazuje. Restart serveru také
 > odhlásí všechna otevřená okna a stránka se sama vrátí na přihlášení.
 
@@ -674,8 +678,10 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
 `Master/Core/Inc/nests.h`).
 
 1. Z hnízd vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
-2. V **Ovládání** rozbalte seznam **Váha hnízd**, zaškrtněte hnízda, která chcete nastavit,
-   a klikněte na **Vynulovat**.
+2. V **Ovládání** klikněte pod **Váha hnízd** na **Vyberte hnízda**. Otevře se okno se
+   seznamem; zaškrtněte hnízda, která chcete nastavit, a klikněte na **Potvrdit**. Tlačítko
+   pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
+   jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
    kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.

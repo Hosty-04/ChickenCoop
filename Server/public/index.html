@@ -146,10 +146,7 @@
       </div>
       <div class="command-group">
         <span class="command-label" id="nest-picks-label">Váha hnízd</span>
-        <details class="picker" id="nest-picker">
-          <summary class="picker-button" aria-labelledby="nest-picks-label nest-picker-text"><span id="nest-picker-text">Vyberte hnízda</span></summary>
-          <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-picks-label"></div>
-        </details>
+        <button type="button" class="picker-button" id="nest-picker" aria-haspopup="dialog" aria-labelledby="nest-picks-label nest-picker-text"><span id="nest-picker-text">Vyberte hnízda</span></button>
         <button type="button" data-nest-command="tare" disabled>Vynulovat</button>
         <button type="button" data-nest-command="calibrate" disabled>Kalibrovat</button>
       </div>
@@ -180,6 +177,15 @@
   </section>
 
 </div>
+
+<dialog id="nest-dialog" aria-labelledby="nest-dialog-title">
+  <h2 id="nest-dialog-title">Vyberte hnízda</h2>
+  <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-dialog-title"></div>
+  <div class="dialog-actions">
+    <button type="button" id="nest-cancel">Zrušit</button>
+    <button type="button" id="nest-confirm" class="primary">Potvrdit</button>
+  </div>
+</dialog>
 
 <dialog id="wipe-dialog">
   <h2>Opravdu smazat historii?</h2>

@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
-import { TtnBridge } from './ttn.js';
+import { TtnBridge, DuplicateCommandError } from './ttn.js';
 import { EGGS_MAX } from './codec.js';
 import {
   SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
@@ -136,7 +136,7 @@ app.post('/api/command', async (req, res) => {
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
-    res.status(400).json({ ok: false, error: err.message });
+    res.status(err instanceof DuplicateCommandError ? 409 : 400).json({ ok: false, error: err.message });
   }
 });
 

@@ -268,38 +268,23 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   font-size: 13px;
   color: var(--text-secondary);
 }
-.picker { grid-column: 1 / -1; }
 .picker-button {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  font-size: 14px;
-  padding: 9px 12px;
-  min-height: 40px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface-1);
-  cursor: pointer;
-  list-style: none;
+  text-align: left;
 }
-.picker-button::-webkit-details-marker { display: none; }
 .picker-button::after { content: "▾"; color: var(--text-muted); }
-.picker[open] .picker-button::after { content: "▴"; }
-.picker-button:hover { border-color: var(--axis); }
-.picker-button:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
 #nest-picker-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#nest-dialog[open] { width: min(460px, calc(100vw - 32px)); }
 .picker-menu {
-  margin-top: 4px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 2px;
-  max-height: 300px;
+  max-height: 60vh;
   overflow-y: auto;
-  padding: 6px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface-1);
 }
 .picker-item {
   display: flex;
@@ -309,6 +294,7 @@ th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; b
   padding: 6px 8px;
   border-radius: 6px;
   font-size: 14px;
+  white-space: nowrap;
   cursor: pointer;
 }
 .picker-item:hover { background: var(--page); }
@@ -360,3 +346,25 @@ button.primary {
   font-weight: 600;
 }
 button.primary:hover { filter: brightness(1.06); }
+
+@media (max-width: 560px) {
+  .nests { grid-template-columns: 1fr; gap: 0; }
+  .nest {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "label tray" "value note";
+    align-items: center;
+    gap: 2px 12px;
+    padding: 9px 2px;
+    border: 0;
+    border-bottom: 1px solid var(--grid);
+    border-radius: 0;
+    background: transparent;
+  }
+  .nest:last-child { border-bottom: 0; }
+  .nest .tile-label { grid-area: label; }
+  .nest .tile-value { grid-area: value; font-size: 18px; }
+  .nest .tray { grid-area: tray; justify-self: end; grid-template-columns: repeat(10, 8px); gap: 3px; margin: 0; }
+  .nest .egg { width: 8px; height: 10px; }
+  .nest .tile-note { grid-area: note; justify-self: end; text-align: right; min-height: 0; font-size: 12px; }
+}
