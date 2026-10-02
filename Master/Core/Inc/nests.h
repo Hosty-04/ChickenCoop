@@ -12,6 +12,7 @@
 
 #define NESTS_COUNT          2U
 #define NESTS_CALIB_MASS_G   1000U
+#define NESTS_CHECK_S        3600UL
 
 #if (NESTS_COUNT < 1U) || (NESTS_COUNT > 15U)
 #error "NESTS_COUNT must be between 1 and 15"

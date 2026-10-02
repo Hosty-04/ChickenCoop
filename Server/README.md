@@ -589,8 +589,9 @@ Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 ### Hnízda
 
 Každé hnízdo má svůj zásobník s deseti místy, která se plní tak, jak přibývají vejce. Nad ním
-je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje jednou
-za hodinu, čas poslední kontroly je v záhlaví karty i se součtem za celý den.
+je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje každou
+celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
+poslední kontroly je v záhlaví karty i se součtem za celý den.
 
 | Poznámka | Co znamená |
 |---|---|

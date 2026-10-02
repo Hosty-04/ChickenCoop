@@ -14,8 +14,6 @@
 #include "lora_app.h"
 #include "stm32_timer.h"
 
-#define NESTS_CHECK_S          3600UL
-#define NESTS_AHEAD_S          2UL
 #define NESTS_DEFER_S          10UL
 #define NESTS_DEFER_MAX        6U
 #define NESTS_BLOCK_MS         ((uint32_t)NESTS_COUNT * 14000UL)
@@ -310,7 +308,7 @@ static void Nests_ArmTimer(uint32_t seconds)
 static void Nests_Schedule(void)
 {
   uint32_t now  = Timebase_GetSecOfDay();
-  uint32_t next = (((now + NESTS_AHEAD_S) / NESTS_CHECK_S) + 1UL) * NESTS_CHECK_S - NESTS_AHEAD_S;
+  uint32_t next = ((now / NESTS_CHECK_S) + 1UL) * NESTS_CHECK_S;
 
   Nests_ArmTimer(next - now);
 }
@@ -362,6 +360,7 @@ void Nests_Process(void)
 
   if (!Nests_Allowed()) {
     Nests_Schedule();
+    Battery_Request();
     return;
   }
 
@@ -387,6 +386,7 @@ void Nests_Process(void)
   Nests_Schedule();
   nests_pending = 0U;
   Telemetry_RequestFull();
+  Battery_Request();
 }
 
 uint8_t Nests_WorkPending(void)

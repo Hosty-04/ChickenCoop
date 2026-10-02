@@ -7,6 +7,7 @@
 
 #include "battery.h"
 #include "door.h"
+#include "nests.h"
 #include "ina226.h"
 #include "telemetry.h"
 #include "timebase.h"
@@ -182,6 +183,9 @@ static void Battery_Schedule(void)
   uint32_t now  = Timebase_GetSecOfDay();
   uint32_t next = ((now / BATTERY_CHECK_S) + 1UL) * BATTERY_CHECK_S;
 
+  if ((next % NESTS_CHECK_S) == 0UL)
+    next += BATTERY_CHECK_S;
+
   Battery_ArmTimer(next - now);
 }
 
@@ -271,6 +275,11 @@ void Battery_Process(void)
 uint8_t Battery_WorkPending(void)
 {
   return battery_pending;
+}
+
+void Battery_Request(void)
+{
+  battery_pending = 1U;
 }
 
 uint8_t Battery_IsCritical(void)
