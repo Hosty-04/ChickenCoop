@@ -560,9 +560,10 @@ mimo něj.
 ## Co je na stránce
 
 Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
-poslední zprávy. Pod nimi karta **Hnízda** a graf obou napětí s volbou rozsahu — 6 hodin,
-24 hodin, 7 dní, 30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka**
-se přepne na stejná data v číslech.
+poslední zprávy. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
+30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
+přepne na stejná data v číslech.
 
 Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
@@ -572,12 +573,16 @@ U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává n
 průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
 ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
 zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
-té napětí drží i v noci. Stránka na to pod grafem upozorňuje.
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozsahů od 7 dní — do
+24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
 
-Pod napětím je graf **Snáška**: kolik vajec hnízda za dané období přibylo, ve 24 hodinách po
-hodinách, do měsíce po dnech a dál po týdnech. Řídí se stejnou volbou rozsahu jako graf
-napětí, po najetí myší ukáže i rozpis po hnízdech a tlačítko **Tabulka** ho přepne na čísla.
-Počítá se jen přírůstek — když vejce sesbíráte, počet v hnízdě klesne, ale snáška zůstane.
+Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
+do měsíce po dnech a dál po týdnech. Osa začíná a končí na celé hodině, dni nebo týdnu,
+takže 24 hodin je třeba od 18:00 do 18:00. Kontrola v celou hodinu hlásí vejce snesená za
+uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00 a sloupec
+právě běžící hodiny zůstane prázdný, dokud ho nenahlásí další kontrola. Po najetí myší je
+vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když vejce sesbíráte,
+počet v hnízdě klesne, ale snáška zůstane.
 
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
@@ -669,7 +674,8 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
 `Master/Core/Inc/nests.h`).
 
 1. Z hnízd vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
-2. V **Ovládání** zaškrtněte hnízda, která chcete nastavit, a klikněte na **Vynulovat**.
+2. V **Ovládání** rozbalte seznam **Váha hnízd**, zaškrtněte hnízda, která chcete nastavit,
+   a klikněte na **Vynulovat**.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
    kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.

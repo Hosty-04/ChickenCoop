@@ -73,7 +73,33 @@
   <section class="card">
     <div class="card-head">
       <div>
-        <h2>Napětí</h2>
+        <h2>Snáška</h2>
+        <p class="card-sub" id="eggs-sub">histogram snesených vajec</p>
+      </div>
+      <button id="toggle-eggs-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
+    </div>
+
+    <div class="plot" id="eggs-plot-wrap">
+      <canvas id="eggs-chart" role="img" aria-label="Graf počtu snesených vajec v čase"></canvas>
+    </div>
+
+    <div class="table-wrap" id="eggs-table-wrap" hidden>
+      <table id="eggs-table">
+        <caption class="sr-only">Počet snesených vajec</caption>
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="empty" id="eggs-empty" hidden>Zatím žádná data</p>
+
+    <p class="toast" id="eggs-toast" hidden></p>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Napájení</h2>
         <p class="card-sub" id="chart-sub">baterie a solární panel</p>
       </div>
       <button id="toggle-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
@@ -101,32 +127,6 @@
   </section>
 
   <section class="card">
-    <div class="card-head">
-      <div>
-        <h2>Snáška</h2>
-        <p class="card-sub" id="eggs-sub">snesená vejce</p>
-      </div>
-      <button id="toggle-eggs-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
-    </div>
-
-    <div class="plot" id="eggs-plot-wrap">
-      <canvas id="eggs-chart" role="img" aria-label="Graf počtu snesených vajec v čase"></canvas>
-    </div>
-
-    <div class="table-wrap" id="eggs-table-wrap" hidden>
-      <table id="eggs-table">
-        <caption class="sr-only">Počet snesených vajec</caption>
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <p class="empty" id="eggs-empty" hidden>Zatím žádná data</p>
-
-    <p class="toast" id="eggs-toast" hidden></p>
-  </section>
-
-  <section class="card">
     <div class="card-head"><h2>Ovládání</h2></div>
     <div class="commands">
       <div class="command-group">
@@ -146,7 +146,10 @@
       </div>
       <div class="command-group">
         <span class="command-label" id="nest-picks-label">Váha hnízd</span>
-        <div class="nest-picks" id="nest-picks" role="group" aria-labelledby="nest-picks-label"></div>
+        <details class="picker" id="nest-picker">
+          <summary class="picker-button" aria-labelledby="nest-picks-label nest-picker-text"><span id="nest-picker-text">Vyberte hnízda</span></summary>
+          <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-picks-label"></div>
+        </details>
         <button type="button" data-nest-command="tare" disabled>Vynulovat</button>
         <button type="button" data-nest-command="calibrate" disabled>Kalibrovat</button>
       </div>
@@ -159,7 +162,7 @@
       <button type="button" id="cancel" class="danger">Zrušit</button>
     </div>
     <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
-    <p class="hint">Vynulování i kalibrace proběhnou hned, jak kurník příkaz přijme, a jen u zaškrtnutých hnízd — ostatní se kvůli tomu neměří. Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda a sundejte ho, až se karta Hnízda obnoví.</p>
+    <p class="hint">Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda a sundejte ho, až se karta Hnízda obnoví.</p>
     <p class="toast" id="toast" hidden></p>
   </section>
 

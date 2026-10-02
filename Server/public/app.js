@@ -61,6 +61,7 @@ let chartBucket = 0;
 let eggChart = null;
 let eggPoints = [];
 let eggBucket = 0;
+let eggEnd = 0;
 let nestCount = 0;
 const toastTimers = new Map();
 
@@ -277,20 +278,43 @@ function buildNests(count, eggsMax) {
       <span class="tile-note" id="nest-${i}-note"></span>
     </div>`).join('');
 
-  el('nest-picks').innerHTML = Array.from({ length: count }, (_, i) =>
-    `<label class="pick"><input type="checkbox" value="${i + 1}"><span>Hnízdo ${i + 1}</span></label>`
+  el('nest-picks').innerHTML = (count > 1
+    ? '<label class="picker-item picker-all"><input type="checkbox" id="nest-all">Všechna hnízda</label>'
+    : '') + Array.from({ length: count }, (_, i) =>
+    `<label class="picker-item"><input type="checkbox" value="${i + 1}">Hnízdo ${i + 1}</label>`
   ).join('');
   renderPicks();
 }
 
+function nestBoxes() {
+  return [...el('nest-picks').querySelectorAll('input[value]')];
+}
+
 function pickedNests() {
-  return [...el('nest-picks').querySelectorAll('input:checked')].map((input) => Number(input.value));
+  return nestBoxes().filter((input) => input.checked).map((input) => Number(input.value));
+}
+
+function pickedText(picked) {
+  if (picked.length === 0) return 'Vyberte hnízda';
+  if (picked.length === 1) return `Hnízdo ${picked[0]}`;
+  if (picked.length === nestCount) return 'Všechna hnízda';
+  if (picked.length > nestCount / 2) {
+    return `Všechna kromě ${nestBoxes().filter((input) => !input.checked).map((input) => input.value).join(', ')}`;
+  }
+  return `Hnízda ${picked.join(', ')}`;
 }
 
 function renderPicks() {
-  const none = pickedNests().length === 0;
+  const picked = pickedNests();
+  const all = el('nest-all');
+
+  if (all) {
+    all.checked = picked.length === nestCount;
+    all.indeterminate = picked.length > 0 && picked.length < nestCount;
+  }
+  el('nest-picker-text').textContent = pickedText(picked);
   document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
-    button.disabled = none;
+    button.disabled = picked.length === 0;
   });
 }
 
@@ -337,26 +361,47 @@ function renderNests(status) {
   }
 }
 
-function eggLabel(iso, long) {
-  const d = new Date(iso);
-  const date = (options) => d.toLocaleDateString('cs-CZ', options);
-
-  if (eggBucket < DAY_MS) {
-    const time = d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
-    return long ? `${date({ day: 'numeric', month: 'numeric' })} ${time}` : time;
-  }
-  if (eggBucket < WEEK_MS) {
-    return long
-      ? date({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })
-      : date({ day: 'numeric', month: 'numeric' });
-  }
-  const from = date({ day: 'numeric', month: 'numeric', year: 'numeric' });
-  return long ? `týden od ${from}` : from;
+function eggEdges() {
+  return [...eggPoints.map((p) => new Date(p.time).getTime()), eggEnd];
 }
 
-function eggStep() {
-  if (eggBucket < DAY_MS) return 'po hodinách';
-  return eggBucket < WEEK_MS ? 'po dnech' : 'po týdnech';
+function eggTickLimit() {
+  const room = el('eggs-plot-wrap').clientWidth / (eggBucket < WEEK_MS ? TIME_LABEL_PX : DATE_LABEL_PX);
+  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+}
+
+function eggTicks() {
+  const edges = eggEdges();
+  const intervals = edges.length - 1;
+  const stride = Math.max(1, Math.ceil(intervals / (eggTickLimit() - 1)));
+  const picked = [];
+
+  for (let i = 0; i < edges.length; i += stride) picked.push(edges[i]);
+  if (intervals % stride !== 0) {
+    if (picked.length > 1 && intervals % stride < stride * MIN_TICK_GAP) picked.pop();
+    picked.push(edges[intervals]);
+  }
+  return picked;
+}
+
+function eggTick(ms) {
+  const d = new Date(ms);
+  if (eggBucket < DAY_MS) return d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('cs-CZ', eggBucket < WEEK_MS
+    ? { day: 'numeric', month: 'numeric' }
+    : { day: 'numeric', month: 'numeric', year: 'numeric' });
+}
+
+function eggPeriod(index) {
+  const edges = eggEdges();
+  const from = new Date(edges[index]);
+  const to = new Date(edges[index + 1]);
+  const time = (d) => d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+  const date = (d, options) => d.toLocaleDateString('cs-CZ', options);
+
+  if (eggBucket < DAY_MS) return `${date(from, { day: 'numeric', month: 'numeric' })} ${time(from)}–${time(to)}`;
+  if (eggBucket < WEEK_MS) return date(from, { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' });
+  return `týden od ${date(from, { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
 }
 
 function formatEggs(n) {
@@ -368,11 +413,11 @@ function renderEggTable() {
   el('eggs-table').querySelector('thead').innerHTML = `<tr><th scope="col">Čas</th><th scope="col">Celkem</th>${
     Array.from({ length: nests }, (_, i) => `<th scope="col">Hnízdo ${i + 1}</th>`).join('')
   }</tr>`;
-  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.slice().reverse().map((p) =>
-    `<tr><td>${eggLabel(p.time, true)}</td><td>${formatEggs(p.total)}</td>${
+  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.map((p, i) =>
+    `<tr><td>${eggPeriod(i)}</td><td>${formatEggs(p.total)}</td>${
       p.laid.map((n) => `<td>${formatEggs(n)}</td>`).join('')
     }</tr>`
-  ).join('');
+  ).reverse().join('');
 }
 
 function renderEggChart() {
@@ -386,18 +431,21 @@ function renderEggChart() {
     return;
   }
 
-  const labels = eggPoints.map((p) => eggLabel(p.time, false));
-  const data = eggPoints.map((p) => p.total);
+  const edges = eggEdges();
+  const data = eggPoints.map((p, i) => ({ x: (edges[i] + edges[i + 1]) / 2, y: p.total }));
 
   if (eggChart) {
-    eggChart.data.labels = labels;
     eggChart.data.datasets[0].data = data;
     eggChart.data.datasets[0].backgroundColor = css('--series-4');
+    eggChart.options.scales.x.min = edges[0];
+    eggChart.options.scales.x.max = edges[edges.length - 1];
     eggChart.options.scales.x.ticks.color = css('--text-muted');
     eggChart.options.scales.y.ticks.color = css('--text-muted');
+    eggChart.options.scales.x.grid.color = css('--grid');
     eggChart.options.scales.y.grid.color = css('--grid');
     eggChart.options.scales.x.border.color = css('--axis');
     eggChart.options.scales.y.border.color = css('--axis');
+    eggChart.options.scales.x.grid.tickColor = css('--text-muted');
     eggChart.options.scales.y.grid.tickColor = css('--text-muted');
     eggChart.update();
     return;
@@ -406,7 +454,6 @@ function renderEggChart() {
   eggChart = new Chart(el('eggs-chart'), {
     type: 'bar',
     data: {
-      labels,
       datasets: [{
         label: 'Snesená vejce',
         data,
@@ -422,19 +469,21 @@ function renderEggChart() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      interaction: { mode: 'index', intersect: false },
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
           displayColors: false,
           callbacks: {
-            title: (items) => eggLabel(eggPoints[items[0].dataIndex].time, true),
+            title: (items) => eggPeriod(items[0].dataIndex),
             label: (ctx) => {
               const p = eggPoints[ctx.dataIndex];
               if (p.total === null) return 'bez dat';
+              const missing = p.laid.flatMap((n, i) => (n === null ? [i + 1] : []));
               return [
                 `Celkem: ${countEggs(p.total)}`,
-                ...p.laid.map((n, i) => `Hnízdo ${i + 1}: ${formatEggs(n)}`)
+                ...p.laid.flatMap((n, i) => (n > 0 ? [`Hnízdo ${i + 1}: ${n}`] : [])),
+                ...(missing.length > 0 ? [`bez dat: ${nestList(missing)}`] : [])
               ];
             }
           }
@@ -442,9 +491,28 @@ function renderEggChart() {
       },
       scales: {
         x: {
-          grid: { display: false },
+          type: 'linear',
+          offset: false,
+          min: edges[0],
+          max: edges[edges.length - 1],
+          afterBuildTicks: (scale) => {
+            if (eggPoints.length > 0) scale.ticks = eggTicks().map((value) => ({ value }));
+          },
+          grid: {
+            offset: false,
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted')
+          },
           border: { color: css('--axis') },
-          ticks: { color: css('--text-muted'), maxRotation: 0, autoSkipPadding: 12 }
+          ticks: {
+            color: css('--text-muted'),
+            autoSkip: false,
+            maxRotation: 0,
+            align: 'inner',
+            callback: (value) => eggTick(value)
+          }
         },
         y: {
           beginAtZero: true,
@@ -659,8 +727,9 @@ async function loadEggs() {
     if (!res.ok) throw new Error(body.error ?? res.statusText);
     eggPoints = body.points;
     eggBucket = body.bucketMs;
+    eggEnd = body.end ? new Date(body.end).getTime() : 0;
     const total = eggPoints.reduce((sum, p) => sum + (p.total ?? 0), 0);
-    el('eggs-sub').textContent = `snesená vejce ${eggStep()} · celkem ${countEggs(total)}`;
+    el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(total)}`;
     hideToast('eggs-toast', 'snaska');
   } catch (err) {
     eggPoints = [];
@@ -863,7 +932,21 @@ document.querySelectorAll('.commands button[data-nest-command]').forEach((button
   }));
 });
 
-el('nest-picks').addEventListener('change', renderPicks);
+el('nest-picks').addEventListener('change', (e) => {
+  if (e.target.id === 'nest-all') nestBoxes().forEach((input) => { input.checked = e.target.checked; });
+  renderPicks();
+});
+
+document.addEventListener('click', (e) => {
+  if (!el('nest-picker').contains(e.target)) el('nest-picker').open = false;
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && el('nest-picker').open) {
+    el('nest-picker').open = false;
+    el('nest-picker').querySelector('summary').focus();
+  }
+});
 
 try {
   const stored = localStorage.getItem('theme');

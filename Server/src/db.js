@@ -52,6 +52,7 @@ const insertNest = db.prepare(`
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const MONDAY_OFFSET = 4 * DAY_MS;
+const LAID_SLACK_MS = 10 * 60 * 1000;
 
 
 const historyStatements = new Map();
@@ -96,10 +97,6 @@ const selectEggRows = db.prepare(`
   SELECT nest, time, eggs FROM nests
   WHERE device = ? AND eggs IS NOT NULL AND time >= ? AND time <= ?
   ORDER BY time
-`);
-
-const selectOldestNest = db.prepare(`
-  SELECT MIN(time) AS oldest FROM nests WHERE device = ?
 `);
 
 function bucketFor(hours) {
@@ -239,7 +236,7 @@ export async function readNests(deviceId, nestCount) {
 
   const known = eggsBefore(deviceId, nestCount, now + 1);
   const laid = Array(nestCount).fill(0);
-  for (const row of laidBetween(deviceId, nestCount, startOfToday(now), now)) laid[row.nest - 1] += row.laid;
+  for (const row of laidBetween(deviceId, nestCount, startOfToday(now) + LAID_SLACK_MS, now)) laid[row.nest - 1] += row.laid;
   const current = new Map(latest.map((row) => [row.nest, row]));
 
   const nests = Array.from({ length: nestCount }, (_, index) => {
@@ -258,31 +255,35 @@ export async function readNests(deviceId, nestCount) {
   };
 }
 
+function slotOf(ms, bucket, round = Math.floor) {
+  return round((toLocalClock(ms) - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
+}
+
 export async function readEggs(deviceId, hours, nestCount) {
   const now = Date.now();
-  const align = hours === null ? Math.floor : Math.ceil;
+  const all = hours === null;
 
-  if (hours === null) {
-    const oldest = selectOldestNest.get(deviceId)?.oldest;
+  if (all) {
+    const oldest = selectOldest.get(deviceId)?.oldest;
     if (!oldest) return { bucketMs: DAY_MS, points: [] };
     hours = Math.max((now - oldest) / HOUR_MS, 1);
   }
 
   const bucket = eggBucketFor(hours);
-  const since = now - hours * HOUR_MS;
-  const rows = laidBetween(deviceId, nestCount, since, now);
+  const first = slotOf(now - hours * HOUR_MS, bucket, all ? Math.floor : Math.ceil);
+  const last = slotOf(now, bucket);
+  const rows = laidBetween(deviceId, nestCount, fromLocalClock(first).getTime() + LAID_SLACK_MS, now);
   if (rows.length === 0) return { bucketMs: bucket, points: [] };
 
   const laid = new Map();
   for (const row of rows) {
-    const slot = Math.floor((toLocalClock(row.time) - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
+    const slot = slotOf(row.time - LAID_SLACK_MS, bucket);
     if (!laid.has(slot)) laid.set(slot, Array(nestCount).fill(null));
     laid.get(slot)[row.nest - 1] = (laid.get(slot)[row.nest - 1] ?? 0) + row.laid;
   }
 
   const points = [];
-  const first = align((toLocalClock(since) - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
-  for (let slot = first; slot <= toLocalClock(now); slot += bucket) {
+  for (let slot = first; slot <= last; slot += bucket) {
     const perNest = laid.get(slot) ?? Array(nestCount).fill(null);
     const known = perNest.filter((value) => value !== null);
     points.push({
@@ -292,7 +293,7 @@ export async function readEggs(deviceId, hours, nestCount) {
     });
   }
 
-  return { bucketMs: bucket, points };
+  return { bucketMs: bucket, end: fromLocalClock(last + bucket).toISOString(), points };
 }
 
 export async function countReadings(deviceId) {
