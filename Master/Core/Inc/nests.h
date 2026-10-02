@@ -29,6 +29,7 @@ typedef enum {
 void    Nests_Init(void);
 void    Nests_Process(void);
 uint8_t Nests_WorkPending(void);
+void    Nests_Reschedule(void);
 
 void    Nests_Enable(void);
 void    Nests_Disable(void);

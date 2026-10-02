@@ -43,6 +43,7 @@
 /* USER CODE BEGIN Includes */
 #include "system.h"
 #include "door.h"
+#include "nests.h"
 #include "telemetry.h"
 #include "timebase.h"
 /* USER CODE END Includes */
@@ -755,6 +756,7 @@ static void EventCallback(void)
         if ((smtc_modem_get_lorawan_mac_time(STACK_ID, &gps_s, &gps_frac)
              == SMTC_MODEM_RC_OK) && (gps_s != 0U)) {
           Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
+          Nests_Reschedule();
           APP_LOG(TS_OFF, VLEVEL_M, "MAC TIME: synced\r\n");
         }
         break;

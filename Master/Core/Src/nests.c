@@ -16,7 +16,7 @@
 
 #define NESTS_DEFER_S          10UL
 #define NESTS_DEFER_MAX        6U
-#define NESTS_BLOCK_MS         ((uint32_t)NESTS_COUNT * 14000UL)
+#define NESTS_BLOCK_MS         ((uint32_t)NESTS_COUNT * 15000UL)
 
 #define NESTS_BOOT_MS          10U
 #define NESTS_SAMPLE_MS        3700U
@@ -56,6 +56,7 @@ typedef struct {
 
 static UTIL_TIMER_Object_t nests_timer;
 static volatile uint8_t    nests_pending = 0;
+static uint32_t            nests_due     = 0;
 
 static uint8_t      nests_enabled = 1;
 static uint8_t      nests_defer   = 0;
@@ -253,14 +254,26 @@ static Nests_State_t Nests_StateOf(uint16_t flags)
   return NESTS_STATE_OK;
 }
 
-static uint8_t Nests_Serve(uint8_t nest)
+static uint8_t Nests_Release(uint8_t addr)
+{
+  HAL_StatusTypeDef st = Nests_Command(addr, NESTS_CMD_RELEASE, 0U);
+
+  HAL_Delay(NESTS_BOOT_MS);
+
+  return (uint8_t)(st == HAL_OK);
+}
+
+static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
 {
   Nests_Data_t *n    = &nests_data[nest];
   uint8_t       addr = (uint8_t)(nest + 1U);
-  uint16_t      cmd  = (n->request != 0U) ? n->request : NESTS_CMD_MEASURE;
+  uint16_t      cmd  = (n->request != 0U) ? n->request : (hourly ? NESTS_CMD_MEASURE : 0U);
   uint16_t      res[NESTS_STATUS_REGS];
   uint32_t      start;
   uint8_t       done;
+
+  if (cmd == 0U)
+    return Nests_Release(addr);
 
   n->state = NESTS_STATE_OFFLINE;
 
@@ -286,10 +299,24 @@ static uint8_t Nests_Serve(uint8_t nest)
     n->eggs  = (uint8_t)((res[1] > UINT8_MAX) ? UINT8_MAX : res[1]);
   }
 
-  (void)Nests_Command(addr, NESTS_CMD_RELEASE, 0U);
-  HAL_Delay(NESTS_BOOT_MS);
+  (void)Nests_Release(addr);
 
   return 1U;
+}
+
+static uint8_t Nests_Reach(uint8_t hourly)
+{
+  uint8_t nest, reach = 0U;
+
+  if (hourly)
+    return NESTS_COUNT;
+
+  for (nest = 0U; nest < NESTS_COUNT; nest++) {
+    if (nests_data[nest].request != 0U)
+      reach = (uint8_t)(nest + 1U);
+  }
+
+  return reach;
 }
 
 static void Nests_OnTimer(void *ctx)
@@ -305,12 +332,18 @@ static void Nests_ArmTimer(uint32_t seconds)
   UTIL_TIMER_Start(&nests_timer);
 }
 
+static void Nests_Plan(void)
+{
+  uint32_t now = Timebase_GetSecOfDay();
+
+  nests_due = Timebase_GetUnix() + (((now / NESTS_CHECK_S) + 1UL) * NESTS_CHECK_S - now);
+}
+
 static void Nests_Schedule(void)
 {
-  uint32_t now  = Timebase_GetSecOfDay();
-  uint32_t next = ((now / NESTS_CHECK_S) + 1UL) * NESTS_CHECK_S;
+  uint32_t now = Timebase_GetUnix();
 
-  Nests_ArmTimer(next - now);
+  Nests_ArmTimer((nests_due > now) ? (nests_due - now) : 0UL);
 }
 
 static uint8_t Nests_Allowed(void)
@@ -352,15 +385,21 @@ void Nests_Init(void)
 
 void Nests_Process(void)
 {
-  uint8_t nest, linked;
+  uint8_t nest, reach, hourly, linked;
 
   if (!nests_pending)
     return;
   nests_pending = 0U;
 
-  if (!Nests_Allowed()) {
+  hourly = (uint8_t)(Timebase_GetUnix() >= nests_due);
+  reach  = Nests_Reach(hourly);
+
+  if ((reach == 0U) || !Nests_Allowed()) {
+    if (hourly) {
+      Nests_Plan();
+      Battery_Request();
+    }
     Nests_Schedule();
-    Battery_Request();
     return;
   }
 
@@ -373,8 +412,8 @@ void Nests_Process(void)
 
   linked = (uint8_t)(Nests_PowerUp() == HAL_OK);
 
-  for (nest = 0U; nest < NESTS_COUNT; nest++) {
-    linked = (uint8_t)(linked && Nests_Serve(nest));
+  for (nest = 0U; nest < reach; nest++) {
+    linked = (uint8_t)(linked && Nests_Serve(nest, hourly));
     if (!linked)
       nests_data[nest].state = NESTS_STATE_OFFLINE;
   }
@@ -383,10 +422,22 @@ void Nests_Process(void)
 
   Power_SwitchToRunHSE48MHz();
 
+  if (hourly) {
+    Nests_Plan();
+    Battery_Request();
+  }
+
   Nests_Schedule();
   nests_pending = 0U;
   Telemetry_RequestFull();
-  Battery_Request();
+}
+
+void Nests_Reschedule(void)
+{
+  if (nests_due > (Timebase_GetUnix() + NESTS_CHECK_S))
+    Nests_Plan();
+
+  Nests_Schedule();
 }
 
 uint8_t Nests_WorkPending(void)
