@@ -42,6 +42,7 @@ let chart = null;
 let hours = 24;
 let points = [];
 let odchazim = false;
+let socket = null;
 let chartWindow = null;
 let chartBucket = 0;
 const toastTimers = new Map();
@@ -432,8 +433,10 @@ async function loadStatus() {
 }
 
 function connectSocket() {
+  if (socket && (socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN)) return;
+
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  const socket = new WebSocket(`${proto}://${location.host}/ws`);
+  socket = new WebSocket(`${proto}://${location.host}/ws`);
 
   socket.addEventListener('message', (event) => {
     const { type, data } = JSON.parse(event.data);
@@ -467,6 +470,14 @@ function connectSocket() {
 }
 
 window.addEventListener('pagehide', () => { odchazim = true; });
+
+window.addEventListener('pageshow', (event) => {
+  odchazim = false;
+  if (!event.persisted) return;
+  connectSocket();
+  loadStatus();
+  loadHistory();
+});
 
 el('theme').addEventListener('click', () => {
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
