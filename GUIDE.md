@@ -186,23 +186,23 @@ function decodeUplink(input) {
     door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
   };
   if (b.length > 2) {
-    data.hnizda = [];
+    data.nests = [];
     for (var i = 2; i < b.length; i++) {
-      data.hnizda.push(hnizdo(b[i] >> 4), hnizdo(b[i] & 15));
+      data.nests.push(nest(b[i] >> 4), nest(b[i] & 15));
     }
   }
   return { data: data, warnings: [], errors: [] };
 }
 
-function hnizdo(kod) {
-  if (kod <= 10) return kod;
-  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[kod] || null;
+function nest(code) {
+  if (code <= 10) return code;
+  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[code] || null;
 }
 ```
 
 Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
 v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek. Jednou za hodinu
-přibude seznam `hnizda` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
+přibude seznam `nests` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
 neozvalo. Při lichém počtu hnízd je `null` vždycky i na konci seznamu — to jen dorovnává
 poslední bajt zprávy.
 
