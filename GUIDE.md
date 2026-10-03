@@ -577,22 +577,16 @@ té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozs
 24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
 
 Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
-do měsíce po dnech a dál po týdnech. Osa začíná a končí na celé hodině, dni nebo týdnu,
-takže 24 hodin je třeba od 18:00 do 18:00. Kontrola v celou hodinu hlásí vejce snesená za
-uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Právě běžící
-hodina se tak neukazuje vůbec: v 15:30 končí 24 hodin v 15:00 a sloupec 15:00–16:00
-přibude po kontrole v 16:00. Dnešek a tento týden jsou ve sloupcích po dnech a týdnech vidět
-od první kontroly a doplňují se průběžně. Po najetí myší je
-vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když vejce sesbíráte,
-počet v hnízdě klesne, ale snáška zůstane.
+do měsíce po dnech a dál po týdnech. Kontrola v celou hodinu hlásí vejce snesená za
+uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Dnešek a tento
+týden jsou ve sloupcích po dnech a týdnech vidět od první kontroly a doplňují se průběžně.
+Po najetí myší je vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když
+vejce sesbíráte, počet v hnízdě klesne, ale snáška zůstane.
 
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
-a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení. Když se stránka
-se serverem přestane spojovat, ukáže indikátor nejdřív **připojuji…** a teprve po pěti
-sekundách bez spojení **Server nedostupný**, takže krátké přerušení, třeba při znovunačtení
-stránky, se neprojeví.
+a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
