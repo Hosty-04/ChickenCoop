@@ -2,7 +2,7 @@ import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { config } from './config.js';
-import { DOOR_STATES } from './codec.js';
+import { DOOR_STATES, NEST_STATES } from './codec.js';
 
 mkdirSync(dirname(config.dbPath), { recursive: true });
 
@@ -27,6 +27,16 @@ db.exec(`
     PRIMARY KEY (device, time)
   ) WITHOUT ROWID
 `);
+db.exec(`
+  CREATE TABLE IF NOT EXISTS nests (
+    device TEXT NOT NULL,
+    time INTEGER NOT NULL,
+    nest INTEGER NOT NULL,
+    eggs INTEGER,
+    state INTEGER NOT NULL DEFAULT 4,
+    PRIMARY KEY (device, time, nest)
+  ) WITHOUT ROWID
+`);
 
 const insert = db.prepare(`
   INSERT OR REPLACE INTO readings
@@ -35,7 +45,15 @@ const insert = db.prepare(`
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
-const MONDAY_OFFSET = 4 * 24 * 60 * 60 * 1000;
+const insertNest = db.prepare(`
+  INSERT OR REPLACE INTO nests (device, time, nest, eggs, state) VALUES (?, ?, ?, ?, ?)
+`);
+
+const HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * HOUR_MS;
+const MONDAY_OFFSET = 4 * DAY_MS;
+const LAID_SLACK_MS = 10 * 60 * 1000;
+
 
 const historyStatements = new Map();
 
@@ -64,12 +82,66 @@ const selectOldest = db.prepare(`
   SELECT MIN(time) AS oldest FROM readings WHERE device = ?
 `);
 
+const selectNestsAt = db.prepare(`
+  SELECT nest, eggs, state, time FROM nests
+  WHERE device = ? AND time = (SELECT MAX(time) FROM nests WHERE device = ? AND time <= ?)
+`);
+
+const selectEggsBefore = db.prepare(`
+  SELECT eggs FROM nests
+  WHERE device = ? AND nest = ? AND eggs IS NOT NULL AND time < ?
+  ORDER BY time DESC LIMIT 1
+`);
+
+const selectEggRows = db.prepare(`
+  SELECT nest, time, eggs FROM nests
+  WHERE device = ? AND eggs IS NOT NULL AND time >= ? AND time <= ?
+  ORDER BY time
+`);
+
 function bucketFor(hours) {
   if (hours <= 24) return 10 * 60 * 1000;
   if (hours <= 168) return 60 * 60 * 1000;
   if (hours <= 720) return 6 * 60 * 60 * 1000;
   if (hours <= 8760) return 24 * 60 * 60 * 1000;
   return 7 * 24 * 60 * 60 * 1000;
+}
+
+function eggBucketFor(hours) {
+  if (hours <= 24) return HOUR_MS;
+  if (hours <= 720) return DAY_MS;
+  return 7 * DAY_MS;
+}
+
+function toLocalClock(ms) {
+  const d = new Date(ms);
+  return Date.UTC(
+    d.getFullYear(), d.getMonth(), d.getDate(),
+    d.getHours(), d.getMinutes(), d.getSeconds()
+  );
+}
+
+function startOfToday(now) {
+  const d = new Date(now);
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
+}
+
+function eggsBefore(deviceId, nestCount, time) {
+  return Array.from({ length: nestCount }, (_, index) =>
+    selectEggsBefore.get(deviceId, index + 1, time)?.eggs ?? null);
+}
+
+function laidBetween(deviceId, nestCount, since, until) {
+  const last = eggsBefore(deviceId, nestCount, since);
+
+  return selectEggRows.all(deviceId, since, until)
+    .filter((row) => row.nest >= 1 && row.nest <= nestCount)
+    .map((row) => {
+      const previous = last[row.nest - 1];
+      last[row.nest - 1] = row.eggs;
+      return { nest: row.nest, time: row.time, laid: previous === null ? 0 : Math.max(row.eggs - previous, 0) };
+    });
 }
 
 function fromLocalClock(ms) {
@@ -85,6 +157,20 @@ function round(value) {
 }
 
 export async function writeReading(deviceId, reading, radio, at) {
+  db.exec('BEGIN');
+  try {
+    insertReading(deviceId, reading, radio, at);
+    reading.nests?.forEach((nest, index) => {
+      insertNest.run(deviceId, at.getTime(), index + 1, nest.eggs, NEST_STATES.indexOf(nest.state));
+    });
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
+}
+
+function insertReading(deviceId, reading, radio, at) {
   insert.run(
     deviceId,
     at.getTime(),
@@ -143,12 +229,80 @@ export async function readLatest(deviceId) {
   };
 }
 
+export async function readNests(deviceId, nestCount) {
+  const now = Date.now();
+  const latest = selectNestsAt.all(deviceId, deviceId, now);
+  if (latest.length === 0) return null;
+
+  const known = eggsBefore(deviceId, nestCount, now + 1);
+  const laid = Array(nestCount).fill(0);
+  for (const row of laidBetween(deviceId, nestCount, startOfToday(now) + LAID_SLACK_MS, now)) laid[row.nest - 1] += row.laid;
+  const current = new Map(latest.map((row) => [row.nest, row]));
+
+  const nests = Array.from({ length: nestCount }, (_, index) => {
+    const row = current.get(index + 1);
+    return {
+      state: row ? (NEST_STATES[row.state] ?? 'offline') : null,
+      eggs: row?.eggs ?? known[index],
+      laidToday: laid[index]
+    };
+  });
+
+  return {
+    checkedAt: new Date(latest[0].time).toISOString(),
+    laidToday: nests.reduce((sum, nest) => sum + nest.laidToday, 0),
+    nests
+  };
+}
+
+function slotOf(ms, bucket, round = Math.floor) {
+  return round((toLocalClock(ms) - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
+}
+
+export async function readEggs(deviceId, hours, nestCount) {
+  const now = Date.now();
+  const all = hours === null;
+
+  if (all) {
+    const oldest = selectOldest.get(deviceId)?.oldest;
+    if (!oldest) return { bucketMs: DAY_MS, points: [] };
+    hours = Math.max((now - oldest) / HOUR_MS, 1);
+  }
+
+  const bucket = eggBucketFor(hours);
+  const first = slotOf(now - hours * HOUR_MS, bucket, all ? Math.floor : Math.ceil);
+  const last = slotOf(now, bucket);
+  const rows = laidBetween(deviceId, nestCount, fromLocalClock(first).getTime() + LAID_SLACK_MS, now);
+  if (rows.length === 0) return { bucketMs: bucket, points: [] };
+
+  const laid = new Map();
+  for (const row of rows) {
+    const slot = slotOf(row.time - LAID_SLACK_MS, bucket);
+    if (!laid.has(slot)) laid.set(slot, Array(nestCount).fill(null));
+    laid.get(slot)[row.nest - 1] = (laid.get(slot)[row.nest - 1] ?? 0) + row.laid;
+  }
+
+  const points = [];
+  for (let slot = first; slot <= last; slot += bucket) {
+    const perNest = laid.get(slot) ?? Array(nestCount).fill(null);
+    const known = perNest.filter((value) => value !== null);
+    points.push({
+      time: fromLocalClock(slot).toISOString(),
+      total: known.length === 0 ? null : known.reduce((sum, value) => sum + value, 0),
+      laid: perNest
+    });
+  }
+
+  return { bucketMs: bucket, end: fromLocalClock(last + bucket).toISOString(), points };
+}
+
 export async function countReadings(deviceId) {
   return Number(db.prepare('SELECT COUNT(*) AS n FROM readings WHERE device = ?').get(deviceId).n);
 }
 
 export async function clearReadings(deviceId) {
   const { changes } = db.prepare('DELETE FROM readings WHERE device = ?').run(deviceId);
+  db.prepare('DELETE FROM nests WHERE device = ?').run(deviceId);
   db.exec('VACUUM');
   return Number(changes);
 }

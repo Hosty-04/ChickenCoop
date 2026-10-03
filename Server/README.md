@@ -1,7 +1,8 @@
 # Kurník
 
 Automatická dvířka kurníku ovládaná přes internet. Kurník posílá každých 10 minut stav
-baterie, solárního panelu a dvířek; z webové stránky je lze kdykoli otevřít nebo zavřít.
+baterie, solárního panelu a dvířek a každou hodinu počet vajec ve snáškových hnízdech;
+z webové stránky lze dvířka kdykoli otevřít nebo zavřít.
 
 ```
 kurník ──LoRa──> brána ──internet──> The Things Network ──> server na Pi ──> stránka
@@ -90,6 +91,19 @@ Po úpravě firmware znovu přeložte a nahrajte do kurníku.
 > Kurník počítá se středoevropským časem včetně přechodu na letní čas. Mimo tohle pásmo by
 > se musel upravit i soubor `Master/Core/Src/timebase.c`.
 
+### Počet hnízd
+
+Firmware je nastavený na dvě snášková hnízda. Jiný počet (1 až 15) patří do souboru
+`Master/Core/Inc/nests.h`:
+
+```c
+#define NESTS_COUNT          2U
+```
+
+Stejné číslo pak dostane i server, viz `NEST_COUNT` v kapitole 6. Hnízda se číslují od
+krabičky nejblíž hlavní krabičce: první má adresu 1, druhá 2 a tak dál, a tu samou adresu
+musí mít nastavenou i řadič v dané krabičce.
+
 ## 1. Účet v The Things Network
 
 Síť The Things Network je pro tohle využití zdarma.
@@ -165,20 +179,32 @@ function decodeUplink(input) {
   }
   var panel = b[0] >> 1;
   var batt = b[1] >> 2;
-  return {
-    data: {
-      panel_mv: panel === 127 ? null : panel * 100,
-      battery_mv: batt === 63 ? null : 5000 + batt * 50,
-      battery_critical: (b[0] & 1) === 1,
-      door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
-    },
-    warnings: [], errors: []
+  var data = {
+    panel_mv: panel === 127 ? null : panel * 100,
+    battery_mv: batt === 63 ? null : 5000 + batt * 50,
+    battery_critical: (b[0] & 1) === 1,
+    door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
   };
+  if (b.length > 2) {
+    data.hnizda = [];
+    for (var i = 2; i < b.length; i++) {
+      data.hnizda.push(hnizdo(b[i] >> 4), hnizdo(b[i] & 15));
+    }
+  }
+  return { data: data, warnings: [], errors: [] };
+}
+
+function hnizdo(kod) {
+  if (kod <= 10) return kod;
+  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[kod] || null;
 }
 ```
 
 Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
-v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek.
+v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek. Jednou za hodinu
+přibude seznam `hnizda` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
+neozvalo. Při lichém počtu hnízd je `null` vždycky i na konci seznamu — to jen dorovnává
+poslední bajt zprávy.
 
 ## 6. Server
 
@@ -253,6 +279,10 @@ Doplňte čtyři hodnoty:
 | `TTN_API_KEY` | klíč vytvořený v předchozím kroku |
 
 Heslo si zvolte sami; dlouhé a náhodné vygeneruje příkaz `openssl rand -base64 18`.
+
+Kurník s jiným počtem hnízd než dvěma potřebuje ještě řádek `NEST_COUNT` se stejným číslem,
+jaké je ve firmwaru (kapitola **Počet hnízd** v úvodu). Server podle něj ví, kolik hnízd
+na stránce ukázat a jak rozložit čísla ve zprávě.
 
 Řádek `TZ=Europe/Prague` nechte být, pokud kurník nestojí v jiném časovém pásmu. Podle něj
 server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně.
@@ -524,15 +554,16 @@ mimo něj.
 |---|---|
 | Konzole, Gateways | brána **Connected** |
 | Konzole, zařízení | zpráva každých 10 minut |
-| Pi, `docker compose logs app` | `TTN connected` a každých 10 minut řádek `uplink` |
-| Stránka | po přihlášení naměřená napětí a stav dvířek |
+| Pi, `docker compose logs app` | `TTN connected` a každých 10 minut řádek `uplink`, jednou za hodinu s `nests=` |
+| Stránka | po přihlášení naměřená napětí, stav dvířek a vejce v hnízdech |
 
 ## Co je na stránce
 
 Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
-poslední zprávy. Pod nimi graf obou napětí s volbou rozsahu — 6 hodin, 24 hodin, 7 dní,
-30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se přepne na
-stejná data v číslech.
+poslední zprávy. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
+30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
+přepne na stejná data v číslech.
 
 Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
@@ -542,7 +573,16 @@ U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává n
 průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
 ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
 zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
-té napětí drží i v noci. Stránka na to pod grafem upozorňuje.
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozsahů od 7 dní — do
+24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
+
+Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
+do měsíce po dnech a dál po týdnech. Osa začíná a končí na celé hodině, dni nebo týdnu,
+takže 24 hodin je třeba od 18:00 do 18:00. Kontrola v celou hodinu hlásí vejce snesená za
+uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00 a sloupec
+právě běžící hodiny zůstane prázdný, dokud ho nenahlásí další kontrola. Po najetí myší je
+vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když vejce sesbíráte,
+počet v hnízdě klesne, ale snáška zůstane.
 
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
@@ -550,6 +590,31 @@ Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle n
 a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
+
+### Hnízda
+
+Každé hnízdo má svůj zásobník s deseti místy, která se plní tak, jak přibývají vejce. Nad ním
+je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje každou
+celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
+poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulování nebo kalibraci
+váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
+mají stav z poslední kontroly.
+
+Na telefonu je každé hnízdo jeden řádek: vlevo název a počet, vpravo zásobník a pod ním
+poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
+
+| Poznámka | Co znamená |
+|---|---|
+| **⚠ košík je plný** | v hnízdě je deset vajec, víc se jich do zprávy nevejde — je čas je vybrat |
+| **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
+| **⚠ váha není zkalibrovaná** | váhu je potřeba vynulovat a zkalibrovat, viz **Ovládání** |
+| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly |
+| **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
+
+Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvou se ani ta za ním.
+
+Při kriticky vybité baterii a při vypnuté automatice kurník hnízda nekontroluje. Karta pak
+ukazuje poslední kontrolu i s jejím datem.
 
 ### Když data chybí
 
@@ -581,18 +646,20 @@ graf i tabulka ukazují tuhle mez.
 
 ## Ovládání
 
-Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky.
+Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky
+a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kontrolu hnízd.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Opakované klikání nepomůže — příkazy se řadí za sebe a provedou se všechny.
+> Opakované klikání nepomůže — stejný příkaz se do fronty zařadí jen jednou a stránka další
+> kliknutí odmítne s upozorněním. Různé příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
+> v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
 > restartu má smysl na něj kliknout, i když se nic nezobrazuje. Restart serveru také
 > odhlásí všechna otevřená okna a stránka se sama vrátí na přihlášení.
 
@@ -602,6 +669,31 @@ historie.
 
 Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
+
+### Kalibrace váhy
+
+Každé hnízdo váží vlastní tenzometr a ten je potřeba po montáži nastavit — dokud se to
+nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu závaží o hmotnosti přesně
+1 kg; jinou hmotnost by bylo potřeba změnit ve firmwaru (`NESTS_CALIB_MASS_G` v souboru
+`Master/Core/Inc/nests.h`).
+
+1. Z hnízd vyndejte všechna vejce a podestýlku nechte, jak bude normálně.
+2. V **Ovládání** klikněte pod **Váha hnízd** na **Vyberte hnízda**. Otevře se okno se
+   seznamem; zaškrtněte hnízda, která chcete nastavit, a klikněte na **Potvrdit**. Tlačítko
+   pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
+   jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
+3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
+   kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
+   hodinu; ostatní hnízda přitom neměří.
+4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
+   jedno závaží, kalibruje hnízda po jednom.
+5. Až se karta Hnízda znovu obnoví, závaží sundejte.
+
+Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
+Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se ale do kurníku
+dostává po jednom, s každou jeho zprávou, tedy zhruba po deseti minutách.
+Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
+slepice zavřené na hřadu.
 
 ### Smazání historie
 
@@ -646,3 +738,7 @@ docker compose up -d
 
 **Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraňte
 překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.
+
+**Hnízdo neodpovídá.** Zkontrolujte datový kabel do jeho krabičky a do krabiček před ním —
+když se neozve jedno hnízdo, neozvou se ani všechna za ním. Pak ověřte, že `NEST_COUNT`
+v `.env` sedí s `NESTS_COUNT` ve firmwaru a že řadič v krabičce má správnou adresu.

@@ -179,31 +179,43 @@ kde:
 
 Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; výpočet astronomických hodin trvá pouze jednu milisekundu.
 
-### Kontrola vajec (24 min / 16 min / 8–8,53 min)
+### Kontrola vajec (24–26,2 min / 16–17,5 min / 8–8,73 min)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 55,5 µAh |
-| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
-| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 313 µAh |
-| Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,26 µAh |
-| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 626 µAh |
-| Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 13,2 µAh |
-| Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 8,8 µAh |
-| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,34 mAh** |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 56,8 µAh |
+| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 320 µAh |
+| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 320 µAh |
+| Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,39 µAh |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 640 µAh |
+| Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 14,4 µAh |
+| Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 9,61 µAh |
+| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,37 mAh** |
 
 ---
 
 $$
-t = t_i + t_v = 0,5\ \text{s} + \frac{32}{10} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s} \approx \mathbf{4\ \text{s}}
+t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{SPS}} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s}
 $$
 
 $$
-t_{min} = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
+t_{h,min} = t_b + t + n_x \cdot t_x = 10\ \text{ms} + 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,8\ \text{s} \approx 4\ \text{s}
 $$
 
 $$
-t_{max} = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{8,53\ \text{min}}
+t_{h,max} = t_{h,min} + t_p + t_x = 3,8\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,08\ \text{s} \approx 4,1\ \text{s}
+$$
+
+$$
+t_{min} = 24 \cdot h \cdot t_{h,min} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
+$$
+
+$$
+t_r = 2 \cdot h \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
+$$
+
+$$
+t_{max} = 24 \cdot h \cdot t_{h,max} + t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 32\ \text{s} = 524\ \text{s} \approx \mathbf{8,73\ \text{min}}
 $$
 
 $$
@@ -211,42 +223,76 @@ I_P = \frac{U_{nap}}{R_{pull} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega 
 $$
 
 $$
-t_{P,pu} = 24 \cdot t_{P,pu,on} = 24 \cdot (20\ \text{s} + 16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{24\ \text{min}}
+t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}
 $$
 
 $$
-t_{P,pd} = 24 \cdot t_{P,pd,off} = 24 \cdot (16\ \text{s} + 12\ \text{s} + 8\ \text{s} + 4\ \text{s}) = \mathbf{16\ \text{min}}
+t_{P,pu,max} = (24 \cdot t_{h,max} + 2 \cdot t_v) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,2\ \text{min}}
+$$
+
+$$
+t_{P,pd,min} = 24 \cdot t_{h,min} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 10 = \mathbf{16\ \text{min}}
+$$
+
+$$
+t_{P,pd,max} = (24 \cdot t_{h,max} + 2 \cdot t_v) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}
 $$
 
 kde:
-- $t_{max}$ ... maximální doba každohodinové kontroly h hnízd
-- $t_{min}$ ... minimální doba každohodinové kontroly h hnízd
-- $t$ ... doba kontroly jednoho hnízda
-- $t_i$ ... doba inicializace
+- $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
+- $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
+- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů (nanejvýš jednou denně)
+- $h$ ... počet hnízd
+- $t_{h,max}$ ... maximální doba kontroly jednoho hnízda
+- $t_{h,min}$ ... minimální doba kontroly jednoho hnízda
+- $t$ ... doba měření jednoho hnízda
+- $t_i$ ... doba inicializace HX711 (ustálení analogové části a dokončení prvního převodu)
 - $t_v$ ... doba vzorkování
+- $n_v$ ... počet vzorků
+- $f_v$ ... vzorkovací frekvence HX711
+- $t_b$ ... doba inicializace hnízdového řadiče po připojení napájení
+- $n_x$ ... počet výměn rámců při kontrole jednoho hnízda (příkaz, dotaz na stav, uvolnění)
+- $t_x$ ... doba jedné výměny rámců (dotaz a odpověď mají nejvýše 21 B, tj. asi 22 ms, a k tomu rozpoznání konce obou rámců)
+- $t_p$ ... perioda dotazování na stav měření
 - $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
 - $R_{pull}$ ... pull-up/pull-down rezistor o hodnotě 100 kΩ
 - $R_G$ ... ochranný rezistor
-- $t_{P,pu}$ ... čas, po který teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
-- $t_{P,pu,on}$ ... čas, po který jsou spínače s P-MOS tranzistorem s pull-up rezistorem sepnuty
-- $t_{P,pd}$ ... čas, po který teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
-- $t_{P,pd,off}$ ... čas, po který jsou spínače s P-MOS tranzistorem s pull-down rezistorem rozepnuty
+- $t_{P,pu,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
+- $t_{P,pu,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
+- $t_{P,pd,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
+- $t_{P,pd,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
 
-STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje, což znamená několikanásobně nižší spotřebu. Využito je šest spínačů s P-MOS tranzistorem a pull-up rezistorem a pět spínačů s P-MOS tranzistorem a pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pull-down rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8 µAh/den).
+STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje, což znamená několikanásobně nižší spotřebu. Využito je šest spínačů s P-MOS tranzistorem a pull-up rezistorem a pět spínačů s P-MOS tranzistorem a pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Spínač napájení větve je sepnutý po celou dobu kontroly všech pěti hnízd a každý další v řetězci o jedno hnízdo kratší dobu, odtud součet 5 + 4 + 3 + 2 + 1; spínač s pull-down rezistorem je v krabičce rozepnutý, dokud se kontrolují hnízda za ní, odtud součet 4 + 3 + 2 + 1. Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pull-down rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8–9,6 µAh/den).
 
-### Komunikace (20 s a 5–15 s)
+### Komunikace (25 s a 5–15 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| LoRa TX | 21 mA | 21 mA | 117 µAh | 117 µAh |
+| LoRa TX | 21 mA | 21 mA | 146 µAh | 146 µAh |
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
-| **Celkem** | **25,8 mA** | **26,1 mA** | **124 µAh** | **137 µAh** |
+| **Celkem** | **25,8 mA** | **25,8 mA** | **153 µAh** | **166 µAh** |
 
 ---
 
 $$
-t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 150\ \text{ms} + 2 \cdot 130\ \text{ms} + 120 \cdot 130\ \text{ms} = 19,46\ \text{s} \approx \mathbf{20\ \text{s}}
+T_{sym} = \frac{2^{SF}}{BW} = \frac{2^9}{125\ \text{kHz}} = 4,096\ \text{ms}
+$$
+
+$$
+n_{sym} = 8 + \left\lceil \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \right\rceil \cdot 5
+$$
+
+$$
+t_{5B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 33) \cdot 4,096\ \text{ms} = 185,3\ \text{ms}
+$$
+
+$$
+t_{2B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 28) \cdot 4,096\ \text{ms} = 164,9\ \text{ms}
+$$
+
+$$
+t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} = 24 \cdot 185,3\ \text{ms} + 2 \cdot 164,9\ \text{ms} + 120 \cdot 164,9\ \text{ms} = 24,57\ \text{s} \approx \mathbf{25\ \text{s}}
 $$
 
 $$
@@ -258,13 +304,21 @@ t_{p,max} = 2 \cdot 146 \cdot t_{o,max} = 2 \cdot 146 \cdot 50\ \text{ms} = 14,6
 $$
 
 kde:
+- $T_{sym}$ ... doba jednoho symbolu
+- $SF$ ... rozprostírací faktor
+- $BW$ ... šířka pásma
+- $n_{sym}$ ... počet symbolů záhlaví, dat a CRC (33 pro zprávu s 5 B, 28 pro zprávu s 2 B)
+- $n_B$ ... délka rámce v bajtech: data a 13 B režie LoRaWAN (hlavička, port a MIC)
+- $n_{pre}$ ... počet symbolů preambule
 - $t_v$ ... doba vysílání
-- $t_{5B}$ ... airtime pro preambuli + 5B + zabezpečení
-- $t_{2B}$ ... airtime pro preambuli + 2B + zabezpečení
+- $t_{5B}$ ... doba vysílání zprávy s 5 B dat
+- $t_{2B}$ ... doba vysílání zprávy s 2 B dat
 - $t_{p,min}$ ... minimální doba příjmu
 - $t_{p,max}$ ... maximální doba příjmu
 - $t_{o,min}$ ... minimální doba příjmového okna
 - $t_{o,max}$ ... maximální doba příjmového okna
+
+Číslo 44 ve vzorci pro $n_{sym}$ zahrnuje i 16 bitů CRC a násobek 5 odpovídá kódovacímu poměru 4/5; optimalizace pro nízkou přenosovou rychlost se při SF9 nepoužívá. Downlink CRC nemá, takže jeho příjem je o něco kratší; přichází navíc jen při manuálním ovládání, takže jeho vliv na spotřebu je zanedbatelný.
 
 CPU je většinu času v režimu Stop2 s RTC.
 
@@ -272,12 +326,12 @@ CPU je většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,7 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 10,1 mAh | 85,8 % |
-| Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,7 % |
-| Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,8 % |
+| Kontrola vajec | 923 µAh | 43,9 % | 1,37 mAh | 10,9 % |
+| Pohyb dvířek | 896 µAh | 42,6 % | 10,1 mAh | 79,8 % |
+| Komunikace | 153 µAh | 7,3 % | 166 µAh | 1,3 % |
+| Klidový režim | 129 µAh | 6,1 % | 1 mAh | 7,9 % |
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
-| **Celkem** | **2,07 mAh** | **100 %** | **17,5 mAh** | **100 %** |
+| **Celkem** | **2,10 mAh** | **100 %** | **12,6 mAh** | **100 %** |
 
 ### Energie dodávaná do akumulátoru
 

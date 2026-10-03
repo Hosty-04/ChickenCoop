@@ -5,6 +5,18 @@ const DOOR_LABELS = {
   unknown: { text: 'Neznámý', note: '⚠ koncový spínač nehlásí polohu', tone: 'is-warning' }
 };
 
+const NEST_LABELS = {
+  broody: { note: '⚠ sedí kvočna', tone: 'is-warning' },
+  uncalibrated: { note: '⚠ váha není zkalibrovaná', tone: 'is-warning' },
+  fault: { note: '⚠ porucha váhy', tone: 'is-critical' },
+  offline: { note: '⚠ hnízdo neodpovídá', tone: 'is-warning' }
+};
+
+const NEST_COMMAND_LABELS = {
+  tare: 'vynulovat váhu',
+  calibrate: 'zkalibrovat váhu'
+};
+
 const COMMAND_LABELS = {
   systemOn: 'zapnout automatiku',
   systemOff: 'vypnout automatiku',
@@ -37,6 +49,7 @@ const MAX_JOIN_BUCKETS = 2.5;
 const NOON_HOUR = 12;
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
+const WEEK_MS = 7 * DAY_MS;
 
 let chart = null;
 let hours = 24;
@@ -45,6 +58,11 @@ let odchazim = false;
 let socket = null;
 let chartWindow = null;
 let chartBucket = 0;
+let eggChart = null;
+let eggPoints = [];
+let eggBucket = 0;
+let eggEnd = 0;
+let nestCount = 0;
 const toastTimers = new Map();
 
 function tickLimit() {
@@ -168,6 +186,7 @@ function renderStatus(status) {
   renderPending(status.pending);
   renderCount(status.readings ?? null);
   renderLatest(status.latest);
+  renderNests(status);
 
   if (status.dbOk === false) {
     showToast('Databáze hlásí chybu, měření se nemusí ukládat.', 'is-error', 'data-toast', 'databaze');
@@ -176,8 +195,16 @@ function renderStatus(status) {
   }
 }
 
-function describe(commands) {
-  return (commands ?? []).map((name) => COMMAND_LABELS[name] ?? name).join(' + ');
+function nestList(nests) {
+  const list = nests ?? [];
+  if (list.length === 1) return `hnízda ${list[0]}`;
+  return `hnízd ${list.slice(0, -1).join(', ')} a ${list[list.length - 1]}`;
+}
+
+function describe(commands, nests) {
+  return (commands ?? []).map((name) => (name in NEST_COMMAND_LABELS
+    ? `${NEST_COMMAND_LABELS[name]} ${nestList(nests)}`
+    : COMMAND_LABELS[name] ?? name)).join(' + ');
 }
 
 function pocet(n, jeden, dva, vice) {
@@ -190,11 +217,19 @@ function countCommands(n) {
   return pocet(n, 'příkaz', 'příkazy', 'příkazů');
 }
 
+function countEggs(n) {
+  return pocet(n, 'vejce', 'vejce', 'vajec');
+}
+
+function laidToday(n) {
+  return n > 0 ? `dnes +${countEggs(n)}` : 'dnes zatím nic';
+}
+
 function renderPending(pending) {
   const list = pending ?? [];
   el('queue-value').textContent = list.length === 0
     ? 'nic nečeká'
-    : list.map((entry) => describe(entry.commands)).join(' · ');
+    : list.map((entry) => describe(entry.commands, entry.nests)).join(' · ');
   el('queue').classList.toggle('is-waiting', list.length > 0);
 }
 
@@ -232,6 +267,273 @@ function renderLatest(uplink) {
   el('seen-note').textContent = uplink.radio?.rssi == null
     ? ago
     : `${ago} (${uplink.radio.rssi} dBm)`;
+}
+
+function buildNests(count, eggsMax) {
+  el('nests').innerHTML = Array.from({ length: count }, (_, i) => `
+    <div class="nest">
+      <span class="tile-label">Hnízdo ${i + 1}</span>
+      <span class="tile-value" id="nest-${i}-value">–</span>
+      <span class="tray" id="nest-${i}-tray" aria-hidden="true">${'<span class="egg"></span>'.repeat(eggsMax)}</span>
+      <span class="tile-note" id="nest-${i}-note"></span>
+    </div>`).join('');
+
+  el('nest-picks').innerHTML = (count > 1
+    ? '<label class="picker-item picker-all"><input type="checkbox" id="nest-all">Všechna hnízda</label>'
+    : '') + Array.from({ length: count }, (_, i) =>
+    `<label class="picker-item"><input type="checkbox" value="${i + 1}">Hnízdo ${i + 1}</label>`
+  ).join('');
+  chosenNests = [];
+  renderPicks();
+}
+
+let chosenNests = [];
+
+function nestBoxes() {
+  return [...el('nest-picks').querySelectorAll('input[value]')];
+}
+
+function tickedNests() {
+  return nestBoxes().filter((input) => input.checked).map((input) => Number(input.value));
+}
+
+function pickedText(picked) {
+  if (picked.length === 0) return 'Vyberte hnízda';
+  if (picked.length === 1) return `Hnízdo ${picked[0]}`;
+  if (picked.length === nestCount) return 'Všechna hnízda';
+  if (picked.length > nestCount / 2) {
+    const left = Array.from({ length: nestCount }, (_, i) => i + 1).filter((nest) => !picked.includes(nest));
+    return `Všechna kromě ${left.join(', ')}`;
+  }
+  return `Hnízda ${picked.join(', ')}`;
+}
+
+function renderTicks() {
+  const ticked = tickedNests();
+  const all = el('nest-all');
+  if (all) {
+    all.checked = ticked.length === nestCount;
+    all.indeterminate = ticked.length > 0 && ticked.length < nestCount;
+  }
+}
+
+function renderPicks() {
+  el('nest-picker-text').textContent = pickedText(chosenNests);
+  document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
+    button.disabled = chosenNests.length === 0;
+  });
+}
+
+function renderNests(status) {
+  const count = status.nestCount ?? 0;
+  const eggsMax = status.eggsMax ?? 10;
+  const snapshot = status.nests;
+
+  if (count !== nestCount) {
+    nestCount = count;
+    buildNests(count, eggsMax);
+  }
+
+  const today = Boolean(snapshot) && new Date(snapshot.checkedAt).toDateString() === new Date().toDateString();
+
+  if (!snapshot) {
+    el('nests-sub').textContent = 'zatím žádná kontrola';
+  } else if (today) {
+    el('nests-sub').textContent = `poslední kontrola ${formatTime(snapshot.checkedAt, 'time')} · ${laidToday(snapshot.laidToday)}`;
+  } else {
+    el('nests-sub').textContent = `poslední kontrola ${formatTime(snapshot.checkedAt, 'datetime')}`;
+  }
+
+  for (let i = 0; i < count; i++) {
+    const nest = snapshot?.nests?.[i] ?? { state: null, eggs: null, laidToday: 0 };
+    const known = nest.eggs !== null && nest.state !== 'uncalibrated';
+    const full = nest.state === 'ok' && nest.eggs >= eggsMax;
+    const label = NEST_LABELS[nest.state];
+
+    el(`nest-${i}-value`).textContent = known ? countEggs(nest.eggs) : '–';
+
+    el(`nest-${i}-tray`).classList.toggle('is-stale', nest.state !== 'ok');
+    el(`nest-${i}-tray`).querySelectorAll('.egg').forEach((egg, slot) => {
+      egg.classList.toggle('is-laid', known && slot < nest.eggs);
+    });
+
+    let note = nest.state === 'ok' && today ? laidToday(nest.laidToday) : '';
+    let tone = '';
+    if (full) { note = '⚠ košík je plný'; tone = 'is-warning'; }
+    if (label) { note = label.note; tone = label.tone; }
+
+    el(`nest-${i}-note`).textContent = note;
+    el(`nest-${i}-note`).className = `tile-note ${tone}`;
+  }
+}
+
+function eggEdges() {
+  return [...eggPoints.map((p) => new Date(p.time).getTime()), eggEnd];
+}
+
+function eggTickLimit() {
+  const room = el('eggs-plot-wrap').clientWidth / (eggBucket < WEEK_MS ? TIME_LABEL_PX : DATE_LABEL_PX);
+  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+}
+
+function eggTicks() {
+  const edges = eggEdges();
+  const intervals = edges.length - 1;
+  const stride = Math.max(1, Math.ceil(intervals / (eggTickLimit() - 1)));
+  const picked = [];
+
+  for (let i = 0; i < edges.length; i += stride) picked.push(edges[i]);
+  if (intervals % stride !== 0) {
+    if (picked.length > 1 && intervals % stride < stride * MIN_TICK_GAP) picked.pop();
+    picked.push(edges[intervals]);
+  }
+  return picked;
+}
+
+function eggTick(ms) {
+  const d = new Date(ms);
+  if (eggBucket < DAY_MS) return d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('cs-CZ', eggBucket < WEEK_MS
+    ? { day: 'numeric', month: 'numeric' }
+    : { day: 'numeric', month: 'numeric', year: 'numeric' });
+}
+
+function eggPeriod(index) {
+  const edges = eggEdges();
+  const from = new Date(edges[index]);
+  const to = new Date(edges[index + 1]);
+  const time = (d) => d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+  const date = (d, options) => d.toLocaleDateString('cs-CZ', options);
+
+  if (eggBucket < DAY_MS) return `${date(from, { day: 'numeric', month: 'numeric' })} ${time(from)}–${time(to)}`;
+  if (eggBucket < WEEK_MS) return date(from, { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' });
+  return `týden od ${date(from, { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
+}
+
+function formatEggs(n) {
+  return n === null || n === undefined ? '–' : String(n);
+}
+
+function renderEggTable() {
+  const nests = eggPoints[0]?.laid.length ?? 0;
+  el('eggs-table').querySelector('thead').innerHTML = `<tr><th scope="col">Čas</th><th scope="col">Celkem</th>${
+    Array.from({ length: nests }, (_, i) => `<th scope="col">Hnízdo ${i + 1}</th>`).join('')
+  }</tr>`;
+  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.map((p, i) =>
+    `<tr><td>${eggPeriod(i)}</td><td>${formatEggs(p.total)}</td>${
+      p.laid.map((n) => `<td>${formatEggs(n)}</td>`).join('')
+    }</tr>`
+  ).reverse().join('');
+}
+
+function renderEggChart() {
+  const empty = eggPoints.every((p) => p.total === null);
+  const tableShown = !el('eggs-table-wrap').hidden;
+  el('eggs-empty').hidden = !empty;
+  el('eggs-plot-wrap').hidden = empty || tableShown;
+
+  if (empty) {
+    if (eggChart) { eggChart.destroy(); eggChart = null; }
+    return;
+  }
+
+  const edges = eggEdges();
+  const data = eggPoints.map((p, i) => ({ x: (edges[i] + edges[i + 1]) / 2, y: p.total }));
+
+  if (eggChart) {
+    eggChart.data.datasets[0].data = data;
+    eggChart.data.datasets[0].backgroundColor = css('--series-4');
+    eggChart.options.scales.x.min = edges[0];
+    eggChart.options.scales.x.max = edges[edges.length - 1];
+    eggChart.options.scales.x.ticks.color = css('--text-muted');
+    eggChart.options.scales.y.ticks.color = css('--text-muted');
+    eggChart.options.scales.x.grid.color = css('--grid');
+    eggChart.options.scales.y.grid.color = css('--grid');
+    eggChart.options.scales.x.border.color = css('--axis');
+    eggChart.options.scales.y.border.color = css('--axis');
+    eggChart.options.scales.x.grid.tickColor = css('--text-muted');
+    eggChart.options.scales.y.grid.tickColor = css('--text-muted');
+    eggChart.update();
+    return;
+  }
+
+  eggChart = new Chart(el('eggs-chart'), {
+    type: 'bar',
+    data: {
+      datasets: [{
+        label: 'Snesená vejce',
+        data,
+        backgroundColor: css('--series-4'),
+        borderRadius: 4,
+        borderSkipped: 'start',
+        maxBarThickness: 24,
+        categoryPercentage: 0.8,
+        barPercentage: 0.9
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          callbacks: {
+            title: (items) => eggPeriod(items[0].dataIndex),
+            label: (ctx) => {
+              const p = eggPoints[ctx.dataIndex];
+              if (p.total === null) return 'bez dat';
+              const missing = p.laid.flatMap((n, i) => (n === null ? [i + 1] : []));
+              return [
+                `Celkem: ${countEggs(p.total)}`,
+                ...p.laid.flatMap((n, i) => (n > 0 ? [`Hnízdo ${i + 1}: ${n}`] : [])),
+                ...(missing.length > 0 ? [`bez dat: ${nestList(missing)}`] : [])
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          offset: false,
+          min: edges[0],
+          max: edges[edges.length - 1],
+          afterBuildTicks: (scale) => {
+            if (eggPoints.length > 0) scale.ticks = eggTicks().map((value) => ({ value }));
+          },
+          grid: {
+            offset: false,
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted')
+          },
+          border: { color: css('--axis') },
+          ticks: {
+            color: css('--text-muted'),
+            autoSkip: false,
+            maxRotation: 0,
+            align: 'inner',
+            callback: (value) => eggTick(value)
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: css('--grid'),
+            drawTicks: true,
+            tickLength: TICK_LENGTH_PX,
+            tickColor: css('--text-muted')
+          },
+          border: { color: css('--axis') },
+          ticks: { color: css('--text-muted'), precision: 0 }
+        }
+      }
+    }
+  });
 }
 
 function renderLegend() {
@@ -422,6 +724,28 @@ async function loadHistory() {
   renderTable();
 }
 
+async function loadEggs() {
+  el('eggs-sub').textContent = 'načítám…';
+  try {
+    const res = await request(`/api/eggs?hours=${hours}`);
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+    eggPoints = body.points;
+    eggBucket = body.bucketMs;
+    eggEnd = body.end ? new Date(body.end).getTime() : 0;
+    const total = eggPoints.reduce((sum, p) => sum + (p.total ?? 0), 0);
+    el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(total)}`;
+    hideToast('eggs-toast', 'snaska');
+  } catch (err) {
+    eggPoints = [];
+    el('eggs-sub').textContent = 'historii snášky se nepodařilo načíst';
+    showToast(`Historii snášky se nepodařilo načíst: ${reason(err)}`, 'is-error', 'eggs-toast', 'snaska');
+  }
+  renderEggChart();
+  renderEggTable();
+}
+
 async function loadStatus() {
   try {
     const res = await request('/api/status');
@@ -441,8 +765,12 @@ function connectSocket() {
   socket.addEventListener('message', (event) => {
     const { type, data } = JSON.parse(event.data);
     if (type === 'status') renderStatus(data);
-    if (type === 'uplink') { renderLatest(data); loadHistory(); }
-    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands)} — čeká na další zprávu z kurníku`, 'is-ok');
+    if (type === 'uplink') {
+      renderLatest(data);
+      loadHistory();
+      if (data.reading?.nests) loadEggs();
+    }
+    if (type === 'command') showToast(`Zařazeno do fronty: ${describe(data.commands, data.nests)} — čeká na další zprávu z kurníku`, 'is-ok');
     if (type === 'pending') renderPending(data);
     if (type === 'cancelled') {
       showToast(data.cleared > 0 ? `Zrušeno: ${countCommands(data.cleared)}` : 'Fronta je prázdná', 'is-ok');
@@ -452,10 +780,11 @@ function connectSocket() {
         ? `Historie smazána: ${pocet(data.removed, 'záznam', 'záznamy', 'záznamů')}`
         : 'Nebylo co mazat', 'is-ok', 'data-toast');
       loadHistory();
+      loadEggs();
     }
     if (type === 'downlink') {
       const info = DOWNLINK_EVENTS[data.event] ?? { text: data.event, tone: '' };
-      showToast(data.commands ? `${info.text}: ${describe(data.commands)}` : info.text, info.tone);
+      showToast(data.commands ? `${info.text}: ${describe(data.commands, data.nests)}` : info.text, info.tone);
     }
   });
 
@@ -477,6 +806,7 @@ window.addEventListener('pageshow', (event) => {
   connectSocket();
   loadStatus();
   loadHistory();
+  loadEggs();
 });
 
 el('theme').addEventListener('click', () => {
@@ -485,6 +815,7 @@ el('theme').addEventListener('click', () => {
   try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch { void 0; }
   renderLegend();
   renderChart();
+  renderEggChart();
 });
 
 function renderCount(stored) {
@@ -545,6 +876,15 @@ el('logout').addEventListener('click', async () => {
   location.replace('/login.html');
 });
 
+el('toggle-eggs-table').addEventListener('click', (e) => {
+  const showTable = el('eggs-table-wrap').hidden;
+  const empty = eggPoints.every((p) => p.total === null);
+  el('eggs-table-wrap').hidden = !showTable;
+  el('eggs-plot-wrap').hidden = showTable || empty;
+  e.currentTarget.setAttribute('aria-pressed', String(showTable));
+  e.currentTarget.textContent = showTable ? 'Graf' : 'Tabulka';
+});
+
 el('toggle-table').addEventListener('click', (e) => {
   const showTable = el('table-wrap').hidden;
   el('table-wrap').hidden = !showTable;
@@ -564,27 +904,61 @@ document.querySelectorAll('.filterbar button').forEach((button) => {
     button.setAttribute('aria-pressed', 'true');
     hours = button.dataset.hours === 'all' ? 'all' : Number(button.dataset.hours);
     loadHistory();
+    loadEggs();
   });
 });
 
-document.querySelectorAll('.commands button').forEach((button) => {
-  button.addEventListener('click', async () => {
-    button.disabled = true;
-    try {
-      const res = await request('/api/command', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commands: [button.dataset.command] })
-      });
-      if (!requireSession(res)) return;
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error ?? res.statusText);
-    } catch (err) {
-      showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
-    } finally {
-      button.disabled = false;
+async function sendCommand(button, command) {
+  button.disabled = true;
+  try {
+    const res = await request('/api/command', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(command)
+    });
+    if (!requireSession(res)) return;
+    const body = await res.json();
+    if (res.status === 409) {
+      showToast('Stejný příkaz už ve frontě čeká, podruhé se nezařadil.', '');
+      return;
     }
-  });
+    if (!res.ok) throw new Error(body.error ?? res.statusText);
+  } catch (err) {
+    showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
+  } finally {
+    button.disabled = false;
+    renderPicks();
+  }
+}
+
+document.querySelectorAll('.commands button[data-command]').forEach((button) => {
+  button.addEventListener('click', () => sendCommand(button, { commands: [button.dataset.command] }));
+});
+
+document.querySelectorAll('.commands button[data-nest-command]').forEach((button) => {
+  button.addEventListener('click', () => sendCommand(button, {
+    commands: [button.dataset.nestCommand],
+    nests: chosenNests
+  }));
+});
+
+el('nest-picker').addEventListener('click', () => {
+  nestBoxes().forEach((input) => { input.checked = chosenNests.includes(Number(input.value)); });
+  renderTicks();
+  el('nest-dialog').showModal();
+});
+
+el('nest-picks').addEventListener('change', (e) => {
+  if (e.target.id === 'nest-all') nestBoxes().forEach((input) => { input.checked = e.target.checked; });
+  renderTicks();
+});
+
+el('nest-cancel').addEventListener('click', () => el('nest-dialog').close());
+
+el('nest-confirm').addEventListener('click', () => {
+  chosenNests = tickedNests();
+  renderPicks();
+  el('nest-dialog').close();
 });
 
 try {
@@ -595,5 +969,6 @@ try {
 renderLegend();
 loadStatus();
 loadHistory();
+loadEggs();
 connectSocket();
 setInterval(loadStatus, 60000);

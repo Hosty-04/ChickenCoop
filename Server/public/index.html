@@ -63,7 +63,43 @@
   <section class="card">
     <div class="card-head">
       <div>
-        <h2>Napětí v čase</h2>
+        <h2>Hnízda</h2>
+        <p class="card-sub" id="nests-sub">zatím žádná kontrola</p>
+      </div>
+    </div>
+    <div class="nests" id="nests"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Snáška</h2>
+        <p class="card-sub" id="eggs-sub">histogram snesených vajec</p>
+      </div>
+      <button id="toggle-eggs-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
+    </div>
+
+    <div class="plot" id="eggs-plot-wrap">
+      <canvas id="eggs-chart" role="img" aria-label="Graf počtu snesených vajec v čase"></canvas>
+    </div>
+
+    <div class="table-wrap" id="eggs-table-wrap" hidden>
+      <table id="eggs-table">
+        <caption class="sr-only">Počet snesených vajec</caption>
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="empty" id="eggs-empty" hidden>Zatím žádná data</p>
+
+    <p class="toast" id="eggs-toast" hidden></p>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Napájení</h2>
         <p class="card-sub" id="chart-sub">baterie a solární panel</p>
       </div>
       <button id="toggle-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
@@ -108,6 +144,12 @@
         <button type="button" data-command="systemOn">Zapnout</button>
         <button type="button" data-command="systemOff" class="danger">Vypnout</button>
       </div>
+      <div class="command-group">
+        <span class="command-label" id="nest-picks-label">Váha hnízd</span>
+        <button type="button" class="picker-button" id="nest-picker" aria-haspopup="dialog" aria-labelledby="nest-picks-label nest-picker-text"><span id="nest-picker-text">Vyberte hnízda</span></button>
+        <button type="button" data-nest-command="tare" disabled>Vynulovat</button>
+        <button type="button" data-nest-command="calibrate" disabled>Kalibrovat</button>
+      </div>
     </div>
     <div class="queue" id="queue">
       <div class="queue-text">
@@ -117,6 +159,7 @@
       <button type="button" id="cancel" class="danger">Zrušit</button>
     </div>
     <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
+    <p class="hint">Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda a sundejte ho, až se karta Hnízda obnoví.</p>
     <p class="toast" id="toast" hidden></p>
   </section>
 
@@ -134,6 +177,15 @@
   </section>
 
 </div>
+
+<dialog id="nest-dialog" aria-labelledby="nest-dialog-title">
+  <h2 id="nest-dialog-title">Vyberte hnízda</h2>
+  <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-dialog-title"></div>
+  <div class="dialog-actions">
+    <button type="button" id="nest-cancel">Zrušit</button>
+    <button type="button" id="nest-confirm" class="primary">Potvrdit</button>
+  </div>
+</dialog>
 
 <dialog id="wipe-dialog">
   <h2>Opravdu smazat historii?</h2>

@@ -32,6 +32,7 @@
 #include "system.h"
 #include "door.h"
 #include "battery.h"
+#include "nests.h"
 #include "ina226.h"
 #include "telemetry.h"
 #include "lora_app.h"
@@ -129,6 +130,7 @@ int main(void)
   Battery_Init();
   Door_Init();
   Door_Setup(2026, 1, 1, 0, 0, 0, COOP_LATITUDE, COOP_LONGITUDE);
+  Nests_Init();
 
   /* USER CODE END 2 */
 

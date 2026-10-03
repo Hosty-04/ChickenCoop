@@ -43,6 +43,7 @@
 /* USER CODE BEGIN Includes */
 #include "system.h"
 #include "door.h"
+#include "nests.h"
 #include "telemetry.h"
 #include "timebase.h"
 /* USER CODE END Includes */
@@ -347,14 +348,11 @@ static uint8_t LoRaWAN_UplinkWaiting(void)
   return (uint8_t)((Telemetry_Pending() != 0U) && (LoRaWAN_RetryRemainingMs() == 0UL));
 }
 
-uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
+uint8_t LoRaWAN_IsIdleFor(uint32_t ms)
 {
   uint32_t elapsed_ms;
 
   if (smtc_modem_is_irq_flag_pending())
-    return 0U;
-
-  if ((Telemetry_Pending() != 0U) && LoRaWAN_IsJoined())
     return 0U;
 
   elapsed_ms = TICKS_TO_MS(HAL_GetTick() - modem_sleep_tick);
@@ -363,6 +361,14 @@ uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
     return 0U;
 
   return ((modem_sleep_ms - elapsed_ms) > ms) ? 1U : 0U;
+}
+
+uint8_t LoRaWAN_CanBlockFor(uint32_t ms)
+{
+  if ((Telemetry_Pending() != 0U) && LoRaWAN_IsJoined())
+    return 0U;
+
+  return LoRaWAN_IsIdleFor(ms);
 }
 
 void LoRaWAN_RequestTime(void)
@@ -750,6 +756,7 @@ static void EventCallback(void)
         if ((smtc_modem_get_lorawan_mac_time(STACK_ID, &gps_s, &gps_frac)
              == SMTC_MODEM_RC_OK) && (gps_s != 0U)) {
           Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
+          Nests_Reschedule();
           APP_LOG(TS_OFF, VLEVEL_M, "MAC TIME: synced\r\n");
         }
         break;

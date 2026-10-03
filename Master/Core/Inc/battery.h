@@ -13,6 +13,7 @@
 void    Battery_Init(void);
 void    Battery_Process(void);
 uint8_t Battery_WorkPending(void);
+void    Battery_Request(void);
 
 uint8_t  Battery_IsCritical(void);
 uint16_t Battery_GetVoltage_mV(void);

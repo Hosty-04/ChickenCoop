@@ -4,13 +4,14 @@ import { dirname, join } from 'node:path';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
-import { TtnBridge } from './ttn.js';
+import { TtnBridge, DuplicateCommandError } from './ttn.js';
+import { EGGS_MAX } from './codec.js';
 import {
   SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
   openSession, closeSession, sessionValid, requestAuthenticated
 } from './auth.js';
 import {
-  writeReading, readHistory, readLatest, countReadings, clearReadings, closeDb
+  writeReading, readHistory, readLatest, readNests, readEggs, countReadings, clearReadings, closeDb
 } from './db.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -30,7 +31,10 @@ const state = {
   dbOk: null,
   dbError: null,
   readings: 0,
-  pending: []
+  pending: [],
+  nestCount: config.nestCount,
+  eggsMax: EGGS_MAX,
+  nests: null
 };
 
 const PUBLIC_PATHS = new Set([
@@ -88,11 +92,26 @@ function broadcast(type, data) {
   }
 }
 
-app.get('/api/status', (req, res) => res.json(state));
+async function refreshNests() {
+  try {
+    state.nests = await readNests(config.ttn.deviceId, config.nestCount);
+  } catch (err) {
+    console.error('nest state unreadable:', err.message);
+  }
+}
+
+function hoursFrom(query) {
+  return query.hours === 'all' ? null : Math.min(Math.max(Number(query.hours) || 24, 1), 8760);
+}
+
+app.get('/api/status', async (req, res) => {
+  await refreshNests();
+  res.json(state);
+});
 
 app.get('/api/history', async (req, res) => {
   const all = req.query.hours === 'all';
-  const hours = all ? null : Math.min(Math.max(Number(req.query.hours) || 24, 1), 8760);
+  const hours = hoursFrom(req.query);
   try {
     res.json({ hours: all ? 'all' : hours, points: await readHistory(config.ttn.deviceId, hours) });
   } catch (err) {
@@ -100,13 +119,24 @@ app.get('/api/history', async (req, res) => {
   }
 });
 
+app.get('/api/eggs', async (req, res) => {
+  const all = req.query.hours === 'all';
+  const hours = hoursFrom(req.query);
+  try {
+    const eggs = await readEggs(config.ttn.deviceId, hours, config.nestCount);
+    res.json({ hours: all ? 'all' : hours, ...eggs });
+  } catch (err) {
+    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
+  }
+});
+
 app.post('/api/command', async (req, res) => {
   try {
-    const sent = await ttn.sendCommand(req.body?.commands ?? []);
+    const sent = await ttn.sendCommand(req.body?.commands ?? [], req.body?.nests);
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
-    res.status(400).json({ ok: false, error: err.message });
+    res.status(err instanceof DuplicateCommandError ? 409 : 400).json({ ok: false, error: err.message });
   }
 });
 
@@ -119,6 +149,7 @@ app.post('/api/data/clear', async (req, res) => {
     const removed = await clearReadings(config.ttn.deviceId);
     state.readings = 0;
     state.latest = null;
+    state.nests = null;
     state.dbOk = true;
     state.dbError = null;
     broadcast('status', state);
@@ -158,23 +189,25 @@ ttn.on('pending', (pending) => {
   broadcast('pending', pending);
 });
 
-ttn.on('downlink', ({ event, commands }) => {
-  broadcast('downlink', { event, commands, at: new Date().toISOString() });
-  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')})` : ''}`);
+ttn.on('downlink', ({ event, commands, nests }) => {
+  broadcast('downlink', { event, commands, nests, at: new Date().toISOString() });
+  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
 });
 
 ttn.on('uplink', async (uplink) => {
   state.latest = uplink;
   broadcast('uplink', uplink);
 
-  const { batteryMv, panelMv, door } = uplink.reading;
-  console.log(`uplink fCnt=${uplink.fCnt} battery=${batteryMv ?? '-'} panel=${panelMv ?? '-'} door=${door}`);
+  const { batteryMv, panelMv, door, nests } = uplink.reading;
+  const eggs = nests ? ` nests=${nests.map((nest) => (nest.state === 'ok' ? nest.eggs : nest.state)).join(',')}` : '';
+  console.log(`uplink fCnt=${uplink.fCnt} battery=${batteryMv ?? '-'} panel=${panelMv ?? '-'} door=${door}${eggs}`);
 
   try {
     await writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
     state.readings = await countReadings(config.ttn.deviceId);
     state.dbOk = true;
     state.dbError = null;
+    if (nests) await refreshNests();
   } catch (err) {
     state.dbOk = false;
     state.dbError = err.message;
@@ -189,6 +222,7 @@ async function seedFromDb() {
     const latest = await readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
     state.readings = await countReadings(config.ttn.deviceId);
+    state.nests = await readNests(config.ttn.deviceId, config.nestCount);
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;

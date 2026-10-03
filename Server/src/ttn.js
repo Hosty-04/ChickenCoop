@@ -17,6 +17,8 @@ function correlationIds(message) {
   return found;
 }
 
+export class DuplicateCommandError extends Error {}
+
 export class TtnBridge extends EventEmitter {
   constructor() {
     super();
@@ -84,7 +86,7 @@ export class TtnBridge extends EventEmitter {
       const done = this.pending[index];
 
       if (done) this.#setPending(this.pending.filter((_, position) => position !== index));
-      this.emit('downlink', { event, commands: done?.commands ?? null });
+      this.emit('downlink', { event, commands: done?.commands ?? null, nests: done?.nests ?? null });
       return;
     }
 
@@ -93,7 +95,7 @@ export class TtnBridge extends EventEmitter {
 
     let reading;
     try {
-      reading = decodeUplink(new Uint8Array(Buffer.from(uplink.frm_payload, 'base64')));
+      reading = decodeUplink(new Uint8Array(Buffer.from(uplink.frm_payload, 'base64')), config.nestCount);
     } catch (err) {
       this.emit('error', err);
       return;
@@ -116,17 +118,23 @@ export class TtnBridge extends EventEmitter {
     });
   }
 
-  sendCommand(names) {
-    const payload = encodeDownlink(names);
+  sendCommand(names, nests) {
+    const payload = encodeDownlink(names, nests, config.nestCount);
+    const hex = Buffer.from(payload).toString('hex');
 
     if (!this.connected) throw new Error('server není spojený s The Things Network');
+    if (this.pending.some((entry) => entry.payload === hex)) {
+      throw new DuplicateCommandError('stejný příkaz už ve frontě čeká');
+    }
 
     const id = this.nextId++;
     const entry = {
       id,
       correlationId: `${CORRELATION_PREFIX}:${id}`,
       commands: names,
+      nests: payload.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
       byte: payload[0],
+      payload: hex,
       queuedAt: new Date().toISOString()
     };
 
@@ -139,10 +147,14 @@ export class TtnBridge extends EventEmitter {
       }]
     });
 
+    this.#setPending([...this.pending, entry]);
+
     return new Promise((resolve, reject) => {
       this.client.publish(`${this.#base()}/down/push`, body, { qos: 1 }, (err) => {
-        if (err) return reject(err);
-        this.#setPending([...this.pending, entry]);
+        if (err) {
+          this.#setPending(this.pending.filter((queued) => queued !== entry));
+          return reject(err);
+        }
         resolve(entry);
       });
     });
