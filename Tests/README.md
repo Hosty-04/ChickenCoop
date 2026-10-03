@@ -10,7 +10,7 @@ nastane doopravdy.
 - **`TTN_DEVICE_ID=lora-e5-mini`** v `.env`, protože pod tímhle zařízením jsou měření
   uložená. S jiným názvem zůstane nástěnka prázdná.
 - **Dvě hnízda**, tedy `NEST_COUNT=2` nebo žádný řádek `NEST_COUNT` — data jsou pro dvě.
-  Výjimkou je `kurnik-test-15.db`, ta potřebuje `NEST_COUNT=15`. S jiným počtem se nic
+  Výjimkou je `kurnik-test-velky.db`, ta potřebuje `NEST_COUNT=15`. S jiným počtem se nic
   nerozbije: přebývající hnízda ukazují pomlčku bez poznámky, chybějící se nezobrazí.
 - **Node.js 22** jen tehdy, když budete data přegenerovávat.
 
@@ -74,12 +74,12 @@ v `Server/README.md`.
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
 | `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
-| `kurnik-test-15.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
+| `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
-Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-15.db` 200 kB),
+Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db` 200 kB),
 `kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má dva roky a 8,7 MB.
 
 U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím baterie: s kriticky
@@ -89,7 +89,7 @@ V `kurnik-test-instalace.db` jsou obě váhy od instalace nezkalibrované. Za dv
 hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva o hnízdech
 mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkalibrované.
 
-V `kurnik-test-15.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
+V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
 nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
 ostatní počítají normálně.
 
@@ -133,7 +133,7 @@ node Tests/seed.mjs plny poplach
 ```
 
 První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`,
-`poplach`, `porucha`, `meze`, `instalace`, `patnact`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
+`poplach`, `porucha`, `meze`, `instalace`, `velky`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
 vypíše seznam událostí i s časy, takže je jasné, kam se v grafu dívat.
 
 Hodnoty sedí na mřížce protokolu — baterie po 50 mV v rozsahu 5–8 V, panel po 100 mV do
