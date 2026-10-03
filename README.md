@@ -195,11 +195,11 @@ Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; v�
 ---
 
 $$
-t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{SPS}} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s}
+t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{Hz}} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s}
 $$
 
 $$
-t_{h,min} = t_b + t + n_x \cdot t_x = 10\ \text{ms} + 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,8\ \text{s} \approx 4\ \text{s}
+t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,8\ \text{s} \approx 4\ \text{s}
 $$
 
 $$
@@ -219,10 +219,6 @@ t_{max} = 24 \cdot h \cdot t_{h,max} + t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 32
 $$
 
 $$
-I_P = \frac{U_{nap}}{R_{pull} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}
-$$
-
-$$
 t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}
 $$
 
@@ -238,30 +234,33 @@ $$
 t_{P,pd,max} = (24 \cdot t_{h,max} + 2 \cdot t_v) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}
 $$
 
+$$
+I_P = \frac{U_{nap}}{R_{pull} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}
+$$
+
 kde:
 - $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
-- $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
 - $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů (nanejvýš jednou denně)
+- $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
 - $h$ ... počet hnízd
 - $t_{h,max}$ ... maximální doba kontroly jednoho hnízda
+- $t_p$ ... perioda dotazování na stav měření
 - $t_{h,min}$ ... minimální doba kontroly jednoho hnízda
+- $n_x$ ... počet výměn rámců při kontrole jednoho hnízda (příkaz, dotaz na stav, uvolnění)
+- $t_x$ ... doba jedné výměny rámců (dotaz a odpověď mají nejvýše 21 B, tj. asi 22 ms, a k tomu rozpoznání konce obou rámců)
 - $t$ ... doba měření jednoho hnízda
 - $t_i$ ... doba inicializace HX711 (ustálení analogové části a dokončení prvního převodu)
 - $t_v$ ... doba vzorkování
 - $n_v$ ... počet vzorků
 - $f_v$ ... vzorkovací frekvence HX711
-- $t_b$ ... doba inicializace hnízdového řadiče po připojení napájení
-- $n_x$ ... počet výměn rámců při kontrole jednoho hnízda (příkaz, dotaz na stav, uvolnění)
-- $t_x$ ... doba jedné výměny rámců (dotaz a odpověď mají nejvýše 21 B, tj. asi 22 ms, a k tomu rozpoznání konce obou rámců)
-- $t_p$ ... perioda dotazování na stav měření
-- $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
-- $U_{nap}$ ... napájecí napětí
-- $R_{pull}$ ... pull-up/pull-down rezistor o hodnotě 100 kΩ
-- $R_G$ ... ochranný rezistor
 - $t_{P,pu,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pu,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pd,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pd,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
+- $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
+- $U_{nap}$ ... napájecí napětí
+- $R_{pull}$ ... pull-up/pull-down rezistor o hodnotě 100 kΩ
+- $R_G$ ... ochranný rezistor
 
 STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabičce Kx, ale díky chytrému využití tranzistorových spínačů je zapnuté vždy jen to, co zrovna pracuje, což znamená několikanásobně nižší spotřebu. Využito je šest spínačů s P-MOS tranzistorem a pull-up rezistorem a pět spínačů s P-MOS tranzistorem a pull-down rezistorem. Spínače s P-MOS tranzistorem s pull-up rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou sepnuty (každý z nich je sepnutý jinak dlouho). Spínače s P-MOS tranzistorem s pull-down rezistorem spotřebovávají energii pouze tehdy, když probíhá kontrola vajec a jsou rozepnuty (každý z nich je rozepnutý jinak dlouho). Spínač napájení větve je sepnutý po celou dobu kontroly všech pěti hnízd a každý další v řetězci o jedno hnízdo kratší dobu, odtud součet 5 + 4 + 3 + 2 + 1; spínač s pull-down rezistorem je v krabičce rozepnutý, dokud se kontrolují hnízda za ní, odtud součet 4 + 3 + 2 + 1. Přes ochranné rezistory teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Teoreticky by bylo možné namísto P-MOS spínačů s pull-down rezistorem čipy MAX3485 a HX711 uspávat. To by sice snížilo spotřebu, ale ta se pro tyto spínače pohybuje už tak velmi nízko (8,8–9,6 µAh/den).
 
@@ -399,10 +398,10 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2637 | +1563 |
-| Východ | +2522 | +428 |
-| Západ | +2637 | +542 |
-| Jihozápad | +2747 | +1223 |
+| Jih | +2642 | +1568 |
+| Východ | +2527 | +433 |
+| Západ | +2642 | +547 |
+| Jihozápad | +2752 | +1228 |
 
 ---
 
@@ -415,7 +414,7 @@ kde:
 - $Q_{aku}$ ... náboj akumulátoru
 - $rate$ ... míra samovybíjení za měsíc
 
-Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby, náboje ztraceného samovybíjením akumulátoru a rezervy — 25 mAh.
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby, náboje ztraceného samovybíjením akumulátoru a rezervy — 20 mAh.
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou nehledě na orientaci fotovoltaického panelu. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi provozní dobu omezuje spíše několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru než samotná spotřeba systému a samovybíjení.
 
@@ -518,7 +517,7 @@ Kompenzace přes náhradní odpor udržuje napětí na motoru typicky v rozmezí
 
 Většinu dne je hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu Standby s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován přesným externím krystalem LSE 32 kHz, umístěným na LoRa-E5 mini. Jakmile ale RTC signalizuje, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktován úsporným interním oscilátorem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič volí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. Během přenosu dat je rádio automaticky taktováno přesným externím krystalem HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit dobu probuzení rádia (radio wakeup time) na 5 ms. V režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič využívá úsporný napájecí režim SMPS.
 
-Během komunikace s hnízdy je na pinu LPUART RX hlavního mikrořadiče zapnutý interní pull-up, protože MAX3485 má při vysílání výstup RO ve vysoké impedanci; spotřeba je zanedbatelná. Hnízdové mikrořadiče nejsou po většinu dne napájeny; potřebné informace si ukládají do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí do režimu Stop bez RTC — zanedbatelná spotřeba po zanedbatelný čas. Řadiče jsou postupně úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC. Napětí interního regulátoru je možno kvůli nízké taktovací frekvenci trvale snížit (Voltage Scale 2). Pro inicializaci hnízdových řadičů je vyhrazen zanedbatelný čas 10 ms.
+Během komunikace s hnízdy je na pinu LPUART RX hlavního mikrořadiče zapnutý interní pull-up, protože MAX3485 má při vysílání výstup RO ve vysoké impedanci; spotřeba je zanedbatelná. Hnízdové mikrořadiče nejsou po většinu dne napájeny; potřebné informace si ukládají do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí do režimu Stop bez RTC — zanedbatelná spotřeba. Řadiče jsou postupně úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC. Napětí interního regulátoru je možno kvůli nízké taktovací frekvenci trvale snížit (Voltage Scale 2). Pro inicializaci hnízdových řadičů je vyhrazen zanedbatelný čas 10 ms.
 
 Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a získání hodnoty trvá při měření napětí s průměrováním 64 vzorků (1,1 ms/vzorek) přibližně 80 ms, při měření proudu s průměrováním 16 vzorků (2,2 ms/vzorek) přibližně 40 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 je po připojení napájení potřeba čekat 100 µs kvůli náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 přibližně 500 ms, tedy dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
