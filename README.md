@@ -179,7 +179,7 @@ kde:
 
 Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; výpočet astronomických hodin trvá pouze jednu milisekundu.
 
-### Kontrola vajec (24–26,2 min / 16–17,5 min / 8–8,73 min)
+### Kontrola vajec (24–26,5 min / 16–17,5 min / 8–8,8 min)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
@@ -211,11 +211,11 @@ t_{min} = 24 \cdot h \cdot t_{h,min} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\
 $$
 
 $$
-t_r = 2 \cdot h \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
+t_r = 2 \cdot t_v = 2 \cdot 3,2\ \text{s} = 6,4\ \text{s}
 $$
 
 $$
-t_{max} = 24 \cdot h \cdot t_{h,max} + t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 32\ \text{s} = 524\ \text{s} \approx \mathbf{8,73\ \text{min}}
+t_{max} = 24 \cdot h \cdot t_{h,max} + h \cdot t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 5 \cdot 6,4\ \text{s} = 524\ \text{s} \approx \mathbf{8,8\ \text{min}}
 $$
 
 $$
@@ -223,7 +223,7 @@ t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{
 $$
 
 $$
-t_{P,pu,max} = (24 \cdot t_{h,max} + 2 \cdot t_v) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,2\ \text{min}}
+t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,5\ \text{min}}
 $$
 
 $$
@@ -231,7 +231,7 @@ t_{P,pd,min} = 24 \cdot t_{h,min} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \
 $$
 
 $$
-t_{P,pd,max} = (24 \cdot t_{h,max} + 2 \cdot t_v) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}
+t_{P,pd,max} = (24 \cdot t_{h,max} + t_r) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}
 $$
 
 $$
@@ -279,7 +279,7 @@ T_{sym} = \frac{2^{SF}}{BW} = \frac{2^9}{125\ \text{kHz}} = 4,096\ \text{ms}
 $$
 
 $$
-n_{sym} = 8 + \left\lceil \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \right\rceil \cdot 5
+n_{sym} = 8 + \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \cdot 5
 $$
 
 $$
@@ -303,15 +303,15 @@ t_{p,max} = 2 \cdot 146 \cdot t_{o,max} = 2 \cdot 146 \cdot 50\ \text{ms} = 14,6
 $$
 
 kde:
-- $T_{sym}$ ... doba jednoho symbolu
-- $SF$ ... rozprostírací faktor
-- $BW$ ... šířka pásma
-- $n_{sym}$ ... počet symbolů záhlaví, dat a CRC (33 pro zprávu s 5 B, 28 pro zprávu s 2 B)
-- $n_B$ ... délka rámce v bajtech: data a 13 B režie LoRaWAN (hlavička, port a MIC)
-- $n_{pre}$ ... počet symbolů preambule
 - $t_v$ ... doba vysílání
 - $t_{5B}$ ... doba vysílání zprávy s 5 B dat
 - $t_{2B}$ ... doba vysílání zprávy s 2 B dat
+- $n_{pre}$ ... počet symbolů preambule
+- $n_{sym}$ ... počet symbolů záhlaví, dat a CRC (33 pro zprávu s 5 B, 28 pro zprávu s 2 B)
+- $n_B$ ... délka rámce v bajtech: data a 13 B režie LoRaWAN (hlavička, port a MIC)
+- $T_{sym}$ ... doba jednoho symbolu
+- $SF$ ... rozprostírací faktor
+- $BW$ ... šířka pásma
 - $t_{p,min}$ ... minimální doba příjmu
 - $t_{p,max}$ ... maximální doba příjmu
 - $t_{o,min}$ ... minimální doba příjmového okna
