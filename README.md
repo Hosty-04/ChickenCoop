@@ -203,7 +203,7 @@ t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \t
 $$
 
 $$
-t_{h,max} = t_{h,min} + t_p + t_x = 3,8\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,08\ \text{s} \approx 4,1\ \text{s}
+t_{h,max} = t_{h,min} + t_p + t_x = 3,79\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,07\ \text{s} \approx 4,1\ \text{s}
 $$
 
 $$
