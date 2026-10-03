@@ -429,11 +429,8 @@ function eggPeriod(index) {
   const date = (d, options) => d.toLocaleDateString('cs-CZ', options);
 
   if (eggBucket < DAY_MS) return `${date(from, { day: 'numeric', month: 'numeric' })} ${time(from)}–${time(to)}`;
-  if (eggBucket < WEEK_MS) {
-    const day = date(from, { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' });
-    return day.charAt(0).toUpperCase() + day.slice(1);
-  }
-  return `Týden od ${date(from, { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
+  if (eggBucket < WEEK_MS) return date(from, { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' });
+  return `týden od ${date(from, { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
 }
 
 function formatEggs(n) {
