@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.1767767"
-     inkscape:cx="169.70562"
-     inkscape:cy="1711.1984"
+     inkscape:zoom="0.2176873"
+     inkscape:cx="-103.35927"
+     inkscape:cy="1440.1392"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -43,100 +43,101 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g32">
+       id="g1"
+       transform="translate(199.33027,80.218277)">
       <rect
          style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect234-9"
          width="25.728895"
          height="11.873983"
-         x="34.965061"
-         y="36.317329"
+         x="-157.00294"
+         y="-29.397919"
          ry="3.7072425" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="43.016209"
-         y="43.765625"
+         x="-148.9518"
+         y="-21.949623"
          id="text1918"><tspan
            sodipodi:role="line"
            id="tspan1916"
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-           x="43.016209"
-           y="43.765625">Start</tspan></text>
+           x="-148.9518"
+           y="-21.949623">Start</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
          id="rect234-9-7"
          width="25.728895"
          height="11.873983"
-         x="34.965061"
-         y="845.54626"
+         x="-157.00294"
+         y="779.83099"
          ry="3.7072425" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="41.585361"
-         y="852.97339"
+         x="-150.38264"
+         y="787.25812"
          id="text1918-1"><tspan
            sodipodi:role="line"
            id="tspan1916-7"
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
-           x="41.585361"
-           y="852.97339">Konec</tspan></text>
+           x="-150.38264"
+           y="787.25812">Konec</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="30.426306"
-         y="510.71896"
+         x="-161.54169"
+         y="445.00372"
          id="text2898-32-5"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="30.426306"
-           y="510.71896"
+           x="-161.54169"
+           y="445.00372"
            id="tspan13">Je proud vyšší než</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="30.426306"
-           y="516.01068"
+           x="-161.54169"
+           y="450.29538"
            id="tspan3"> mezní hodnota?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6-1"
          width="37.579678"
          height="37.579678"
-         x="465.54721"
-         y="407.72833"
+         x="291.03683"
+         y="465.27866"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="79.808815"
-         y="508.0903"
+         x="-112.15919"
+         y="442.37506"
          id="text14933-7-7"><tspan
            sodipodi:role="line"
            id="tspan14931-6-6"
            style="stroke-width:1"
-           x="79.808815"
-           y="508.0903">ANO</tspan></text>
+           x="-112.15919"
+           y="442.37506">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="56.771152"
-         y="536.57935"
+         x="-135.19685"
+         y="470.86411"
          id="text14937-5-7"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3"
            style="stroke-width:1"
-           x="56.771152"
-           y="536.57935">NE</tspan></text>
+           x="-135.19685"
+           y="470.86411">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="31.22431"
-         y="464.42639"
+         x="-160.74368"
+         y="398.71115"
          id="text1114-3-36"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="31.22431"
-           y="464.42639"
+           x="-160.74368"
+           y="398.71115"
            sodipodi:role="line"
            id="tspan11-7">Navzorkuj proud</tspan></text>
       <rect
@@ -144,17 +145,17 @@
          id="rect234-2-3-7-5"
          width="37.202827"
          height="22.155048"
-         x="29.228094"
-         y="452.24817" />
+         x="-162.7399"
+         y="386.53293" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="154.59702"
-         y="619.00433"
+         x="-37.370983"
+         y="553.28906"
          id="text1114-3-36-3"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="154.59702"
-           y="619.00433"
+           x="-37.370983"
+           y="553.28906"
            sodipodi:role="line"
            id="tspan11-7-5">Počkej 250 ms</tspan></text>
       <rect
@@ -162,52 +163,52 @@
          id="rect234-2-3-7-5-6"
          width="37.202827"
          height="22.155048"
-         x="150.27887"
-         y="606.81342" />
+         x="-41.689129"
+         y="541.09814" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="79.808815"
-         y="412.1752"
+         x="-112.15919"
+         y="346.45996"
          id="text14933-37-0"><tspan
            sodipodi:role="line"
            id="tspan14931-5-7"
            style="stroke-width:1"
-           x="79.808815"
-           y="412.1752">ANO</tspan></text>
+           x="-112.15919"
+           y="346.45996">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="56.771152"
-         y="440.66425"
+         x="-135.19685"
+         y="374.94901"
          id="text14937-9-8"><tspan
            sodipodi:role="line"
            id="tspan14935-2-6"
            style="stroke-width:1"
-           x="56.771152"
-           y="440.66425">NE</tspan></text>
+           x="-135.19685"
+           y="374.94901">NE</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-9-3"
          width="37.579678"
          height="37.579678"
-         x="380.19186"
-         y="322.37143"
+         x="205.6815"
+         y="379.92175"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="34.227848"
-         y="414.32529"
+         x="-157.74016"
+         y="348.61005"
          id="text1114-3-36-3-2-2-9-4"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="34.227848"
-           y="414.32529"
+           x="-157.74016"
+           y="348.61005"
            sodipodi:role="line"
            id="tspan24-3">Běží motor už</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="34.227848"
-           y="419.61694"
+           x="-157.74016"
+           y="353.9017"
            sodipodi:role="line"
            id="tspan25-1"> více jak 25 s?</tspan></text>
       <rect
@@ -215,22 +216,22 @@
          id="rect234-2-3-7-5-6-1-0"
          width="37.202827"
          height="22.155048"
-         x="29.228094"
-         y="64.536171" />
+         x="-162.7399"
+         y="-1.179077" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="36.799564"
-         y="74.081261"
+         x="-155.16844"
+         y="8.3660126"
          id="text1114-3-36-3-2-9"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="36.799564"
-           y="74.081261"
+           x="-155.16844"
+           y="8.3660126"
            sodipodi:role="line"
            id="tspan11-7-5-9-3">Probuď vše</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="36.799564"
-           y="79.372925"
+           x="-155.16844"
+           y="13.657675"
            sodipodi:role="line"
            id="tspan6">  potřebné</tspan></text>
       <rect
@@ -238,22 +239,22 @@
          id="rect234-2-3-7-5-6-1-0-6"
          width="37.202827"
          height="22.155048"
-         x="29.228094"
-         y="807.31757" />
+         x="-162.7399"
+         y="741.60229" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="37.741489"
-         y="816.86267"
+         x="-154.22652"
+         y="751.1474"
          id="text1114-3-36-3-2-9-0"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="37.741489"
-           y="816.86267"
+           x="-154.22652"
+           y="751.1474"
            sodipodi:role="line"
            id="tspan6-2">  Uspi vše</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="37.741489"
-           y="822.15436"
+           x="-154.22652"
+           y="756.43909"
            sodipodi:role="line"
            id="tspan12">používané</tspan></text>
       <rect
@@ -261,22 +262,22 @@
          id="rect234-2-3-7-5-6-1-0-6-6"
          width="37.202827"
          height="22.155048"
-         x="150.27878"
-         y="703.3233" />
+         x="-41.68922"
+         y="637.60803" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="157.93915"
-         y="712.86835"
+         x="-34.028851"
+         y="647.15308"
          id="text1114-3-36-3-2-9-0-1"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="157.93915"
-           y="712.86835"
+           x="-34.028851"
+           y="647.15308"
            sodipodi:role="line"
            id="tspan12-7">Naplánuj si</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="157.93915"
-           y="718.16003"
+           x="-34.028851"
+           y="652.44476"
            sodipodi:role="line"
            id="tspan16"> probuzení</tspan></text>
       <rect
@@ -284,63 +285,63 @@
          id="rect234-2-3-7-5-6-1-0-6-6-9-7"
          width="37.202827"
          height="22.155048"
-         x="29.228094"
-         y="768.68842" />
+         x="-162.7399"
+         y="702.97314" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="36.626011"
-         y="781.36609"
+         x="-155.342"
+         y="715.65082"
          id="text1114-3-36-3-2-9-0-1-2-5"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="36.626011"
-           y="781.36609"
+           x="-155.342"
+           y="715.65082"
            sodipodi:role="line"
            id="tspan21">Odešli data</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="57.181767"
-         y="266.72818"
+         x="-134.78624"
+         y="201.01294"
          id="text14937-5-7-8-8-6"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3-8-5-4"
            style="stroke-width:1"
-           x="57.181767"
-           y="266.72818">ANO</tspan></text>
+           x="-134.78624"
+           y="201.01294">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="79.398201"
-         y="238.23923"
+         x="-112.5698"
+         y="172.52399"
          id="text14933-37-31-6"><tspan
            sodipodi:role="line"
            id="tspan14931-5-9-9"
            style="stroke-width:1"
-           x="79.398201"
-           y="238.23923">NE</tspan></text>
+           x="-112.5698"
+           y="172.52399">NE</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6-1-3-7-9"
          width="37.579678"
          height="37.579678"
-         x="225.16985"
-         y="167.35139"
+         x="50.659481"
+         y="224.90173"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="32.663609"
-         y="240.12408"
+         x="-159.3044"
+         y="174.40884"
          id="text1114-3-36-3-2-9-0-1-2-5-9"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="32.663609"
-           y="240.12408"
+           x="-159.3044"
+           y="174.40884"
            sodipodi:role="line"
            id="tspan22">    Jsou dvířka</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="32.663609"
-           y="245.41574"
+           x="-159.3044"
+           y="179.7005"
            sodipodi:role="line"
            id="tspan23">v krajní poloze?</tspan></text>
       <rect
@@ -348,110 +349,110 @@
          id="rect234-2-3-7-5-6-1-0-6-6-9-7-8"
          width="37.202827"
          height="22.155048"
-         x="29.228094"
-         y="279.12408" />
+         x="-162.7399"
+         y="213.40884" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="35.497837"
-         y="291.25363"
+         x="-156.47017"
+         y="225.53839"
          id="text1114-3-36-3-2-9-0-1-2-5-6"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="35.497837"
-           y="291.25363"
+           x="-156.47017"
+           y="225.53839"
            sodipodi:role="line"
            id="tspan21-2">Zapni motor</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="148.0585"
-         y="667.15668"
+         x="-43.909496"
+         y="601.44141"
          id="text2898"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="148.0585"
-           y="667.15668"
+           x="-43.909496"
+           y="601.44141"
            id="tspan4">Zbývají ještě pokusy?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058"
          width="37.579678"
          height="37.579678"
-         x="675.99518"
-         y="471.8494"
+         x="501.4848"
+         y="529.39972"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="200.85959"
-         y="662.36371"
+         x="8.8915882"
+         y="596.64844"
          id="text14933"><tspan
            sodipodi:role="line"
            id="tspan14931"
            style="stroke-width:1"
-           x="200.85959"
-           y="662.36371">NE</tspan></text>
+           x="8.8915882"
+           y="596.64844">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="177.82193"
-         y="690.85272"
+         x="-14.14607"
+         y="625.13745"
          id="text14937"><tspan
            sodipodi:role="line"
            id="tspan14935"
            style="stroke-width:1"
-           x="177.82193"
-           y="690.85272">ANO</tspan></text>
+           x="-14.14607"
+           y="625.13745">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="146.31821"
-         y="512.99072"
+         x="-45.651562"
+         y="447.27457"
          id="text2898-32"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="146.31821"
-           y="512.99072"
-           id="tspan10">Je tomu tak už 250 ms?</tspan></text>
+           x="-45.651562"
+           y="447.27457"
+           id="tspan10">Je tomu tak už 150 ms?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6"
          width="37.579678"
          height="37.579678"
-         x="538.71039"
-         y="334.55954"
+         x="364.20001"
+         y="392.10986"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="177.41129"
-         y="489.68146"
+         x="-14.556715"
+         y="423.96622"
          id="text14933-7"><tspan
            sodipodi:role="line"
            id="tspan14931-6"
            style="stroke-width:1"
-           x="177.41129"
-           y="489.68146">NE</tspan></text>
+           x="-14.556715"
+           y="423.96622">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="177.82193"
-         y="536.58148"
+         x="-14.14607"
+         y="470.86624"
          id="text14937-5"><tspan
            sodipodi:role="line"
            id="tspan14935-6"
            style="stroke-width:1"
-           x="177.82193"
-           y="536.58148">ANO</tspan></text>
+           x="-14.14607"
+           y="470.86624">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="152.46335"
-         y="754.09113"
+         x="-39.50465"
+         y="688.37585"
          id="text1114-3-36-3-2"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="152.46335"
-           y="754.09113"
+           x="-39.50465"
+           y="688.37585"
            sodipodi:role="line"
            id="tspan11-7-5-9">Obrať směr tahu</tspan></text>
       <rect
@@ -459,65 +460,65 @@
          id="rect234-2-3-7-0-2"
          width="37.202827"
          height="22.155048"
-         x="150.27878"
-         y="741.41339" />
+         x="-41.68922"
+         y="675.69812" />
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.03438;stroke-dasharray:none;stroke-opacity:1"
          id="rect234-2-3-7-5-6-1-0-6-6-9-7-8-9-9"
          width="37.202827"
          height="22.155048"
-         x="150.27878"
-         y="558.71332" />
+         x="-41.68922"
+         y="492.99808" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="155.66376"
-         y="571.28101"
+         x="-36.304241"
+         y="505.56577"
          id="text1114-3-36-3-2-9-0-1-2-5-6-3-2"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="155.66376"
-           y="571.28101"
+           x="-36.304241"
+           y="505.56577"
            sodipodi:role="line"
            id="tspan21-2-1-0">Zastav motor</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="57.181767"
-         y="594.86255"
+         x="-134.78624"
+         y="529.14728"
          id="text14937-5-7-8-8-6-8-0"><tspan
            sodipodi:role="line"
            id="tspan14935-6-3-8-5-4-9-4"
            style="stroke-width:1"
-           x="57.181767"
-           y="594.86255">ANO</tspan></text>
+           x="-134.78624"
+           y="529.14728">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="79.398201"
-         y="566.37354"
+         x="-112.5698"
+         y="500.65829"
          id="text14933-37-31-6-2-8"><tspan
            sodipodi:role="line"
            id="tspan14931-5-9-9-6-7"
            style="stroke-width:1"
-           x="79.398201"
-           y="566.37354">NE</tspan></text>
+           x="-112.5698"
+           y="500.65829">NE</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-6-1-3-7-9-6-5"
          width="37.579678"
          height="37.579678"
-         x="517.17517"
-         y="459.35855"
+         x="342.66479"
+         y="516.90887"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="29.41242"
-         y="571.01062"
+         x="-162.55557"
+         y="505.29538"
          id="text1114-3-36-3-2-9-0-1-2-5-9-6-1"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="29.41242"
-           y="571.01062"
+           x="-162.55557"
+           y="505.29538"
            sodipodi:role="line"
            id="tspan74">Je úkon dokončen?</tspan></text>
       <rect
@@ -525,120 +526,120 @@
          id="rect234-2-3-7-5-6-1-0-6-6-9-7-8-9-2"
          width="37.202827"
          height="22.155048"
-         x="29.228125"
-         y="606.81342" />
+         x="-162.73987"
+         y="541.09814" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="35.626957"
-         y="618.94293"
+         x="-156.34105"
+         y="553.22766"
          id="text1114-3-36-3-2-9-0-1-2-5-6-3-26"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="35.626957"
-           y="618.94293"
+           x="-156.34105"
+           y="553.22766"
            sodipodi:role="line"
            id="tspan21-2-1-1">Vypni motor</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="29.651617"
-         y="122.50567"
+         x="-162.31638"
+         y="56.790421"
          id="text2898-9"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="29.651617"
-           y="122.50567"
+           x="-162.31638"
+           y="56.790421"
            id="tspan1-0">Byla dvířka minule</tspan><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="29.651617"
-           y="127.79733"
+           x="-162.31638"
+           y="62.082085"
            id="tspan40">     porouchaná?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-91"
          width="37.579678"
          height="37.579678"
-         x="120.50139"
-         y="62.682392"
+         x="-54.008976"
+         y="120.23273"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="79.808815"
-         y="120.35517"
+         x="-112.15919"
+         y="54.639923"
          id="text14933-77"><tspan
            sodipodi:role="line"
            id="tspan14931-1"
            style="stroke-width:1"
-           x="79.808815"
-           y="120.35517">ANO</tspan></text>
+           x="-112.15919"
+           y="54.639923">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="56.771152"
-         y="148.84454"
+         x="-135.19685"
+         y="83.129295"
          id="text14937-1"><tspan
            sodipodi:role="line"
            id="tspan14935-5"
            style="stroke-width:1"
-           x="56.771152"
-           y="148.84454">NE</tspan></text>
+           x="-135.19685"
+           y="83.129295">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="111.27567"
-         y="125.15153"
+         x="-80.692329"
+         y="59.436279"
          id="text2898-9-9"><tspan
            sodipodi:role="line"
            style="stroke-width:1"
-           x="111.27567"
-           y="125.15153"
+           x="-80.692329"
+           y="59.436279"
            id="tspan1-0-7">Máš příkaz od uživatele?</tspan></text>
       <rect
          style="fill:none;stroke:#000000;stroke-width:1.19089;stroke-dasharray:none;stroke-opacity:1"
          id="rect1058-91-7"
          width="37.579678"
          height="37.579678"
-         x="173.51781"
-         y="9.6660118"
+         x="-0.99255824"
+         y="67.216347"
          transform="matrix(0.82723184,0.56186073,-0.82723184,0.56186073,0,0)" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="167.52274"
-         y="120.3531"
+         x="-24.445265"
+         y="54.637856"
          id="text14933-77-6"><tspan
            sodipodi:role="line"
            id="tspan14931-1-7"
            style="stroke-width:1"
-           x="167.52274"
-           y="120.3531">NE</tspan></text>
+           x="-24.445265"
+           y="54.637856">NE</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="144.48508"
-         y="148.84663"
+         x="-47.482922"
+         y="83.131386"
          id="text14937-1-3"><tspan
            sodipodi:role="line"
            id="tspan14935-5-6"
            style="stroke-width:1"
-           x="144.48508"
-           y="148.84663">ANO</tspan></text>
+           x="-47.482922"
+           y="83.131386">ANO</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="227.29007"
-         y="664.51422"
+         x="35.322071"
+         y="598.79895"
          id="text1114-3-36-3-2-5"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="227.29007"
-           y="664.51422"
+           x="35.322071"
+           y="598.79895"
            sodipodi:role="line"
            id="tspan11-7-5-9-0">Nastav dvířka na</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="227.29007"
-           y="669.80591"
+           x="35.322071"
+           y="604.09064"
            sodipodi:role="line"
            id="tspan41">    porouchaná</tspan></text>
       <rect
@@ -646,22 +647,22 @@
          id="rect234-2-3-7-0-2-9"
          width="37.202827"
          height="22.155048"
-         x="225.06523"
-         y="654.96918" />
+         x="33.097233"
+         y="589.25391" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="122.2125"
-         y="180.85814"
+         x="-69.755501"
+         y="115.14289"
          id="text1114-3-36-3-2-5-6"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="122.2125"
-           y="180.85814"
+           x="-69.755501"
+           y="115.14289"
            sodipodi:role="line"
            id="tspan11-7-5-9-0-3">Nastav dvířka</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="122.2125"
-           y="186.1498"
+           x="-69.755501"
+           y="120.43456"
            sodipodi:role="line"
            id="tspan41-8"> jako funkční</tspan></text>
       <rect
@@ -669,19 +670,19 @@
          id="rect234-2-3-7-0-2-9-5"
          width="37.202827"
          height="22.155048"
-         x="116.94184"
-         y="171.31308" />
+         x="-75.026161"
+         y="105.59783" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-1-4"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="48.570335"
+         x="-144.6389"
+         y="-17.144913"
          ry="0" />
       <g
          id="g2"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3"
@@ -704,12 +705,12 @@
          id="rect13415-2-7-2-2-1-4-1"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="86.731323"
+         x="-144.6389"
+         y="21.016075"
          ry="0" />
       <g
          id="g3"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-1"
@@ -732,12 +733,12 @@
          id="rect13415-2-7-2-2-1-4-8"
          width="1"
          height="75.888771"
-         x="47.329105"
-         y="144.98984"
+         x="-144.6389"
+         y="79.27459"
          ry="0" />
       <g
          id="g6"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4"
@@ -760,12 +761,12 @@
          id="rect13415-2-7-2-2-1-4-0"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="262.729"
+         x="-144.6389"
+         y="197.01376"
          ry="0" />
       <g
          id="g7"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-3"
@@ -788,12 +789,12 @@
          id="rect13415-2-7-2-2-1-4-4"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="340.25217"
+         x="-144.6389"
+         y="274.53693"
          ry="0" />
       <g
          id="g10"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-44"
@@ -816,12 +817,12 @@
          id="rect13415-2-7-2-2-1-4-17"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="474.66272"
+         x="-144.6389"
+         y="408.94748"
          ry="0" />
       <g
          id="g13"
-         transform="translate(-18.549125,72.577553)">
+         transform="translate(-210.51712,6.862305)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-5"
@@ -844,12 +845,12 @@
          id="rect13415-2-7-2-2-1-4-178"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="436.59601"
+         x="-144.6389"
+         y="370.88077"
          ry="0" />
       <g
          id="g14"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57"
@@ -872,12 +873,12 @@
          id="rect13415-2-7-2-2-1-4-178-8"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="532.60571"
+         x="-144.6389"
+         y="466.89047"
          ry="0" />
       <g
          id="g15"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-5"
@@ -900,12 +901,12 @@
          id="rect13415-2-7-2-2-1-4-178-5"
          width="1"
          height="15.621484"
-         x="47.329105"
-         y="590.54919"
+         x="-144.6389"
+         y="524.83392"
          ry="0" />
       <g
          id="g16"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-3"
@@ -928,13 +929,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6"
          width="1"
          height="25.513462"
-         x="123.53829"
-         y="-104.37635"
+         x="57.823048"
+         y="87.591644"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g4"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5"
@@ -957,12 +958,12 @@
          id="rect13415-2-7-2-2-1-4-8-4"
          width="1"
          height="26.579277"
-         x="135.04282"
-         y="144.78271"
+         x="-56.925182"
+         y="79.067467"
          ry="0" />
       <g
          id="g5"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4-3"
@@ -985,13 +986,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-0"
          width="1"
          height="69.049255"
-         x="-182.89062"
-         y="48.013157"
+         x="-117.17538"
+         y="-143.95483"
          ry="0"
          transform="rotate(-90)" />
       <g
          id="g8"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-9"
@@ -1011,7 +1012,7 @@
       </g>
       <g
          id="g20"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-9-6"
@@ -1034,13 +1035,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4"
          width="1"
          height="58.71867"
-         x="511.27316"
-         y="-137.69507"
+         x="445.55792"
+         y="54.272926"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g26"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0"
@@ -1060,7 +1061,7 @@
       </g>
       <g
          id="g12"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-5"
@@ -1083,12 +1084,12 @@
          id="rect13415-2-7-2-2-1-4-8-4-2"
          width="1"
          height="26.031387"
-         x="168.37994"
-         y="532.62451"
+         x="-23.588057"
+         y="466.90927"
          ry="0" />
       <g
          id="g25"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4-3-4"
@@ -1111,12 +1112,12 @@
          id="rect13415-2-7-2-2-1-4-8-4-2-5"
          width="1"
          height="26.031387"
-         x="168.37985"
-         y="580.75995"
+         x="-23.588148"
+         y="515.04468"
          ry="0" />
       <g
          id="g24"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4-3-4-4"
@@ -1139,12 +1140,12 @@
          id="rect13415-2-7-2-2-1-4-178-3-2"
          width="1"
          height="15.621484"
-         x="168.37988"
-         y="629.17865"
+         x="-23.588118"
+         y="563.46338"
          ry="0" />
       <g
          id="g23"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-1-8"
@@ -1167,20 +1168,20 @@
          id="rect13415-2-7-2-2-1-4-8-4-2-5-0"
          width="1"
          height="139.62384"
-         x="47.329166"
-         y="628.91412"
+         x="-144.63884"
+         y="563.19885"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-1-4-178-3-2-0"
          width="1"
          height="15.621484"
-         x="168.37988"
-         y="687.09674"
+         x="-23.588118"
+         y="621.38147"
          ry="0" />
       <g
          id="g22"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-1-8-8"
@@ -1203,12 +1204,12 @@
          id="rect13415-2-7-2-2-1-4-178-3-2-0-6"
          width="1"
          height="15.621484"
-         x="168.37988"
-         y="725.48706"
+         x="-23.588118"
+         y="659.77179"
          ry="0" />
       <g
          id="g21"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-1-8-8-4"
@@ -1231,8 +1232,8 @@
          id="rect13415-2-7-2-2-1-4-178-0-8-2"
          width="1"
          height="221.82895"
-         x="779.26593"
-         y="-288.44144"
+         x="713.55066"
+         y="-96.473442"
          ry="0"
          transform="rotate(90)" />
       <rect
@@ -1240,13 +1241,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-0"
          width="1"
          height="25.513462"
-         x="665.54675"
-         y="-225.01218"
+         x="599.83148"
+         y="-33.044182"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g29"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-6"
@@ -1269,13 +1270,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-0-9"
          width="1"
          height="25.513462"
-         x="665.54675"
-         y="-287.60776"
+         x="599.83148"
+         y="-95.639763"
          ry="0"
          transform="rotate(90)" />
       <g
          id="g30"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-6-0"
@@ -1295,7 +1296,7 @@
       </g>
       <g
          id="g27"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-6-0-8"
@@ -1318,16 +1319,16 @@
          id="rect13415-2-7-2-2-1-4-178-0-1"
          width="1"
          height="656.0033"
-         x="287.44168"
-         y="124.03986"
+         x="95.473679"
+         y="58.324615"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.31389;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-3"
          width="1"
          height="123.58045"
-         x="-169.38028"
-         y="-490.62955"
+         x="22.587721"
+         y="-424.91431"
          ry="0"
          transform="scale(-1)" />
       <rect
@@ -1335,13 +1336,13 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1"
          width="1"
          height="102.77641"
-         x="-368.04492"
-         y="66.424873"
+         x="-302.32968"
+         y="-125.54312"
          ry="0"
          transform="rotate(-90)" />
       <g
          id="g11"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-0-1"
@@ -1364,8 +1365,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-3-3"
          width="1"
          height="203.24409"
-         x="-110.97971"
-         y="-570.28699"
+         x="80.988289"
+         y="-504.57175"
          ry="0"
          transform="scale(-1)" />
       <rect
@@ -1373,8 +1374,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1-4-1"
          width="1"
          height="31.691158"
-         x="-570.29138"
-         y="78.759712"
+         x="-504.57614"
+         y="-113.20828"
          ry="0"
          transform="rotate(-90)" />
       <rect
@@ -1382,8 +1383,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1-4-1-5"
          width="1"
          height="165.33887"
-         x="-242.15665"
-         y="78.824928"
+         x="-176.44141"
+         y="-113.14307"
          ry="0"
          transform="rotate(-90)" />
       <rect
@@ -1391,8 +1392,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1-9"
          width="1"
          height="165.13818"
-         x="-416.3577"
-         y="78.729866"
+         x="-350.64246"
+         y="-113.23813"
          ry="0"
          transform="rotate(-90)" />
       <rect
@@ -1400,8 +1401,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1-9-3"
          width="1"
          height="122.14619"
-         x="-124.53819"
-         y="166.29346"
+         x="-58.822948"
+         y="-25.67454"
          ry="0"
          transform="rotate(-90)" />
       <rect
@@ -1409,17 +1410,17 @@
          id="rect234-2-3-7-5-6-1-0-2"
          width="37.202827"
          height="22.155048"
-         x="29.227697"
-         y="317.73047" />
+         x="-162.7403"
+         y="252.01523" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="33.545841"
-         y="329.92136"
+         x="-158.42216"
+         y="264.20612"
          id="text1114-3-36-3-2-9-8"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="33.545841"
-           y="329.92136"
+           x="-158.42216"
+           y="264.20612"
            sodipodi:role="line"
            id="tspan6-9">Počkej 250 ms</tspan></text>
       <rect
@@ -1427,12 +1428,12 @@
          id="rect13415-2-7-2-2-1-4-4-2"
          width="1"
          height="15.621484"
-         x="47.328709"
-         y="301.33466"
+         x="-144.6393"
+         y="235.61942"
          ry="0" />
       <g
          id="g9"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-44-7"
@@ -1455,8 +1456,8 @@
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-0-9-1"
          width="1"
          height="126.05507"
-         x="751.99103"
-         y="-313.67252"
+         x="686.27576"
+         y="-121.70452"
          ry="0"
          transform="rotate(90)" />
       <rect
@@ -1464,21 +1465,21 @@
          id="rect13415-2-7-2-2-1-4-178-0-1-9"
          width="1"
          height="462.28922"
-         x="312.67252"
-         y="289.70013"
+         x="120.70451"
+         y="223.98489"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.85555;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-6-1-4-7-7-2-6-4-1-9-9"
          width="1"
          height="246.47183"
-         x="-290.7016"
-         y="66.290718"
+         x="-224.98636"
+         y="-125.67728"
          ry="0"
          transform="rotate(-90)" />
       <g
          id="g17"
-         transform="translate(-18.549125,-23.201668)">
+         transform="translate(-210.51712,-88.916916)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-92-2-6-5-9-1"
@@ -1501,20 +1502,20 @@
          id="rect13415-2-7-2-2-1-4-178-0-1-91"
          width="1"
          height="413.58966"
-         x="243.16714"
-         y="241.51593"
+         x="51.199146"
+         y="175.80069"
          ry="0" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-1-4-178-5-6"
          width="1"
          height="15.621484"
-         x="47.329136"
-         y="829.50104"
+         x="-144.63887"
+         y="763.78577"
          ry="0" />
       <g
          id="g19"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-3-7"
@@ -1537,12 +1538,12 @@
          id="rect13415-2-7-2-2-1-4-178-5-6-6"
          width="1"
          height="15.621484"
-         x="47.329136"
-         y="791.09979"
+         x="-144.63887"
+         y="725.38452"
          ry="0" />
       <g
          id="g18"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-57-3-7-2"
@@ -1562,7 +1563,7 @@
       </g>
       <g
          id="g28"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4-3-4-4-5"
@@ -1582,7 +1583,7 @@
       </g>
       <g
          id="g31"
-         transform="translate(-18.549125,14.89835)">
+         transform="translate(-210.51712,-50.816898)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-4-3-4-4-3"
@@ -1603,17 +1604,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:none;stroke-width:1"
-         x="32.405399"
-         y="366.23077"
+         x="-159.56261"
+         y="300.51553"
          id="text1114-3-36-6"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="32.405399"
-           y="366.23077"
+           x="-159.56261"
+           y="300.51553"
            sodipodi:role="line"
            id="tspan11-7-7">   Uprav střídu</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1"
-           x="32.405399"
-           y="371.52243"
+           x="-159.56261"
+           y="305.80719"
            sodipodi:role="line"
            id="tspan32">PWM modulace</tspan></text>
       <rect
@@ -1621,19 +1622,19 @@
          id="rect234-2-3-7-5-5"
          width="37.202827"
          height="22.155048"
-         x="29.228125"
-         y="356.19888" />
+         x="-162.73987"
+         y="290.48364" />
       <rect
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.467143;stroke-dasharray:none;stroke-opacity:1"
          id="rect13415-2-7-2-2-1-4-17-3"
          width="1"
          height="15.621484"
-         x="47.329136"
-         y="378.61343"
+         x="-144.63887"
+         y="312.89819"
          ry="0" />
       <g
          id="g13-5"
-         transform="translate(-18.549115,-23.471191)">
+         transform="translate(-210.51711,-89.186439)">
         <rect
            style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.922694;stroke-dasharray:none;stroke-opacity:1"
            id="rect14158-0-2-3-5-6"
