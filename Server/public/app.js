@@ -218,6 +218,11 @@ function nestList(nests) {
   return `hnízd ${list.slice(0, -1).join(', ')} a ${list[list.length - 1]}`;
 }
 
+function nestNames(nests) {
+  if (nests.length === 1) return `hnízdo ${nests[0]}`;
+  return `hnízda ${nests.slice(0, -1).join(', ')} a ${nests[nests.length - 1]}`;
+}
+
 function describe(commands, nests) {
   return (commands ?? []).map((name) => (name in NEST_COMMAND_LABELS
     ? `${NEST_COMMAND_LABELS[name]} ${nestList(nests)}`
@@ -501,12 +506,12 @@ function renderEggChart() {
             title: (items) => eggPeriod(items[0].dataIndex),
             label: (ctx) => {
               const p = eggPoints[ctx.dataIndex];
-              if (p.total === null) return 'bez dat';
+              if (p.total === null) return 'Bez dat';
               const missing = p.laid.flatMap((n, i) => (n === null ? [i + 1] : []));
               return [
                 `Celkem: ${countEggs(p.total)}`,
                 ...p.laid.flatMap((n, i) => (n > 0 ? [`Hnízdo ${i + 1}: ${n}`] : [])),
-                ...(missing.length > 0 ? [`bez dat: ${nestList(missing)}`] : [])
+                ...(missing.length > 0 ? [`Bez dat: ${nestNames(missing)}`] : [])
               ];
             }
           }
