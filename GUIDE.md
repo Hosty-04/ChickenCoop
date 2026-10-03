@@ -662,9 +662,7 @@ Pomlčka tedy neznamená nulu, ale to, že se počet nezjistil. Jsou dva přípa
   sčítá jen ostatní hnízda.
 
 Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo týden nepřišel ani jeden
-počet. Intervaly z doby před prvním měřením tabulka vynechává, protože tehdy kurník ještě
-neměřil — v prvním roce po instalaci tak rozsah 1 rok v tabulce začíná až instalací. Graf
-má osu přes celý zvolený rozsah stejně jako Napájení, jen v té části nemá sloupce.
+počet.
 
 V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže popisek
 po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky v celém řádku **Bez dat**.
