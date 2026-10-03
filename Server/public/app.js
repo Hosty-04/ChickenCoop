@@ -38,6 +38,7 @@ const css = (name) => getComputedStyle(document.querySelector('.viz-root')).getP
 
 const TOAST_MS = 5000;
 const REQUEST_MS = 8000;
+const OFFLINE_MS = 5000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
 const TICK_LENGTH_PX = 6;
@@ -56,6 +57,8 @@ let hours = 24;
 let points = [];
 let odchazim = false;
 let socket = null;
+let serverDown = false;
+let offlineTimer = null;
 let chartWindow = null;
 let chartBucket = 0;
 let eggChart = null;
@@ -178,7 +181,21 @@ function setBadge(up, text) {
   el('link-text').textContent = text;
 }
 
+function serverLost() {
+  if (odchazim || serverDown || offlineTimer) return;
+  setBadge(null, 'připojuji…');
+  offlineTimer = setTimeout(() => {
+    offlineTimer = null;
+    if (odchazim) return;
+    serverDown = true;
+    setBadge(false, 'Server nedostupný');
+  }, OFFLINE_MS);
+}
+
 function renderStatus(status) {
+  clearTimeout(offlineTimer);
+  offlineTimer = null;
+  serverDown = false;
   el('device').textContent = status.device ?? '';
 
   setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
@@ -752,7 +769,7 @@ async function loadStatus() {
     if (!requireSession(res)) return;
     renderStatus(await res.json());
   } catch {
-    if (!odchazim) setBadge(false, 'Server nedostupný');
+    serverLost();
   }
 }
 
@@ -790,7 +807,7 @@ function connectSocket() {
 
   socket.addEventListener('close', (event) => {
     if (odchazim) return;
-    setBadge(false, 'Server nedostupný');
+    serverLost();
     if (event.code === 1008 || event.code === 1006) {
       fetch('/api/status').then((r) => requireSession(r)).catch(() => undefined);
     }

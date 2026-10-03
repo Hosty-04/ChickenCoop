@@ -587,7 +587,10 @@ počet v hnízdě klesne, ale snáška zůstane.
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
-a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
+a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení. Když se stránka
+se serverem přestane spojovat, ukáže indikátor nejdřív **připojuji…** a teprve po pěti
+sekundách bez spojení **Server nedostupný**, takže krátké přerušení, třeba při znovunačtení
+stránky, se neprojeví.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
