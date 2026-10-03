@@ -20,7 +20,7 @@ const DATABAZE = {
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
-  patnact: { soubor: 'kurnik-test-15.db', popis: 'patnáct hnízd, poslední kontrola se všemi stavy', hnizd: 15 },
+  velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
@@ -232,7 +232,7 @@ function nastaveni(stav) {
     const zacatek = ted - 20 * HOD;
     return { zacatek, konec, udalosti: [], hnizda: instalaceHnizd(zacatek, konec) };
   }
-  if (stav === 'patnact') {
+  if (stav === 'velky') {
     return { zacatek: tyden, konec, udalosti: kratkeUdalosti(), hnizda: [...vsechnyStavy(konec), ...kratkaHnizda()] };
   }
   if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [], hnizda: [] };
