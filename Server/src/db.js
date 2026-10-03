@@ -263,13 +263,10 @@ export async function readEggs(deviceId, hours, nestCount) {
   const now = Date.now();
   const reported = now - HOUR_MS;
   const all = hours === null;
-  let oldest = null;
+  const oldest = selectOldest.get(deviceId)?.oldest;
 
-  if (all) {
-    oldest = selectOldest.get(deviceId)?.oldest;
-    if (!oldest) return { bucketMs: DAY_MS, points: [] };
-    hours = Math.max((now - oldest) / HOUR_MS, 1);
-  }
+  if (!oldest) return { bucketMs: DAY_MS, points: [] };
+  if (all) hours = Math.max((now - oldest) / HOUR_MS, 1);
 
   const bucket = eggBucketFor(hours);
   const first = all ? slotOf(oldest, bucket) : slotOf(reported - hours * HOUR_MS, bucket, Math.ceil);
@@ -296,7 +293,12 @@ export async function readEggs(deviceId, hours, nestCount) {
     });
   }
 
-  return { bucketMs: bucket, end: fromLocalClock(last + bucket).toISOString(), points };
+  return {
+    bucketMs: bucket,
+    end: fromLocalClock(last + bucket).toISOString(),
+    since: new Date(oldest).toISOString(),
+    points
+  };
 }
 
 export async function countReadings(deviceId) {

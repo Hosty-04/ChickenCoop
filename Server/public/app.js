@@ -65,6 +65,7 @@ let eggChart = null;
 let eggPoints = [];
 let eggBucket = 0;
 let eggEnd = 0;
+let eggSince = 0;
 let nestCount = 0;
 const toastTimers = new Map();
 
@@ -441,11 +442,12 @@ function renderEggTable() {
   el('eggs-table').querySelector('thead').innerHTML = `<tr><th scope="col">Čas</th><th scope="col">Celkem</th>${
     Array.from({ length: nests }, (_, i) => `<th scope="col">Hnízdo ${i + 1}</th>`).join('')
   }</tr>`;
-  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.map((p, i) =>
+  const edges = eggEdges();
+  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.flatMap((p, i) => (edges[i + 1] <= eggSince ? [] : [
     `<tr><td>${eggPeriod(i)}</td><td>${formatEggs(p.total)}</td>${
       p.laid.map((n) => `<td>${formatEggs(n)}</td>`).join('')
     }</tr>`
-  ).reverse().join('');
+  ])).reverse().join('');
 }
 
 function renderEggChart() {
@@ -756,6 +758,7 @@ async function loadEggs() {
     eggPoints = body.points;
     eggBucket = body.bucketMs;
     eggEnd = body.end ? new Date(body.end).getTime() : 0;
+    eggSince = body.since ? new Date(body.since).getTime() : 0;
     const total = eggPoints.reduce((sum, p) => sum + (p.total ?? 0), 0);
     el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(total)}`;
     hideToast('eggs-toast', 'snaska');
