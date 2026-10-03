@@ -65,6 +65,7 @@ let eggChart = null;
 let eggPoints = [];
 let eggBucket = 0;
 let eggEnd = 0;
+let eggSince = 0;
 let nestCount = 0;
 const toastTimers = new Map();
 
@@ -216,6 +217,11 @@ function nestList(nests) {
   const list = nests ?? [];
   if (list.length === 1) return `hnízda ${list[0]}`;
   return `hnízd ${list.slice(0, -1).join(', ')} a ${list[list.length - 1]}`;
+}
+
+function nestNames(nests) {
+  if (nests.length === 1) return `hnízdo ${nests[0]}`;
+  return `hnízda ${nests.slice(0, -1).join(', ')} a ${nests[nests.length - 1]}`;
 }
 
 function describe(commands, nests) {
@@ -436,11 +442,12 @@ function renderEggTable() {
   el('eggs-table').querySelector('thead').innerHTML = `<tr><th scope="col">Čas</th><th scope="col">Celkem</th>${
     Array.from({ length: nests }, (_, i) => `<th scope="col">Hnízdo ${i + 1}</th>`).join('')
   }</tr>`;
-  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.map((p, i) =>
+  const edges = eggEdges();
+  el('eggs-table').querySelector('tbody').innerHTML = eggPoints.flatMap((p, i) => (edges[i + 1] <= eggSince ? [] : [
     `<tr><td>${eggPeriod(i)}</td><td>${formatEggs(p.total)}</td>${
       p.laid.map((n) => `<td>${formatEggs(n)}</td>`).join('')
     }</tr>`
-  ).reverse().join('');
+  ])).reverse().join('');
 }
 
 function renderEggChart() {
@@ -501,12 +508,12 @@ function renderEggChart() {
             title: (items) => eggPeriod(items[0].dataIndex),
             label: (ctx) => {
               const p = eggPoints[ctx.dataIndex];
-              if (p.total === null) return 'bez dat';
+              if (p.total === null) return 'Bez dat';
               const missing = p.laid.flatMap((n, i) => (n === null ? [i + 1] : []));
               return [
                 `Celkem: ${countEggs(p.total)}`,
                 ...p.laid.flatMap((n, i) => (n > 0 ? [`Hnízdo ${i + 1}: ${n}`] : [])),
-                ...(missing.length > 0 ? [`bez dat: ${nestList(missing)}`] : [])
+                ...(missing.length > 0 ? [`Bez dat: ${nestNames(missing)}`] : [])
               ];
             }
           }
@@ -751,6 +758,7 @@ async function loadEggs() {
     eggPoints = body.points;
     eggBucket = body.bucketMs;
     eggEnd = body.end ? new Date(body.end).getTime() : 0;
+    eggSince = body.since ? new Date(body.since).getTime() : 0;
     const total = eggPoints.reduce((sum, p) => sum + (p.total ?? 0), 0);
     el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(total)}`;
     hideToast('eggs-toast', 'snaska');

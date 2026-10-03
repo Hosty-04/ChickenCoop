@@ -662,9 +662,14 @@ Pomlčka tedy neznamená nulu, ale to, že se počet nezjistil. Jsou dva přípa
   sčítá jen ostatní hnízda.
 
 Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo týden nepřišel ani jeden
-počet. V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže
-popisek po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky **bez dat** a u jednotlivých
-hnízd třeba **bez dat: hnízda 2**.
+počet. Intervaly z doby před prvním měřením tabulka vynechává, protože tehdy kurník ještě
+neměřil — v prvním roce po instalaci tak rozsah 1 rok v tabulce začíná až instalací. Graf
+má osu přes celý zvolený rozsah stejně jako Napájení, jen v té části nemá sloupce.
+
+V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže popisek
+po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky v celém řádku **Bez dat**.
+Když chybí jen některá hnízda, je v popisku pod součtem řádek, která to jsou, třeba
+**Bez dat: hnízdo 2** nebo **Bez dat: hnízda 1, 3 a 4**.
 
 Vejce snesená během výpadku se neztratí: první kontrola po něm porovná počet s posledním
 známým a celý přírůstek připíše svému intervalu, takže po výpadku bývá jeden vyšší sloupec.
