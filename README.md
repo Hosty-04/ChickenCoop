@@ -199,7 +199,7 @@ t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{Hz}}
 $$
 
 $$
-t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,8\ \text{s} \approx 4\ \text{s}
+t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \text{s} \approx 4\ \text{s}
 $$
 
 $$
@@ -240,7 +240,7 @@ $$
 
 kde:
 - $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
-- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty jednoho tenzometru (nanejvýš jednou denně)
+- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty tenzometru (nanejvýš jednou denně)
 - $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
 - $h$ ... počet hnízd
 - $t_{h,max}$ ... maximální doba kontroly jednoho hnízda
