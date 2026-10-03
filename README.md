@@ -12,7 +12,8 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
-**Návod**: <a href="./Server/README.md">zde</a>.
+<a href="./Server/README.md">Návod</a>
+<a href="./Server/README.md">Test</a>
 
 ## Schéma
 
@@ -428,7 +429,7 @@ Firmware je vyvíjen v prostředí Visual Studio Code s rozšířením STM32Cube
 
 Hlavní mikrořadič se společně s nezbytnými částmi systému probouzí ráno hodinu před východem slunce a večer hodinu po západu slunce kvůli otevření a zavření dvířek. Pokud je tento úkon odložen, je zajištěno, aby se nekřížil s žádnou jinou činností. Dále se probouzí každých 10 minut, aby zkontroloval stav solárního panelu a akumulátoru. Nakonec se spolu s hnízdovými mikrořadiči a dalšími potřebnými částmi systému probouzí každou hodinu a postupně u všech hnízd aktualizuje počet vajec. Probouzení zajišťuje utility timer. Po každé události následuje komunikace.
 
-LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jeho vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání má možnost přijímat data, což umožňuje manuální ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A — primární příjmové okno RX1 a záložní okno RX2. V domě je umístěna LoRaWAN gateway (zapůjčená ze školy), plnící funkci internetové brány. Veškerá přijatá data jsou odesílána do cloudu (TTN) a odtud přes MQTT na backend server (Node.js), který je ukládá do databáze (SQLite) a zobrazuje na webové stránce. Při odesílání dat do kurníku probíhá proces obráceně. Server běží na Raspberry Pi 3 Model B+. Více informací je k dispozici <a href="./Server/README.md">zde</a>.
+LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jeho vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání má možnost přijímat data, což umožňuje manuální ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A — primární příjmové okno RX1 a záložní okno RX2. V domě je umístěna LoRaWAN gateway (zapůjčená ze školy), plnící funkci internetové brány. Veškerá přijatá data jsou odesílána do cloudu (TTN) a odtud přes MQTT na backend server (Node.js), který je ukládá do databáze (SQLite) a zobrazuje na webové stránce. Při odesílání dat do kurníku probíhá proces obráceně. Server běží na Raspberry Pi 3 Model B+.
 
 Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech; hodnota 0–10 udává počet vajec, 11 kvočnu, 12 nezkalibrovanou váhu, 14 poruchu váhy a 15 hnízdo, které neodpovídá. Po kontrole stavu hnízd a po vynulování nebo kalibraci váhy se odešlou všechny bajty, kdykoliv jindy pouze první dva.
 
