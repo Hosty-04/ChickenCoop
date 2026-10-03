@@ -649,18 +649,28 @@ Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na konec t
 do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může být vyšší, dlaždice,
 graf i tabulka ukazují tuhle mez.
 
-**Hnízda a Snáška.** Počty vajec chodí jen se zprávou po kontrole hnízd. Když nedorazí, karta
-Hnízda zůstane u poslední kontroly a její čas je v záhlaví karty. V tabulce Snášky má takový
-interval **pomlčku**, v grafu prázdné místo a po najetí myší popisek **bez dat**. Pomlčka
-znamená, že za tu dobu kurník žádný počet nenahlásil; **0** znamená, že kontrola proběhla
-a vejce nepřibyla. Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo
-týden nepřišel žádný počet.
+**Hnízda a Snáška.** Tabulka Snášky ukazuje, kolik vajec v každém intervalu přibylo:
 
-Pomlčka v celém řádku nastane, když zprávy z kurníku nedorazí, a při kriticky vybité baterii
-nebo vypnuté automatice, kdy se hnízda nekontrolují. Pomlčka jen u jednoho hnízda znamená, že
-to hnízdo nemělo platný počet — sedí na něm kvočna, váha není zkalibrovaná, má poruchu nebo
-neodpovídá. Sloupec **Celkem** pak sčítá jen hnízda, o kterých se ví, a v popisku grafu jsou
-ostatní vyjmenovaná za **bez dat**.
+| V buňce | Co znamená |
+|---|---|
+| číslo, třeba **2** | přibyla dvě vejce |
+| **0** | kontrola proběhla a nic nepřibylo |
+| **–** | nevíme — za ten interval nepřišel žádný počet |
+
+Pomlčka tedy neznamená nulu, ale to, že se počet nezjistil. Jsou dva případy:
+
+- **Pomlčka v celém řádku:** z kurníku za tu dobu nepřišla žádná zpráva o hnízdech. Buď
+  vypadlo spojení, nebo se hnízda vůbec nekontrolovala, protože byla baterie kriticky vybitá
+  nebo byla vypnutá automatika. Karta Hnízda mezitím zůstane u poslední kontroly a její čas
+  je v záhlaví karty.
+- **Pomlčka jen u jednoho hnízda:** zpráva přišla, ale tohle hnízdo počet neposlalo — sedí na
+  něm kvočna, váha není zkalibrovaná, má poruchu nebo neodpovídá. Sloupec **Celkem** pak
+  sčítá jen ostatní hnízda.
+
+Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo týden nepřišel ani jeden
+počet. V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže
+popisek po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky **bez dat** a u jednotlivých
+hnízd třeba **bez dat: hnízda 2**.
 
 Vejce snesená během výpadku se neztratí: první kontrola po něm porovná počet s posledním
 známým a celý přírůstek připíše svému intervalu, takže po výpadku bývá jeden vyšší sloupec.
