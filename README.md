@@ -133,15 +133,15 @@ kde:
 - $t_{a,v}$ ... doba převodu jednoho vzorku napětí na akumulátoru
 - $n_{a,v}$ ... počet vzorků napětí na akumulátoru
 
-### Pohyb dvířek (32–215 s)
+### Pohyb dvířek (32–144 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| Motor | 100 mA | 250 mA | 0,889 mAh | 14,9 mAh |
-| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 35,8 µAh |
-| INA226 | 330 µA | 420 µA | 2,93 µAh | 25,1 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 7,17 µAh |
-| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **15 mAh** |
+| Motor | 100 mA | 250 mA | 0,889 mAh | 10 mAh |
+| DRV8838 | 340 µA | 600 µA | 3,02 µAh | 24 µAh |
+| INA226 | 330 µA | 420 µA | 2,93 µAh | 16,8 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 15,6 µAh |
+| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **10,1 mAh** |
 
 ---
 
@@ -162,7 +162,7 @@ t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{m
 $$
 
 $$
-t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 3 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 12 \cdot 17,9\ \text{s} \approx \mathbf{215\ \text{s}}
+t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}
 $$
 
 kde:
@@ -203,10 +203,6 @@ t_{min} = 24 \cdot h \cdot t = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{m
 $$
 
 $$
-t_r = 2 \cdot h \cdot t_v = 2 \cdot 5 \cdot 3,2\ \text{s} = 32\ \text{s}
-$$
-
-$$
 t_{max} = 24 \cdot h \cdot t + t_r = 24 \cdot 5 \cdot 4\ \text{s} + 32\ \text{s} = \mathbf{8,53\ \text{min}}
 $$
 
@@ -224,7 +220,6 @@ $$
 
 kde:
 - $t_{max}$ ... maximální doba každohodinové kontroly h hnízd
-- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů
 - $t_{min}$ ... minimální doba každohodinové kontroly h hnízd
 - $t$ ... doba kontroly jednoho hnízda
 - $t_i$ ... doba inicializace
@@ -278,7 +273,7 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
 | Kontrola vajec | 923 µAh | 44,5 % | 1,34 mAh | 7,7 % |
-| Pohyb dvířek | 896 µAh | 43,2 % | 15 mAh | 85,8 % |
+| Pohyb dvířek | 896 µAh | 43,2 % | 10,1 mAh | 85,8 % |
 | Klidový režim | 129 µAh | 6,2 % | 1 mAh | 5,7 % |
 | Komunikace | 124 µAh | 6,0 % | 137 µAh | 0,8 % |
 | Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
@@ -350,10 +345,10 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2612 | +1538 |
-| Východ | +2497 | +403 |
-| Západ | +2612 | +517 |
-| Jihozápad | +2722 | +1198 |
+| Jih | +2637 | +1563 |
+| Východ | +2522 | +428 |
+| Západ | +2637 | +542 |
+| Jihozápad | +2747 | +1223 |
 
 ---
 
@@ -366,7 +361,7 @@ kde:
 - $Q_{aku}$ ... náboj akumulátoru
 - $rate$ ... míra samovybíjení za měsíc
 
-Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 50 mAh — přibližně dvojnásobek).
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby, náboje ztraceného samovybíjením akumulátoru a rezervy — 25 mAh.
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou nehledě na orientaci fotovoltaického panelu. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi provozní dobu omezuje spíše několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru než samotná spotřeba systému a samovybíjení.
 
@@ -378,9 +373,13 @@ Firmware je vyvíjen v prostředí Visual Studio Code s rozšířením STM32Cube
 
 Hlavní mikrořadič se společně s nezbytnými částmi systému probouzí ráno hodinu před východem slunce a večer hodinu po západu slunce kvůli otevření a zavření dvířek. Pokud je tento úkon odložen, je zajištěno, aby se nekřížil s žádnou jinou činností. Dále se probouzí každých 10 minut, aby zkontroloval stav solárního panelu a akumulátoru. Nakonec se spolu s hnízdovými mikrořadiči a dalšími potřebnými částmi systému probouzí každou hodinu a postupně u všech hnízd aktualizuje počet vajec. Probouzení zajišťuje utility timer. Po každé události následuje komunikace.
 
-LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jeho vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání má možnost přijímat data, což umožňuje uživatelské ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A — primární příjmové okno RX1 a záložní okno RX2. V domě je umístěna LoRaWAN gateway (zapůjčená ze školy), plnící funkci internetové brány. Veškerá přijatá data jsou odesílána do cloudu (TTN) a odtud přes MQTT na backend server (Node.js), který je ukládá do databáze (SQLite) a zobrazuje na dashboardu. Při odesílání dat do kurníku probíhá proces obráceně. Server běží na Raspberry Pi 3 Model B+. Více informací je k dispozici <a href="./Server/README.md">zde</a>.
+LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a to kvůli jeho vyššímu odběru proudu a ochraně proti rušení. Po každém vysílání má možnost přijímat data, což umožňuje manuální ovládání. Externí RF switch je ovládaný piny PA4 a PA5; pro vysílání je potřeba nastavit PA4 = 0 a PA5 = 1 a pro příjem PA4 = 1 a PA5 = 0. Upřednostňované parametry komunikace jsou: vysílací výkon 12 dBm, SF9, šířka pásma 125 kHz, kódovací poměr 4/5, LoRaWAN Class A — primární příjmové okno RX1 a záložní okno RX2. V domě je umístěna LoRaWAN gateway (zapůjčená ze školy), plnící funkci internetové brány. Veškerá přijatá data jsou odesílána do cloudu (TTN) a odtud přes MQTT na backend server (Node.js), který je ukládá do databáze (SQLite) a zobrazuje na webové stránce. Při odesílání dat do kurníku probíhá proces obráceně. Server běží na Raspberry Pi 3 Model B+. Více informací je k dispozici <a href="./Server/README.md">zde</a>.
 
-Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech (0–10 vajec na hnízdo). Kurník odesílá data každých 10 minut po kontrole stavu panelu a akumulátoru, dále po kontrole stavu hnízd a při změně stavu dvířek; po kontrole stavu hnízd se odešle všech 5 bajtů, kdykoliv jindy pouze první 2 bajty. Příjem dat (manuální ovládání) následuje vždy po skončení vysílání a využívá jediný bajt: bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny.
+Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech; hodnota 0–10 udává počet vajec, 11 kvočnu, 12 nezkalibrovanou váhu, 14 poruchu váhy a 15 hnízdo, které neodpovídá. Po kontrole stavu hnízd a po vynulování nebo kalibraci váhy se odešlou všechny bajty, kdykoliv jindy pouze první dva.
+
+Příjem dat (manuální ovládání) následuje vždy po skončení vysílání, tedy maximálně co 10 minut, a využívá jeden nebo více bajtů. V prvním bajtu bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Od druhého bajtu připadají na každé snáškové hnízdo dva bity, čtyři hnízda na bajt, hnízdo 1 v bitech 0 a 1: kombinace 01 váhu hnízda vynuluje a 10 ji zkalibruje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny.
+
+Kalibrace tenzometrů probíhá vůči etalonu o hmotnosti 1 kg a oba její kroky se spouštějí z webové stránky právě tímto manuálním ovládáním. S prázdným hnízdem se nejprve vynulováním uloží referenční nulová hodnota, poté se s etalonem uprostřed hnízda kalibrací spočítá převodní konstanta (gramy na jeden dílek převodníku); obojí si hnízdový řadič uloží do paměti EEPROM. Vynulování i kalibrace proběhnou ihned po přijetí, a to jen u vybraných hnízd; ostatní hnízda se přitom neměří a po dokončení se odešlou všechny bajty, takže stránka hned ukáže výsledek.
 
 **Stavový automat pro algoritmus detekce snesených vajec**
 
@@ -399,7 +398,9 @@ Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bit
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
-Pro komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, je použit protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů není nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost je 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě slouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytváří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převádí jednotlivé bajty na sériový datový tok, doplňuje start a stop bity a zajišťuje jejich přenos po sběrnici; na straně přijímače probíhá opačný proces.
+Hnízdové řadiče mají adresy 1 až N podle pořadí v řetězci a hlavní řadič je obsluhuje jeden po druhém. Nejprve funkcí 0x10 zapíše do registrů 0 a 1 příkaz a jeho parametr: 1 = změřit (parametrem je dnešní datum, aby hnízdový řadič kontroloval drift nanejvýš jednou denně), 2 = vynulovat, 3 = zkalibrovat (parametrem je hmotnost etalonu v gramech) a 4 = uvolnit sběrnici. Na odpověď čeká nejvýše 200 ms; nepřijde-li, zápis zopakuje, celkem nejvýše třikrát. Potom 3,7 s mlčí, aby hnízdový řadič mohl v klidu ustálit HX711 a odebrat 32 vzorků, a následně se ho každých 250 ms, nejdéle však 10 s, ptá na výsledek, což pokryje i kontrolu driftu. Funkcí 0x03 přitom čte registry 2 až 4: stav (0 = čeká, 1 = měří, 2 = hotovo), počet vajec a příznaky (bit 0 kvočna, bit 1 nezkalibrovaná váha, bit 2 porucha váhy). Obsluha jednoho hnízda tak trvá obvykle asi 4 s, nejdéle 15 s. Po příkazu „uvolnit“ vypne hnízdový řadič místní MAX3485 a HX711, připojí napájení další krabičky a přejde do režimu Stop bez RTC; po obsloužení všech hnízd odpojí hlavní řadič napájení celé větve. Neozve-li se některé hnízdo, nedostanou napájení ani hnízda za ním.
+
+Komunikaci mezi hlavní řídicí jednotkou (master) a hnízdovými řídicími jednotkami (slave), propojenými sériově v topologii daisy chain, zajišťuje protokol LPUART, který nevyžaduje hodinový signál a vyznačuje se nízkou spotřebou energie. Vzhledem ke krátké délce vedení v řádu jednotek metrů není nutné na začátek ani konec sběrnice připojovat terminační rezistory 120 Ω pro impedanční přizpůsobení vedení — jejich použití by pouze zvyšovalo proudový odběr systému. Přenosová rychlost je 9600 Bd, aby odrazy na neterminovaném vedení odezněly výrazně dříve, než se bit vzorkuje. Na aplikační vrstvě slouží protokol Modbus RTU spolu s knihovnou ModbusRTU-Slave. Modbus RTU vytváří datový rámec obsahující adresu jednotky slave, přenášená data a kontrolní součet CRC pro detekci chyb při přenosu. Hardware LPUART v mikrořadiči následně převádí jednotlivé bajty na sériový datový tok, doplňuje start a stop bity a zajišťuje jejich přenos po sběrnici; na straně přijímače probíhá opačný proces.
 
 K solárnímu panelu je připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 330 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (330 kΩ) je zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie: interní vzorkovací kondenzátor uvnitř M se nabíjí přes vysokou výstupní impedanci děliče, a bez tohoto kondenzátoru by se proto nabíjel příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů hodin ADC (160,5). Dělič slouží k monitorování napětí panelu; napětí se do M přivádí přes ADC pin v analogovém režimu, pro zvýšení přesnosti se provádí kalibrace a výsledkem je aritmetický průměr 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý svodový proud do M zajišťují zanedbatelný vliv na pracovní bod a účinnost panelu. Velmi úsporný modul proudového a napěťového senzoru INA226 je v krabičce K zapojen mezi akumulátor a vstup Vin pro napájení motoru přes H-bridge; jednou z jeho funkcí je s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
@@ -463,9 +464,9 @@ Kompenzace přes náhradní odpor udržuje napětí na motoru typicky v rozmezí
 
 Většinu dne je hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu Standby s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován přesným externím krystalem LSE 32 kHz, umístěným na LoRa-E5 mini. Jakmile ale RTC signalizuje, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktován úsporným interním oscilátorem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič volí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. Během přenosu dat je rádio automaticky taktováno přesným externím krystalem HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit dobu probuzení rádia (radio wakeup time) na 5 ms. V režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič využívá úsporný napájecí režim SMPS.
 
-Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a získání hodnoty trvá při měření napětí s průměrováním 64 vzorků (1,1 ms/vzorek) přibližně 80 ms, při měření proudu s průměrováním 16 vzorků (2,2 ms/vzorek) přibližně 40 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 je po připojení napájení potřeba čekat 100 µs kvůli náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 přibližně 500 ms, tedy dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
+Během komunikace s hnízdy je na pinu LPUART RX hlavního mikrořadiče zapnutý interní pull-up, protože MAX3485 má při vysílání výstup RO ve vysoké impedanci; spotřeba je zanedbatelná. Hnízdové mikrořadiče nejsou po většinu dne napájeny; potřebné informace si ukládají do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí do režimu Stop bez RTC — zanedbatelná spotřeba po zanedbatelný čas. Řadiče jsou postupně úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC. Napětí interního regulátoru je možno kvůli nízké taktovací frekvenci trvale snížit (Voltage Scale 2). Pro inicializaci hnízdových řadičů je vyhrazen zanedbatelný čas 10 ms.
 
-Hnízdové mikrořadiče nejsou po většinu dne napájeny; potřebné informace si ukládají do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí do režimu Stop bez RTC. Řadiče jsou postupně probouzeny a úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC. Napětí interního regulátoru je možno kvůli nízké taktovací frekvenci trvale snížit (Voltage Scale 2). Pro inicializaci hnízdových řadičů je vyhrazen zanedbatelný čas 10 ms.
+Po připojení napájení VCC k jednotlivým částem systému nebo po jejich probuzení je nutné počkat na jejich ustálení. Obvod INA226 se probudí okamžitě a získání hodnoty trvá při měření napětí s průměrováním 64 vzorků (1,1 ms/vzorek) přibližně 80 ms, při měření proudu s průměrováním 16 vzorků (2,2 ms/vzorek) přibližně 40 ms. Obvod DRV8838 potřebuje pro probuzení 100 µs. U obvodu MAX3485 je po připojení napájení potřeba čekat 100 µs kvůli náběhu obvodu a nabití blokovacího kondenzátoru 100 nF mezi VCC a GND; u obvodu HX711 přibližně 500 ms, tedy dobu ustálení analogové části převodníku a dokončení prvního převodu. Po této době již lze z převodníku odečítat stabilní hodnoty; při zvoleném režimu 10 SPS trvá jedna konverze přibližně 100 ms.
 
 Před odpojením napájení VCC od jednotlivých částí systému, před jejich uspáním nebo při jejich nepoužívání je kvůli snížení spotřeby a svodových proudů nutné vypnout periferie (UART, ADC, I²C) i jejich hodinový signál, který plýtvá energií, i když periferie právě nic nepřenáší. Po odpojení VCC je nutné všechny nepoužívané piny, včetně těch pro právě vypnuté periferie, přepnout do analogového režimu bez pull rezistoru (DIV, SCL, SDA, SCK, DT, PH, EN, DI, DE, RO, /RE). Stejný postup se používá i u pinů pro koncové spínače: jakmile dvířka dosáhnou koncové polohy, tyto piny se přepnou do analogového režimu bez pull rezistorů, čímž se eliminuje jejich klidový odběr. Řídicí piny všech tranzistorových spínačů musí být nastaveny do digitálního režimu, aby se předešlo zvýšení odběru proudu.
 
