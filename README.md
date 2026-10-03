@@ -345,10 +345,10 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 
 | Orientace | Léto (mAh/den) | Zima (mAh/den) |
 |:---|:---:|:---:|
-| Jih | +2612 | +1538 |
-| Východ | +2497 | +403 |
-| Západ | +2612 | +517 |
-| Jihozápad | +2722 | +1198 |
+| Jih | +2637 | +1563 |
+| Východ | +2522 | +428 |
+| Západ | +2637 | +542 |
+| Jihozápad | +2747 | +1223 |
 
 ---
 
@@ -361,7 +361,7 @@ kde:
 - $Q_{aku}$ ... náboj akumulátoru
 - $rate$ ... míra samovybíjení za měsíc
 
-Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby a náboje ztraceného samovybíjením akumulátoru (s rezervou 50 mAh — přibližně dvojnásobek).
+Energetická bilance je rozdílem energie dodávané do akumulátoru a součtu maximální denní spotřeby, náboje ztraceného samovybíjením akumulátoru a rezervy — 25 mAh.
 
 Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervou nehledě na orientaci fotovoltaického panelu. I se zohledněním zimního poklesu kapacity akumulátoru o 30 % představuje jeho rezerva několik stovek dní provozu — v praxi provozní dobu omezuje spíše několik týdnů nepříznivého počasí v kombinaci s přirozeným stárnutím akumulátoru než samotná spotřeba systému a samovybíjení.
 
