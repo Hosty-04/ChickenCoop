@@ -186,23 +186,23 @@ function decodeUplink(input) {
     door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
   };
   if (b.length > 2) {
-    data.hnizda = [];
+    data.nests = [];
     for (var i = 2; i < b.length; i++) {
-      data.hnizda.push(hnizdo(b[i] >> 4), hnizdo(b[i] & 15));
+      data.nests.push(nest(b[i] >> 4), nest(b[i] & 15));
     }
   }
   return { data: data, warnings: [], errors: [] };
 }
 
-function hnizdo(kod) {
-  if (kod <= 10) return kod;
-  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[kod] || null;
+function nest(code) {
+  if (code <= 10) return code;
+  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[code] || null;
 }
 ```
 
 Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
 v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek. Jednou za hodinu
-přibude seznam `hnizda` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
+přibude seznam `nests` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
 neozvalo. Při lichém počtu hnízd je `null` vždycky i na konci seznamu — to jen dorovnává
 poslední bajt zprávy.
 
@@ -643,18 +643,28 @@ Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na konec t
 do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může být vyšší, dlaždice,
 graf i tabulka ukazují tuhle mez.
 
-**Hnízda a Snáška.** Počty vajec chodí jen se zprávou po kontrole hnízd. Když nedorazí, karta
-Hnízda zůstane u poslední kontroly a její čas je v záhlaví karty. V tabulce Snášky má takový
-interval **pomlčku**, v grafu prázdné místo a po najetí myší popisek **bez dat**. Pomlčka
-znamená, že za tu dobu kurník žádný počet nenahlásil; **0** znamená, že kontrola proběhla
-a vejce nepřibyla. Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo
-týden nepřišel žádný počet.
+**Hnízda a Snáška.** Tabulka Snášky ukazuje, kolik vajec v každém intervalu přibylo:
 
-Pomlčka v celém řádku nastane, když zprávy z kurníku nedorazí, a při kriticky vybité baterii
-nebo vypnuté automatice, kdy se hnízda nekontrolují. Pomlčka jen u jednoho hnízda znamená, že
-to hnízdo nemělo platný počet — sedí na něm kvočna, váha není zkalibrovaná, má poruchu nebo
-neodpovídá. Sloupec **Celkem** pak sčítá jen hnízda, o kterých se ví, a v popisku grafu jsou
-ostatní vyjmenovaná za **bez dat**.
+| V buňce | Co znamená |
+|---|---|
+| číslo, třeba **2** | přibyla dvě vejce |
+| **0** | kontrola proběhla a nic nepřibylo |
+| **–** | nevíme — za ten interval nepřišel žádný počet |
+
+Pomlčka tedy neznamená nulu, ale to, že se počet nezjistil. Jsou dva případy:
+
+- **Pomlčka v celém řádku:** z kurníku za tu dobu nepřišla žádná zpráva o hnízdech. Buď
+  vypadlo spojení, nebo se hnízda vůbec nekontrolovala, protože byla baterie kriticky vybitá
+  nebo byla vypnutá automatika. Karta Hnízda mezitím zůstane u poslední kontroly a její čas
+  je v záhlaví karty.
+- **Pomlčka jen u jednoho hnízda:** zpráva přišla, ale tohle hnízdo počet neposlalo — sedí na
+  něm kvočna, váha není zkalibrovaná, má poruchu nebo neodpovídá. Sloupec **Celkem** pak
+  sčítá jen ostatní hnízda.
+
+Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo týden nepřišel ani jeden
+počet. V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže
+popisek po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky **bez dat** a u jednotlivých
+hnízd třeba **bez dat: hnízda 2**.
 
 Vejce snesená během výpadku se neztratí: první kontrola po něm porovná počet s posledním
 známým a celý přírůstek připíše svému intervalu, takže po výpadku bývá jeden vyšší sloupec.
