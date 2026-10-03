@@ -579,8 +579,10 @@ té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozs
 Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
 do měsíce po dnech a dál po týdnech. Osa začíná a končí na celé hodině, dni nebo týdnu,
 takže 24 hodin je třeba od 18:00 do 18:00. Kontrola v celou hodinu hlásí vejce snesená za
-uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00 a sloupec
-právě běžící hodiny zůstane prázdný, dokud ho nenahlásí další kontrola. Po najetí myší je
+uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Právě běžící
+hodina se tak neukazuje vůbec: v 15:30 končí 24 hodin v 15:00 a sloupec 15:00–16:00
+přibude po kontrole v 16:00. Dnešek a tento týden jsou ve sloupcích po dnech a týdnech vidět
+od první kontroly a doplňují se průběžně. Po najetí myší je
 vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když vejce sesbíráte,
 počet v hnízdě klesne, ale snáška zůstane.
 
@@ -646,6 +648,25 @@ neozval senzor INA226; v takovém případě kurník pro jistotu odpojí i panel
 Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na konec toho, co se vejde
 do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může být vyšší, dlaždice,
 graf i tabulka ukazují tuhle mez.
+
+**Hnízda a Snáška.** Počty vajec chodí jen se zprávou po kontrole hnízd. Když nedorazí, karta
+Hnízda zůstane u poslední kontroly a její čas je v záhlaví karty. V tabulce Snášky má takový
+interval **pomlčku**, v grafu prázdné místo a po najetí myší popisek **bez dat**. Pomlčka
+znamená, že za tu dobu kurník žádný počet nenahlásil; **0** znamená, že kontrola proběhla
+a vejce nepřibyla. Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo
+týden nepřišel žádný počet.
+
+Pomlčka v celém řádku nastane, když zprávy z kurníku nedorazí, a při kriticky vybité baterii
+nebo vypnuté automatice, kdy se hnízda nekontrolují. Pomlčka jen u jednoho hnízda znamená, že
+to hnízdo nemělo platný počet — sedí na něm kvočna, váha není zkalibrovaná, má poruchu nebo
+neodpovídá. Sloupec **Celkem** pak sčítá jen hnízda, o kterých se ví, a v popisku grafu jsou
+ostatní vyjmenovaná za **bez dat**.
+
+Vejce snesená během výpadku se neztratí: první kontrola po něm porovná počet s posledním
+známým a celý přírůstek připíše svému intervalu, takže po výpadku bývá jeden vyšší sloupec.
+Stejně se projeví vejce, která přibyla, zatímco na hnízdě seděla kvočna nebo hnízdo
+neodpovídalo. Přijde se jen o vejce, která se během výpadku stihla sesbírat, a o vejce nad
+deset v plném košíku, protože víc se do zprávy nevejde.
 
 ## Ovládání
 

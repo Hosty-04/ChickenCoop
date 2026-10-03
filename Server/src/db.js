@@ -261,17 +261,20 @@ function slotOf(ms, bucket, round = Math.floor) {
 
 export async function readEggs(deviceId, hours, nestCount) {
   const now = Date.now();
+  const reported = now - HOUR_MS;
   const all = hours === null;
+  let oldest = null;
 
   if (all) {
-    const oldest = selectOldest.get(deviceId)?.oldest;
+    oldest = selectOldest.get(deviceId)?.oldest;
     if (!oldest) return { bucketMs: DAY_MS, points: [] };
     hours = Math.max((now - oldest) / HOUR_MS, 1);
   }
 
   const bucket = eggBucketFor(hours);
-  const first = slotOf(now - hours * HOUR_MS, bucket, all ? Math.floor : Math.ceil);
-  const last = slotOf(now, bucket);
+  const first = all ? slotOf(oldest, bucket) : slotOf(reported - hours * HOUR_MS, bucket, Math.ceil);
+  const last = slotOf(reported, bucket);
+  if (last < first) return { bucketMs: bucket, points: [] };
   const rows = laidBetween(deviceId, nestCount, fromLocalClock(first).getTime() + LAID_SLACK_MS, now);
   if (rows.length === 0) return { bucketMs: bucket, points: [] };
 
