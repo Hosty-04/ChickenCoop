@@ -12,8 +12,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
-<a href="./Server/README.md">**Návod pro zprovoznění**</a>  
-<a href="./Server/README.md">**Test dashboardu**</a>
+<a href="./GUIDE.md">**Návod pro zprovoznění**</a>
 
 ## Schéma
 
