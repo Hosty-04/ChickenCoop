@@ -179,18 +179,18 @@ kde:
 
 Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; výpočet astronomických hodin trvá pouze jednu milisekundu.
 
-### Kontrola vajec (24–26,5 min / 16–17,5 min / 8–8,8 min)
+### Kontrola vajec (24–26,2 min / 16–17,5 min / 8–8,8 min)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 56,8 µAh |
-| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 320 µAh |
-| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 320 µAh |
-| Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,39 µAh |
-| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 640 µAh |
+| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 57,2 µAh |
+| MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 323 µAh |
+| MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 323 µAh |
+| Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,43 µAh |
+| HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 645 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 14,4 µAh |
-| Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 9,61 µAh |
-| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,37 mAh** |
+| Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 9,63 µAh |
+| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,38 mAh** |
 
 ---
 
@@ -223,7 +223,7 @@ t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{
 $$
 
 $$
-t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,5\ \text{min}}
+t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,2\ \text{min}}
 $$
 
 $$
@@ -240,7 +240,7 @@ $$
 
 kde:
 - $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
-- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty h tenzometrů (nanejvýš jednou denně)
+- $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty jednoho tenzometru (nanejvýš jednou denně)
 - $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
 - $h$ ... počet hnízd
 - $t_{h,max}$ ... maximální doba kontroly jednoho hnízda
@@ -279,7 +279,7 @@ T_{sym} = \frac{2^{SF}}{BW} = \frac{2^9}{125\ \text{kHz}} = 4,096\ \text{ms}
 $$
 
 $$
-n_{sym} = 8 + \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \cdot 5
+n_{sym} = 8 + \left\lceil \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \right\rceil \cdot 5
 $$
 
 $$
@@ -325,7 +325,7 @@ CPU je většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 43,9 % | 1,37 mAh | 10,9 % |
+| Kontrola vajec | 923 µAh | 43,9 % | 1,38 mAh | 10,9 % |
 | Pohyb dvířek | 896 µAh | 42,6 % | 10,1 mAh | 79,8 % |
 | Komunikace | 153 µAh | 7,3 % | 166 µAh | 1,3 % |
 | Klidový režim | 129 µAh | 6,1 % | 1 mAh | 7,9 % |
@@ -479,7 +479,7 @@ Na základě údajů z napěťového senzoru a napěťového děliče vyhodnocuj
   <img alt="separator_flowchart" src="Flowcharts/separator_flowchart_black.png" width="800px">
 </picture>
 
-Další funkcí napěťového a proudového senzoru je s 16bitovým rozlišením a průměrováním 16 vzorků (2,2 ms/vzorek) neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se upravuje střída PWM a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 250 ms signalizuje překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě M motor na 250 ms zastaví, pokusí se obrátit směr jeho otáčení a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max. 3 pokusy), systém odešle zprávu o poruše dvířek a až do pokynu uživatele s nimi nemanipuluje. Zpráva o poruše je odeslána také tehdy, když motor běží déle než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když dvířka na začátku pohybu nejsou v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
+Další funkcí napěťového a proudového senzoru je s 16bitovým rozlišením a průměrováním 16 vzorků (2,2 ms/vzorek) neustále monitorovat napětí a proud při pohybu dvířek; z těchto dat se upravuje střída PWM a mezní proud motoru. Zvýšení proudu nad mezní hodnotu 450 mA (přímé řízení motoru) po dobu 150 ms signalizuje překážku v cestě (typicky slepici) nebo zaseknutí dvířek. V takovém případě M motor na 250 ms zastaví, pokusí se obrátit směr jeho otáčení a vrátit dvířka do původní polohy, poté se uspí a po 5 minutách pokus zopakuje. Nepomůže-li ani zpětný chod (max. 3 pokusy), systém odešle zprávu o poruše dvířek a až do pokynu uživatele s nimi nemanipuluje. Zpráva o poruše je odeslána také tehdy, když motor běží déle než 25 s (potřebná doba pro změnu stavu dvířek + rezerva) nebo když dvířka na začátku pohybu nejsou v krajní poloze. Krátkodobou proudovou špičku při rozběhu motoru, trvající asi 250 ms, je nutné ignorovat.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/door_flowchart_white.png" width="800px">
