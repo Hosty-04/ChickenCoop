@@ -36,7 +36,7 @@ Pro připojení solárního panelu a akumulátoru je použita měděná ohebná 
 
 Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. K deskám plošných spojů je připojený přes konektory RJ45. Prodloužení vodičů tenzometru o průřezu 0,08 mm² zajišťují 4 ploché vodiče o stejné barvě a průřezu. Spojeny jsou pájkou a přes každý spoj je převlečena smršťovací bužírka s lepidlem o poměru 3:1 a rozměru 3 mm / 1 mm. K desce plošných spojů jsou připojeny přes 4pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm.
 
-Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
+Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně, respektive základové desce, pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
 
 U prototypu jsou využity stejné kabely, svorkovnice a svorky. Dále jsou použity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
 
