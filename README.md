@@ -34,7 +34,7 @@ Mx - hnízdový mikrořadič
 
 Pro připojení solárního panelu a akumulátoru je použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Stejným způsobem je k desce plošných spojů připojen motor a mikrospínače, avšak s licnou o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici.
 
-Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. K deskám plošných spojů je připojený přes konektory RJ45. Prodloužení vodičů tenzometru o průřezu 0,08 mm² zajišťují 4 ploché vodiče o stejné barvě a průřezu. Spojeny jsou pájkou a přes každý spoj je převlečena smršťovací bužírka s lepidlem o poměru 3:1 a rozměru 3 mm / 1 mm. K desce plošných spojů jsou připojeny přes 4pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm.
+Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. K deskám plošných spojů je připojený přes konektory RJ45. Prodloužení vodičů tenzometru o průřezu 0,08 mm² zajišťují 4 ploché vodiče o stejné barvě a průřezu. Spojeny jsou pájkou a přes každý spoj je převlečena smršťovací bužírka s lepidlem o poměru 3:1 a rozměru 3 mm / 1 mm. K desce plošných spojů jsou připojeny přes 6pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm (možnost připojit stínění).
 
 Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně, respektive základové desce, pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
 
@@ -694,9 +694,12 @@ Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po 
 | Kabel CYA 1x0,5 černý | 5 m | [Odkaz][cya-05-cerny] | 14,46 Kč | 17,50 Kč |
 | Kabel UTP CAT5e 3 m | 1 ks | [Odkaz][utp-3m] | 82,00 Kč | 99,00 Kč |
 | Kabel UTP CAT5e 0,5 m | 1 ks | [Odkaz][utp-05m] | 70,00 Kč | 85,00 Kč |
-| Kabel LiYCY 4x0,25 | 2 m | [Odkaz][liycy-4x025] | 32,58 Kč | 39,42 Kč |
-| Lišty | 4 m | [Odkaz][listy] | 46,28 Kč | 56,00 Kč |
-| Klipy | 10 ks | [Odkaz][klipy] | 45,80 Kč | 55,40 Kč |
+| Kabel plochý barevný | 3 m | [Odkaz][plochy] | 18,20 Kč | 22,00 Kč |
+| Bužírka | 1 ks | [Odkaz][buzirka] | 45,45 Kč | 55,00 Kč |
+| Lišty | 10 m | [Odkaz][listy] | 115,70 Kč | 140,00 Kč |
+| Ukončovací profil | 3 ks | [Odkaz][term] | 22,31 Kč | 27,00 Kč |
+| Ukončovací profil vnitřní úhel | 4 ks | [Odkaz][term-in] | 29,75 Kč | 36,00 Kč |
+| Ukončovací profil vnější úhel | 2 ks | [Odkaz][term-out] | 14,88 Kč | 18,00 Kč |
 | WAGO svorkovnice 2pól | 1 ks | [Odkaz][wago-2pol] | 12,40 Kč | 15,00 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
 | WAGO svorkovnice 6pól | 2 ks | [Odkaz][wago-6pol] | 128,92 Kč | 156,00 Kč |
@@ -743,7 +746,7 @@ Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po 
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5828 Kč** | **7052 Kč** |
+| **Celkem** | | | **6046 Kč** | **7315 Kč** |
 
 *Poznámka: Do celkové ceny není započtena doprava.*
 
@@ -754,9 +757,11 @@ Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po 
 [cya-05-cerny]: https://www.gme.cz/v/1512360/elektrokabel-cya-1x05-cerny-h05v-k-izolovany-vodic-lanko
 [utp-3m]: https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175
 [utp-05m]: https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172
-[liycy-4x025]: https://www.tme.eu/cz/details/liycy-4x0.25/vicezilove-kabely-stinene/lapp/0034404/
+[plochy]: https://www.kondik.cz/kabel-plochy-ds1058-1-27mm-barevny/
 [listy]: https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/
-[klipy]: https://www.emas.cz/kopos-6706s-prichytka-jednostranna
+[term]: https://www.hornbach.cz/p/ukoncovaci-profil-15x10-mm-bily-9003/6647353/
+[term-in]: https://www.hornbach.cz/p/ukoncovaci-profil-vnitrni-uhel-15x10-mm/6647265/
+[term-out]: https://www.hornbach.cz/p/ukoncovaci-profil-vnejsi-uhel-15x10-mm/6647272/
 [wago-2pol]: https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-4pol]: https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-6pol]: https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina
