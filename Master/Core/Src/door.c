@@ -449,6 +449,11 @@ void Door_Process(void)
     Door_Apply(Door_DesiredDir(now));
   }
 
+  UTILS_ENTER_CRITICAL_SECTION();
+  if ((door_pending == DOOR_EVT_RETRY) || (door_pending == DOOR_EVT_DEFER))
+    door_pending = DOOR_EVT_NONE;
+  UTILS_EXIT_CRITICAL_SECTION();
+
   Door_Schedule();
 
   if (Door_NeedsCatchup())
