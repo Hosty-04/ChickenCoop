@@ -22,7 +22,7 @@
 #define DOOR_RETRY_S           (5UL * 60UL)
 #define DOOR_RETRY_MAX         3U
 #define DOOR_RESYNC_S          3600UL
-#define DOOR_RESYNC_OFFSET_S   5UL
+#define DOOR_RESYNC_OFFSET_S   (5UL * 60UL)
 #define DOOR_TIME_SYNC_S       (12UL * 3600UL)
 #define DOOR_TIME_SYNC_FAST_S  30UL
 #define DOOR_TIME_SYNC_FAST_MAX 2U
