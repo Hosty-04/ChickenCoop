@@ -444,7 +444,7 @@ void Door_Process(void)
     door_deferred_evt  = DOOR_EVT_NONE;
     Door_Apply(door_retry_dir);
   } else {
-    door_deferred_evt  = DOOR_EVT_NONE;
+    door_deferred_evt = DOOR_EVT_NONE;
     Door_Apply(Door_DesiredDir(now));
   }
 
