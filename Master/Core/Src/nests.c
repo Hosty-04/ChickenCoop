@@ -15,7 +15,7 @@
 #include "stm32_timer.h"
 
 #define NESTS_DEFER_S          10UL
-#define NESTS_DEFER_MAX        6U
+#define NESTS_DEFER_MAX        3U
 #define NESTS_BLOCK_MS         ((uint32_t)NESTS_COUNT * 15000UL)
 
 #define NESTS_BOOT_MS          10U
