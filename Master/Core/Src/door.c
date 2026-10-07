@@ -22,13 +22,12 @@
 #define DOOR_RETRY_S           (5UL * 60UL)
 #define DOOR_RETRY_MAX         3U
 #define DOOR_RESYNC_S          3600UL
-#define DOOR_RESYNC_OFFSET_S   (5UL * 60UL + 30UL)
 #define DOOR_TIME_SYNC_S       (12UL * 3600UL)
 #define DOOR_TIME_SYNC_FAST_S  30UL
 #define DOOR_TIME_SYNC_FAST_MAX 2U
 #define DOOR_MOVE_BUDGET_MS    55000UL
 #define DOOR_DEFER_S           10UL
-#define DOOR_DEFER_MAX         6U
+#define DOOR_DEFER_MAX         3U
 
 #define DOOR_BKP_REG           RTC_BKP_DR4
 #define DOOR_BKP_MAGIC         0x00D0UL
@@ -250,16 +249,14 @@ static void Door_Schedule(void)
 
   Door_RefreshSun();
   now  = Timebase_GetSecOfDay();
-  best = (DOOR_RESYNC_S + DOOR_RESYNC_OFFSET_S - (now % DOOR_RESYNC_S)) % DOOR_RESYNC_S;
-  if (best == 0UL)
-    best = DOOR_RESYNC_S;
+  best = DOOR_RESYNC_S - (now % DOOR_RESYNC_S);
 
   if (Door_AutoAllowed()) {
     delay = Door_DelayTo(now, Door_OpenTime());
-    if (delay < best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
 
     delay = Door_DelayTo(now, Door_CloseTime());
-    if (delay < best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
   }
 
   if (door_retry_pending && (door_deferred_evt != DOOR_EVT_RETRY)) {
