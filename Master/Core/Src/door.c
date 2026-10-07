@@ -215,16 +215,21 @@ static uint8_t Door_ManualActive(uint32_t now)
 static uint8_t Door_NeedsCatchup(void)
 {
   uint32_t      now;
+  Motor_Dir_t   dir;
   Endstop_Pos_t want;
 
-  if (!Door_AutoAllowed() || door_retry_pending)
+  if (!Door_AutoAllowed())
     return 0U;
 
   now = Timebase_GetSecOfDay();
   if (Door_ManualActive(now))
     return 0U;
 
-  want = (Door_DesiredDir(now) == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
+  dir = Door_DesiredDir(now);
+  if (door_retry_pending)
+    return (uint8_t)(door_retry_dir != dir);
+
+  want = (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
 
   return (uint8_t)(Endstop_Last() != want);
 }
