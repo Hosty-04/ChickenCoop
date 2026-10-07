@@ -307,6 +307,7 @@ static void Door_RaiseFault(void)
   door_retry_count   = 0U;
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
+  door_defer_count   = 0U;
 }
 
 static void Door_Apply(Motor_Dir_t dir)
@@ -415,6 +416,8 @@ void Door_Process(void)
     evt = DOOR_EVT_NONE;
 
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE)) {
+    if ((door_deferred_req == DOOR_REQ_NONE) && (door_deferred_evt == DOOR_EVT_NONE))
+      door_defer_count = 0U;
     Door_Schedule();
     return;
   }
@@ -468,6 +471,7 @@ void Door_Disable(void)
   door_retry_count   = 0U;
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
+  door_defer_count   = 0U;
   Door_StopTimer();
   Door_Schedule();
 }

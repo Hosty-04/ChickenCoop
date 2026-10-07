@@ -397,6 +397,7 @@ void Nests_Process(void)
   reach  = Nests_Reach(hourly);
 
   if ((reach == 0U) || !Nests_Allowed()) {
+    nests_defer = 0U;
     if (hourly) {
       Nests_Plan();
       Battery_Request();
