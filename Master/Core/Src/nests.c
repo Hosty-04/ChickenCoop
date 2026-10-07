@@ -98,7 +98,8 @@ static HAL_StatusTypeDef Nests_PowerUp(void)
   HAL_GPIO_WritePin(COM_GPIO_Port, COM_Pin, GPIO_PIN_RESET);
   HAL_Delay(NESTS_BOOT_MS);
 
-  if (HAL_UART_Init(&hlpuart1) != HAL_OK)
+  if ((HAL_UART_Init(&hlpuart1) != HAL_OK) ||
+      (HAL_UARTEx_EnableFifoMode(&hlpuart1) != HAL_OK))
     return HAL_ERROR;
 
   Nests_RxPullUp();
