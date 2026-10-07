@@ -264,7 +264,8 @@ static void Door_Schedule(void)
     if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
   }
 
-  if (door_retry_pending && (door_deferred_evt != DOOR_EVT_RETRY)) {
+  if (door_retry_pending && (door_deferred_req == DOOR_REQ_NONE) &&
+      (door_deferred_evt == DOOR_EVT_NONE)) {
     delay = Door_RetryDelay();
     if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
   }
