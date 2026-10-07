@@ -440,7 +440,8 @@ void Nests_Reschedule(void)
   if (nests_due > (Timebase_GetUnix() + 2UL * NESTS_CHECK_S))
     Nests_Plan();
 
-  Nests_Schedule();
+  if (nests_defer == 0U)
+    Nests_Schedule();
 }
 
 uint8_t Nests_WorkPending(void)
