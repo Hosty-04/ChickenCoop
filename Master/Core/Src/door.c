@@ -441,8 +441,10 @@ void Door_Process(void)
     Door_Apply((req == DOOR_REQ_OPEN) ? MOTOR_DIR_UP : MOTOR_DIR_DOWN);
   } else if (evt == DOOR_EVT_RETRY) {
     door_retry_pending = 0U;
+    door_deferred_evt  = DOOR_EVT_NONE;
     Door_Apply(door_retry_dir);
   } else {
+    door_deferred_evt  = DOOR_EVT_NONE;
     Door_Apply(Door_DesiredDir(now));
   }
 
