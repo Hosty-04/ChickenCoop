@@ -437,7 +437,7 @@ void Nests_Process(void)
 
 void Nests_Reschedule(void)
 {
-  if (nests_due > (Timebase_GetUnix() + NESTS_CHECK_S))
+  if (nests_due > (Timebase_GetUnix() + 2UL * NESTS_CHECK_S))
     Nests_Plan();
 
   Nests_Schedule();
