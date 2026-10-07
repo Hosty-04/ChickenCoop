@@ -450,7 +450,9 @@ void Door_Process(void)
   }
 
   UTILS_ENTER_CRITICAL_SECTION();
-  if ((door_pending == DOOR_EVT_RETRY) || (door_pending == DOOR_EVT_DEFER))
+  if ((door_pending == DOOR_EVT_RETRY) ||
+      ((door_pending == DOOR_EVT_DEFER) && (door_deferred_req == DOOR_REQ_NONE) &&
+       (door_deferred_evt == DOOR_EVT_NONE)))
     door_pending = DOOR_EVT_NONE;
   UTILS_EXIT_CRITICAL_SECTION();
 
