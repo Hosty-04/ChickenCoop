@@ -60,8 +60,9 @@ static uint8_t      door_enabled  = 1;
 static uint8_t      door_fault    = 0;
 static Door_State_t door_reported = DOOR_STATE_UNKNOWN;
 
-static uint8_t     door_manual      = 0;
-static Motor_Dir_t door_manual_want = MOTOR_DIR_UP;
+static uint8_t     door_manual       = 0;
+static Motor_Dir_t door_manual_want  = MOTOR_DIR_UP;
+static Motor_Dir_t door_request_want = MOTOR_DIR_UP;
 
 static uint8_t     door_retry_pending = 0;
 static uint8_t     door_retry_count   = 0;
@@ -413,6 +414,9 @@ void Door_Process(void)
     evt = door_deferred_evt;
     door_deferred_req = DOOR_REQ_NONE;
     door_deferred_evt = DOOR_EVT_NONE;
+  } else if (req == DOOR_REQ_NONE) {
+    req = door_deferred_req;
+    door_deferred_req = DOOR_REQ_NONE;
   }
 
   if (evt == DOOR_EVT_RESYNC) {
@@ -450,7 +454,7 @@ void Door_Process(void)
 
   if (req != DOOR_REQ_NONE) {
     door_manual        = 1U;
-    door_manual_want   = Door_DesiredDir(now);
+    door_manual_want   = door_request_want;
     door_retry_pending = 0U;
     door_retry_count   = 0U;
     door_deferred_req  = DOOR_REQ_NONE;
@@ -541,14 +545,20 @@ void Door_Catchup(void)
 
 void Door_RequestOpen(void)
 {
-  if (door_enabled)
-    door_request = DOOR_REQ_OPEN;
+  if (!door_enabled)
+    return;
+
+  door_request      = DOOR_REQ_OPEN;
+  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
 }
 
 void Door_RequestClose(void)
 {
-  if (door_enabled)
-    door_request = DOOR_REQ_CLOSE;
+  if (!door_enabled)
+    return;
+
+  door_request      = DOOR_REQ_CLOSE;
+  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
 }
 
 void Door_SetFault(void)
