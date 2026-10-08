@@ -28,6 +28,7 @@
 #define DOOR_MOVE_BUDGET_MS    55000UL
 #define DOOR_DEFER_S           10UL
 #define DOOR_DEFER_MAX         4U
+#define DOOR_AHEAD_S           (5UL * 60UL)
 
 #define DOOR_BKP_REG           RTC_BKP_DR4
 #define DOOR_BKP_MAGIC         0x00D0UL
@@ -212,11 +213,25 @@ static uint8_t Door_ManualActive(uint32_t now)
   return door_manual;
 }
 
+static Endstop_Pos_t Door_PosFor(Motor_Dir_t dir)
+{
+  return (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
+}
+
+static Motor_Dir_t Door_SunDir(uint32_t now)
+{
+  Motor_Dir_t ahead = Door_DesiredDir((now + DOOR_AHEAD_S) % SECS_PER_DAY);
+
+  if (Endstop_Last() == Door_PosFor(ahead))
+    return ahead;
+
+  return Door_DesiredDir(now);
+}
+
 static uint8_t Door_NeedsCatchup(void)
 {
-  uint32_t      now;
-  Motor_Dir_t   dir;
-  Endstop_Pos_t want;
+  uint32_t    now;
+  Motor_Dir_t dir;
 
   if (!Door_AutoAllowed())
     return 0U;
@@ -225,13 +240,11 @@ static uint8_t Door_NeedsCatchup(void)
   if (Door_ManualActive(now))
     return 0U;
 
-  dir = Door_DesiredDir(now);
+  dir = Door_SunDir(now);
   if (door_retry_pending)
     return (uint8_t)(door_retry_dir != dir);
 
-  want = (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
-
-  return (uint8_t)(Endstop_Last() != want);
+  return (uint8_t)(Endstop_Last() != Door_PosFor(dir));
 }
 
 static uint32_t Door_RetryDelay(void)
@@ -447,7 +460,7 @@ void Door_Process(void)
     Door_Apply(door_retry_dir);
   } else {
     door_deferred_evt = DOOR_EVT_NONE;
-    Door_Apply(Door_DesiredDir(now));
+    Door_Apply(Door_SunDir(now));
   }
 
   UTILS_ENTER_CRITICAL_SECTION();
