@@ -235,14 +235,12 @@ function snapUnit(spanMs, bucketMs) {
 }
 
 function snapTarget(ideal, unit) {
-  if (unit === DAY_MS) {
-    const offset = zoneOffset(ideal);
-    const noon = Math.floor((ideal + offset) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS;
-    return noon - zoneOffset(noon - offset);
-  }
-  const shifted = ideal + HOUR_MS / 2;
-  const offset = zoneOffset(shifted);
-  return Math.floor((shifted + offset) / HOUR_MS) * HOUR_MS - offset;
+  const at = unit === DAY_MS ? ideal : ideal + HOUR_MS / 2;
+  const offset = zoneOffset(at);
+  const wall = unit === DAY_MS
+    ? Math.floor((at + offset) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS
+    : Math.floor((at + offset) / HOUR_MS) * HOUR_MS;
+  return wall - zoneOffset(wall - offset);
 }
 
 function powerTicks() {
