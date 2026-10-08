@@ -38,7 +38,7 @@ const state = {
 };
 
 const PUBLIC_PATHS = new Set([
-  '/login.html', '/login.js', '/style.css', '/manifest.webmanifest',
+  '/login.html', '/login.js', '/common.js', '/theme.js', '/style.css', '/manifest.webmanifest',
   '/icon.svg', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png'
 ]);
 
@@ -51,7 +51,7 @@ app.post('/api/login', (req, res) => {
   if (waitMs > 0) {
     return res.status(429).json({
       ok: false,
-      error: `Příliš mnoho pokusů. Zkus to za ${Math.ceil(waitMs / 60000)} min.`
+      error: `Příliš mnoho pokusů. Zkuste to za ${Math.ceil(waitMs / 60000)} min.`
     });
   }
 
@@ -109,7 +109,7 @@ function sendRange(req, res, read) {
   try {
     res.json({ hours: hours ?? 'all', ...read(hours) });
   } catch (err) {
-    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -119,7 +119,7 @@ app.get('/api/status', (req, res) => {
 });
 
 app.get('/api/history', (req, res) => {
-  sendRange(req, res, (hours) => ({ points: readHistory(config.ttn.deviceId, hours) }));
+  sendRange(req, res, (hours) => readHistory(config.ttn.deviceId, hours));
 });
 
 app.get('/api/eggs', (req, res) => {
@@ -163,7 +163,7 @@ app.post('/api/data/clear', (req, res) => {
     console.log(`history cleared, ${removed} readings removed`);
     res.json({ ok: true, removed });
   } catch (err) {
-    res.status(500).json({ ok: false, error: `mazání selhalo: ${err.message}` });
+    res.status(500).json({ ok: false, error: err.message });
   }
 });
 
@@ -192,7 +192,6 @@ ttn.on('downlink', ({ event, commands, nests }) => {
 
 ttn.on('uplink', (uplink) => {
   state.latest = uplink;
-  broadcast('uplink', uplink);
 
   const { batteryMv, panelMv, door, nests } = uplink.reading;
   const eggs = nests ? ` nests=${nests.map((nest) => (nest.state === 'ok' ? nest.eggs : nest.state)).join(',')}` : '';

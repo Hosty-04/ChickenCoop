@@ -154,12 +154,6 @@ function rounded(value) {
   return value == null ? null : Math.round(value);
 }
 
-function spanHours(deviceId, hours, now) {
-  if (hours !== null) return hours;
-  const oldest = selectOldest.get(deviceId)?.oldest;
-  return oldest ? Math.max((now - oldest) / HOUR_MS, 1) : null;
-}
-
 function eggsBefore(deviceId, nestCount, time) {
   return Array.from({ length: nestCount }, (_, index) =>
     selectEggsBefore.get(deviceId, index + 1, time)?.eggs ?? null);
@@ -202,14 +196,19 @@ export function writeReading(deviceId, reading, radio, at) {
 
 export function readHistory(deviceId, hours) {
   const now = Date.now();
-  const span = spanHours(deviceId, hours, now);
-  if (span === null) return [];
+  const oldest = selectOldest.get(deviceId)?.oldest;
+  const span = hours ?? (oldest ? Math.max((now - oldest) / HOUR_MS, 1) : 1);
+  const bucket = historyBucket(span);
+  if (!oldest) return { bucketMs: bucket, points: [] };
 
-  return historyStatement(historyBucket(span)).all(deviceId, now - span * HOUR_MS, now).map((row) => ({
-    time: fromLocalClock(row.slot).toISOString(),
-    batteryMv: rounded(row.battery_mv),
-    panelMv: rounded(row.panel_mv)
-  }));
+  return {
+    bucketMs: bucket,
+    points: historyStatement(bucket).all(deviceId, now - span * HOUR_MS, now).map((row) => ({
+      time: fromLocalClock(row.slot).toISOString(),
+      batteryMv: rounded(row.battery_mv),
+      panelMv: rounded(row.panel_mv)
+    }))
+  };
 }
 
 export function readLatest(deviceId) {
