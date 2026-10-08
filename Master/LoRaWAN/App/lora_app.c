@@ -702,6 +702,7 @@ static void EventCallback(void)
         LoRaWAN_RequestTime();
         Telemetry_RequestStatus();
         Door_Reschedule();
+        Door_Catchup();
         /* USER CODE END EventCallback_1 */
         if (CertMode == false)
         {
