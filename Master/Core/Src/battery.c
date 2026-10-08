@@ -183,6 +183,9 @@ static void Battery_Schedule(void)
   uint32_t now  = Timebase_GetSecOfDay();
   uint32_t next = ((now / BATTERY_CHECK_S) + 1UL) * BATTERY_CHECK_S;
 
+  if ((next - now) < (BATTERY_CHECK_S / 2UL))
+    next += BATTERY_CHECK_S;
+
   if ((next % NESTS_CHECK_S) == 0UL)
     next += BATTERY_CHECK_S;
 
