@@ -43,6 +43,8 @@ const EXCLUSIVE_PAIRS = [
   ['tare', 'calibrate']
 ];
 
+const isCommand = (name) => Object.hasOwn(COMMANDS, name) || Object.hasOwn(NEST_COMMANDS, name);
+
 function decodeNest(code) {
   if (code <= EGGS_MAX) return { eggs: code, state: 'ok' };
   if (code === NEST_CODE_BROODY) return { eggs: null, state: 'broody' };
@@ -86,7 +88,7 @@ export function encodeDownlink(names, nests, nestCount) {
     throw new Error('je potřeba alespoň jeden příkaz');
   }
 
-  const unknown = names.filter((name) => !(name in COMMANDS) && !(name in NEST_COMMANDS));
+  const unknown = names.filter((name) => !isCommand(name));
   if (unknown.length > 0) {
     throw new Error(`neznámý příkaz: ${unknown.join(', ')}`);
   }
@@ -98,7 +100,7 @@ export function encodeDownlink(names, nests, nestCount) {
   }
 
   const byte = names.reduce((acc, name) => acc | (COMMANDS[name] ?? 0), 0);
-  const nestCommand = names.find((name) => name in NEST_COMMANDS);
+  const nestCommand = names.find((name) => Object.hasOwn(NEST_COMMANDS, name));
 
   if (!nestCommand) return Uint8Array.of(byte);
 
@@ -116,6 +118,5 @@ export function encodeDownlink(names, nests, nestCount) {
     const index = nest - 1;
     bytes[1 + Math.floor(index / NESTS_PER_BYTE)] |= NEST_COMMANDS[nestCommand] << (2 * (index % NESTS_PER_BYTE));
   }
-
   return bytes;
 }

@@ -7,8 +7,8 @@ import { config } from './config.js';
 import { TtnBridge, DuplicateCommandError } from './ttn.js';
 import { EGGS_MAX } from './codec.js';
 import {
-  SESSION_COOKIE, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
-  openSession, closeSession, sessionValid, requestAuthenticated
+  SESSION_COOKIE, SESSION_TTL_MS, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
+  openSession, closeSession, requestAuthenticated
 } from './auth.js';
 import {
   writeReading, readHistory, readLatest, readNests, readEggs, countReadings, clearReadings, closeDb
@@ -63,7 +63,7 @@ app.post('/api/login', (req, res) => {
     httpOnly: true,
     sameSite: 'lax',
     secure: req.secure,
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    maxAge: SESSION_TTL_MS,
     path: '/'
   });
   res.json({ ok: true });
@@ -77,7 +77,7 @@ app.post('/api/logout', (req, res) => {
 
 app.use((req, res, next) => {
   if (PUBLIC_PATHS.has(req.path)) return next();
-  if (sessionValid(readCookie(req.headers.cookie, SESSION_COOKIE))) return next();
+  if (requestAuthenticated(req)) return next();
   if (req.path.startsWith('/api/')) return res.status(401).json({ error: 'nepřihlášen' });
   return res.redirect('/login.html');
 });
@@ -92,9 +92,9 @@ function broadcast(type, data) {
   }
 }
 
-async function refreshNests() {
+function refreshNests() {
   try {
-    state.nests = await readNests(config.ttn.deviceId, config.nestCount);
+    state.nests = readNests(config.ttn.deviceId, config.nestCount);
   } catch (err) {
     console.error('nest state unreadable:', err.message);
   }
@@ -104,30 +104,26 @@ function hoursFrom(query) {
   return query.hours === 'all' ? null : Math.min(Math.max(Number(query.hours) || 24, 1), 8760);
 }
 
-app.get('/api/status', async (req, res) => {
-  await refreshNests();
+function sendRange(req, res, read) {
+  const hours = hoursFrom(req.query);
+  try {
+    res.json({ hours: hours ?? 'all', ...read(hours) });
+  } catch (err) {
+    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
+  }
+}
+
+app.get('/api/status', (req, res) => {
+  refreshNests();
   res.json(state);
 });
 
-app.get('/api/history', async (req, res) => {
-  const all = req.query.hours === 'all';
-  const hours = hoursFrom(req.query);
-  try {
-    res.json({ hours: all ? 'all' : hours, points: await readHistory(config.ttn.deviceId, hours) });
-  } catch (err) {
-    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
-  }
+app.get('/api/history', (req, res) => {
+  sendRange(req, res, (hours) => ({ points: readHistory(config.ttn.deviceId, hours) }));
 });
 
-app.get('/api/eggs', async (req, res) => {
-  const all = req.query.hours === 'all';
-  const hours = hoursFrom(req.query);
-  try {
-    const eggs = await readEggs(config.ttn.deviceId, hours, config.nestCount);
-    res.json({ hours: all ? 'all' : hours, ...eggs });
-  } catch (err) {
-    res.status(502).json({ error: `dotaz do databáze selhal: ${err.message}` });
-  }
+app.get('/api/eggs', (req, res) => {
+  sendRange(req, res, (hours) => readEggs(config.ttn.deviceId, hours, config.nestCount));
 });
 
 app.post('/api/command', async (req, res) => {
@@ -140,13 +136,23 @@ app.post('/api/command', async (req, res) => {
   }
 });
 
-app.post('/api/data/clear', async (req, res) => {
+app.post('/api/command/cancel', async (req, res) => {
+  try {
+    const { cleared } = await ttn.clearQueue();
+    broadcast('cancelled', { cleared });
+    res.json({ ok: true, cleared });
+  } catch (err) {
+    res.status(400).json({ ok: false, error: err.message });
+  }
+});
+
+app.post('/api/data/clear', (req, res) => {
   if (!passwordMatches(req.body?.password)) {
     return res.status(403).json({ ok: false, error: 'Nesprávné heslo.' });
   }
 
   try {
-    const removed = await clearReadings(config.ttn.deviceId);
+    const removed = clearReadings(config.ttn.deviceId);
     state.readings = 0;
     state.latest = null;
     state.nests = null;
@@ -158,16 +164,6 @@ app.post('/api/data/clear', async (req, res) => {
     res.json({ ok: true, removed });
   } catch (err) {
     res.status(500).json({ ok: false, error: `mazání selhalo: ${err.message}` });
-  }
-});
-
-app.post('/api/command/cancel', async (req, res) => {
-  try {
-    const { cleared } = await ttn.clearQueue();
-    broadcast('cancelled', { cleared });
-    res.json({ ok: true, cleared });
-  } catch (err) {
-    res.status(400).json({ ok: false, error: err.message });
   }
 });
 
@@ -194,7 +190,7 @@ ttn.on('downlink', ({ event, commands, nests }) => {
   console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
 });
 
-ttn.on('uplink', async (uplink) => {
+ttn.on('uplink', (uplink) => {
   state.latest = uplink;
   broadcast('uplink', uplink);
 
@@ -203,11 +199,11 @@ ttn.on('uplink', async (uplink) => {
   console.log(`uplink fCnt=${uplink.fCnt} battery=${batteryMv ?? '-'} panel=${panelMv ?? '-'} door=${door}${eggs}`);
 
   try {
-    await writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
-    state.readings = await countReadings(config.ttn.deviceId);
+    writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
+    state.readings = countReadings(config.ttn.deviceId);
     state.dbOk = true;
     state.dbError = null;
-    if (nests) await refreshNests();
+    if (nests) refreshNests();
   } catch (err) {
     state.dbOk = false;
     state.dbError = err.message;
@@ -217,12 +213,12 @@ ttn.on('uplink', async (uplink) => {
   broadcast('status', state);
 });
 
-async function seedFromDb() {
+function seedFromDb() {
   try {
-    const latest = await readLatest(config.ttn.deviceId);
+    const latest = readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
-    state.readings = await countReadings(config.ttn.deviceId);
-    state.nests = await readNests(config.ttn.deviceId, config.nestCount);
+    state.readings = countReadings(config.ttn.deviceId);
+    state.nests = readNests(config.ttn.deviceId, config.nestCount);
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;
@@ -231,18 +227,25 @@ async function seedFromDb() {
   }
 }
 
+let stopping = false;
+
 async function shutdown() {
+  if (stopping) return;
+  stopping = true;
   console.log('shutting down');
-  await ttn.stop();
-  await closeDb().catch(() => {});
-  http.close(() => process.exit(0));
   setTimeout(() => process.exit(0), 3000).unref();
+  await ttn.stop();
+  try {
+    closeDb();
+  } catch {}
+  for (const socket of wss.clients) socket.terminate();
+  http.close(() => process.exit(0));
 }
 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-await seedFromDb();
+seedFromDb();
 ttn.start();
 http.listen(config.port, () => {
   console.log(`dashboard on http://localhost:${config.port}`);

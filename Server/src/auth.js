@@ -3,7 +3,7 @@ import { config } from './config.js';
 
 export const SESSION_COOKIE = 'kurnik_session';
 
-const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+export const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const SWEEP_MS = 60 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
