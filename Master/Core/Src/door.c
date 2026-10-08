@@ -429,6 +429,8 @@ void Door_Process(void)
     evt = DOOR_EVT_NONE;
   if ((evt == DOOR_EVT_SUN) && (!Door_AutoAllowed() || Door_ManualActive(now)))
     evt = DOOR_EVT_NONE;
+  if ((evt == DOOR_EVT_SUN) && door_retry_pending && (door_retry_dir == Door_SunDir(now)))
+    evt = DOOR_EVT_NONE;
 
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE)) {
     if ((door_deferred_req == DOOR_REQ_NONE) && (door_deferred_evt == DOOR_EVT_NONE))
