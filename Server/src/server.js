@@ -34,6 +34,7 @@ const state = {
   pending: [],
   nestCount: config.nestCount,
   eggsMax: EGGS_MAX,
+  timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   nests: null
 };
 

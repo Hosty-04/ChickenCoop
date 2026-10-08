@@ -285,7 +285,9 @@ jaké je ve firmwaru (kapitola **Počet hnízd** v úvodu). Server podle něj v�
 na stránce ukázat a jak rozložit čísla ve zprávě.
 
 Řádek `TZ=Europe/Prague` nechte být, pokud kurník nestojí v jiném časovém pásmu. Podle něj
-server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně.
+server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně. Ve stejném
+pásmu ukazuje stránka i všechny časy, takže na cestách v cizině vidíte čas kurníku, ne čas
+telefonu.
 
 > **Heslo ke stránce nepoužívejte nikde jinde.** Je v souboru `.env` v čitelné podobě,
 > stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.

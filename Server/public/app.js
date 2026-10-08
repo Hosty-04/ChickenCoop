@@ -63,12 +63,6 @@ const MIN_TICK_GAP = 0.75;
 const MAX_JOIN_BUCKETS = 2.5;
 const NOON_HOUR = 12;
 
-const FORMATS = {
-  time: new Intl.DateTimeFormat('cs-CZ', { hour: '2-digit', minute: '2-digit' }),
-  day: new Intl.DateTimeFormat('cs-CZ', { day: 'numeric', month: 'numeric' }),
-  date: new Intl.DateTimeFormat('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' }),
-  weekday: new Intl.DateTimeFormat('cs-CZ', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })
-};
 const VOLTS = new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = new Intl.NumberFormat('cs-CZ');
 
@@ -97,6 +91,8 @@ let eggs = { range: null, bucketMs: 0, points: [], edges: [], since: 0 };
 let powerChart = null;
 let eggChart = null;
 let palette = readPalette();
+let timeZone;
+let formats = buildFormats();
 let historySeq = 0;
 let eggsSeq = 0;
 let shownUplink;
@@ -122,6 +118,22 @@ function readPalette() {
     grid: token('--grid'),
     axis: token('--axis')
   };
+}
+
+function buildFormats(zone) {
+  const format = (options) => new Intl.DateTimeFormat('cs-CZ', { ...options, timeZone: zone });
+  return {
+    time: format({ hour: '2-digit', minute: '2-digit' }),
+    day: format({ day: 'numeric', month: 'numeric' }),
+    date: format({ day: 'numeric', month: 'numeric', year: 'numeric' }),
+    weekday: format({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }),
+    clock: format({ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' })
+  };
+}
+
+function zoneOffset(ms) {
+  const part = Object.fromEntries(formats.clock.formatToParts(ms).map(({ type, value }) => [type, Number(value)]));
+  return Date.UTC(part.year, part.month - 1, part.day, part.hour, part.minute, part.second) - Math.floor(ms / 1000) * 1000;
 }
 
 function plural(n, one, few, many) {
@@ -188,9 +200,9 @@ function formatEggs(n) {
 
 function formatTime(value, mode) {
   const d = new Date(value);
-  if (mode === 'date') return FORMATS.date.format(d);
-  if (mode === 'datetime') return `${FORMATS.day.format(d)} ${FORMATS.time.format(d)}`;
-  return FORMATS.time.format(d);
+  if (mode === 'date') return formats.date.format(d);
+  if (mode === 'datetime') return `${formats.day.format(d)} ${formats.time.format(d)}`;
+  return formats.time.format(d);
 }
 
 function formatAgo(iso) {
@@ -203,7 +215,7 @@ function formatAgo(iso) {
 }
 
 function sameDay(a, b) {
-  return new Date(a).toDateString() === new Date(b).toDateString();
+  return formats.date.format(new Date(a)) === formats.date.format(new Date(b));
 }
 
 function labelMode() {
@@ -223,10 +235,14 @@ function snapUnit(spanMs, bucketMs) {
 }
 
 function snapTarget(ideal, unit) {
-  const target = new Date(unit === DAY_MS ? ideal : ideal + HOUR_MS / 2);
-  if (unit === DAY_MS) target.setHours(NOON_HOUR, 0, 0, 0);
-  else target.setMinutes(0, 0, 0);
-  return target.getTime();
+  if (unit === DAY_MS) {
+    const offset = zoneOffset(ideal);
+    const noon = Math.floor((ideal + offset) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS;
+    return noon - zoneOffset(noon - offset);
+  }
+  const shifted = ideal + HOUR_MS / 2;
+  const offset = zoneOffset(shifted);
+  return Math.floor((shifted + offset) / HOUR_MS) * HOUR_MS - offset;
 }
 
 function powerTicks() {
@@ -269,17 +285,17 @@ function eggTicks() {
 }
 
 function eggTick(ms) {
-  if (eggs.bucketMs < DAY_MS) return FORMATS.time.format(ms);
-  return (eggs.bucketMs < WEEK_MS ? FORMATS.day : FORMATS.date).format(ms);
+  if (eggs.bucketMs < DAY_MS) return formats.time.format(ms);
+  return (eggs.bucketMs < WEEK_MS ? formats.day : formats.date).format(ms);
 }
 
 function eggPeriod(index) {
   const from = eggs.edges[index];
   if (eggs.bucketMs < DAY_MS) {
-    return `${FORMATS.day.format(from)} ${FORMATS.time.format(from)}–${FORMATS.time.format(eggs.edges[index + 1])}`;
+    return `${formats.day.format(from)} ${formats.time.format(from)}–${formats.time.format(eggs.edges[index + 1])}`;
   }
-  if (eggs.bucketMs < WEEK_MS) return FORMATS.weekday.format(from);
-  return `týden od ${FORMATS.date.format(from)}`;
+  if (eggs.bucketMs < WEEK_MS) return formats.weekday.format(from);
+  return `týden od ${formats.date.format(from)}`;
 }
 
 function pointRadius(ctx) {
@@ -730,10 +746,19 @@ function syncCharts(status) {
   }
 }
 
+function syncTimeZone(zone) {
+  if (zone === timeZone) return;
+  timeZone = zone;
+  formats = buildFormats(zone);
+  renderPower();
+  renderEggs();
+}
+
 function renderStatus(status) {
   clearTimeout(offlineTimer);
   offlineTimer = null;
   serverDown = false;
+  syncTimeZone(status.timeZone);
   el('device').textContent = status.device;
   setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
   renderPending(status.pending);
