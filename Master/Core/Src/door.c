@@ -286,7 +286,8 @@ static void Door_Schedule(void)
 
 static void Door_MaintainTimeSync(void)
 {
-  if (!Timebase_IsValid() || ((Timebase_GetUnix() - door_time_sync_unix) >= DOOR_TIME_SYNC_S))
+  if (!Timebase_IsValid() ||
+      ((Timebase_GetUnix() - door_time_sync_unix) + (DOOR_RESYNC_S / 2UL) >= DOOR_TIME_SYNC_S))
     LoRaWAN_RequestTime();
 }
 
