@@ -567,14 +567,15 @@ přepne na stejná data v číslech.
 
 Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
-stovku bodů, ať pokrývá den nebo pět let.
+stovku bodů, ať pokrývá den nebo pět let. Podnadpis grafu ukazuje, za jak dlouhé okno se
+právě průměruje.
 
 U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
 průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
 ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
 zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
-té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozsahů od 7 dní — do
-24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje, kdykoli se průměruje po hodině
+a déle — do 24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
 
 Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
 do měsíce po dnech a dál po týdnech. Kontrola v celou hodinu hlásí vejce snesená za
@@ -632,7 +633,7 @@ Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo nam�
 do průměru okna nepočítá.
 
 **Odpojený, zastíněný nebo rozbitý panel** čidlo hlásit umí: naměří 0,00 V. Denní hrb
-v grafu proto klesne na nulu a v tabulce je `0.00 V`, ne pomlčka. Pomlčka u panelu znamená,
+v grafu proto klesne na nulu a v tabulce je `0,00 V`, ne pomlčka. Pomlčka u panelu znamená,
 že selhalo samotné měření, ne že panel nic nedává.
 
 **Odpojená baterie** vypadá jinak, protože z ní běží celý kurník: přestanou chodit zprávy
@@ -713,7 +714,7 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    seznamem; zaškrtněte hnízda, která chcete nastavit, a klikněte na **Potvrdit**. Tlačítko
    pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
-3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
+3. Počkejte, až stránka ohlásí **Příkaz odeslán do kurníku** a karta Hnízda ukáže novou
    kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen

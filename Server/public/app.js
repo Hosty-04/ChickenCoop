@@ -233,7 +233,7 @@ function powerTicks() {
   const { from: first, to: last } = powerWindow;
   const limit = tickLimit('plot-wrap', labelMode() !== 'time');
   const spanMs = last - first;
-  if (spanMs <= 0) return [first];
+  if (spanMs < MINUTE_MS) return [first];
 
   const unit = snapUnit(spanMs, power.bucketMs);
   const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
@@ -246,8 +246,8 @@ function powerTicks() {
     const strideMs = Math.ceil(spanMs / (limit - 1) / unit) * unit;
     for (let at = first + strideMs; at < last; at += strideMs) add(snapTarget(at, unit));
   } else {
-    const step = spanMs / (limit - 1);
-    for (let i = 1; i < limit - 1; i++) add(first + Math.round(i * step));
+    const step = Math.max(spanMs / (limit - 1), MINUTE_MS);
+    for (let at = first + step; last - at >= MINUTE_MS; at += step) add(Math.round(at));
   }
 
   picked.push(last);
@@ -285,6 +285,8 @@ function eggPeriod(index) {
 function pointRadius(ctx) {
   const area = ctx.chart.chartArea;
   if (!area) return POINT_RADIUS;
+  const { data } = ctx.dataset;
+  if (data[ctx.dataIndex - 1]?.y == null && data[ctx.dataIndex + 1]?.y == null) return POINT_RADIUS;
   const spacing = (area.width * power.bucketMs) / (powerWindow.to - powerWindow.from);
   return spacing >= POINT_GAP_PX ? POINT_RADIUS : 0;
 }
@@ -469,7 +471,7 @@ function renderEggTable() {
 function renderPower() {
   const empty = power.points.length === 0;
   const tableShown = !el('table-wrap').hidden;
-  el('chart-empty').hidden = !empty;
+  el('chart-empty').hidden = !empty || power.range === null;
   el('plot-wrap').hidden = empty || tableShown;
   el('legend').hidden = empty || tableShown;
   el('chart-hint').hidden = empty || labelMode() === 'time';
@@ -485,7 +487,7 @@ function renderPower() {
 function renderEggs() {
   const empty = eggs.points.every((p) => p.total === null);
   const tableShown = !el('eggs-table-wrap').hidden;
-  el('eggs-empty').hidden = !empty;
+  el('eggs-empty').hidden = !empty || eggs.range === null;
   el('eggs-plot-wrap').hidden = empty || tableShown;
 
   if (empty) {
@@ -518,7 +520,7 @@ async function loadHistory() {
     hideToast('chart-toast', 'history');
   } catch (err) {
     if (redirected(err) || seq !== historySeq) return;
-    if (power.range !== requested) power = { range: requested, bucketMs: 0, points: [] };
+    if (power.range !== requested) power = { range: null, bucketMs: 0, points: [] };
     shownUplink = undefined;
     el('chart-sub').textContent = 'historii se nepodařilo načíst';
     showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error', 'chart-toast', 'history');
@@ -544,7 +546,7 @@ async function loadEggs() {
     hideToast('eggs-toast', 'eggs');
   } catch (err) {
     if (redirected(err) || seq !== eggsSeq) return;
-    if (eggs.range !== requested) eggs = { range: requested, bucketMs: 0, points: [], edges: [], since: 0 };
+    if (eggs.range !== requested) eggs = { range: null, bucketMs: 0, points: [], edges: [], since: 0 };
     shownCheck = undefined;
     el('eggs-sub').textContent = 'historii snášky se nepodařilo načíst';
     showToast(`Historii snášky se nepodařilo načíst: ${reason(err)}`, 'is-error', 'eggs-toast', 'eggs');
