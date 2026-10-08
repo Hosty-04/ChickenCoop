@@ -458,9 +458,7 @@ void Door_Process(void)
   UTILS_EXIT_CRITICAL_SECTION();
 
   Door_Schedule();
-
-  if (Door_NeedsCatchup())
-    door_pending = DOOR_EVT_SUN;
+  Door_Catchup();
 }
 
 void Door_Enable(void)
@@ -517,8 +515,13 @@ void Door_Reschedule(void)
 
 void Door_Catchup(void)
 {
-  if (Door_NeedsCatchup())
+  if (!Door_NeedsCatchup())
+    return;
+
+  UTILS_ENTER_CRITICAL_SECTION();
+  if (door_pending != DOOR_EVT_RESYNC)
     door_pending = DOOR_EVT_SUN;
+  UTILS_EXIT_CRITICAL_SECTION();
 }
 
 void Door_RequestOpen(void)
