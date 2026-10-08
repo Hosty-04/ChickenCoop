@@ -22,13 +22,13 @@
 #define DOOR_RETRY_S           (5UL * 60UL)
 #define DOOR_RETRY_MAX         3U
 #define DOOR_RESYNC_S          3600UL
-#define DOOR_RESYNC_OFFSET_S   5UL
 #define DOOR_TIME_SYNC_S       (12UL * 3600UL)
 #define DOOR_TIME_SYNC_FAST_S  30UL
 #define DOOR_TIME_SYNC_FAST_MAX 2U
 #define DOOR_MOVE_BUDGET_MS    55000UL
 #define DOOR_DEFER_S           10UL
-#define DOOR_DEFER_MAX         6U
+#define DOOR_DEFER_MAX         4U
+#define DOOR_AHEAD_S           (5UL * 60UL)
 
 #define DOOR_BKP_REG           RTC_BKP_DR4
 #define DOOR_BKP_MAGIC         0x00D0UL
@@ -60,8 +60,9 @@ static uint8_t      door_enabled  = 1;
 static uint8_t      door_fault    = 0;
 static Door_State_t door_reported = DOOR_STATE_UNKNOWN;
 
-static uint8_t     door_manual      = 0;
-static Motor_Dir_t door_manual_want = MOTOR_DIR_UP;
+static uint8_t     door_manual       = 0;
+static Motor_Dir_t door_manual_want  = MOTOR_DIR_UP;
+static Motor_Dir_t door_request_want = MOTOR_DIR_UP;
 
 static uint8_t     door_retry_pending = 0;
 static uint8_t     door_retry_count   = 0;
@@ -213,21 +214,38 @@ static uint8_t Door_ManualActive(uint32_t now)
   return door_manual;
 }
 
+static Endstop_Pos_t Door_PosFor(Motor_Dir_t dir)
+{
+  return (dir == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
+}
+
+static Motor_Dir_t Door_SunDir(uint32_t now)
+{
+  Motor_Dir_t ahead = Door_DesiredDir((now + DOOR_AHEAD_S) % SECS_PER_DAY);
+
+  if (Endstop_Last() == Door_PosFor(ahead))
+    return ahead;
+
+  return Door_DesiredDir(now);
+}
+
 static uint8_t Door_NeedsCatchup(void)
 {
-  uint32_t      now;
-  Endstop_Pos_t want;
+  uint32_t    now;
+  Motor_Dir_t dir;
 
-  if (!Door_AutoAllowed() || door_retry_pending)
+  if (!Door_AutoAllowed())
     return 0U;
 
   now = Timebase_GetSecOfDay();
   if (Door_ManualActive(now))
     return 0U;
 
-  want = (Door_DesiredDir(now) == MOTOR_DIR_UP) ? ENDSTOP_POS_TOP : ENDSTOP_POS_BOTTOM;
+  dir = Door_SunDir(now);
+  if (door_retry_pending)
+    return (uint8_t)(door_retry_dir != dir);
 
-  return (uint8_t)(Endstop_Last() != want);
+  return (uint8_t)(Endstop_Last() != Door_PosFor(dir));
 }
 
 static uint32_t Door_RetryDelay(void)
@@ -250,19 +268,18 @@ static void Door_Schedule(void)
 
   Door_RefreshSun();
   now  = Timebase_GetSecOfDay();
-  best = (DOOR_RESYNC_S + DOOR_RESYNC_OFFSET_S - (now % DOOR_RESYNC_S)) % DOOR_RESYNC_S;
-  if (best == 0UL)
-    best = DOOR_RESYNC_S;
+  best = DOOR_RESYNC_S - (now % DOOR_RESYNC_S);
 
   if (Door_AutoAllowed()) {
     delay = Door_DelayTo(now, Door_OpenTime());
-    if (delay < best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
 
     delay = Door_DelayTo(now, Door_CloseTime());
-    if (delay < best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
   }
 
-  if (door_retry_pending && (door_deferred_evt != DOOR_EVT_RETRY)) {
+  if (door_retry_pending && (door_deferred_req == DOOR_REQ_NONE) &&
+      (door_deferred_evt == DOOR_EVT_NONE)) {
     delay = Door_RetryDelay();
     if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
   }
@@ -283,7 +300,8 @@ static void Door_Schedule(void)
 
 static void Door_MaintainTimeSync(void)
 {
-  if (!Timebase_IsValid() || ((Timebase_GetUnix() - door_time_sync_unix) >= DOOR_TIME_SYNC_S))
+  if (!Timebase_IsValid() ||
+      ((Timebase_GetUnix() - door_time_sync_unix) + (DOOR_RESYNC_S / 2UL) >= DOOR_TIME_SYNC_S))
     LoRaWAN_RequestTime();
 }
 
@@ -305,6 +323,7 @@ static void Door_RaiseFault(void)
   door_retry_count   = 0U;
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
+  door_defer_count   = 0U;
 }
 
 static void Door_Apply(Motor_Dir_t dir)
@@ -395,6 +414,9 @@ void Door_Process(void)
     evt = door_deferred_evt;
     door_deferred_req = DOOR_REQ_NONE;
     door_deferred_evt = DOOR_EVT_NONE;
+  } else if (req == DOOR_REQ_NONE) {
+    req = door_deferred_req;
+    door_deferred_req = DOOR_REQ_NONE;
   }
 
   if (evt == DOOR_EVT_RESYNC) {
@@ -411,8 +433,12 @@ void Door_Process(void)
     evt = DOOR_EVT_NONE;
   if ((evt == DOOR_EVT_SUN) && (!Door_AutoAllowed() || Door_ManualActive(now)))
     evt = DOOR_EVT_NONE;
+  if ((evt == DOOR_EVT_SUN) && door_retry_pending && (door_retry_dir == Door_SunDir(now)))
+    evt = DOOR_EVT_NONE;
 
   if ((req == DOOR_REQ_NONE) && (evt == DOOR_EVT_NONE)) {
+    if ((door_deferred_req == DOOR_REQ_NONE) && (door_deferred_evt == DOOR_EVT_NONE))
+      door_defer_count = 0U;
     Door_Schedule();
     return;
   }
@@ -428,7 +454,7 @@ void Door_Process(void)
 
   if (req != DOOR_REQ_NONE) {
     door_manual        = 1U;
-    door_manual_want   = Door_DesiredDir(now);
+    door_manual_want   = door_request_want;
     door_retry_pending = 0U;
     door_retry_count   = 0U;
     door_deferred_req  = DOOR_REQ_NONE;
@@ -436,15 +462,22 @@ void Door_Process(void)
     Door_Apply((req == DOOR_REQ_OPEN) ? MOTOR_DIR_UP : MOTOR_DIR_DOWN);
   } else if (evt == DOOR_EVT_RETRY) {
     door_retry_pending = 0U;
+    door_deferred_evt  = DOOR_EVT_NONE;
     Door_Apply(door_retry_dir);
   } else {
-    Door_Apply(Door_DesiredDir(now));
+    door_deferred_evt = DOOR_EVT_NONE;
+    Door_Apply(Door_SunDir(now));
   }
 
-  Door_Schedule();
+  UTILS_ENTER_CRITICAL_SECTION();
+  if ((door_pending == DOOR_EVT_RETRY) ||
+      ((door_pending == DOOR_EVT_DEFER) && (door_deferred_req == DOOR_REQ_NONE) &&
+       (door_deferred_evt == DOOR_EVT_NONE)))
+    door_pending = DOOR_EVT_NONE;
+  UTILS_EXIT_CRITICAL_SECTION();
 
-  if (Door_NeedsCatchup())
-    door_pending = DOOR_EVT_SUN;
+  Door_Schedule();
+  Door_Catchup();
 }
 
 void Door_Enable(void)
@@ -466,6 +499,7 @@ void Door_Disable(void)
   door_retry_count   = 0U;
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
+  door_defer_count   = 0U;
   Door_StopTimer();
   Door_Schedule();
 }
@@ -500,20 +534,31 @@ void Door_Reschedule(void)
 
 void Door_Catchup(void)
 {
-  if (Door_NeedsCatchup())
+  if (!Door_NeedsCatchup())
+    return;
+
+  UTILS_ENTER_CRITICAL_SECTION();
+  if (door_pending != DOOR_EVT_RESYNC)
     door_pending = DOOR_EVT_SUN;
+  UTILS_EXIT_CRITICAL_SECTION();
 }
 
 void Door_RequestOpen(void)
 {
-  if (door_enabled)
-    door_request = DOOR_REQ_OPEN;
+  if (!door_enabled)
+    return;
+
+  door_request      = DOOR_REQ_OPEN;
+  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
 }
 
 void Door_RequestClose(void)
 {
-  if (door_enabled)
-    door_request = DOOR_REQ_CLOSE;
+  if (!door_enabled)
+    return;
+
+  door_request      = DOOR_REQ_CLOSE;
+  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
 }
 
 void Door_SetFault(void)

@@ -350,9 +350,14 @@ static uint8_t LoRaWAN_UplinkWaiting(void)
 
 uint8_t LoRaWAN_IsIdleFor(uint32_t ms)
 {
-  uint32_t elapsed_ms;
+  lr1mac_states_t state;
+  uint32_t        elapsed_ms;
 
   if (smtc_modem_is_irq_flag_pending())
+    return 0U;
+
+  state = lorawan_api_state_get(STACK_ID);
+  if ((state != LWPSTATE_IDLE) && (state != LWPSTATE_ERROR))
     return 0U;
 
   elapsed_ms = TICKS_TO_MS(HAL_GetTick() - modem_sleep_tick);
@@ -697,6 +702,7 @@ static void EventCallback(void)
         LoRaWAN_RequestTime();
         Telemetry_RequestStatus();
         Door_Reschedule();
+        Door_Catchup();
         /* USER CODE END EventCallback_1 */
         if (CertMode == false)
         {

@@ -15,7 +15,7 @@
 #include "stm32_timer.h"
 
 #define NESTS_DEFER_S          10UL
-#define NESTS_DEFER_MAX        6U
+#define NESTS_DEFER_MAX        4U
 #define NESTS_BLOCK_MS         ((uint32_t)NESTS_COUNT * 15000UL)
 
 #define NESTS_BOOT_MS          10U
@@ -98,7 +98,8 @@ static HAL_StatusTypeDef Nests_PowerUp(void)
   HAL_GPIO_WritePin(COM_GPIO_Port, COM_Pin, GPIO_PIN_RESET);
   HAL_Delay(NESTS_BOOT_MS);
 
-  if (HAL_UART_Init(&hlpuart1) != HAL_OK)
+  if ((HAL_UART_Init(&hlpuart1) != HAL_OK) ||
+      (HAL_UARTEx_EnableFifoMode(&hlpuart1) != HAL_OK))
     return HAL_ERROR;
 
   Nests_RxPullUp();
@@ -396,6 +397,7 @@ void Nests_Process(void)
   reach  = Nests_Reach(hourly);
 
   if ((reach == 0U) || !Nests_Allowed()) {
+    nests_defer = 0U;
     if (hourly) {
       Nests_Plan();
       Battery_Request();
@@ -435,10 +437,11 @@ void Nests_Process(void)
 
 void Nests_Reschedule(void)
 {
-  if (nests_due > (Timebase_GetUnix() + NESTS_CHECK_S))
+  if (nests_due > (Timebase_GetUnix() + 2UL * NESTS_CHECK_S))
     Nests_Plan();
 
-  Nests_Schedule();
+  if (nests_defer == 0U)
+    Nests_Schedule();
 }
 
 uint8_t Nests_WorkPending(void)
