@@ -649,9 +649,13 @@ function renderAutomation(automation) {
     return;
   }
 
-  const since = `od ${formatTime(automation.at, sameDay(automation.at, Date.now()) ? 'time' : 'datetime')}`;
-  if (automation.enabled) setTile('automation', 'Zapnutá', since);
-  else setTile('automation', 'Vypnutá', `⚠ ${since}`, 'is-warning');
+  if (automation.enabled) {
+    setTile('automation', 'Zapnutá');
+    return;
+  }
+
+  const since = formatTime(automation.at, sameDay(automation.at, Date.now()) ? 'time' : 'datetime');
+  setTile('automation', 'Vypnutá', `⚠ od ${since}`, 'is-warning');
 }
 
 function renderPending(pending) {
