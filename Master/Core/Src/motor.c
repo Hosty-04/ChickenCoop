@@ -24,6 +24,7 @@
 #define MOTOR_SAMPLE_MS          40U
 #define MOTOR_SENSE_MAX_FAILS    3U
 #define MOTOR_TICK_STALL_MAX     20000UL
+#define MOTOR_HIT_MS             2U
 
 #define MOTOR_V_NOMINAL_V        6.0f
 #define MOTOR_V_MARGIN_V         0.4f
@@ -90,6 +91,8 @@ static void Motor_End(void)
 {
   Motor_Duty(0U);
   (void)HAL_TIM_PWM_Stop(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
+  (void)HAL_TIM_Base_DeInit(MOTOR_PWM_TIMER);
+  HAL_GPIO_DeInit(EN_GPIO_Port, EN_Pin);
 
   HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_RESET);
   Motor_SetPins(GPIO_MODE_ANALOG);
@@ -107,7 +110,7 @@ static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_li
   float ratio;
 
   if (v_bat < MOTOR_V_MIN_VALID_V) {
-    *duty    = (uint16_t)(MOTOR_PWM_MAX / 2U);
+    *duty    = (uint16_t)((MOTOR_PWM_MAX + 1U) / 2U);
     *i_limit = MOTOR_I_LIMIT_A * 0.5f;
     return;
   }
@@ -116,7 +119,7 @@ static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_li
   if (ratio > 1.0f)
     ratio = 1.0f;
 
-  *duty    = (uint16_t)(ratio * (float)MOTOR_PWM_MAX + 0.5f);
+  *duty    = (uint16_t)(ratio * (float)(MOTOR_PWM_MAX + 1U) + 0.5f);
   *i_limit = MOTOR_I_LIMIT_A * ratio;
 }
 
@@ -127,7 +130,7 @@ static uint8_t Motor_AtTarget(Motor_Dir_t dir)
 
 static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 {
-  uint32_t t_start, t_sample, t_last, t_over = 0U, stall = 0U;
+  uint32_t t_start, t_sample, t_last, t_hit, t_over = 0U, stall = 0U;
   uint8_t  over = 0U, fails = 0U;
   uint16_t duty;
   float    v, i, i_limit;
@@ -143,6 +146,7 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
   t_start  = HAL_GetTick();
   t_sample = t_start;
   t_last   = t_start;
+  t_hit    = t_start;
 
   while (1) {
     uint32_t now     = HAL_GetTick();
@@ -155,7 +159,9 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
       return STROKE_TIMEOUT;
     }
 
-    if (Motor_AtTarget(dir))
+    if (!Motor_AtTarget(dir))
+      t_hit = now;
+    else if (TICKS_TO_MS(now - t_hit) >= MOTOR_HIT_MS)
       return STROKE_REACHED;
 
     if (elapsed >= MOTOR_TRAVEL_TIMEOUT_MS)
@@ -183,7 +189,7 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 
     if (!over) {
       over   = 1U;
-      t_over = now;
+      t_over = now - MS_TO_TICKS(MOTOR_SAMPLE_MS);
     } else if (TICKS_TO_MS(now - t_over) >= MOTOR_OVERCURRENT_MS) {
       return STROKE_OVERCURRENT;
     }
@@ -201,6 +207,11 @@ static Motor_Result_t Motor_Finish(Motor_Result_t result, Endstop_Pos_t expected
   Power_SwitchToRunHSE48MHz();
 
   return result;
+}
+
+void Motor_Init(void)
+{
+  Motor_End();
 }
 
 Motor_Result_t Motor_Move(Motor_Dir_t dir)
