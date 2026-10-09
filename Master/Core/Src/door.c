@@ -83,15 +83,18 @@ static void Door_StoreState(void)
 {
   HAL_PWR_EnableBkUpAccess();
   HAL_RTCEx_BKUPWrite(&hrtc, DOOR_BKP_REG,
-                      (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8));
+                      (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8) |
+                      (door_enabled ? 0UL : 1UL));
 }
 
 static void Door_LoadState(void)
 {
   uint32_t word = HAL_RTCEx_BKUPRead(&hrtc, DOOR_BKP_REG);
 
-  if ((word >> 16) == DOOR_BKP_MAGIC)
-    door_fault = (uint8_t)((word >> 8) & 0x01U);
+  if ((word >> 16) == DOOR_BKP_MAGIC) {
+    door_fault   = (uint8_t)((word >> 8) & 0x01U);
+    door_enabled = (uint8_t)((word & 0x01U) == 0U);
+  }
 
   (void)Endstop_Sample();
   Door_StoreState();
@@ -524,6 +527,7 @@ void Door_Enable(void)
 
   door_enabled = 1U;
   (void)Endstop_Sample();
+  Door_StoreState();
   Door_PublishState();
   Door_Schedule();
   Door_Catchup();
@@ -534,6 +538,7 @@ void Door_Disable(void)
   door_enabled = 0U;
   door_request = DOOR_REQ_NONE;
   Door_DropWork();
+  Door_StoreState();
   Door_StopTimer();
   Door_Schedule();
 }

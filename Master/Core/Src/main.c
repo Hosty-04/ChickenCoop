@@ -131,6 +131,8 @@ int main(void)
   Door_Init();
   Door_Setup(2026, 1, 1, 0, 0, 0, COOP_LATITUDE, COOP_LONGITUDE);
   Nests_Init();
+  if (!System_IsEnabled())
+    Nests_Disable();
 
   /* USER CODE END 2 */
 
