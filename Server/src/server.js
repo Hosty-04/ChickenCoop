@@ -192,7 +192,7 @@ ttn.on('pending', (pending) => {
 
 function trackAutomation(event, commands, at) {
   const command = commands?.find((name) => Object.hasOwn(AUTOMATION_COMMANDS, name));
-  if ((event !== 'sent' && event !== 'ack') || !command) return;
+  if (event !== 'ack' || !command) return;
 
   state.automation = { enabled: AUTOMATION_COMMANDS[command], at };
   try {

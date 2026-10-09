@@ -635,6 +635,10 @@ dialog h2 {
     font-size: 26px;
   }
 
+  .kpi .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .plot {
     height: 260px;
   }

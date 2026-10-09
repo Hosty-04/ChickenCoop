@@ -562,8 +562,9 @@ mimo něj.
 ## Co je na stránce
 
 Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
-poslední zprávy a stav automatiky. Automatiku stránka zná z posledního odeslaného příkazu
-**Zapnout** nebo **Vypnout**; dokud žádný neodešel, ukazuje pomlčku. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+poslední zprávy a stav automatiky. Automatiku stránka zná z posledního příkazu **Zapnout**
+nebo **Vypnout**, jehož příjem kurník potvrdil; dokud žádný takový nebyl, ukazuje výchozí
+**Zapnutá**. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
 baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
 30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
@@ -691,7 +692,10 @@ a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kont
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
-Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
+Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
+na potvrzení**. Kurník příjem potvrdí ve své další zprávě — po pohybu dvířek nebo nastavení
+váhy ji pošle hned — a stránka ohlásí **Kurník příkaz přijal**. Když potvrzení nedorazí, příkaz
+se sám vrátí do fronty a pošle se znovu.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
@@ -717,7 +721,7 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    seznamem; zaškrtněte hnízda, která chcete nastavit, a klikněte na **Potvrdit**. Tlačítko
    pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
-3. Počkejte, až stránka ohlásí **Příkaz odeslán do kurníku** a karta Hnízda ukáže novou
+3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
    kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen

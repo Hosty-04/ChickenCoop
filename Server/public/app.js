@@ -29,9 +29,9 @@ const NEST_COMMAND_LABELS = {
 };
 
 const DOWNLINK_EVENTS = {
-  sent: { text: 'Příkaz odeslán do kurníku', tone: 'is-ok' },
-  ack: { text: 'Kurník příkaz potvrdil', tone: 'is-ok' },
-  nack: { text: 'Kurník příkaz odmítl', tone: 'is-error' },
+  sent: { text: 'Příkaz odeslán do kurníku, čeká na potvrzení', tone: '' },
+  ack: { text: 'Kurník příkaz přijal', tone: 'is-ok' },
+  nack: { text: 'Kurník příjem nepotvrdil, příkaz se pošle znovu', tone: '' },
   failed: { text: 'Příkaz se nepodařilo doručit', tone: 'is-error' }
 };
 
@@ -645,7 +645,7 @@ function renderLatest(uplink) {
 
 function renderAutomation(automation) {
   if (automation === null) {
-    setTile('automation', '–', 'zatím bez příkazu');
+    setTile('automation', 'Zapnutá');
     return;
   }
 
