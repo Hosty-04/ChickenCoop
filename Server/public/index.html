@@ -11,7 +11,8 @@
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kurník">
-<link rel="stylesheet" href="style.css">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="viz-root">
@@ -29,12 +30,12 @@
   </header>
 
   <div class="filterbar" role="group" aria-label="Časový rozsah">
-    <button type="button" data-hours="6">6 h</button>
-    <button type="button" data-hours="24" class="is-selected" aria-pressed="true">24 h</button>
-    <button type="button" data-hours="168">7 dní</button>
-    <button type="button" data-hours="720">30 dní</button>
-    <button type="button" data-hours="8760">1 rok</button>
-    <button type="button" data-hours="all">Vše</button>
+    <button type="button" data-hours="6" aria-pressed="false">6 h</button>
+    <button type="button" data-hours="24" aria-pressed="true">24 h</button>
+    <button type="button" data-hours="168" aria-pressed="false">7 dní</button>
+    <button type="button" data-hours="720" aria-pressed="false">30 dní</button>
+    <button type="button" data-hours="8760" aria-pressed="false">1 rok</button>
+    <button type="button" data-hours="all" aria-pressed="false">Vše</button>
   </div>
 
   <section class="kpi" aria-label="Aktuální stav">
@@ -58,6 +59,11 @@
       <span class="tile-value" id="seen-value">–</span>
       <span class="tile-note" id="seen-note"></span>
     </div>
+    <div class="tile">
+      <span class="tile-label">Automatika</span>
+      <span class="tile-value" id="automation-value">–</span>
+      <span class="tile-note" id="automation-note"></span>
+    </div>
   </section>
 
   <section class="card">
@@ -76,7 +82,7 @@
         <h2>Snáška</h2>
         <p class="card-sub" id="eggs-sub">histogram snesených vajec</p>
       </div>
-      <button id="toggle-eggs-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
+      <button id="toggle-eggs-table" type="button" class="ghost">Tabulka</button>
     </div>
 
     <div class="plot" id="eggs-plot-wrap">
@@ -93,7 +99,7 @@
 
     <p class="empty" id="eggs-empty" hidden>Zatím žádná data</p>
 
-    <p class="toast" id="eggs-toast" hidden></p>
+    <p class="toast" id="eggs-toast" role="status" hidden></p>
   </section>
 
   <section class="card">
@@ -102,10 +108,13 @@
         <h2>Napájení</h2>
         <p class="card-sub" id="chart-sub">baterie a solární panel</p>
       </div>
-      <button id="toggle-table" type="button" class="ghost" aria-pressed="false">Tabulka</button>
+      <button id="toggle-table" type="button" class="ghost">Tabulka</button>
     </div>
 
-    <div class="legend" id="legend"></div>
+    <div class="legend" id="legend">
+      <span class="legend-item"><span class="legend-swatch is-battery"></span>Baterie</span>
+      <span class="legend-item"><span class="legend-swatch is-panel"></span>Panel</span>
+    </div>
 
     <div class="plot" id="plot-wrap">
       <canvas id="chart" role="img" aria-label="Graf napětí baterie a panelu v čase"></canvas>
@@ -123,7 +132,7 @@
 
     <p class="empty" id="chart-empty" hidden>Zatím žádná data</p>
 
-    <p class="toast" id="chart-toast" hidden></p>
+    <p class="toast" id="chart-toast" role="status" hidden></p>
   </section>
 
   <section class="card">
@@ -160,7 +169,7 @@
     </div>
     <p class="hint">Příkaz čeká ve frontě, dokud se kurník neozve — tedy až 10 minut.</p>
     <p class="hint">Váhu vynulujte s prázdným hnízdem, kalibrujte se závažím 1 kg uprostřed hnízda a sundejte ho, až se karta Hnízda obnoví.</p>
-    <p class="toast" id="toast" hidden></p>
+    <p class="toast" id="toast" role="status" hidden></p>
   </section>
 
   <section class="card">
@@ -173,33 +182,38 @@
       <button type="button" id="wipe" class="danger">Smazat</button>
     </div>
     <p class="hint">Smazání se nedá vrátit. Měření, která dorazí potom, se ukládají dál.</p>
-    <p class="toast" id="data-toast" hidden></p>
+    <p class="toast" id="data-toast" role="status" hidden></p>
   </section>
 
 </div>
 
 <dialog id="nest-dialog" aria-labelledby="nest-dialog-title">
-  <h2 id="nest-dialog-title">Vyberte hnízda</h2>
-  <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-dialog-title"></div>
-  <div class="dialog-actions">
-    <button type="button" id="nest-cancel">Zrušit</button>
-    <button type="button" id="nest-confirm" class="primary">Potvrdit</button>
-  </div>
+  <form id="nest-form">
+    <h2 id="nest-dialog-title">Vyberte hnízda</h2>
+    <div class="picker-menu" id="nest-picks" role="group" aria-labelledby="nest-dialog-title"></div>
+    <div class="dialog-actions">
+      <button type="button" id="nest-cancel">Zrušit</button>
+      <button type="submit" class="primary">Potvrdit</button>
+    </div>
+  </form>
 </dialog>
 
-<dialog id="wipe-dialog">
-  <h2>Opravdu smazat historii?</h2>
-  <p class="hint">Přijdete o všechna uložená měření. Vytvořte si nejdřív zálohu!</p>
-  <label class="field" for="wipe-password">Pro potvrzení zadejte heslo
-    <input type="password" id="wipe-password" autocomplete="current-password">
-  </label>
-  <p class="toast is-error" id="wipe-error" hidden></p>
-  <div class="dialog-actions">
-    <button type="button" id="wipe-cancel">Zrušit</button>
-    <button type="button" id="wipe-confirm" class="danger">Smazat</button>
-  </div>
+<dialog id="wipe-dialog" aria-labelledby="wipe-dialog-title">
+  <form id="wipe-form">
+    <h2 id="wipe-dialog-title">Opravdu smazat historii?</h2>
+    <p class="hint">Přijdete o všechna uložená měření. Vytvořte si nejdřív zálohu!</p>
+    <label class="field">
+      <span>Pro potvrzení zadejte heslo</span>
+      <input id="wipe-password" type="password" autocomplete="current-password" required autofocus>
+    </label>
+    <p class="toast is-error" id="wipe-error" role="alert" hidden></p>
+    <div class="dialog-actions">
+      <button type="button" id="wipe-cancel">Zrušit</button>
+      <button type="submit" id="wipe-confirm" class="danger">Smazat</button>
+    </div>
+  </form>
 </dialog>
 <script src="/vendor/chart.umd.js"></script>
-<script src="app.js" type="module"></script>
+<script src="/app.js" type="module"></script>
 </body>
 </html>

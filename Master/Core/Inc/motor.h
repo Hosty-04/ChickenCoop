@@ -25,6 +25,7 @@ typedef enum {
   MOTOR_SENSOR_ERROR
 } Motor_Result_t;
 
+void           Motor_Init(void);
 Motor_Result_t Motor_Move(Motor_Dir_t dir);
 
 #endif /* MOTOR_H */

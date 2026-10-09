@@ -24,6 +24,7 @@
 #define MOTOR_SAMPLE_MS          40U
 #define MOTOR_SENSE_MAX_FAILS    3U
 #define MOTOR_TICK_STALL_MAX     20000UL
+#define MOTOR_HIT_MS             2U
 
 #define MOTOR_V_NOMINAL_V        6.0f
 #define MOTOR_V_MARGIN_V         0.4f
@@ -32,10 +33,10 @@
 #define MOTOR_BRIDGE_R_OHM       2.0f
 
 typedef enum {
-  STROKE_REACHED = 0,
-  STROKE_TIMEOUT,
-  STROKE_OVERCURRENT,
-  STROKE_SENSOR
+  MOTOR_STROKE_REACHED = 0,
+  MOTOR_STROKE_TIMEOUT,
+  MOTOR_STROKE_OVERCURRENT,
+  MOTOR_STROKE_SENSOR
 } Motor_Stroke_t;
 
 static Endstop_Pos_t Motor_PosFor(Motor_Dir_t dir)
@@ -54,11 +55,14 @@ static void Motor_SetPins(uint32_t mode)
 
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  gpio.Pin   = PH_Pin | NSLEEP_Pin;
   gpio.Mode  = mode;
   gpio.Pull  = GPIO_NOPULL;
   gpio.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &gpio);
+
+  gpio.Pin = PH_Pin;
+  HAL_GPIO_Init(PH_GPIO_Port, &gpio);
+  gpio.Pin = NSLEEP_Pin;
+  HAL_GPIO_Init(NSLEEP_GPIO_Port, &gpio);
 }
 
 static void Motor_Duty(uint16_t duty)
@@ -90,6 +94,8 @@ static void Motor_End(void)
 {
   Motor_Duty(0U);
   (void)HAL_TIM_PWM_Stop(MOTOR_PWM_TIMER, MOTOR_PWM_CHANNEL);
+  (void)HAL_TIM_Base_DeInit(MOTOR_PWM_TIMER);
+  HAL_GPIO_DeInit(EN_GPIO_Port, EN_Pin);
 
   HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_RESET);
   Motor_SetPins(GPIO_MODE_ANALOG);
@@ -107,7 +113,7 @@ static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_li
   float ratio;
 
   if (v_bat < MOTOR_V_MIN_VALID_V) {
-    *duty    = (uint16_t)(MOTOR_PWM_MAX / 2U);
+    *duty    = (uint16_t)((MOTOR_PWM_MAX + 1U) / 2U);
     *i_limit = MOTOR_I_LIMIT_A * 0.5f;
     return;
   }
@@ -116,7 +122,7 @@ static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_li
   if (ratio > 1.0f)
     ratio = 1.0f;
 
-  *duty    = (uint16_t)(ratio * (float)MOTOR_PWM_MAX + 0.5f);
+  *duty    = (uint16_t)(ratio * (float)(MOTOR_PWM_MAX + 1U) + 0.5f);
   *i_limit = MOTOR_I_LIMIT_A * ratio;
 }
 
@@ -127,7 +133,7 @@ static uint8_t Motor_AtTarget(Motor_Dir_t dir)
 
 static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 {
-  uint32_t t_start, t_sample, t_last, t_over = 0U, stall = 0U;
+  uint32_t t_start, t_sample, t_last, t_hit, t_over = 0U, stall = 0U;
   uint8_t  over = 0U, fails = 0U;
   uint16_t duty;
   float    v, i, i_limit;
@@ -135,7 +141,7 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
   HAL_Delay(MOTOR_SAMPLE_MS);
 
   if (INA226_Read(&v, &i) != HAL_OK)
-    return STROKE_SENSOR;
+    return MOTOR_STROKE_SENSOR;
 
   Motor_Regulate(v, i, &duty, &i_limit);
   Motor_Drive(dir, duty);
@@ -143,6 +149,7 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
   t_start  = HAL_GetTick();
   t_sample = t_start;
   t_last   = t_start;
+  t_hit    = t_start;
 
   while (1) {
     uint32_t now     = HAL_GetTick();
@@ -152,14 +159,16 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
       t_last = now;
       stall  = 0U;
     } else if (++stall >= MOTOR_TICK_STALL_MAX) {
-      return STROKE_TIMEOUT;
+      return MOTOR_STROKE_TIMEOUT;
     }
 
-    if (Motor_AtTarget(dir))
-      return STROKE_REACHED;
+    if (!Motor_AtTarget(dir))
+      t_hit = now;
+    else if (TICKS_TO_MS(now - t_hit) >= MOTOR_HIT_MS)
+      return MOTOR_STROKE_REACHED;
 
     if (elapsed >= MOTOR_TRAVEL_TIMEOUT_MS)
-      return STROKE_TIMEOUT;
+      return MOTOR_STROKE_TIMEOUT;
 
     if (TICKS_TO_MS(now - t_sample) < MOTOR_SAMPLE_MS)
       continue;
@@ -168,7 +177,7 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 
     if (INA226_Read(&v, &i) != HAL_OK) {
       if (++fails >= MOTOR_SENSE_MAX_FAILS)
-        return STROKE_SENSOR;
+        return MOTOR_STROKE_SENSOR;
       continue;
     }
     fails = 0U;
@@ -183,9 +192,9 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 
     if (!over) {
       over   = 1U;
-      t_over = now;
+      t_over = now - MS_TO_TICKS(MOTOR_SAMPLE_MS);
     } else if (TICKS_TO_MS(now - t_over) >= MOTOR_OVERCURRENT_MS) {
-      return STROKE_OVERCURRENT;
+      return MOTOR_STROKE_OVERCURRENT;
     }
   }
 }
@@ -194,13 +203,18 @@ static Motor_Result_t Motor_Finish(Motor_Result_t result, Endstop_Pos_t expected
 {
   Motor_End();
 
-  if ((Endstop_Sample() == ENDSTOP_POS_UNKNOWN) && (expected != ENDSTOP_POS_UNKNOWN))
+  if (Endstop_Sample() == ENDSTOP_POS_UNKNOWN)
     Endstop_Restore(expected);
 
   INA226_PowerDown();
   Power_SwitchToRunHSE48MHz();
 
   return result;
+}
+
+void Motor_Init(void)
+{
+  Motor_End();
 }
 
 Motor_Result_t Motor_Move(Motor_Dir_t dir)
@@ -224,17 +238,17 @@ Motor_Result_t Motor_Move(Motor_Dir_t dir)
 
   stroke = Motor_Stroke(dir);
 
-  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OK, target);
-  if (stroke == STROKE_TIMEOUT) return Motor_Finish(MOTOR_TIMEOUT, ENDSTOP_POS_UNKNOWN);
-  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
+  if (stroke == MOTOR_STROKE_REACHED) return Motor_Finish(MOTOR_OK, target);
+  if (stroke == MOTOR_STROKE_TIMEOUT) return Motor_Finish(MOTOR_TIMEOUT, ENDSTOP_POS_UNKNOWN);
+  if (stroke == MOTOR_STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
 
   Motor_Duty(0U);
   HAL_Delay(MOTOR_REVERSE_PAUSE_MS);
 
   stroke = Motor_Stroke(Motor_Opposite(dir));
 
-  if (stroke == STROKE_REACHED) return Motor_Finish(MOTOR_OBSTACLE, start);
-  if (stroke == STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
+  if (stroke == MOTOR_STROKE_REACHED) return Motor_Finish(MOTOR_OBSTACLE, start);
+  if (stroke == MOTOR_STROKE_SENSOR)  return Motor_Finish(MOTOR_SENSOR_ERROR, ENDSTOP_POS_UNKNOWN);
 
   return Motor_Finish(MOTOR_STUCK, ENDSTOP_POS_UNKNOWN);
 }

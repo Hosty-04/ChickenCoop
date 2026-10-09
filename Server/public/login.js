@@ -1,8 +1,10 @@
-const REQUEST_MS = 8000;
+import { el, api, HttpError } from '/common.js';
 
-const form = document.getElementById('form');
-const error = document.getElementById('error');
-const submit = document.getElementById('submit');
+const form = el('form');
+const user = el('user');
+const password = el('password');
+const submit = el('submit');
+const error = el('error');
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -11,32 +13,15 @@ form.addEventListener('submit', async (event) => {
   submit.textContent = 'Přihlašuji…';
 
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), REQUEST_MS);
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
-        user: document.getElementById('user').value,
-        password: document.getElementById('password').value
-      })
-    }).finally(() => clearTimeout(timer));
-    const body = await res.json().catch(() => ({}));
-
-    if (res.ok) {
-      location.replace('/');
-      return;
-    }
-    throw new Error(body.error ?? 'Přihlášení se nezdařilo.');
+    await api('/api/login', { user: user.value, password: password.value });
+    location.replace('/');
   } catch (err) {
-    const lost = err instanceof TypeError || err?.name === 'AbortError' || err?.name === 'TimeoutError';
-    error.textContent = lost ? 'Server neodpovídá.' : err.message;
+    const rejected = err instanceof HttpError;
+    error.textContent = rejected ? err.message : 'Server neodpovídá.';
     error.hidden = false;
-    document.getElementById('password').value = '';
-    document.getElementById('password').focus();
-  } finally {
     submit.disabled = false;
     submit.textContent = 'Přihlásit';
+    if (rejected) password.value = '';
+    password.focus();
   }
 });

@@ -9,6 +9,9 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#f9f9f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kurník">
+<script src="/theme.js"></script>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -16,7 +19,7 @@
   <form class="card login-card" id="form" autocomplete="on">
     <img src="/icon.svg" alt="" width="56" height="56" class="login-mark">
     <h1>Kurník</h1>
-    <p class="card-sub">Přihlas se pro přístup k ovládání.</p>
+    <p class="card-sub">Přihlaste se pro přístup k ovládání.</p>
 
     <label class="field">
       <span>Jméno</span>
@@ -29,7 +32,7 @@
     </label>
 
     <button type="submit" id="submit" class="primary">Přihlásit</button>
-    <p class="toast is-error" id="error" hidden role="alert"></p>
+    <p class="toast is-error" id="error" role="alert" hidden></p>
   </form>
 </div>
 <script src="/login.js" type="module"></script>

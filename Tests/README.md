@@ -70,8 +70,8 @@ v `Server/README.md`.
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
 | `kurnik-test.db` | běžný stav | dva roky měření, všechny události v grafech |
-| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá | pět oranžových hlášek naráz; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
-| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
+| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
+| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1, automatika vypnutá od včerejška | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy", a oranžová „⚠ od" s datem i časem vypnutí automatiky; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
 | `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
 | `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |

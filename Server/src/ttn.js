@@ -3,8 +3,12 @@ import mqtt from 'mqtt';
 import { config, ttnUsername } from './config.js';
 import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT } from './codec.js';
 
+const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
-const CORRELATION_PREFIX = 'kurnik';
+const QUEUE_EVENTS = ['sent', 'failed'];
+const SENT_MAX = 16;
+const CORRELATION_TAG = 'kurnik:';
+const CORRELATION_PREFIX = `${CORRELATION_TAG}${Date.now().toString(36)}:`;
 
 function correlationIds(message) {
   const found = [];
@@ -25,6 +29,7 @@ export class TtnBridge extends EventEmitter {
     this.client = null;
     this.connected = false;
     this.pending = [];
+    this.sent = new Map();
     this.nextId = 1;
   }
 
@@ -35,6 +40,24 @@ export class TtnBridge extends EventEmitter {
   #setPending(list) {
     this.pending = list;
     this.emit('pending', this.pending);
+  }
+
+  #takeQueued(ids, tagged) {
+    const entry = this.pending.find((queued) => ids.includes(queued.correlationId)) ?? (tagged ? null : this.pending[0]);
+    if (entry) this.#setPending(this.pending.filter((queued) => queued !== entry));
+    return entry ?? null;
+  }
+
+  #takeSent(ids, tagged) {
+    const id = ids.find((value) => this.sent.has(value)) ?? (tagged ? undefined : this.sent.keys().next().value);
+    const entry = this.sent.get(id) ?? null;
+    this.sent.delete(id);
+    return entry;
+  }
+
+  #remember(entry) {
+    this.sent.set(entry.correlationId, entry);
+    if (this.sent.size > SENT_MAX) this.sent.delete(this.sent.keys().next().value);
   }
 
   start() {
@@ -81,12 +104,12 @@ export class TtnBridge extends EventEmitter {
     const event = DOWN_EVENTS.find((name) => topic.endsWith(`/down/${name}`));
     if (event) {
       const ids = correlationIds(message);
-      const matched = this.pending.findIndex((entry) => ids.includes(entry.correlationId));
-      const index = matched >= 0 ? matched : 0;
-      const done = this.pending[index];
+      const tagged = ids.some((id) => id.startsWith(CORRELATION_TAG));
+      const entry = QUEUE_EVENTS.includes(event) ? this.#takeQueued(ids, tagged) : this.#takeSent(ids, tagged);
 
-      if (done) this.#setPending(this.pending.filter((_, position) => position !== index));
-      this.emit('downlink', { event, commands: done?.commands ?? null, nests: done?.nests ?? null });
+      if (entry && event === 'sent') this.#remember(entry);
+      if (entry && event === 'nack') this.#setPending([...this.pending, entry]);
+      this.emit('downlink', { event, commands: entry?.commands ?? null, nests: entry?.nests ?? null });
       return;
     }
 
@@ -95,7 +118,7 @@ export class TtnBridge extends EventEmitter {
 
     let reading;
     try {
-      reading = decodeUplink(new Uint8Array(Buffer.from(uplink.frm_payload, 'base64')), config.nestCount);
+      reading = decodeUplink(Buffer.from(uplink.frm_payload, 'base64'), config.nestCount);
     } catch (err) {
       this.emit('error', err);
       return;
@@ -119,10 +142,10 @@ export class TtnBridge extends EventEmitter {
   }
 
   sendCommand(names, nests) {
-    const payload = encodeDownlink(names, nests, config.nestCount);
-    const hex = Buffer.from(payload).toString('hex');
+    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount));
+    const hex = payload.toString('hex');
 
-    if (!this.connected) throw new Error('server není spojený s The Things Network');
+    if (!this.connected) throw new Error(NOT_CONNECTED);
     if (this.pending.some((entry) => entry.payload === hex)) {
       throw new DuplicateCommandError('stejný příkaz už ve frontě čeká');
     }
@@ -130,7 +153,7 @@ export class TtnBridge extends EventEmitter {
     const id = this.nextId++;
     const entry = {
       id,
-      correlationId: `${CORRELATION_PREFIX}:${id}`,
+      correlationId: `${CORRELATION_PREFIX}${id}`,
       commands: names,
       nests: payload.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
       byte: payload[0],
@@ -141,8 +164,9 @@ export class TtnBridge extends EventEmitter {
     const body = JSON.stringify({
       downlinks: [{
         f_port: DOWNLINK_PORT,
-        frm_payload: Buffer.from(payload).toString('base64'),
+        frm_payload: payload.toString('base64'),
         priority: 'NORMAL',
+        confirmed: true,
         correlation_ids: [entry.correlationId]
       }]
     });
@@ -161,11 +185,10 @@ export class TtnBridge extends EventEmitter {
   }
 
   clearQueue() {
-    if (!this.connected) throw new Error('server není spojený s The Things Network');
+    if (!this.connected) throw new Error(NOT_CONNECTED);
 
     return new Promise((resolve, reject) => {
-      const body = JSON.stringify({ downlinks: [] });
-      this.client.publish(`${this.#base()}/down/replace`, body, { qos: 1 }, (err) => {
+      this.client.publish(`${this.#base()}/down/replace`, JSON.stringify({ downlinks: [] }), { qos: 1 }, (err) => {
         if (err) return reject(err);
         const cleared = this.pending.length;
         this.#setPending([]);

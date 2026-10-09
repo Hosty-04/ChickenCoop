@@ -285,7 +285,9 @@ jaké je ve firmwaru (kapitola **Počet hnízd** v úvodu). Server podle něj v�
 na stránce ukázat a jak rozložit čísla ve zprávě.
 
 Řádek `TZ=Europe/Prague` nechte být, pokud kurník nestojí v jiném časovém pásmu. Podle něj
-server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně.
+server dělí měření na dny, takže v grafu začíná den o půlnoci u vás, ne v Londýně. Ve stejném
+pásmu ukazuje stránka i všechny časy, takže na cestách v cizině vidíte čas kurníku, ne čas
+telefonu.
 
 > **Heslo ke stránce nepoužívejte nikde jinde.** Je v souboru `.env` v čitelné podobě,
 > stejně jako klíč k TTN. Kdo se dostane k tomu souboru, má stejně tak celý systém.
@@ -559,22 +561,25 @@ mimo něj.
 
 ## Co je na stránce
 
-Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
-poslední zprávy. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
+poslední zprávy a stav automatiky. Automatiku stránka zná z posledního příkazu **Zapnout**
+nebo **Vypnout**, jehož příjem kurník potvrdil; dokud žádný takový nebyl, ukazuje výchozí
+**Zapnutá**. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
 baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
 30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
 
 Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
-stovku bodů, ať pokrývá den nebo pět let.
+stovku bodů, ať pokrývá den nebo pět let. Podnadpis grafu ukazuje, za jak dlouhé okno se
+právě průměruje.
 
 U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
 průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
 ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
 zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
-té napětí drží i v noci. Stránka na to pod grafem upozorňuje, a to u rozsahů od 7 dní — do
-24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje, kdykoli se průměruje po hodině
+a déle — do 24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
 
 Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
 do měsíce po dnech a dál po týdnech. Kontrola v celou hodinu hlásí vejce snesená za
@@ -632,7 +637,7 @@ Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo nam�
 do průměru okna nepočítá.
 
 **Odpojený, zastíněný nebo rozbitý panel** čidlo hlásit umí: naměří 0,00 V. Denní hrb
-v grafu proto klesne na nulu a v tabulce je `0.00 V`, ne pomlčka. Pomlčka u panelu znamená,
+v grafu proto klesne na nulu a v tabulce je `0,00 V`, ne pomlčka. Pomlčka u panelu znamená,
 že selhalo samotné měření, ne že panel nic nedává.
 
 **Odpojená baterie** vypadá jinak, protože z ní běží celý kurník: přestanou chodit zprávy
@@ -687,7 +692,10 @@ a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kont
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
-Jakmile se příkaz doručí, stránka to oznámí a z fronty zmizí.
+Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
+na potvrzení**. Kurník příjem potvrdí ve své další zprávě — po pohybu dvířek nebo nastavení
+váhy ji pošle hned — a stránka ohlásí **Kurník příkaz přijal**. Když potvrzení nedorazí, příkaz
+se sám vrátí do fronty a pošle se znovu.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po

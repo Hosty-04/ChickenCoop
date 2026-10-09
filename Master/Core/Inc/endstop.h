@@ -17,7 +17,6 @@ typedef enum {
 } Endstop_Pos_t;
 
 void Endstop_Acquire(void);
-void Endstop_Release(void);
 
 uint8_t Endstop_AtTop(void);
 uint8_t Endstop_AtBottom(void);

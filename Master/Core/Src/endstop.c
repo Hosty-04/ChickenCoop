@@ -18,6 +18,30 @@
 
 static Endstop_Pos_t endstop_last = ENDSTOP_POS_UNKNOWN;
 
+static void Endstop_Release(void)
+{
+  GPIO_InitTypeDef gpio = {0};
+
+  gpio.Mode = GPIO_MODE_ANALOG;
+  gpio.Pull = GPIO_NOPULL;
+
+  gpio.Pin = ENDSTOP_TOP_PIN;
+  HAL_GPIO_Init(ENDSTOP_TOP_PORT, &gpio);
+  gpio.Pin = ENDSTOP_BOTTOM_PIN;
+  HAL_GPIO_Init(ENDSTOP_BOTTOM_PORT, &gpio);
+}
+
+static Endstop_Pos_t Endstop_ReadRaw(void)
+{
+  uint8_t top    = Endstop_AtTop();
+  uint8_t bottom = Endstop_AtBottom();
+
+  if (top && !bottom) return ENDSTOP_POS_TOP;
+  if (bottom && !top) return ENDSTOP_POS_BOTTOM;
+
+  return ENDSTOP_POS_UNKNOWN;
+}
+
 void Endstop_Acquire(void)
 {
   GPIO_InitTypeDef gpio = {0};
@@ -37,19 +61,6 @@ void Endstop_Acquire(void)
   HAL_Delay(ENDSTOP_SETTLE_MS);
 }
 
-void Endstop_Release(void)
-{
-  GPIO_InitTypeDef gpio = {0};
-
-  gpio.Mode = GPIO_MODE_ANALOG;
-  gpio.Pull = GPIO_NOPULL;
-
-  gpio.Pin = ENDSTOP_TOP_PIN;
-  HAL_GPIO_Init(ENDSTOP_TOP_PORT, &gpio);
-  gpio.Pin = ENDSTOP_BOTTOM_PIN;
-  HAL_GPIO_Init(ENDSTOP_BOTTOM_PORT, &gpio);
-}
-
 uint8_t Endstop_AtTop(void)
 {
   return (uint8_t)(HAL_GPIO_ReadPin(ENDSTOP_TOP_PORT, ENDSTOP_TOP_PIN) == GPIO_PIN_SET);
@@ -58,17 +69,6 @@ uint8_t Endstop_AtTop(void)
 uint8_t Endstop_AtBottom(void)
 {
   return (uint8_t)(HAL_GPIO_ReadPin(ENDSTOP_BOTTOM_PORT, ENDSTOP_BOTTOM_PIN) == GPIO_PIN_SET);
-}
-
-static Endstop_Pos_t Endstop_ReadRaw(void)
-{
-  uint8_t top    = Endstop_AtTop();
-  uint8_t bottom = Endstop_AtBottom();
-
-  if (top && !bottom) return ENDSTOP_POS_TOP;
-  if (bottom && !top) return ENDSTOP_POS_BOTTOM;
-
-  return ENDSTOP_POS_UNKNOWN;
 }
 
 Endstop_Pos_t Endstop_Sample(void)
@@ -100,6 +100,5 @@ Endstop_Pos_t Endstop_Last(void)
 
 void Endstop_Restore(Endstop_Pos_t pos)
 {
-  endstop_last = ((pos == ENDSTOP_POS_TOP) || (pos == ENDSTOP_POS_BOTTOM))
-               ? pos : ENDSTOP_POS_UNKNOWN;
+  endstop_last = pos;
 }

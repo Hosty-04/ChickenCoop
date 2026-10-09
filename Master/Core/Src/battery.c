@@ -37,7 +37,7 @@
 #define ADC_TIMEOUT_MS         20U
 
 static const uint32_t battery_adc_channels[] = {
-  ADC_CHANNEL_2, ADC_CHANNEL_VREFINT, ADC_CHANNEL_TEMPSENSOR
+  PANEL_ADC_CHANNEL, ADC_CHANNEL_VREFINT, ADC_CHANNEL_TEMPSENSOR
 };
 
 static UTIL_TIMER_Object_t battery_timer;
