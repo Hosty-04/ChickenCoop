@@ -206,12 +206,11 @@ function formatTime(value, mode) {
 }
 
 function formatAgo(iso) {
-  const seconds = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
-  if (seconds < 60) return 'před chvílí';
-  const minutes = Math.round(seconds / 60);
+  const minutes = Math.max(0, Math.floor((Date.now() - Date.parse(iso)) / MINUTE_MS));
+  if (minutes < 1) return 'před chvílí';
   if (minutes < 60) return `před ${minutes} min`;
-  const hours = Math.round(minutes / 60);
-  return hours < 48 ? `před ${hours} h` : `před ${Math.round(hours / 24)} dny`;
+  const hours = Math.floor(minutes / 60);
+  return hours < 48 ? `před ${hours} h` : `před ${Math.floor(hours / 24)} dny`;
 }
 
 function sameDay(a, b) {
