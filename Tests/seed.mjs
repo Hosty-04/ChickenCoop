@@ -16,8 +16,8 @@ const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
   plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
-  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá' },
-  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
+  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 26 * HOD },
+  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy, vypnutá automatika', vypnuto: 2 * HOD },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
   velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
@@ -241,7 +241,7 @@ function nastaveni(stav) {
 }
 
 function vytvor(stav) {
-  const { soubor, popis, hnizd = 2 } = DATABAZE[stav];
+  const { soubor, popis, hnizd = 2, vypnuto } = DATABAZE[stav];
   const podil = podily(hnizd);
   const cesta = join(SLOZKA, soubor);
   const { zacatek, konec, udalosti, hnizda } = nastaveni(stav);
@@ -277,6 +277,17 @@ function vytvor(stav) {
       PRIMARY KEY (device, time, nest)
     ) WITHOUT ROWID
   `);
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    ) WITHOUT ROWID
+  `);
+
+  if (vypnuto !== undefined) {
+    db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)')
+      .run('automation', JSON.stringify({ enabled: false, at: new Date(ted - vypnuto).toISOString() }));
+  }
 
   const vloz = db.prepare(`
     INSERT OR REPLACE INTO readings
@@ -371,7 +382,8 @@ function vytvor(stav) {
   db.exec('COMMIT');
   db.close();
 
-  return { soubor, popis, zapsano, kontrol, zacatek, konec, udalosti: [...udalosti, ...hnizda] };
+  const automatika = vypnuto === undefined ? [] : [{ jmeno: 'automatika vypnutá', od: ted - vypnuto, kde: 'dlaždice' }];
+  return { soubor, popis, zapsano, kontrol, zacatek, konec, udalosti: [...udalosti, ...hnizda, ...automatika] };
 }
 
 const cas = (t) => new Date(t).toLocaleString('cs-CZ', {
