@@ -12,26 +12,26 @@
 #include "battery.h"
 #include "telemetry.h"
 #include "timebase.h"
-#include "lora_app.h"
 #include "rtc.h"
+#include "lora_app.h"
 #include "stm32_timer.h"
 #include "utilities_conf.h"
 
-#define DOOR_OPEN_OFFSET_MIN   (-60)
-#define DOOR_CLOSE_OFFSET_MIN  60
-#define DOOR_RETRY_S           (5UL * 60UL)
-#define DOOR_RETRY_MAX         3U
-#define DOOR_RESYNC_S          3600UL
-#define DOOR_TIME_SYNC_S       (12UL * 3600UL)
-#define DOOR_TIME_SYNC_FAST_S  30UL
-#define DOOR_TIME_SYNC_FAST_MAX 2U
-#define DOOR_MOVE_BUDGET_MS    55000UL
-#define DOOR_DEFER_S           10UL
-#define DOOR_DEFER_MAX         4U
-#define DOOR_AHEAD_S           (5UL * 60UL)
+#define DOOR_OPEN_OFFSET_MIN     (-60)
+#define DOOR_CLOSE_OFFSET_MIN    60
+#define DOOR_RETRY_S             (5UL * 60UL)
+#define DOOR_RETRY_MAX           3U
+#define DOOR_RESYNC_S            3600UL
+#define DOOR_TIME_SYNC_S         (12UL * 3600UL)
+#define DOOR_TIME_SYNC_FAST_S    30UL
+#define DOOR_TIME_SYNC_FAST_MAX  2U
+#define DOOR_MOVE_BUDGET_MS      55000UL
+#define DOOR_DEFER_S             10UL
+#define DOOR_DEFER_MAX           4U
+#define DOOR_AHEAD_S             (5UL * 60UL)
 
-#define DOOR_BKP_REG           RTC_BKP_DR4
-#define DOOR_BKP_MAGIC         0x00D0UL
+#define DOOR_BKP_REG             RTC_BKP_DR4
+#define DOOR_BKP_MAGIC           0x00D0UL
 
 typedef enum {
   DOOR_EVT_NONE = 0,
@@ -62,7 +62,8 @@ static Door_State_t door_reported = DOOR_STATE_UNKNOWN;
 
 static uint8_t     door_manual       = 0;
 static Motor_Dir_t door_manual_want  = MOTOR_DIR_UP;
-static Motor_Dir_t door_request_want = MOTOR_DIR_UP;
+static uint32_t    door_manual_tick  = 0;
+static uint32_t    door_request_tick = 0;
 
 static uint8_t     door_retry_pending = 0;
 static uint8_t     door_retry_count   = 0;
@@ -141,25 +142,23 @@ static Door_Event_t Door_TakePending(void)
   return evt;
 }
 
-static void Door_UpdateSun(void)
+static void Door_RefreshSun(void)
 {
+  uint32_t       key    = Timebase_GetDateKey();
+  int16_t        tz_min = Timebase_GetTimezoneMin();
   Astro_Result_t res;
 
-  door_sun_key    = Timebase_GetDateKey();
-  door_sun_tz_min = Timebase_GetTimezoneMin();
+  if ((key == door_sun_key) && (tz_min == door_sun_tz_min))
+    return;
+
+  door_sun_key    = key;
+  door_sun_tz_min = tz_min;
 
   Astro_Calculate(Timebase_GetYear(), Timebase_GetMonth(), Timebase_GetDay(),
-                  door_lat, door_lon, door_sun_tz_min, &res);
+                  door_lat, door_lon, tz_min, &res);
 
   door_sunrise_min = res.sunrise_min;
   door_sunset_min  = res.sunset_min;
-}
-
-static void Door_RefreshSun(void)
-{
-  if ((Timebase_GetDateKey() != door_sun_key) ||
-      (Timebase_GetTimezoneMin() != door_sun_tz_min))
-    Door_UpdateSun();
 }
 
 static uint32_t Door_MinuteToSec(int32_t minute)
@@ -192,12 +191,23 @@ static Motor_Dir_t Door_DesiredDir(uint32_t now)
   uint32_t t_close = Door_CloseTime();
   uint8_t  day;
 
+  if (((int32_t)door_sunset_min - door_sunrise_min + DOOR_CLOSE_OFFSET_MIN - DOOR_OPEN_OFFSET_MIN) >= MINS_PER_DAY)
+    return MOTOR_DIR_UP;
+
   if (t_open <= t_close)
     day = (uint8_t)((now >= t_open) && (now < t_close));
   else
     day = (uint8_t)((now >= t_open) || (now < t_close));
 
   return day ? MOTOR_DIR_UP : MOTOR_DIR_DOWN;
+}
+
+static uint8_t Door_SunChangedSince(uint32_t now, uint32_t tick)
+{
+  uint32_t ago = (HAL_GetTick() - tick) / TICKS_PER_SEC;
+
+  return (uint8_t)((ago > (now + SECS_PER_DAY - Door_OpenTime()) % SECS_PER_DAY) ||
+                   (ago > (now + SECS_PER_DAY - Door_CloseTime()) % SECS_PER_DAY));
 }
 
 static uint8_t Door_AutoAllowed(void)
@@ -208,7 +218,7 @@ static uint8_t Door_AutoAllowed(void)
 
 static uint8_t Door_ManualActive(uint32_t now)
 {
-  if (door_manual && (Door_DesiredDir(now) != door_manual_want))
+  if (door_manual && Timebase_IsValid() && (Door_DesiredDir(now) != door_manual_want))
     door_manual = 0U;
 
   return door_manual;
@@ -234,11 +244,11 @@ static uint8_t Door_NeedsCatchup(void)
   uint32_t    now;
   Motor_Dir_t dir;
 
-  if (!Door_AutoAllowed())
+  if (!Timebase_IsValid())
     return 0U;
 
   now = Timebase_GetSecOfDay();
-  if (Door_ManualActive(now))
+  if (Door_ManualActive(now) || !Door_AutoAllowed())
     return 0U;
 
   dir = Door_SunDir(now);
@@ -253,6 +263,11 @@ static uint32_t Door_RetryDelay(void)
   uint32_t elapsed = (HAL_GetTick() - door_retry_tick) / TICKS_PER_SEC;
 
   return (elapsed >= DOOR_RETRY_S) ? 0UL : (DOOR_RETRY_S - elapsed);
+}
+
+static uint8_t Door_RetryAllowed(uint32_t now)
+{
+  return (uint8_t)(door_retry_pending && (Door_ManualActive(now) || Door_AutoAllowed()));
 }
 
 static uint8_t Door_TimeSyncFast(void)
@@ -272,16 +287,25 @@ static void Door_Schedule(void)
 
   if (Door_AutoAllowed()) {
     delay = Door_DelayTo(now, Door_OpenTime());
-    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) {
+      best = delay;
+      evt  = DOOR_EVT_SUN;
+    }
 
     delay = Door_DelayTo(now, Door_CloseTime());
-    if (delay <= best) { best = delay; evt = DOOR_EVT_SUN; }
+    if (delay <= best) {
+      best = delay;
+      evt  = DOOR_EVT_SUN;
+    }
   }
 
-  if (door_retry_pending && (door_deferred_req == DOOR_REQ_NONE) &&
+  if (Door_RetryAllowed(now) && (door_deferred_req == DOOR_REQ_NONE) &&
       (door_deferred_evt == DOOR_EVT_NONE)) {
     delay = Door_RetryDelay();
-    if (delay < best) { best = delay; evt = DOOR_EVT_RETRY; }
+    if (delay < best) {
+      best = delay;
+      evt  = DOOR_EVT_RETRY;
+    }
   }
 
   if (Door_TimeSyncFast() && (DOOR_TIME_SYNC_FAST_S < best)) {
@@ -315,15 +339,29 @@ static uint8_t Door_RadioBusy(void)
   return 1U;
 }
 
-static void Door_RaiseFault(void)
+static void Door_DropWork(void)
 {
-  door_fault         = 1U;
   door_manual        = 0U;
   door_retry_pending = 0U;
   door_retry_count   = 0U;
   door_deferred_req  = DOOR_REQ_NONE;
   door_deferred_evt  = DOOR_EVT_NONE;
   door_defer_count   = 0U;
+}
+
+static void Door_RaiseFault(void)
+{
+  door_fault = 1U;
+  Door_DropWork();
+}
+
+static void Door_Request(Door_Request_t req)
+{
+  if (!door_enabled)
+    return;
+
+  door_request      = req;
+  door_request_tick = HAL_GetTick();
 }
 
 static void Door_Apply(Motor_Dir_t dir)
@@ -361,6 +399,7 @@ static void Door_Apply(Motor_Dir_t dir)
 void Door_Init(void)
 {
   UTIL_TIMER_Create(&door_timer, 0xFFFFFFFFU, UTIL_TIMER_ONESHOT, Door_OnTimer, NULL);
+  Motor_Init();
   Door_LoadState();
 }
 
@@ -410,12 +449,12 @@ void Door_Process(void)
 
   if (evt == DOOR_EVT_DEFER) {
     if (req == DOOR_REQ_NONE)
-      req = door_deferred_req;
-    evt = door_deferred_evt;
+      req               = door_deferred_req;
+    evt               = door_deferred_evt;
     door_deferred_req = DOOR_REQ_NONE;
     door_deferred_evt = DOOR_EVT_NONE;
   } else if (req == DOOR_REQ_NONE) {
-    req = door_deferred_req;
+    req               = door_deferred_req;
     door_deferred_req = DOOR_REQ_NONE;
   }
 
@@ -429,7 +468,7 @@ void Door_Process(void)
 
   if (door_fault)
     req = DOOR_REQ_NONE;
-  if ((evt == DOOR_EVT_RETRY) && !door_retry_pending)
+  if ((evt == DOOR_EVT_RETRY) && !Door_RetryAllowed(now))
     evt = DOOR_EVT_NONE;
   if ((evt == DOOR_EVT_SUN) && (!Door_AutoAllowed() || Door_ManualActive(now)))
     evt = DOOR_EVT_NONE;
@@ -453,17 +492,15 @@ void Door_Process(void)
   }
 
   if (req != DOOR_REQ_NONE) {
-    door_manual        = 1U;
-    door_manual_want   = door_request_want;
-    door_retry_pending = 0U;
-    door_retry_count   = 0U;
-    door_deferred_req  = DOOR_REQ_NONE;
-    door_deferred_evt  = DOOR_EVT_NONE;
+    Door_DropWork();
+    door_manual      = (uint8_t)!Door_SunChangedSince(now, door_request_tick);
+    door_manual_want = Door_DesiredDir(now);
+    door_manual_tick = door_request_tick;
     Door_Apply((req == DOOR_REQ_OPEN) ? MOTOR_DIR_UP : MOTOR_DIR_DOWN);
   } else if (evt == DOOR_EVT_RETRY) {
     door_retry_pending = 0U;
     door_deferred_evt  = DOOR_EVT_NONE;
-    Door_Apply(door_retry_dir);
+    Door_Apply(door_manual ? door_retry_dir : Door_SunDir(now));
   } else {
     door_deferred_evt = DOOR_EVT_NONE;
     Door_Apply(Door_SunDir(now));
@@ -486,20 +523,17 @@ void Door_Enable(void)
     return;
 
   door_enabled = 1U;
+  (void)Endstop_Sample();
+  Door_PublishState();
   Door_Schedule();
   Door_Catchup();
 }
 
 void Door_Disable(void)
 {
-  door_enabled       = 0U;
-  door_request       = DOOR_REQ_NONE;
-  door_manual        = 0U;
-  door_retry_pending = 0U;
-  door_retry_count   = 0U;
-  door_deferred_req  = DOOR_REQ_NONE;
-  door_deferred_evt  = DOOR_EVT_NONE;
-  door_defer_count   = 0U;
+  door_enabled = 0U;
+  door_request = DOOR_REQ_NONE;
+  Door_DropWork();
   Door_StopTimer();
   Door_Schedule();
 }
@@ -516,12 +550,22 @@ uint8_t Door_WorkPending(void)
 
 void Door_SetUnixTime(uint32_t unix_sec)
 {
+  uint8_t  was_valid = Timebase_IsValid();
+  uint32_t now;
+
   if ((unix_sec < TIMEBASE_MIN_UNIX) || (unix_sec > TIMEBASE_MAX_UNIX))
     return;
 
   Timebase_SetUnix(unix_sec);
   door_time_sync_unix = unix_sec;
   door_sync_fast      = 0U;
+
+  if (!was_valid) {
+    Door_RefreshSun();
+    now              = Timebase_GetSecOfDay();
+    door_manual      = (uint8_t)(door_manual && !Door_SunChangedSince(now, door_manual_tick));
+    door_manual_want = Door_DesiredDir(now);
+  }
 
   Door_Schedule();
   Door_Catchup();
@@ -545,20 +589,12 @@ void Door_Catchup(void)
 
 void Door_RequestOpen(void)
 {
-  if (!door_enabled)
-    return;
-
-  door_request      = DOOR_REQ_OPEN;
-  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
+  Door_Request(DOOR_REQ_OPEN);
 }
 
 void Door_RequestClose(void)
 {
-  if (!door_enabled)
-    return;
-
-  door_request      = DOOR_REQ_CLOSE;
-  door_request_want = Door_DesiredDir(Timebase_GetSecOfDay());
+  Door_Request(DOOR_REQ_CLOSE);
 }
 
 void Door_SetFault(void)

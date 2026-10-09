@@ -22,10 +22,10 @@ static uint8_t  time_valid = 0;
 
 static uint32_t cache_unix   = 0xFFFFFFFFUL;
 static uint32_t cache_sod    = 0;
-static uint16_t cache_year   = 2026;
-static uint8_t  cache_month  = 1;
-static uint8_t  cache_day    = 1;
-static int16_t  cache_tz_min = TIMEBASE_TZ_WINTER;
+static uint16_t cache_year   = 0;
+static uint8_t  cache_month  = 0;
+static uint8_t  cache_day    = 0;
+static int16_t  cache_tz_min = 0;
 
 static void Timebase_CivilFromDays(uint32_t days, uint16_t *y_out,
                                    uint8_t *m_out, uint8_t *d_out)
@@ -84,20 +84,20 @@ static int16_t Timebase_ZoneAt(uint32_t utc)
   return Timebase_ZoneMin(y, m, d, (uint8_t)((utc % SECS_PER_DAY) / 3600UL));
 }
 
-static uint32_t Timebase_ToUnix(uint16_t y, uint8_t mo, uint8_t d,
-                                uint8_t h, uint8_t mi, uint8_t s, int16_t tz_min)
+static uint32_t Timebase_ToUnix(uint16_t year, uint8_t month, uint8_t day,
+                                uint8_t hour, uint8_t min, uint8_t sec, int16_t tz_min)
 {
-  int32_t yy   = (int32_t)y - ((mo <= 2U) ? 1 : 0);
+  int32_t yy   = (int32_t)year - ((month <= 2U) ? 1 : 0);
   int32_t era  = yy / 400;
   int32_t yoe  = yy - era * 400;
-  int32_t mp   = (mo > 2U) ? ((int32_t)mo - 3) : ((int32_t)mo + 9);
-  int32_t doy  = (153 * mp + 2) / 5 + (int32_t)d - 1;
+  int32_t mp   = (month > 2U) ? ((int32_t)month - 3) : ((int32_t)month + 9);
+  int32_t doy  = (153 * mp + 2) / 5 + (int32_t)day - 1;
   int32_t doe  = yoe * 365 + yoe / 4 - yoe / 100 + doy;
   int32_t days = era * 146097 + doe - 719468;
-  int32_t sec  = (int32_t)h * 3600 + (int32_t)mi * 60 + (int32_t)s
+  int32_t secs = (int32_t)hour * 3600 + (int32_t)min * 60 + (int32_t)sec
                - (int32_t)tz_min * 60;
 
-  return (uint32_t)((int64_t)days * (int64_t)SECS_PER_DAY + sec);
+  return (uint32_t)((int64_t)days * (int64_t)SECS_PER_DAY + secs);
 }
 
 static void Timebase_Save(void)
@@ -129,7 +129,6 @@ void Timebase_SetUnix(uint32_t unix_sec)
   unix_ref   = unix_sec;
   tick_ref   = HAL_GetTick();
   time_valid = 1U;
-  cache_unix = 0xFFFFFFFFUL;
   Timebase_Save();
 }
 
@@ -138,7 +137,6 @@ void Timebase_SetFallback(uint32_t unix_sec)
   unix_ref   = unix_sec;
   tick_ref   = HAL_GetTick();
   time_valid = 0U;
-  cache_unix = 0xFFFFFFFFUL;
 }
 
 uint8_t Timebase_Restore(void)
@@ -152,7 +150,6 @@ uint8_t Timebase_Restore(void)
   tick_ref   = HAL_RTCEx_BKUPRead(&hrtc, TIMEBASE_BKP_TICK);
   saved_unix = unix_sec;
   time_valid = 1U;
-  cache_unix = 0xFFFFFFFFUL;
 
   return 1U;
 }
@@ -214,10 +211,10 @@ int16_t Timebase_GetTimezoneMin(void)
   return cache_tz_min;
 }
 
-uint32_t Timebase_LocalToUnix(uint16_t y, uint8_t mo, uint8_t d,
-                              uint8_t h, uint8_t mi, uint8_t s)
+uint32_t Timebase_LocalToUnix(uint16_t year, uint8_t month, uint8_t day,
+                              uint8_t hour, uint8_t min, uint8_t sec)
 {
-  uint32_t guess = Timebase_ToUnix(y, mo, d, h, mi, s, TIMEBASE_TZ_WINTER);
+  uint32_t guess = Timebase_ToUnix(year, month, day, hour, min, sec, TIMEBASE_TZ_WINTER);
 
-  return Timebase_ToUnix(y, mo, d, h, mi, s, Timebase_ZoneAt(guess));
+  return Timebase_ToUnix(year, month, day, hour, min, sec, Timebase_ZoneAt(guess));
 }

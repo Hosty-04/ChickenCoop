@@ -39,7 +39,7 @@ uint16_t Timebase_GetYear(void);
 uint32_t Timebase_GetDateKey(void);
 int16_t  Timebase_GetTimezoneMin(void);
 
-uint32_t Timebase_LocalToUnix(uint16_t y, uint8_t mo, uint8_t d,
-                              uint8_t h, uint8_t mi, uint8_t s);
+uint32_t Timebase_LocalToUnix(uint16_t year, uint8_t month, uint8_t day,
+                              uint8_t hour, uint8_t min, uint8_t sec);
 
 #endif /* TIMEBASE_H */
