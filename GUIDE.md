@@ -561,8 +561,9 @@ mimo něj.
 
 ## Co je na stránce
 
-Nahoře jsou čtyři dlaždice: napětí baterie, napětí solárního panelu, stav dvířek a čas
-poslední zprávy. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
+poslední zprávy a stav automatiky. Automatiku stránka zná z posledního odeslaného příkazu
+**Zapnout** nebo **Vypnout**; dokud žádný neodešel, ukazuje pomlčku. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
 baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
 30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.

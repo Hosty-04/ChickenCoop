@@ -37,6 +37,12 @@ db.exec(`
     PRIMARY KEY (device, time, nest)
   ) WITHOUT ROWID
 `);
+db.exec(`
+  CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+  ) WITHOUT ROWID
+`);
 
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
@@ -83,6 +89,9 @@ const selectEggRows = db.prepare(`
   WHERE device = ? AND eggs IS NOT NULL AND time >= ? AND time <= ?
   ORDER BY time
 `);
+
+const selectSetting = db.prepare('SELECT value FROM settings WHERE key = ?');
+const upsertSetting = db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)');
 
 const deleteReadings = db.prepare('DELETE FROM readings WHERE device = ?');
 const deleteNests = db.prepare('DELETE FROM nests WHERE device = ?');
@@ -316,6 +325,15 @@ export function clearReadings(deviceId) {
   });
   db.exec('VACUUM');
   return removed;
+}
+
+export function readSetting(key) {
+  const row = selectSetting.get(key);
+  return row ? JSON.parse(row.value) : null;
+}
+
+export function writeSetting(key, value) {
+  upsertSetting.run(key, JSON.stringify(value));
 }
 
 export function closeDb() {

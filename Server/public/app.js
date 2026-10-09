@@ -643,6 +643,17 @@ function renderLatest(uplink) {
   setTile('seen', formatTime(receivedAt, 'time'), radio.rssi == null ? ago : `${ago} (${radio.rssi} dBm)`);
 }
 
+function renderAutomation(automation) {
+  if (automation === null) {
+    setTile('automation', '–', 'zatím bez příkazu');
+    return;
+  }
+
+  const since = `od ${formatTime(automation.at, sameDay(automation.at, Date.now()) ? 'time' : 'datetime')}`;
+  if (automation.enabled) setTile('automation', 'Zapnutá', since);
+  else setTile('automation', 'Vypnutá', `⚠ ${since}`, 'is-warning');
+}
+
 function renderPending(pending) {
   el('queue-value').textContent = pending.length === 0
     ? 'nic nečeká'
@@ -762,6 +773,7 @@ function renderStatus(status) {
   renderPending(status.pending);
   renderCount(status.readings);
   renderLatest(status.latest);
+  renderAutomation(status.automation);
   renderNests(status);
 
   if (status.dbOk === false) {

@@ -11,7 +11,8 @@ import {
   openSession, closeSession, requestAuthenticated
 } from './auth.js';
 import {
-  writeReading, readHistory, readLatest, readNests, readEggs, countReadings, clearReadings, closeDb
+  writeReading, readHistory, readLatest, readNests, readEggs, countReadings, clearReadings,
+  readSetting, writeSetting, closeDb
 } from './db.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -35,8 +36,11 @@ const state = {
   nestCount: config.nestCount,
   eggsMax: EGGS_MAX,
   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  automation: null,
   nests: null
 };
+
+const AUTOMATION_COMMANDS = { systemOn: true, systemOff: false };
 
 const PUBLIC_PATHS = new Set([
   '/login.html', '/login.js', '/common.js', '/theme.js', '/style.css', '/manifest.webmanifest',
@@ -186,9 +190,24 @@ ttn.on('pending', (pending) => {
   broadcast('pending', pending);
 });
 
+function trackAutomation(event, commands, at) {
+  const command = commands?.find((name) => Object.hasOwn(AUTOMATION_COMMANDS, name));
+  if ((event !== 'sent' && event !== 'ack') || !command) return;
+
+  state.automation = { enabled: AUTOMATION_COMMANDS[command], at };
+  try {
+    writeSetting('automation', state.automation);
+  } catch (err) {
+    console.error('automation state not saved:', err.message);
+  }
+  broadcast('status', state);
+}
+
 ttn.on('downlink', ({ event, commands, nests }) => {
-  broadcast('downlink', { event, commands, nests, at: new Date().toISOString() });
+  const at = new Date().toISOString();
+  broadcast('downlink', { event, commands, nests, at });
   console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
+  trackAutomation(event, commands, at);
 });
 
 ttn.on('uplink', (uplink) => {
@@ -219,6 +238,7 @@ function seedFromDb() {
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
     state.readings = countReadings(config.ttn.deviceId);
     state.nests = readNests(config.ttn.deviceId, config.nestCount);
+    state.automation = readSetting('automation');
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;
