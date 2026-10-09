@@ -640,7 +640,8 @@ function renderLatest(uplink) {
   setTile('battery', formatVolts(toVolts(reading.batteryMv)), ...batteryNote(reading));
   setTile('panel', formatVolts(toVolts(reading.panelMv)), ...panelNote(reading));
   setTile('door', door.text, door.note, door.tone);
-  setTile('seen', formatTime(receivedAt, 'time'), radio.rssi == null ? ago : `${ago} (${radio.rssi} dBm)`);
+  setTile('seen', formatTime(receivedAt, sameDay(receivedAt, Date.now()) ? 'time' : 'datetime'),
+    radio.rssi == null ? ago : `${ago} (${radio.rssi}\u00a0dBm)`);
 }
 
 function renderAutomation(automation) {
