@@ -221,9 +221,13 @@ button.primary:hover:not(:disabled) {
 }
 
 .kpi {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
+}
+
+.kpi .tile {
+  flex: 1 1 170px;
 }
 
 .tile {
@@ -633,10 +637,6 @@ dialog h2 {
 @media (max-width: 560px) {
   .tile-value {
     font-size: 26px;
-  }
-
-  .kpi .tile:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
   }
 
   .plot {
