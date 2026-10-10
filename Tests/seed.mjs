@@ -17,7 +17,7 @@ const ted = Math.floor(Date.now() / KROK) * KROK;
 const DATABAZE = {
   plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
   poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
-  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy, vypnutá automatika', vypnuto: 26 * HOD },
+  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
   velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
