@@ -65,6 +65,7 @@ const NOON_HOUR = 12;
 
 const VOLTS = new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = new Intl.NumberFormat('cs-CZ');
+const POINTER_EVENTS = ['mousemove', 'mouseout', 'click'];
 
 const darkScheme = matchMedia('(prefers-color-scheme: dark)');
 const rangeButtons = [...document.querySelectorAll('.filterbar button')];
@@ -338,6 +339,12 @@ function paintEggs(target) {
   return target;
 }
 
+function dropTooltip(target) {
+  if (!target.tooltip) return;
+  target.setActiveElements([]);
+  target.tooltip.setActiveElements([], { x: 0, y: 0 });
+}
+
 function repaint() {
   palette = readPalette();
   if (powerChart) paintPower(powerChart).update();
@@ -389,6 +396,8 @@ function drawPower() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
+      events: POINTER_EVENTS,
+      onResize: dropTooltip,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
@@ -436,6 +445,8 @@ function drawEggs() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
+      events: POINTER_EVENTS,
+      onResize: dropTooltip,
       interaction: { mode: 'nearest', axis: 'x', intersect: false },
       plugins: {
         legend: { display: false },
