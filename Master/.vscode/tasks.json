@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "STM32: Čistý Release Flash",
+            "type": "shell",
+            "command": "/home/mara/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI",
+            "args": [
+                "-c", "port=SWD",
+                "-w", "${workspaceFolder}/build/Release/Master.elf",
+                "-rst"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
