@@ -213,10 +213,10 @@ Musí běžet nepřetržitě — co zmešká, to je pryč.
 
 ### Jaké Pi
 
-**Stačí i to nejlevnější.** Server si bere asi 90 MB paměti a data ukládá do jediného
+**Stačí i to nejlevnější.** Server si bere kolem 100–150 MB paměti a data ukládá do jediného
 souboru, takže se vejde na **Raspberry Pi Zero 2 W** s 512 MB. Spotřebuje kolem 1 W,
-tedy asi 40 Kč elektřiny za rok. Silnější Pi 4 nebo 5 poslouží také, jen stojí víc
-a víc žerou; u Zero 2 W je naopak potřeba počítat s tím, že první sestavení serveru
+tedy asi 50 Kč elektřiny za rok. Silnější Pi 4 nebo 5 poslouží také, jen stojí víc
+a mají vyšší spotřebu; u Zero 2 W je naopak potřeba počítat s tím, že první sestavení serveru
 potrvá i deset minut.
 
 Systém může být 32bitový i 64bitový, na tom nezáleží. Kromě Pi stačí karta microSD,
