@@ -56,13 +56,19 @@ const RETRY_MAX_MS = 30 * 1000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
 const TICK_LENGTH_PX = 6;
-const TIME_LABEL_PX = 60;
-const DATE_LABEL_PX = 115;
+const LABEL_PX = 60;
 const MAX_TICKS = 8;
-const MIN_TICK_GAP = 0.75;
 const MAX_JOIN_BUCKETS = 2.5;
-const NOON_HOUR = 12;
-const TICK_STEPS = [1, 2, 5, 10, 15, 30, 60, 120, 180, 240, 360, 720].map((minutes) => minutes * MINUTE_MS);
+const YEAR_MS = 365.25 * DAY_MS;
+const MONTH_MS = YEAR_MS / 12;
+const FIRST_MONDAY_MS = 4 * DAY_MS;
+const TICK_STEPS = [
+  ...[1, 2, 5, 10, 15, 30, 60, 120, 180, 240, 360, 720].map((count) => ({ unit: 'minute', count, ms: count * MINUTE_MS })),
+  ...[1, 2].map((count) => ({ unit: 'day', count, ms: count * DAY_MS })),
+  ...[1, 2].map((count) => ({ unit: 'week', count, ms: count * WEEK_MS })),
+  ...[1, 2, 3, 6].map((count) => ({ unit: 'month', count, ms: count * MONTH_MS }))
+];
+const TICK_FORMATS = { minute: 'time', day: 'day', week: 'day', month: 'month', year: 'year' };
 
 const VOLTS = new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = new Intl.NumberFormat('cs-CZ');
@@ -128,6 +134,8 @@ function buildFormats(zone) {
     time: format({ hour: '2-digit', minute: '2-digit' }),
     day: format({ day: 'numeric', month: 'numeric' }),
     date: format({ day: 'numeric', month: 'numeric', year: 'numeric' }),
+    month: format({ month: 'numeric', year: 'numeric' }),
+    year: format({ year: 'numeric' }),
     weekday: format({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }),
     clock: format({ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' })
   };
@@ -224,17 +232,18 @@ function labelMode() {
   return power.bucketMs >= HOUR_MS ? 'datetime' : 'time';
 }
 
-function tickLimit(wrapId, wide) {
-  const room = el(wrapId).clientWidth / (wide ? DATE_LABEL_PX : TIME_LABEL_PX);
-  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+function tickLimit(wrapId) {
+  return Math.max(2, Math.min(MAX_TICKS, Math.floor(el(wrapId).clientWidth / LABEL_PX)));
+}
+
+function tickSteps(ideal) {
+  const magnitude = 10 ** Math.max(0, Math.floor(Math.log10(ideal / YEAR_MS)));
+  return [...TICK_STEPS, ...[1, 2, 5, 10].map((factor) => ({ unit: 'year', count: factor * magnitude, ms: factor * magnitude * YEAR_MS }))];
 }
 
 function alignTick(at, step) {
   const offset = zoneOffset(at);
-  const wall = step < DAY_MS
-    ? Math.ceil((at + offset) / step) * step
-    : Math.ceil((at + offset - NOON_HOUR * HOUR_MS) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS;
-  const tick = wall - offset;
+  const tick = Math.ceil((at + offset) / step) * step - offset;
   if (zoneOffset(tick) === offset) return tick;
 
   let low = Math.floor(at / MINUTE_MS);
@@ -247,37 +256,56 @@ function alignTick(at, step) {
   return alignTick(high * MINUTE_MS, step);
 }
 
-function powerTicks() {
-  const { from: first, to: last } = powerWindow;
-  const spanMs = last - first;
-  if (spanMs < MINUTE_MS) return [first];
-
-  const ideal = spanMs / tickLimit('plot-wrap', labelMode() !== 'time');
-  const step = TICK_STEPS.find((candidate) => candidate >= ideal) ?? Math.ceil(ideal / DAY_MS) * DAY_MS;
-  const slack = Math.min(step, DAY_MS) / 2;
+function clockTicks(from, to, step) {
   const picked = [];
-
-  for (let at = alignTick(first, step); at <= last; at = alignTick(at + step - slack, step)) picked.push(at);
-  return picked.length > 0 ? picked : [first];
+  for (let at = alignTick(from, step); at <= to; at = alignTick(at + step / 2, step)) picked.push(at);
+  return picked;
 }
 
-function eggTicks() {
-  const { edges } = eggs;
-  const intervals = edges.length - 1;
-  const stride = Math.max(1, Math.ceil(intervals / (tickLimit('eggs-plot-wrap', eggs.bucketMs >= WEEK_MS) - 1)));
-  const picked = [];
+function fromWall(wall) {
+  const before = wall - zoneOffset(wall - DAY_MS);
+  if (zoneOffset(before) === wall - before) return before;
+  const after = wall - zoneOffset(wall + DAY_MS);
+  return zoneOffset(after) === wall - after ? after : before;
+}
 
-  for (let i = 0; i < edges.length; i += stride) picked.push(edges[i]);
-  if (intervals % stride !== 0) {
-    if (picked.length > 1 && intervals % stride < stride * MIN_TICK_GAP) picked.pop();
-    picked.push(edges[intervals]);
+function calendarTicks(from, to, { unit, count }) {
+  const wall = from + zoneOffset(from);
+  let mark;
+  let k;
+
+  if (unit === 'day' || unit === 'week') {
+    const span = (unit === 'week' ? WEEK_MS : DAY_MS) * count;
+    const anchor = unit === 'week' ? FIRST_MONDAY_MS : 0;
+    mark = (index) => index * span + anchor;
+    k = Math.ceil((wall - anchor) / span);
+  } else {
+    const months = (unit === 'year' ? 12 : 1) * count;
+    const date = new Date(wall);
+    mark = (index) => Date.UTC(Math.floor((index * months) / 12), (index * months) % 12);
+    k = Math.ceil((date.getUTCFullYear() * 12 + date.getUTCMonth()) / months);
+    if (mark(k) < wall) k++;
+  }
+
+  const picked = [];
+  for (let at = fromWall(mark(k)); at <= to; at = fromWall(mark(++k))) {
+    if (at >= from) picked.push(at);
   }
   return picked;
 }
 
-function eggTick(ms) {
-  if (eggs.bucketMs < DAY_MS) return formats.time.format(ms);
-  return (eggs.bucketMs < WEEK_MS ? formats.day : formats.date).format(ms);
+function stepTicks(from, to, step) {
+  return step.unit === 'minute' ? clockTicks(from, to, step.ms) : calendarTicks(from, to, step);
+}
+
+function pickTicks(from, to, limit, minMs) {
+  const ideal = Math.max((to - from) / limit, minMs);
+  const steps = tickSteps(ideal);
+  let index = steps.findIndex((step) => step.ms >= ideal);
+  let ticks = stepTicks(from, to, steps[index]);
+
+  while (ticks.length === 0 && index > 0 && steps[index - 1].ms >= minMs) ticks = stepTicks(from, to, steps[--index]);
+  return { step: steps[index], ticks: ticks.length > 0 ? ticks : [from] };
 }
 
 function eggPeriod(index) {
@@ -344,15 +372,18 @@ function repaint() {
   if (eggChart) paintEggs(eggChart).update();
 }
 
-function timeAxis(ticks, callback, align) {
+function timeAxis(wrapId, minStep) {
+  let step = TICK_STEPS[0];
   return {
     type: 'linear',
     afterBuildTicks: (scale) => {
-      scale.ticks = ticks().map((value) => ({ value }));
+      const picked = pickTicks(scale.min, scale.max, tickLimit(wrapId), minStep());
+      step = picked.step;
+      scale.ticks = picked.ticks.map((value) => ({ value }));
     },
     grid: { tickLength: TICK_LENGTH_PX },
     border: {},
-    ticks: { autoSkip: false, maxRotation: 0, align, callback }
+    ticks: { autoSkip: false, maxRotation: 0, callback: (value) => formats[TICK_FORMATS[step.unit]].format(value) }
   };
 }
 
@@ -402,7 +433,7 @@ function drawPower() {
         }
       },
       scales: {
-        x: { ...timeAxis(powerTicks, (value) => formatTime(value, labelMode()), 'center'), min: powerWindow.from, max: powerWindow.to },
+        x: { ...timeAxis('plot-wrap', () => 0), min: powerWindow.from, max: powerWindow.to },
         y: valueAxis({ precision: 2, callback: (value) => `${NUMBER.format(value)} V` })
       }
     }
@@ -461,7 +492,7 @@ function drawEggs() {
         }
       },
       scales: {
-        x: { ...timeAxis(eggTicks, eggTick, 'inner'), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
+        x: { ...timeAxis('eggs-plot-wrap', () => eggs.bucketMs), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
         y: { ...valueAxis({ precision: 0 }), beginAtZero: true }
       }
     }
