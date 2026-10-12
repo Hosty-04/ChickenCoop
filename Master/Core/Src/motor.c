@@ -22,13 +22,12 @@
 #define MOTOR_OVERCURRENT_MS     150U
 #define MOTOR_REVERSE_PAUSE_MS   250U
 #define MOTOR_SAMPLE_MS          40U
-#define MOTOR_SENSE_MAX_FAILS    3U
+#define MOTOR_READ_ATTEMPTS      3U
 #define MOTOR_TICK_STALL_MAX     20000UL
 #define MOTOR_HIT_MS             2U
 
 #define MOTOR_V_NOMINAL_V        6.0f
 #define MOTOR_V_MARGIN_V         0.4f
-#define MOTOR_V_MIN_VALID_V      0.5f
 #define MOTOR_I_LIMIT_A          0.45f
 #define MOTOR_BRIDGE_R_OHM       2.0f
 
@@ -110,15 +109,8 @@ static void Motor_Drive(Motor_Dir_t dir, uint16_t duty)
 
 static void Motor_Regulate(float v_bat, float i_bat, uint16_t *duty, float *i_limit)
 {
-  float ratio;
+  float ratio = (MOTOR_V_NOMINAL_V + i_bat * MOTOR_BRIDGE_R_OHM + MOTOR_V_MARGIN_V) / v_bat;
 
-  if (v_bat < MOTOR_V_MIN_VALID_V) {
-    *duty    = (uint16_t)((MOTOR_PWM_MAX + 1U) / 2U);
-    *i_limit = MOTOR_I_LIMIT_A * 0.5f;
-    return;
-  }
-
-  ratio = (MOTOR_V_NOMINAL_V + i_bat * MOTOR_BRIDGE_R_OHM + MOTOR_V_MARGIN_V) / v_bat;
   if (ratio > 1.0f)
     ratio = 1.0f;
 
@@ -131,17 +123,25 @@ static uint8_t Motor_AtTarget(Motor_Dir_t dir)
   return (dir == MOTOR_DIR_UP) ? Endstop_AtTop() : Endstop_AtBottom();
 }
 
+static uint8_t Motor_Sense(float *v, float *i)
+{
+  return (uint8_t)((INA226_Read(v, i) == HAL_OK) && INA226_VoltagePlausible(*v));
+}
+
 static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 {
   uint32_t t_start, t_sample, t_last, t_hit, t_over = 0U, stall = 0U;
   uint8_t  over = 0U, fails = 0U;
   uint16_t duty;
-  float    v, i, i_limit;
+  float    v = 0.0f, i = 0.0f, i_limit;
 
-  HAL_Delay(MOTOR_SAMPLE_MS);
+  do {
+    HAL_Delay(MOTOR_SAMPLE_MS);
+  } while (!Motor_Sense(&v, &i) && (++fails < MOTOR_READ_ATTEMPTS));
 
-  if (INA226_Read(&v, &i) != HAL_OK)
+  if (fails >= MOTOR_READ_ATTEMPTS)
     return MOTOR_STROKE_SENSOR;
+  fails = 0U;
 
   Motor_Regulate(v, i, &duty, &i_limit);
   Motor_Drive(dir, duty);
@@ -175,8 +175,8 @@ static Motor_Stroke_t Motor_Stroke(Motor_Dir_t dir)
 
     t_sample = now;
 
-    if (INA226_Read(&v, &i) != HAL_OK) {
-      if (++fails >= MOTOR_SENSE_MAX_FAILS)
+    if (!Motor_Sense(&v, &i)) {
+      if (++fails >= MOTOR_READ_ATTEMPTS)
         return MOTOR_STROKE_SENSOR;
       continue;
     }

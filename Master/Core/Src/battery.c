@@ -21,8 +21,7 @@
 #define BATTERY_BLOCK_MS       500UL
 #define BATTERY_DEFER_S        10UL
 #define BATTERY_DEFER_MAX      4U
-#define BATTERY_MIN_VALID_V    1.0f
-#define BATTERY_MAX_VALID_V    10.0f
+#define BATTERY_READ_ATTEMPTS  3U
 #define BATTERY_PANEL_HYST_V   0.05f
 #define PANEL_MAX_VALID_V      12.5f
 
@@ -66,11 +65,6 @@ static float Battery_OverVoltageLimit(uint8_t month)
   return 7.3f;
 }
 
-static uint8_t Battery_Plausible(float v_bat)
-{
-  return (uint8_t)((v_bat >= BATTERY_MIN_VALID_V) && (v_bat <= BATTERY_MAX_VALID_V));
-}
-
 static uint8_t Battery_PanelPlausible(float v_panel)
 {
   return (uint8_t)((v_panel >= 0.0f) && (v_panel <= PANEL_MAX_VALID_V));
@@ -107,6 +101,19 @@ static HAL_StatusTypeDef Battery_AdcRead(uint32_t channel, uint32_t *raw)
   (void)HAL_ADC_Stop(&hadc);
 
   return HAL_OK;
+}
+
+static HAL_StatusTypeDef Battery_ReadVoltage(float *v_bat)
+{
+  uint8_t attempt;
+
+  for (attempt = 0U; attempt < BATTERY_READ_ATTEMPTS; attempt++) {
+    HAL_Delay(BATTERY_CONV_MS);
+    if ((INA226_Read(v_bat, NULL) == HAL_OK) && INA226_VoltagePlausible(*v_bat))
+      return HAL_OK;
+  }
+
+  return HAL_ERROR;
 }
 
 static HAL_StatusTypeDef Battery_ReadPanel(float *v_panel)
@@ -233,10 +240,8 @@ void Battery_Process(void)
   st_bat = INA226_PowerUp();
   if (st_bat == HAL_OK)
     st_bat = INA226_ConfigBattery();
-  if (st_bat == HAL_OK) {
-    HAL_Delay(BATTERY_CONV_MS);
-    st_bat = INA226_Read(&v_bat, NULL);
-  }
+  if (st_bat == HAL_OK)
+    st_bat = Battery_ReadVoltage(&v_bat);
   INA226_PowerDown();
 
   if (panel_connected) {
@@ -245,7 +250,7 @@ void Battery_Process(void)
   }
   st_panel = Battery_ReadPanel(&v_panel);
 
-  bat_ok         = (uint8_t)((st_bat == HAL_OK) && Battery_Plausible(v_bat));
+  bat_ok         = (uint8_t)(st_bat == HAL_OK);
   panel_ok       = (uint8_t)((st_panel == HAL_OK) && Battery_PanelPlausible(v_panel));
   panel_mv_valid = panel_ok;
 

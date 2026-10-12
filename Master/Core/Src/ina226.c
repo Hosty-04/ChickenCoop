@@ -12,7 +12,10 @@
 #define INA226_I2C_ADDR         (0x40U << 1)
 #define INA226_I2C_TIMEOUT_MS   50U
 #define INA226_I2C_TIMING_DEF   0x10805D88UL
-#define INA226_INIT_ATTEMPTS    3U
+#define INA226_ATTEMPTS         3U
+#define INA226_RETRY_MS         2U
+#define INA226_V_MIN_VALID_V    1.0f
+#define INA226_V_MAX_VALID_V    10.0f
 
 #define INA226_REG_CONFIG       0x00U
 #define INA226_REG_BUS_V        0x02U
@@ -114,13 +117,6 @@ static uint32_t INA226_ComputeTiming(uint32_t i2cclk_hz)
   return INA226_I2C_TIMING_DEF;
 }
 
-static HAL_StatusTypeDef INA226_Write(uint8_t reg, uint16_t val)
-{
-  uint8_t buf[3] = { reg, (uint8_t)(val >> 8), (uint8_t)val };
-
-  return HAL_I2C_Master_Transmit(&hi2c2, INA226_I2C_ADDR, buf, 3U, INA226_I2C_TIMEOUT_MS);
-}
-
 static void INA226_ClearError(void)
 {
   __HAL_I2C_DISABLE(&hi2c2);
@@ -130,23 +126,51 @@ static void INA226_ClearError(void)
   __HAL_I2C_ENABLE(&hi2c2);
 }
 
-static HAL_StatusTypeDef INA226_ReadReg(uint8_t reg, uint16_t *val)
+static HAL_StatusTypeDef INA226_Transfer(uint8_t reg, uint16_t *val, uint8_t write)
 {
-  uint8_t buf[2];
+  uint8_t buf[3] = { reg, 0U, 0U };
   HAL_StatusTypeDef st;
 
-  st = HAL_I2C_Master_Transmit(&hi2c2, INA226_I2C_ADDR, &reg, 1U, INA226_I2C_TIMEOUT_MS);
-  if (st == HAL_OK)
-    st = HAL_I2C_Master_Receive(&hi2c2, INA226_I2C_ADDR, buf, 2U, INA226_I2C_TIMEOUT_MS);
-
-  if (st != HAL_OK) {
-    INA226_ClearError();
-    return st;
+  if (write) {
+    buf[1] = (uint8_t)(*val >> 8);
+    buf[2] = (uint8_t)*val;
+    st = HAL_I2C_Master_Transmit(&hi2c2, INA226_I2C_ADDR, buf, 3U, INA226_I2C_TIMEOUT_MS);
+  } else {
+    st = HAL_I2C_Master_Transmit(&hi2c2, INA226_I2C_ADDR, buf, 1U, INA226_I2C_TIMEOUT_MS);
+    if (st == HAL_OK)
+      st = HAL_I2C_Master_Receive(&hi2c2, INA226_I2C_ADDR, &buf[1], 2U, INA226_I2C_TIMEOUT_MS);
+    if (st == HAL_OK)
+      *val = (uint16_t)(((uint16_t)buf[1] << 8) | buf[2]);
   }
 
-  *val = (uint16_t)(((uint16_t)buf[0] << 8) | buf[1]);
+  if (st != HAL_OK)
+    INA226_ClearError();
 
-  return HAL_OK;
+  return st;
+}
+
+static HAL_StatusTypeDef INA226_Access(uint8_t reg, uint16_t *val, uint8_t write)
+{
+  HAL_StatusTypeDef st = HAL_ERROR;
+  uint8_t attempt;
+
+  for (attempt = 0U; (attempt < INA226_ATTEMPTS) && (st != HAL_OK); attempt++) {
+    if (attempt != 0U)
+      HAL_Delay(INA226_RETRY_MS);
+    st = INA226_Transfer(reg, val, write);
+  }
+
+  return st;
+}
+
+static HAL_StatusTypeDef INA226_Write(uint8_t reg, uint16_t val)
+{
+  return INA226_Access(reg, &val, 1U);
+}
+
+static HAL_StatusTypeDef INA226_ReadReg(uint8_t reg, uint16_t *val)
+{
+  return INA226_Access(reg, val, 0U);
 }
 
 static HAL_StatusTypeDef INA226_Configure(uint16_t cfg)
@@ -162,7 +186,7 @@ static HAL_StatusTypeDef INA226_Configure(uint16_t cfg)
   return st;
 }
 
-HAL_StatusTypeDef INA226_PowerUp(void)
+static HAL_StatusTypeDef INA226_Start(void)
 {
   if (hi2c2.State != HAL_I2C_STATE_RESET)
     (void)HAL_I2C_DeInit(&hi2c2);
@@ -188,26 +212,26 @@ HAL_StatusTypeDef INA226_PowerUp(void)
   return HAL_OK;
 }
 
+HAL_StatusTypeDef INA226_PowerUp(void)
+{
+  HAL_StatusTypeDef st = HAL_ERROR;
+  uint8_t attempt;
+
+  for (attempt = 0U; (attempt < INA226_ATTEMPTS) && (st != HAL_OK); attempt++) {
+    if (attempt != 0U)
+      HAL_Delay(INA226_RETRY_MS);
+    st = INA226_Start();
+  }
+
+  return st;
+}
+
 void INA226_PowerDown(void)
 {
   if (hi2c2.State == HAL_I2C_STATE_READY)
     (void)INA226_Write(INA226_REG_CONFIG, (uint16_t)(ina226_cfg & ~INA226_MODE_MASK));
 
   (void)HAL_I2C_DeInit(&hi2c2);
-}
-
-HAL_StatusTypeDef INA226_Init(void)
-{
-  HAL_StatusTypeDef st = HAL_ERROR;
-  uint8_t attempt;
-
-  for (attempt = 0U; (attempt < INA226_INIT_ATTEMPTS) && (st != HAL_OK); attempt++) {
-    st = INA226_Configure(INA226_CONFIG_BATTERY);
-    if (st != HAL_OK)
-      HAL_Delay(10U);
-  }
-
-  return st;
 }
 
 HAL_StatusTypeDef INA226_ConfigBattery(void)
@@ -220,9 +244,14 @@ HAL_StatusTypeDef INA226_ConfigFast(void)
   return INA226_Configure(INA226_CONFIG_FAST);
 }
 
+uint8_t INA226_VoltagePlausible(float voltage)
+{
+  return (uint8_t)((voltage >= INA226_V_MIN_VALID_V) && (voltage <= INA226_V_MAX_VALID_V));
+}
+
 HAL_StatusTypeDef INA226_Read(float *voltage, float *current)
 {
-  uint16_t raw_bus, raw_current;
+  uint16_t raw_bus = 0U, raw_current = 0U;
   HAL_StatusTypeDef st;
 
   st = INA226_ReadReg(INA226_REG_BUS_V, &raw_bus);

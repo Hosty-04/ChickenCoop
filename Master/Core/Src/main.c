@@ -124,7 +124,7 @@ int main(void)
   Power_Init();
 
   INA226_PowerUp();
-  INA226_Init();
+  INA226_ConfigBattery();
   INA226_PowerDown();
 
   Battery_Init();

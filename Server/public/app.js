@@ -62,6 +62,7 @@ const MAX_TICKS = 8;
 const MIN_TICK_GAP = 0.75;
 const MAX_JOIN_BUCKETS = 2.5;
 const NOON_HOUR = 12;
+const TICK_STEPS = [1, 2, 5, 10, 15, 30, 60, 120, 180, 240, 360, 720].map((minutes) => minutes * MINUTE_MS);
 
 const VOLTS = new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = new Intl.NumberFormat('cs-CZ');
@@ -228,44 +229,26 @@ function tickLimit(wrapId, wide) {
   return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
 }
 
-function snapUnit(spanMs, bucketMs) {
-  if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
-  if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
-  return 0;
-}
-
-function snapTarget(ideal, unit) {
-  const at = unit === DAY_MS ? ideal : ideal + HOUR_MS / 2;
+function alignTick(at, step) {
   const offset = zoneOffset(at);
-  const wall = unit === DAY_MS
-    ? Math.floor((at + offset) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS
-    : Math.floor((at + offset) / HOUR_MS) * HOUR_MS;
+  const wall = step < DAY_MS
+    ? Math.ceil((at + offset) / step) * step
+    : Math.ceil((at + offset - NOON_HOUR * HOUR_MS) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS;
   return wall - zoneOffset(wall - offset);
 }
 
 function powerTicks() {
   const { from: first, to: last } = powerWindow;
-  const limit = tickLimit('plot-wrap', labelMode() !== 'time');
   const spanMs = last - first;
   if (spanMs < MINUTE_MS) return [first];
 
-  const unit = snapUnit(spanMs, power.bucketMs);
-  const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
-  const picked = [first];
-  const add = (at) => {
-    if (at - picked.at(-1) >= room && last - at >= room) picked.push(at);
-  };
+  const ideal = spanMs / (tickLimit('plot-wrap', labelMode() !== 'time') - 1);
+  const step = TICK_STEPS.find((candidate) => candidate >= ideal) ?? Math.ceil(ideal / DAY_MS) * DAY_MS;
+  const slack = Math.min(step, DAY_MS) / 2;
+  const picked = [];
 
-  if (unit) {
-    const strideMs = Math.ceil(spanMs / (limit - 1) / unit) * unit;
-    for (let at = first + strideMs; at < last; at += strideMs) add(snapTarget(at, unit));
-  } else {
-    const step = Math.max(spanMs / (limit - 1), MINUTE_MS);
-    for (let at = first + step; last - at >= MINUTE_MS; at += step) add(Math.round(at));
-  }
-
-  picked.push(last);
-  return picked;
+  for (let at = alignTick(first, step); at <= last; at = alignTick(at + step - slack, step)) picked.push(at);
+  return picked.length > 0 ? picked : [first];
 }
 
 function eggTicks() {
@@ -351,7 +334,7 @@ function repaint() {
   if (eggChart) paintEggs(eggChart).update();
 }
 
-function timeAxis(ticks, callback) {
+function timeAxis(ticks, callback, align) {
   return {
     type: 'linear',
     afterBuildTicks: (scale) => {
@@ -359,7 +342,7 @@ function timeAxis(ticks, callback) {
     },
     grid: { tickLength: TICK_LENGTH_PX },
     border: {},
-    ticks: { autoSkip: false, maxRotation: 0, align: 'inner', callback }
+    ticks: { autoSkip: false, maxRotation: 0, align, callback }
   };
 }
 
@@ -409,8 +392,8 @@ function drawPower() {
         }
       },
       scales: {
-        x: { ...timeAxis(powerTicks, (value) => formatTime(value, labelMode())), min: powerWindow.from, max: powerWindow.to },
-        y: valueAxis({ callback: (value) => `${NUMBER.format(value)} V` })
+        x: { ...timeAxis(powerTicks, (value) => formatTime(value, labelMode()), 'center'), min: powerWindow.from, max: powerWindow.to },
+        y: valueAxis({ precision: 2, callback: (value) => `${NUMBER.format(value)} V` })
       }
     }
   }));
@@ -468,7 +451,7 @@ function drawEggs() {
         }
       },
       scales: {
-        x: { ...timeAxis(eggTicks, eggTick), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
+        x: { ...timeAxis(eggTicks, eggTick, 'inner'), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
         y: { ...valueAxis({ precision: 0 }), beginAtZero: true }
       }
     }
