@@ -123,8 +123,8 @@ int main(void)
 
   Power_Init();
 
-  INA226_PowerUp();
-  INA226_Init();
+  if (INA226_PowerUp() == HAL_OK)
+    (void)INA226_ConfigBattery();
   INA226_PowerDown();
 
   Battery_Init();

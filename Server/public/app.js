@@ -56,12 +56,19 @@ const RETRY_MAX_MS = 30 * 1000;
 const POINT_RADIUS = 4;
 const POINT_GAP_PX = 14;
 const TICK_LENGTH_PX = 6;
-const TIME_LABEL_PX = 60;
-const DATE_LABEL_PX = 115;
-const MAX_TICKS = 8;
-const MIN_TICK_GAP = 0.75;
+const LABEL_GAP_PX = 12;
+const MAX_TICKS = 9;
 const MAX_JOIN_BUCKETS = 2.5;
-const NOON_HOUR = 12;
+const YEAR_MS = 365.25 * DAY_MS;
+const MONTH_MS = YEAR_MS / 12;
+const FIRST_MONDAY_MS = 4 * DAY_MS;
+const TICK_STEPS = [
+  ...[1, 2, 5, 10, 15, 30, 60, 120, 180, 240, 360, 720].map((count) => ({ unit: 'minute', count, ms: count * MINUTE_MS })),
+  ...[1, 2].map((count) => ({ unit: 'day', count, ms: count * DAY_MS })),
+  ...[1, 2].map((count) => ({ unit: 'week', count, ms: count * WEEK_MS })),
+  ...[1, 2, 3, 6].map((count) => ({ unit: 'month', count, ms: count * MONTH_MS }))
+];
+const TICK_FORMATS = { minute: 'time', day: 'day', week: 'day', month: 'month', year: 'year' };
 
 const VOLTS = new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NUMBER = new Intl.NumberFormat('cs-CZ');
@@ -127,6 +134,8 @@ function buildFormats(zone) {
     time: format({ hour: '2-digit', minute: '2-digit' }),
     day: format({ day: 'numeric', month: 'numeric' }),
     date: format({ day: 'numeric', month: 'numeric', year: 'numeric' }),
+    month: format({ month: 'numeric', year: 'numeric' }),
+    year: format({ year: 'numeric' }),
     weekday: format({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }),
     clock: format({ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' })
   };
@@ -223,68 +232,92 @@ function labelMode() {
   return power.bucketMs >= HOUR_MS ? 'datetime' : 'time';
 }
 
-function tickLimit(wrapId, wide) {
-  const room = el(wrapId).clientWidth / (wide ? DATE_LABEL_PX : TIME_LABEL_PX);
-  return Math.max(2, Math.min(MAX_TICKS, Math.floor(room)));
+function tickSteps(spanMs) {
+  const years = [];
+  for (let magnitude = 1; years.length === 0 || years.at(-1).ms < spanMs; magnitude *= 10) {
+    years.push(...[1, 2, 5].map((factor) => ({ unit: 'year', count: factor * magnitude, ms: factor * magnitude * YEAR_MS })));
+  }
+  return [...TICK_STEPS, ...years];
 }
 
-function snapUnit(spanMs, bucketMs) {
-  if (spanMs >= 2 * DAY_MS && bucketMs < DAY_MS) return DAY_MS;
-  if (spanMs >= 2 * HOUR_MS && bucketMs < HOUR_MS) return HOUR_MS;
-  return 0;
+function tickLabel(value, step) {
+  const midnight = step.unit === 'minute' && (value + zoneOffset(value)) % DAY_MS === 0;
+  return formats[midnight ? 'day' : TICK_FORMATS[step.unit]].format(value);
 }
 
-function snapTarget(ideal, unit) {
-  const at = unit === DAY_MS ? ideal : ideal + HOUR_MS / 2;
+function alignTick(at, step) {
   const offset = zoneOffset(at);
-  const wall = unit === DAY_MS
-    ? Math.floor((at + offset) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS
-    : Math.floor((at + offset) / HOUR_MS) * HOUR_MS;
-  return wall - zoneOffset(wall - offset);
-}
+  const tick = Math.ceil((at + offset) / step) * step - offset;
+  if (zoneOffset(tick) === offset) return tick;
 
-function powerTicks() {
-  const { from: first, to: last } = powerWindow;
-  const limit = tickLimit('plot-wrap', labelMode() !== 'time');
-  const spanMs = last - first;
-  if (spanMs < MINUTE_MS) return [first];
-
-  const unit = snapUnit(spanMs, power.bucketMs);
-  const room = (spanMs / (limit - 1)) * MIN_TICK_GAP;
-  const picked = [first];
-  const add = (at) => {
-    if (at - picked.at(-1) >= room && last - at >= room) picked.push(at);
-  };
-
-  if (unit) {
-    const strideMs = Math.ceil(spanMs / (limit - 1) / unit) * unit;
-    for (let at = first + strideMs; at < last; at += strideMs) add(snapTarget(at, unit));
-  } else {
-    const step = Math.max(spanMs / (limit - 1), MINUTE_MS);
-    for (let at = first + step; last - at >= MINUTE_MS; at += step) add(Math.round(at));
+  let low = Math.floor(at / MINUTE_MS);
+  let high = Math.ceil(tick / MINUTE_MS);
+  while (high - low > 1) {
+    const middle = Math.floor((low + high) / 2);
+    if (zoneOffset(middle * MINUTE_MS) === offset) low = middle;
+    else high = middle;
   }
-
-  picked.push(last);
-  return picked;
+  return alignTick(high * MINUTE_MS, step);
 }
 
-function eggTicks() {
-  const { edges } = eggs;
-  const intervals = edges.length - 1;
-  const stride = Math.max(1, Math.ceil(intervals / (tickLimit('eggs-plot-wrap', eggs.bucketMs >= WEEK_MS) - 1)));
+function clockTicks(from, to, step) {
   const picked = [];
+  for (let at = alignTick(from, step); at <= to; at = alignTick(at + step / 2, step)) picked.push(at);
+  return picked;
+}
 
-  for (let i = 0; i < edges.length; i += stride) picked.push(edges[i]);
-  if (intervals % stride !== 0) {
-    if (picked.length > 1 && intervals % stride < stride * MIN_TICK_GAP) picked.pop();
-    picked.push(edges[intervals]);
+function fromWall(wall) {
+  const before = wall - zoneOffset(wall - DAY_MS);
+  if (zoneOffset(before) === wall - before) return before;
+  const after = wall - zoneOffset(wall + DAY_MS);
+  return zoneOffset(after) === wall - after ? after : before;
+}
+
+function calendarTicks(from, to, { unit, count }) {
+  const wall = from + zoneOffset(from);
+  let mark;
+  let k;
+
+  if (unit === 'day' || unit === 'week') {
+    const span = (unit === 'week' ? WEEK_MS : DAY_MS) * count;
+    const anchor = unit === 'week' ? FIRST_MONDAY_MS : 0;
+    mark = (index) => index * span + anchor;
+    k = Math.ceil((wall - anchor) / span);
+  } else {
+    const months = (unit === 'year' ? 12 : 1) * count;
+    const date = new Date(wall);
+    mark = (index) => Date.UTC(Math.floor((index * months) / 12), (index * months) % 12);
+    k = Math.ceil((date.getUTCFullYear() * 12 + date.getUTCMonth()) / months);
+    if (mark(k) < wall) k++;
+  }
+
+  const picked = [];
+  for (let at = fromWall(mark(k)); at <= to; at = fromWall(mark(++k))) {
+    if (at >= from) picked.push(at);
   }
   return picked;
 }
 
-function eggTick(ms) {
-  if (eggs.bucketMs < DAY_MS) return formats.time.format(ms);
-  return (eggs.bucketMs < WEEK_MS ? formats.day : formats.date).format(ms);
+function stepTicks(from, to, step) {
+  return step.unit === 'minute' ? clockTicks(from, to, step.ms) : calendarTicks(from, to, step);
+}
+
+function labelsFit(ticks, step, pxPerMs, measure) {
+  const widths = ticks.map((value) => measure(tickLabel(value, step)));
+  return ticks.every((value, i) => i === 0 || (value - ticks[i - 1]) * pxPerMs >= (widths[i - 1] + widths[i]) / 2 + LABEL_GAP_PX);
+}
+
+function pickTicks(from, to, minMs, pxPerMs, measure) {
+  const steps = tickSteps(to - from).filter((step) => step.ms >= Math.max(minMs, (to - from) / MAX_TICKS));
+  let single = null;
+
+  for (const step of steps) {
+    const ticks = stepTicks(from, to, step);
+    if (ticks.length === 0) continue;
+    if (ticks.length > 1 && ticks.length <= MAX_TICKS && labelsFit(ticks, step, pxPerMs, measure)) return { step, ticks };
+    single ??= { step, ticks: [ticks[Math.floor((ticks.length - 1) / 2)]] };
+  }
+  return single ?? { step: steps[0], ticks: [from] };
 }
 
 function eggPeriod(index) {
@@ -351,15 +384,22 @@ function repaint() {
   if (eggChart) paintEggs(eggChart).update();
 }
 
-function timeAxis(ticks, callback) {
+function timeAxis(minStep) {
+  let step = TICK_STEPS[0];
   return {
     type: 'linear',
     afterBuildTicks: (scale) => {
-      scale.ticks = ticks().map((value) => ({ value }));
+      const { ctx } = scale;
+      ctx.save();
+      ctx.font = Chart.helpers.toFont(scale.options.ticks.font).string;
+      const picked = pickTicks(scale.min, scale.max, minStep(), scale.width / (scale.max - scale.min), (text) => ctx.measureText(text).width);
+      ctx.restore();
+      step = picked.step;
+      scale.ticks = picked.ticks.map((value) => ({ value }));
     },
     grid: { tickLength: TICK_LENGTH_PX },
     border: {},
-    ticks: { autoSkip: false, maxRotation: 0, align: 'inner', callback }
+    ticks: { autoSkip: false, maxRotation: 0, callback: (value) => tickLabel(value, step) }
   };
 }
 
@@ -409,8 +449,8 @@ function drawPower() {
         }
       },
       scales: {
-        x: { ...timeAxis(powerTicks, (value) => formatTime(value, labelMode())), min: powerWindow.from, max: powerWindow.to },
-        y: valueAxis({ callback: (value) => `${NUMBER.format(value)} V` })
+        x: { ...timeAxis(() => 0), min: powerWindow.from, max: powerWindow.to },
+        y: valueAxis({ precision: 2, callback: (value) => `${NUMBER.format(value)} V` })
       }
     }
   }));
@@ -468,7 +508,7 @@ function drawEggs() {
         }
       },
       scales: {
-        x: { ...timeAxis(eggTicks, eggTick), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
+        x: { ...timeAxis(() => eggs.bucketMs), offset: false, min: edges[0], max: edges.at(-1), grid: { tickLength: TICK_LENGTH_PX, offset: false } },
         y: { ...valueAxis({ precision: 0 }), beginAtZero: true }
       }
     }
