@@ -253,14 +253,12 @@ HAL_StatusTypeDef INA226_Read(float *voltage, float *current)
   HAL_StatusTypeDef st;
 
   st = INA226_ReadReg(INA226_REG_BUS_V, &raw_bus);
-  if (st == HAL_OK)
+  if ((st == HAL_OK) && (current != NULL))
     st = INA226_ReadReg(INA226_REG_CURRENT, &raw_current);
   if (st != HAL_OK)
     return st;
 
-  if (voltage != NULL)
-    *voltage = (float)raw_bus * INA226_BUS_V_LSB_V;
-
+  *voltage = (float)raw_bus * INA226_BUS_V_LSB_V;
   if (current != NULL)
     *current = fabsf((float)(int16_t)raw_current * INA226_CURRENT_LSB_A);
 

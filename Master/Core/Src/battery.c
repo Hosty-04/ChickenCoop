@@ -23,7 +23,6 @@
 #define BATTERY_DEFER_MAX      4U
 #define BATTERY_READ_ATTEMPTS  3U
 #define BATTERY_PANEL_HYST_V   0.05f
-#define PANEL_MAX_VALID_V      12.5f
 
 #define PANEL_SETTLE_MS        200U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -63,11 +62,6 @@ static float Battery_OverVoltageLimit(uint8_t month)
   if ((month == 0U) || ((month >= 6U) && (month <= 8U))) return 7.2f;
   if ((month == 12U) || (month <= 2U))                     return 7.5f;
   return 7.3f;
-}
-
-static uint8_t Battery_PanelPlausible(float v_panel)
-{
-  return (uint8_t)((v_panel >= 0.0f) && (v_panel <= PANEL_MAX_VALID_V));
 }
 
 static float Battery_CriticalLimit(uint8_t month)
@@ -251,7 +245,7 @@ void Battery_Process(void)
   st_panel = Battery_ReadPanel(&v_panel);
 
   bat_ok         = (uint8_t)(st_bat == HAL_OK);
-  panel_ok       = (uint8_t)((st_panel == HAL_OK) && Battery_PanelPlausible(v_panel));
+  panel_ok       = (uint8_t)(st_panel == HAL_OK);
   panel_mv_valid = panel_ok;
 
   if (panel_ok)

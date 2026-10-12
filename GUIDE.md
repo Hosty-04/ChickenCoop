@@ -681,10 +681,10 @@ nepřeroste dvě okna zvoleného rozsahu; od kdy je díra vidět, ukazuje tabulk
 do 24 hodin tedy i po jediné ztracené zprávě.
 
 **Chybějící hodnota.** Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo
-naměří nesmysl (baterie mimo rozsah 1–10 V, panel nad 12,5 V). Dlaždice pak ukáže pomlčku
-a oranžové **⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci a v grafu se přeruší
-jen ta jedna čára — druhá pokračuje dál. V delších rozsazích taková hodnota zmizí beze stopy,
-protože se do průměru okna nepočítá.
+naměří nesmysl (baterie mimo rozsah 1–10 V, panel nad rozsah převodníku, asi 13 V). Dlaždice
+pak ukáže pomlčku a oranžové **⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci
+a v grafu se přeruší jen ta jedna čára — druhá pokračuje dál. V delších rozsazích taková
+hodnota zmizí beze stopy, protože se do průměru okna nepočítá.
 
 **Panel na nule.** Odpojený, zastíněný nebo rozbitý panel čidlo hlásit umí: naměří 0,00 V.
 Denní hrb v grafu proto klesne na nulu a v tabulce je `0,00 V`, ne pomlčka. Pomlčka u panelu
@@ -783,6 +783,11 @@ Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve fro
 dostává po jednom, s každou jeho zprávou, tedy zhruba po deseti minutách.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
+
+Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
+provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá nebo
+automatika vypnutá, kurník příkaz zahodí a karta Hnízda se neobnoví. Když hnízdo neodpovídá,
+karta ukáže **⚠ hnízdo neodpovídá**. Po odstranění příčiny příkaz pošlete znovu.
 
 ### Smazání historie
 

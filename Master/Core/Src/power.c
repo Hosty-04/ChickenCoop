@@ -7,10 +7,11 @@
 
 #include "power.h"
 #include "main.h"
+#include "timebase.h"
 #include "stm32wlxx_ll_rcc.h"
 #include "smtc_modem_api.h"
 
-#define POWER_PLL_OFF_TIMEOUT  10U
+#define POWER_PLL_OFF_MS  10U
 
 extern void SystemClock_Config(void);
 
@@ -23,7 +24,7 @@ static void Power_StopHighSpeedClocks(void)
   LL_RCC_PLL_Disable();
 
   start = HAL_GetTick();
-  while (LL_RCC_PLL_IsReady() && ((HAL_GetTick() - start) < POWER_PLL_OFF_TIMEOUT))
+  while (LL_RCC_PLL_IsReady() && (TICKS_TO_MS(HAL_GetTick() - start) < POWER_PLL_OFF_MS))
     ;
 
   LL_RCC_HSE_Disable();

@@ -277,12 +277,12 @@ static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
   if (cmd == 0U)
     return Nests_Release(addr);
 
-  n->state = NESTS_STATE_OFFLINE;
+  n->request = 0U;
+  n->state   = NESTS_STATE_OFFLINE;
 
   if (Nests_Command(addr, cmd, Nests_Argument(cmd)) != HAL_OK)
     return 0U;
 
-  n->request = 0U;
   HAL_Delay(NESTS_SAMPLE_MS);
   start = HAL_GetTick();
 
@@ -363,6 +363,14 @@ static uint8_t Nests_RadioBusy(void)
   return 1U;
 }
 
+static void Nests_DropRequests(void)
+{
+  uint8_t nest;
+
+  for (nest = 0U; nest < NESTS_COUNT; nest++)
+    nests_data[nest].request = 0U;
+}
+
 static void Nests_Request(uint8_t nest, uint8_t cmd)
 {
   if (!nests_enabled || (nest >= NESTS_COUNT))
@@ -397,6 +405,7 @@ void Nests_Process(void)
   reach  = Nests_Reach(hourly);
 
   if ((reach == 0U) || !Nests_Allowed()) {
+    Nests_DropRequests();
     nests_defer = 0U;
     if (hourly) {
       Nests_Plan();
@@ -421,6 +430,7 @@ void Nests_Process(void)
       nests_data[nest].state = NESTS_STATE_OFFLINE;
   }
 
+  Nests_DropRequests();
   Nests_PowerDown();
 
   Power_SwitchToRunHSE48MHz();
@@ -431,7 +441,6 @@ void Nests_Process(void)
   }
 
   Nests_Schedule();
-  nests_pending = 0U;
   Telemetry_RequestFull();
 }
 
@@ -456,12 +465,8 @@ void Nests_Enable(void)
 
 void Nests_Disable(void)
 {
-  uint8_t nest;
-
   nests_enabled = 0U;
-
-  for (nest = 0U; nest < NESTS_COUNT; nest++)
-    nests_data[nest].request = 0U;
+  Nests_DropRequests();
 }
 
 void Nests_RequestTare(uint8_t nest)
