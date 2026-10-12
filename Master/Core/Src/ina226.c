@@ -149,7 +149,7 @@ static HAL_StatusTypeDef INA226_Transfer(uint8_t reg, uint16_t *val, uint8_t wri
   return st;
 }
 
-static HAL_StatusTypeDef INA226_Access(uint8_t reg, uint16_t *val, uint8_t write)
+static HAL_StatusTypeDef INA226_Write(uint8_t reg, uint16_t val)
 {
   HAL_StatusTypeDef st = HAL_ERROR;
   uint8_t attempt;
@@ -157,20 +157,15 @@ static HAL_StatusTypeDef INA226_Access(uint8_t reg, uint16_t *val, uint8_t write
   for (attempt = 0U; (attempt < INA226_ATTEMPTS) && (st != HAL_OK); attempt++) {
     if (attempt != 0U)
       HAL_Delay(INA226_RETRY_MS);
-    st = INA226_Transfer(reg, val, write);
+    st = INA226_Transfer(reg, &val, 1U);
   }
 
   return st;
 }
 
-static HAL_StatusTypeDef INA226_Write(uint8_t reg, uint16_t val)
-{
-  return INA226_Access(reg, &val, 1U);
-}
-
 static HAL_StatusTypeDef INA226_ReadReg(uint8_t reg, uint16_t *val)
 {
-  return INA226_Access(reg, val, 0U);
+  return INA226_Transfer(reg, val, 0U);
 }
 
 static HAL_StatusTypeDef INA226_Configure(uint16_t cfg)
@@ -191,8 +186,11 @@ static HAL_StatusTypeDef INA226_Start(void)
   if (hi2c2.State != HAL_I2C_STATE_RESET)
     (void)HAL_I2C_DeInit(&hi2c2);
 
-  if (INA226_BusStuck())
+  if (INA226_BusStuck()) {
     INA226_BusRecover();
+    if (INA226_BusStuck())
+      return HAL_ERROR;
+  }
 
   hi2c2.Instance              = I2C2;
   hi2c2.Init.Timing           = INA226_ComputeTiming(HAL_RCC_GetPCLK1Freq());

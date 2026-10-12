@@ -234,7 +234,17 @@ function alignTick(at, step) {
   const wall = step < DAY_MS
     ? Math.ceil((at + offset) / step) * step
     : Math.ceil((at + offset - NOON_HOUR * HOUR_MS) / DAY_MS) * DAY_MS + NOON_HOUR * HOUR_MS;
-  return wall - zoneOffset(wall - offset);
+  const tick = wall - offset;
+  if (zoneOffset(tick) === offset) return tick;
+
+  let low = Math.floor(at / MINUTE_MS);
+  let high = Math.ceil(tick / MINUTE_MS);
+  while (high - low > 1) {
+    const middle = Math.floor((low + high) / 2);
+    if (zoneOffset(middle * MINUTE_MS) === offset) low = middle;
+    else high = middle;
+  }
+  return alignTick(high * MINUTE_MS, step);
 }
 
 function powerTicks() {
@@ -242,7 +252,7 @@ function powerTicks() {
   const spanMs = last - first;
   if (spanMs < MINUTE_MS) return [first];
 
-  const ideal = spanMs / (tickLimit('plot-wrap', labelMode() !== 'time') - 1);
+  const ideal = spanMs / tickLimit('plot-wrap', labelMode() !== 'time');
   const step = TICK_STEPS.find((candidate) => candidate >= ideal) ?? Math.ceil(ideal / DAY_MS) * DAY_MS;
   const slack = Math.min(step, DAY_MS) / 2;
   const picked = [];

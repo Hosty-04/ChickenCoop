@@ -18,7 +18,7 @@
 
 #define BATTERY_CHECK_S        (10UL * 60UL)
 #define BATTERY_CONV_MS        80U
-#define BATTERY_BLOCK_MS       500UL
+#define BATTERY_BLOCK_MS       1000UL
 #define BATTERY_DEFER_S        10UL
 #define BATTERY_DEFER_MAX      4U
 #define BATTERY_READ_ATTEMPTS  3U
