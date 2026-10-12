@@ -15,12 +15,13 @@ const SLOZKA = fileURLToPath(new URL('.', import.meta.url));
 const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
-  plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
+  plny: { soubor: 'kurnik-test.db', popis: 'skoro dva roky měření, všechny události v grafech' },
+  dlouhy: { soubor: 'kurnik-test-dlouhy.db', popis: 'pět let a tři měsíce měření, Vše oříznuté na 5 let, Napájení i Snáška po měsících' },
   poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
-  velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
+  velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy, neuložený stav automatiky', hnizd: 15, neulozeno: true },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
@@ -197,13 +198,28 @@ function dlouheUdalosti() {
   ];
 }
 
+function dlouholeteUdalosti() {
+  return [
+    { jmeno: 'odpojený panel (62 dní)', typ: 'panelOdpojen', od: ted - 700 * DEN, do: ted - 638 * DEN, kde: 'vše' },
+    { jmeno: 'výpadek 100 dní', typ: 'vypadek', od: ted - 1100 * DEN, do: ted - 1000 * DEN, kde: 'vše' },
+    { jmeno: 'starší než 5 let, ve Vše schované', typ: 'skryto', od: ted - 1920 * DEN, do: ted - 1826 * DEN, kde: 'nikde' }
+  ];
+}
+
 function nastaveni(stav) {
   const konec = ted + 2 * DEN;
   const chvost = (typ, jmeno) => ({ jmeno, typ, od: ted - 20 * MIN, do: konec + KROK, kde: 'dlaždice' });
 
   const tyden = ted - 7 * DEN;
 
-  if (stav === 'plny') return { zacatek: ted - 730 * DEN, konec, udalosti: dlouheUdalosti(), hnizda: dlouhaHnizda(ted - 730 * DEN) };
+  if (stav === 'plny') {
+    const zacatek = ted - 720 * DEN;
+    return { zacatek, konec, udalosti: dlouheUdalosti(), hnizda: dlouhaHnizda(zacatek) };
+  }
+  if (stav === 'dlouhy') {
+    const zacatek = new Date(ted - 1920 * DEN).setMinutes(0, 0, 0);
+    return { zacatek, konec, husteOd: ted - 8 * DEN, udalosti: dlouholeteUdalosti(), hnizda: [] };
+  }
   if (stav === 'poplach') {
     return {
       zacatek: tyden,
@@ -241,10 +257,10 @@ function nastaveni(stav) {
 }
 
 function vytvor(stav) {
-  const { soubor, popis, hnizd = 2, vypnuto } = DATABAZE[stav];
+  const { soubor, popis, hnizd = 2, vypnuto, neulozeno = false } = DATABAZE[stav];
   const podil = podily(hnizd);
   const cesta = join(SLOZKA, soubor);
-  const { zacatek, konec, udalosti, hnizda } = nastaveni(stav);
+  const { zacatek, konec, udalosti, hnizda, husteOd = zacatek } = nastaveni(stav);
 
   for (const pripona of ['', '-wal', '-shm']) rmSync(cesta + pripona, { force: true });
 
@@ -284,9 +300,11 @@ function vytvor(stav) {
     ) WITHOUT ROWID
   `);
 
-  if (vypnuto !== undefined) {
-    db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)')
-      .run('automation', JSON.stringify({ enabled: false, at: new Date(ted - vypnuto).toISOString() }));
+  const automatika = vypnuto !== undefined
+    ? { enabled: false, at: new Date(ted - vypnuto).toISOString() }
+    : neulozeno ? { enabled: null, at: null } : null;
+  if (automatika) {
+    db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)').run('automation', JSON.stringify(automatika));
   }
 
   const vloz = db.prepare(`
@@ -306,7 +324,7 @@ function vytvor(stav) {
   const kosik = Array(hnizd).fill(0);
 
   db.exec('BEGIN');
-  for (let t = zacatek; t <= konec; t += KROK) {
+  for (let t = zacatek; t <= konec; t += t < husteOd ? HOD : KROK) {
     const u = udalosti.find((e) => t >= e.od && t < e.do);
     if (u?.typ === 'vypadek') continue;
 
@@ -382,8 +400,11 @@ function vytvor(stav) {
   db.exec('COMMIT');
   db.close();
 
-  const automatika = vypnuto === undefined ? [] : [{ jmeno: 'automatika vypnutá', od: ted - vypnuto, kde: 'dlaždice' }];
-  return { soubor, popis, zapsano, kontrol, zacatek, konec, udalosti: [...udalosti, ...hnizda, ...automatika] };
+  const stavAutomatiky = [
+    ...(vypnuto === undefined ? [] : [{ jmeno: 'automatika vypnutá', od: ted - vypnuto, kde: 'dlaždice' }]),
+    ...(neulozeno ? [{ jmeno: 'stav automatiky se nepodařilo uložit', od: ted, kde: 'dlaždice' }] : [])
+  ];
+  return { soubor, popis, zapsano, kontrol, zacatek, konec, husteOd, udalosti: [...udalosti, ...hnizda, ...stavAutomatiky] };
 }
 
 const cas = (t) => new Date(t).toLocaleString('cs-CZ', {
@@ -401,9 +422,10 @@ if (neznamy) {
 for (const stav of zadane.length > 0 ? zadane : Object.keys(DATABAZE)) {
   const v = vytvor(stav);
   console.log(`\n${v.soubor} — ${v.popis}`);
+  const hustota = v.husteOd > v.zacatek ? `po hodině, od ${cas(v.husteOd)} po 10 minutách` : 'po 10 minutách';
   console.log(v.zapsano === 0
     ? '   bez měření'
-    : `   ${v.zapsano} měření po 10 minutách, ${v.kontrol}× kontrola hnízd, ${cas(v.zacatek)} – ${cas(v.konec)}`);
+    : `   ${v.zapsano} měření ${hustota}, ${v.kontrol}× kontrola hnízd, ${cas(v.zacatek)} – ${cas(v.konec)}`);
   for (const u of [...v.udalosti].sort((a, b) => a.od - b.od)) {
     console.log(`   ${u.jmeno.padEnd(50)} ${cas(u.od).padEnd(20)} ${u.kde}`);
   }

@@ -69,18 +69,21 @@ v `Server/README.md`.
 
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
-| `kurnik-test.db` | běžný stav | dva roky měření, všechny události v grafech |
+| `kurnik-test.db` | běžný stav | skoro dva roky měření, všechny události v grafech |
+| `kurnik-test-dlouhy.db` | běžný stav | pět let a tři měsíce měření: Vše ukazuje jen posledních 5 let a Napájení i Snášku průměruje po měsících |
 | `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
 | `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
-| `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
+| `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`), neuložený stav automatiky | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon, automatika s pomlčkou a „⚠ stav se neuložil" |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
 Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db` 200 kB),
-`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má dva roky a 8,7 MB.
+`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má 720 dní a 8,5 MB.
+`kurnik-test-dlouhy.db` má 1920 dní a 6,2 MB, protože do posledního týdne v něm přibývá jedno
+měření za hodinu místo šesti; v delších rozsazích se to průměrováním neprojeví.
 
 U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím baterie: s kriticky
 vybitou baterií kurník hnízda nekontroluje, takže karta Hnízda zůstane u poslední kontroly.
@@ -91,7 +94,8 @@ mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkali
 
 V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
 nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
-ostatní počítají normálně.
+ostatní počítají normálně. Automatika je uložená jako neznámá, tak jako po restartu serveru
+s plnou kartou; pomlčku na dlaždici zruší až potvrzený příkaz Zapnout nebo Vypnout.
 
 ## Co je v grafech
 
@@ -119,7 +123,20 @@ některé dny se na to zapomene. Během kriticky vybité baterie se hnízda neko
 
 Ke každému rozsahu patří jinak dlouhý výpadek proto, že se v grafu projeví, až když
 vyprázdní aspoň dvě okna toho rozsahu — v 7 dnech jsou okna hodinová, ve 30 dnech
-šestihodinová a v roce denní.
+šestihodinová, v roce denní a ve Vše týdenní. Historie má proto 720 dní, o něco méně než dva
+roky: s historií nad dva roky by Vše průměrovalo Napájení po měsících a 21denní výpadek by
+v grafu zmizel. Týdenní zůstane Vše ještě deset dní po přegenerování. Snáška je ve Vše po
+měsících, protože historie je delší než rok.
+
+V `kurnik-test-dlouhy.db` jsou události, které se projeví jen ve Vše:
+
+| Událost | Co je ve Vše vidět |
+|---|---|
+| první tři měsíce databáze | nic — Vše začíná prvním dnem měsíce před 60 měsíci, starší měsíce chybí v grafech i tabulkách |
+| výpadek 100 dní | díra v Napájení přes dva celé měsíce a ve Snášce dva měsíce s pomlčkou |
+| odpojený panel 62 dní | jeden celý měsíc s panelem na 0 V |
+
+Ostatní rozsahy ukazují obyčejné měření bez událostí.
 
 ## Přegenerování
 
@@ -132,7 +149,7 @@ node Tests/seed.mjs
 node Tests/seed.mjs plny poplach
 ```
 
-První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`,
+První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`, `dlouhy`,
 `poplach`, `porucha`, `meze`, `instalace`, `velky`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
 vypíše seznam událostí i s časy, takže je jasné, kam se v grafu dívat.
 

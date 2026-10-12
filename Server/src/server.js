@@ -41,6 +41,9 @@ const state = {
 };
 
 const AUTOMATION_COMMANDS = { systemOn: true, systemOff: false };
+const AUTOMATION_UNKNOWN = { enabled: null, at: null };
+
+let unsavedAutomation = null;
 
 const PUBLIC_PATHS = new Set([
   '/login.html', '/login.js', '/common.js', '/theme.js', '/style.css', '/manifest.webmanifest',
@@ -190,16 +193,27 @@ ttn.on('pending', (pending) => {
   broadcast('pending', pending);
 });
 
+function storeAutomation(automation, reclaim = false) {
+  try {
+    writeSetting('automation', automation, reclaim);
+    state.automation = automation;
+    unsavedAutomation = null;
+    return true;
+  } catch (err) {
+    state.automation = AUTOMATION_UNKNOWN;
+    state.dbOk = false;
+    state.dbError = err.message;
+    unsavedAutomation = automation;
+    console.error('automation state not saved:', err.message);
+    return false;
+  }
+}
+
 function trackAutomation(event, commands, at) {
   const command = commands?.find((name) => Object.hasOwn(AUTOMATION_COMMANDS, name));
   if (event !== 'ack' || !command) return;
 
-  state.automation = { enabled: AUTOMATION_COMMANDS[command], at };
-  try {
-    writeSetting('automation', state.automation);
-  } catch (err) {
-    console.error('automation state not saved:', err.message);
-  }
+  storeAutomation({ enabled: AUTOMATION_COMMANDS[command], at }, true);
   broadcast('status', state);
 }
 
@@ -223,6 +237,7 @@ ttn.on('uplink', (uplink) => {
     state.dbOk = true;
     state.dbError = null;
     if (nests) refreshNests();
+    if (unsavedAutomation) storeAutomation(unsavedAutomation);
   } catch (err) {
     state.dbOk = false;
     state.dbError = err.message;
@@ -233,18 +248,20 @@ ttn.on('uplink', (uplink) => {
 });
 
 function seedFromDb() {
+  let automation = AUTOMATION_UNKNOWN;
   try {
     const latest = readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
     state.readings = countReadings(config.ttn.deviceId);
     state.nests = readNests(config.ttn.deviceId, config.nestCount);
-    state.automation = readSetting('automation');
+    automation = readSetting('automation');
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;
     state.dbError = err.message;
     console.error('database unreadable at startup:', err.message);
   }
+  if (!storeAutomation(automation)) unsavedAutomation = AUTOMATION_UNKNOWN;
 }
 
 let stopping = false;
@@ -255,6 +272,7 @@ async function shutdown() {
   console.log('shutting down');
   setTimeout(() => process.exit(0), 3000).unref();
   await ttn.stop();
+  if (unsavedAutomation) storeAutomation(unsavedAutomation, true);
   try {
     closeDb();
   } catch {}

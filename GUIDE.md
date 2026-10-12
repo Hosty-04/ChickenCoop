@@ -564,15 +564,26 @@ mimo něj.
 Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
 poslední zprávy a stav automatiky. Automatiku stránka zná z posledního příkazu **Zapnout**
 nebo **Vypnout**, jehož příjem kurník potvrdil; dokud žádný takový nebyl, ukazuje výchozí
-**Zapnutá**. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+**Zapnutá**. Když se potvrzený stav nepodaří uložit, ukáže dlaždice pomlčku a **⚠ stav se
+neuložil**, protože po restartu serveru by jinak ukazovala starý stav. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
 baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
-30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
+30 dní, rok, nebo **Vše** od prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
 
-Pro graf **Napájení** platí: čím delší rozsah, tím hrubší průměr — do dne po deseti minutách, do týdne po hodině, do
-měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
-stovku bodů, ať pokrývá den nebo pět let. Podnadpis grafu ukazuje, za jak dlouhé okno se
-právě průměruje.
+**Vše** zobrazuje nanejvýš posledních 5 let a pod oběma grafy to připomíná poznámka.
+Začíná prvním dnem měsíce, který byl před 60 měsíci, takže když databáze běží 5 let
+a 1 měsíc, zmizí z grafů i tabulek celý první měsíc. Starší měření v databázi zůstávají,
+jen se nezobrazují; nic se nemaže samo, smaže je až tlačítko pro smazání historie.
+
+Pro graf **Napájení** platí: čím delší rozsah, tím hrubší průměr — do dne po deseti minutách,
+do týdne po hodině, do měsíce po šesti hodinách, do roku po dnech, do dvou let po týdnech
+a dál po měsících. Každý pohled tak má nanejvýš pár stovek bodů, ať pokrývá den nebo pět let.
+Podnadpis grafu ukazuje, za jak dlouhé okno se právě průměruje.
+
+Popisky časové osy leží vždy na kulatých hodnotách — celé minuty a hodiny, půlnoc, pondělí,
+první den měsíce nebo roku — a jejich hustota se řídí šířkou grafu, aby se nepřekrývaly.
+Když osa ukazuje hodiny, je místo půlnoci datum. U Vše s pěti lety jsou na počítači i na
+telefonu popisky po letech, u kratší historie podle šířky po měsících nebo letech.
 
 U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
 průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
@@ -582,16 +593,20 @@ té napětí drží i v noci. Stránka na to pod grafem upozorňuje, kdykoli se 
 a déle — do 24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
 
 Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
-do měsíce po dnech a dál po týdnech. Kontrola v celou hodinu hlásí vejce snesená za
-uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Dnešek a tento
-týden jsou ve sloupcích po dnech a týdnech vidět od první kontroly a doplňují se průběžně.
+do měsíce po dnech, do roku po týdnech a dál po měsících. Kontrola v celou hodinu hlásí vejce
+snesená za uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Dnešek,
+tento týden a tento měsíc jsou ve sloupcích po dnech, týdnech a měsících vidět od první
+kontroly a doplňují se průběžně.
 Po najetí myší je vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když
 vejce sesbíráte, počet v hnízdě klesne, ale snáška zůstane.
 
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
-a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
+a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení. Když databáze
+nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné chyby
+**Chyba databáze**. Kliknutím se stránka posune ke kartě Data s celou hláškou a varování
+zmizí samo, jakmile se zase uloží další zpráva.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
@@ -626,7 +641,9 @@ Kurník se ozývá každých 10 minut. Když zpráva nedorazí, neuloží se nic
 díra široká jako výpadek** a v tabulce prostě chybí řádky, takže se výpadek pozná skokem
 v časovém sloupci. Jedna ztracená zpráva graf nepřeruší — čára se spojí, dokud mezera
 nepřeroste dvě okna zvoleného rozsahu. V grafu je proto výpadek vidět zhruba od 20 minut
-ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech, 2 dnů v roce a 2 týdnů ve Vše.
+ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech a 2 dnů v roce. Ve Vše záleží na
+délce historie: do roku je to stejné jako u stejně dlouhého rozsahu, do dvou let zhruba
+2 týdny a s delší historií 2 měsíce.
 V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích do 24 hodin tedy i po
 jediné ztracené zprávě.
 
@@ -666,8 +683,8 @@ Pomlčka tedy neznamená nulu, ale to, že se počet nezjistil. Jsou dva přípa
   něm kvočna, váha není zkalibrovaná, má poruchu nebo neodpovídá. Sloupec **Celkem** pak
   sčítá jen ostatní hnízda.
 
-Ve sloupcích po dnech a týdnech je pomlčka, jen když za celý den nebo týden nepřišel ani jeden
-počet.
+Ve sloupcích po dnech, týdnech a měsících je pomlčka, jen když za celý den, týden nebo měsíc
+nepřišel ani jeden počet.
 
 V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže popisek
 po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky v celém řádku **Bez dat**.
@@ -774,6 +791,16 @@ docker compose down
 docker volume rm server_coop-data
 docker compose up -d
 ```
+
+Když hláška končí `database or disk is full` a nahoře svítí **Plná databáze**, na kartě došlo
+místo. Kurník se dál ozývá
+a dlaždice se obnovují, jen se nová měření neukládají a v grafu po nich zůstane díra.
+Uložená data zůstanou v pořádku a jakmile se místo uvolní, server začne zase ukládat sám,
+bez restartu. Automatika, kterou mezitím přepnete, ukáže pomlčku; po uvolnění místa se
+uloží a dlaždice ukáže skutečný stav. Jen když se server s plnou kartou restartuje, skutečný
+stav nezná — pomlčka pak zůstane, dokud nepošlete **Zapnout** nebo **Vypnout**. Volné místo ukáže `df -h /`. Měření zaberou asi 4 MB za rok, takže kartu
+zaplní spíš něco jiného — nejčastěji staré obrazy serveru, které po každé aktualizaci
+s `--build` zůstávají na kartě. Ty uvolní `docker image prune`; data se tím nesmažou.
 
 **Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraňte
 překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.

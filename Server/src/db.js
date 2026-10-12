@@ -47,7 +47,10 @@ db.exec(`
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const WEEK_MS = 7 * DAY_MS;
+const MONTH_MS = (365.25 * DAY_MS) / 12;
+const LONGEST_MONTH_MS = 31 * DAY_MS;
 const MONDAY_OFFSET = 4 * DAY_MS;
+const ALL_MONTHS = 60;
 const LAID_SLACK_MS = 10 * 60 * 1000;
 
 const insertReading = db.prepare(`
@@ -98,11 +101,16 @@ const deleteNests = db.prepare('DELETE FROM nests WHERE device = ?');
 
 const historyStatements = new Map();
 
+function slotSql(bucket) {
+  if (bucket === MONTH_MS) return `strftime('%s', time / 1000, 'unixepoch', 'localtime', 'start of month') * 1000`;
+  return `(((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000 - ${MONDAY_OFFSET}) / ${bucket}) * ${bucket}) + ${MONDAY_OFFSET}`;
+}
+
 function historyStatement(bucket) {
   let statement = historyStatements.get(bucket);
   if (!statement) {
     statement = db.prepare(`
-      SELECT (((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000 - ${MONDAY_OFFSET}) / ${bucket}) * ${bucket}) + ${MONDAY_OFFSET} AS slot,
+      SELECT ${slotSql(bucket)} AS slot,
              AVG(battery_mv) AS battery_mv,
              COALESCE(AVG(NULLIF(panel_mv, 0)), AVG(panel_mv)) AS panel_mv
       FROM readings
@@ -122,7 +130,9 @@ function transaction(work) {
     db.exec('COMMIT');
     return result;
   } catch (err) {
-    db.exec('ROLLBACK');
+    try {
+      db.exec('ROLLBACK');
+    } catch {}
     throw err;
   }
 }
@@ -132,13 +142,15 @@ function historyBucket(hours) {
   if (hours <= 168) return HOUR_MS;
   if (hours <= 720) return 6 * HOUR_MS;
   if (hours <= 8760) return DAY_MS;
-  return WEEK_MS;
+  if (hours <= 17520) return WEEK_MS;
+  return MONTH_MS;
 }
 
 function eggBucket(hours) {
   if (hours <= 24) return HOUR_MS;
   if (hours <= 720) return DAY_MS;
-  return WEEK_MS;
+  if (hours <= 8760) return WEEK_MS;
+  return MONTH_MS;
 }
 
 function toLocalClock(ms) {
@@ -152,7 +164,23 @@ function fromLocalClock(ms) {
 }
 
 function slotOf(ms, bucket, align = Math.floor) {
-  return align((toLocalClock(ms) - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
+  const clock = toLocalClock(ms);
+  if (bucket !== MONTH_MS) return align((clock - MONDAY_OFFSET) / bucket) * bucket + MONDAY_OFFSET;
+
+  const date = new Date(clock);
+  const start = Date.UTC(date.getUTCFullYear(), date.getUTCMonth());
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + align((clock - start) / LONGEST_MONTH_MS));
+}
+
+function nextSlot(slot, bucket) {
+  if (bucket !== MONTH_MS) return slot + bucket;
+  const date = new Date(slot);
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1);
+}
+
+function allFrom(now) {
+  const date = new Date(now);
+  return new Date(date.getFullYear(), date.getMonth() - ALL_MONTHS).getTime();
 }
 
 function startOfToday(now) {
@@ -206,13 +234,13 @@ export function writeReading(deviceId, reading, radio, at) {
 export function readHistory(deviceId, hours) {
   const now = Date.now();
   const oldest = selectOldest.get(deviceId)?.oldest;
-  const span = hours ?? (oldest ? Math.max((now - oldest) / HOUR_MS, 1) : 1);
-  const bucket = historyBucket(span);
+  const from = hours === null ? Math.max(oldest ?? now, allFrom(now)) : now - hours * HOUR_MS;
+  const bucket = historyBucket(Math.max((now - from) / HOUR_MS, 1));
   if (!oldest) return { bucketMs: bucket, points: [] };
 
   return {
     bucketMs: bucket,
-    points: historyStatement(bucket).all(deviceId, now - span * HOUR_MS, now).map((row) => ({
+    points: historyStatement(bucket).all(deviceId, from, now).map((row) => ({
       time: fromLocalClock(row.slot).toISOString(),
       batteryMv: rounded(row.battery_mv),
       panelMv: rounded(row.panel_mv)
@@ -276,10 +304,10 @@ export function readEggs(deviceId, hours, nestCount) {
   const oldest = selectOldest.get(deviceId)?.oldest;
   if (!oldest) return { bucketMs: DAY_MS, points: [] };
 
-  const span = hours ?? Math.max((now - oldest) / HOUR_MS, 1);
-  const bucket = eggBucket(span);
   const reported = now - HOUR_MS;
-  const first = hours === null ? slotOf(oldest, bucket) : slotOf(reported - span * HOUR_MS, bucket, Math.ceil);
+  const start = hours === null ? Math.max(oldest, allFrom(now)) : reported - hours * HOUR_MS;
+  const bucket = eggBucket(hours ?? Math.max((now - start) / HOUR_MS, 1));
+  const first = slotOf(start, bucket, hours === null ? Math.floor : Math.ceil);
   const last = slotOf(reported, bucket);
   if (last < first) return { bucketMs: bucket, points: [] };
 
@@ -295,7 +323,7 @@ export function readEggs(deviceId, hours, nestCount) {
   }
 
   const points = [];
-  for (let slot = first; slot <= last; slot += bucket) {
+  for (let slot = first; slot <= last; slot = nextSlot(slot, bucket)) {
     const perNest = laid.get(slot) ?? Array(nestCount).fill(null);
     const known = perNest.filter((value) => value !== null);
     points.push({
@@ -307,7 +335,7 @@ export function readEggs(deviceId, hours, nestCount) {
 
   return {
     bucketMs: bucket,
-    end: fromLocalClock(last + bucket).toISOString(),
+    end: fromLocalClock(nextSlot(last, bucket)).toISOString(),
     since: new Date(oldest).toISOString(),
     points
   };
@@ -332,8 +360,14 @@ export function readSetting(key) {
   return row ? JSON.parse(row.value) : null;
 }
 
-export function writeSetting(key, value) {
-  upsertSetting.run(key, JSON.stringify(value));
+export function writeSetting(key, value, reclaim = false) {
+  try {
+    upsertSetting.run(key, JSON.stringify(value));
+  } catch (err) {
+    if (!reclaim) throw err;
+    db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+    upsertSetting.run(key, JSON.stringify(value));
+  }
 }
 
 export function closeDb() {

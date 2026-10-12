@@ -39,13 +39,16 @@ const MINUTE_MS = 60 * 1000;
 const HOUR_MS = 60 * MINUTE_MS;
 const DAY_MS = 24 * HOUR_MS;
 const WEEK_MS = 7 * DAY_MS;
+const YEAR_MS = 365.25 * DAY_MS;
+const MONTH_MS = YEAR_MS / 12;
 
 const BUCKET_NAMES = {
   [10 * MINUTE_MS]: '10 minut',
   [HOUR_MS]: 'hodinu',
   [6 * HOUR_MS]: '6 hodin',
   [DAY_MS]: 'den',
-  [WEEK_MS]: 'týden'
+  [WEEK_MS]: 'týden',
+  [MONTH_MS]: 'měsíc'
 };
 
 const TOAST_MS = 5000;
@@ -59,8 +62,6 @@ const TICK_LENGTH_PX = 6;
 const LABEL_GAP_PX = 12;
 const MAX_TICKS = 9;
 const MAX_JOIN_BUCKETS = 2.5;
-const YEAR_MS = 365.25 * DAY_MS;
-const MONTH_MS = YEAR_MS / 12;
 const FIRST_MONDAY_MS = 4 * DAY_MS;
 const TICK_STEPS = [
   ...[1, 2, 5, 10, 15, 30, 60, 120, 180, 240, 360, 720].map((count) => ({ unit: 'minute', count, ms: count * MINUTE_MS })),
@@ -135,6 +136,7 @@ function buildFormats(zone) {
     day: format({ day: 'numeric', month: 'numeric' }),
     date: format({ day: 'numeric', month: 'numeric', year: 'numeric' }),
     month: format({ month: 'numeric', year: 'numeric' }),
+    monthName: format({ month: 'long', year: 'numeric' }),
     year: format({ year: 'numeric' }),
     weekday: format({ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }),
     clock: format({ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' })
@@ -210,6 +212,7 @@ function formatEggs(n) {
 
 function formatTime(value, mode) {
   const d = new Date(value);
+  if (mode === 'month') return formats.monthName.format(d);
   if (mode === 'date') return formats.date.format(d);
   if (mode === 'datetime') return `${formats.day.format(d)} ${formats.time.format(d)}`;
   return formats.time.format(d);
@@ -228,6 +231,7 @@ function sameDay(a, b) {
 }
 
 function labelMode() {
+  if (power.bucketMs >= MONTH_MS) return 'month';
   if (power.bucketMs >= DAY_MS) return 'date';
   return power.bucketMs >= HOUR_MS ? 'datetime' : 'time';
 }
@@ -326,7 +330,8 @@ function eggPeriod(index) {
     return `${formats.day.format(from)} ${formats.time.format(from)}–${formats.time.format(eggs.edges[index + 1])}`;
   }
   if (eggs.bucketMs < WEEK_MS) return formats.weekday.format(from);
-  return `týden od ${formats.date.format(from)}`;
+  if (eggs.bucketMs < MONTH_MS) return `týden od ${formats.date.format(from)}`;
+  return formats.monthName.format(from);
 }
 
 function pointRadius(ctx) {
@@ -539,6 +544,7 @@ function renderPower() {
   el('plot-wrap').hidden = empty || tableShown;
   el('legend').hidden = empty || tableShown;
   el('chart-hint').hidden = empty || labelMode() === 'time';
+  el('chart-all-hint').hidden = empty || power.range !== 'all';
 
   if (empty) {
     powerChart?.destroy();
@@ -553,6 +559,7 @@ function renderEggs() {
   const tableShown = !el('eggs-table-wrap').hidden;
   el('eggs-empty').hidden = !empty || eggs.range === null;
   el('eggs-plot-wrap').hidden = empty || tableShown;
+  el('eggs-all-hint').hidden = empty || eggs.range !== 'all';
 
   if (empty) {
     eggChart?.destroy();
@@ -700,6 +707,11 @@ function renderAutomation(automation) {
     return;
   }
 
+  if (automation.enabled === null) {
+    setTile('automation', '–', '⚠ stav se neuložil', 'is-warning');
+    return;
+  }
+
   if (automation.enabled) {
     setTile('automation', 'Zapnutá');
     return;
@@ -831,7 +843,11 @@ function renderStatus(status) {
   renderAutomation(status.automation);
   renderNests(status);
 
-  if (status.dbOk === false) {
+  const dbFailed = status.dbOk === false;
+  el('db-alert').hidden = !dbFailed;
+  el('db-alert').title = dbFailed ? status.dbError ?? '' : '';
+  el('db-alert-text').textContent = status.dbError?.includes('disk is full') ? 'Plná databáze' : 'Chyba databáze';
+  if (dbFailed) {
     showToast(`Databáze hlásí chybu (${status.dbError}), měření se nemusí ukládat.`, 'is-error', 'data-toast', 'database');
   } else {
     hideToast('data-toast', 'database');
