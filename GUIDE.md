@@ -564,7 +564,8 @@ mimo něj.
 Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
 poslední zprávy a stav automatiky. Automatiku stránka zná z posledního příkazu **Zapnout**
 nebo **Vypnout**, jehož příjem kurník potvrdil; dokud žádný takový nebyl, ukazuje výchozí
-**Zapnutá**. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
+**Zapnutá**. Když se potvrzený stav nepodaří uložit, ukáže dlaždice pomlčku a **⚠ stav se
+neuložil**, protože po restartu serveru by jinak ukazovala starý stav. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
 baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
 30 dní, rok, nebo **Vše** od prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
@@ -791,7 +792,9 @@ docker compose up -d
 Když hláška končí `database or disk is full`, na kartě došlo místo. Kurník se dál ozývá
 a dlaždice se obnovují, jen se nová měření neukládají a v grafu po nich zůstane díra.
 Uložená data zůstanou v pořádku a jakmile se místo uvolní, server začne zase ukládat sám,
-bez restartu. Volné místo ukáže `df -h /`. Měření zaberou asi 4 MB za rok, takže kartu
+bez restartu. Automatika, kterou mezitím přepnete, ukáže pomlčku; po uvolnění místa se
+uloží a dlaždice ukáže skutečný stav. Jen když se server s plnou kartou restartuje, skutečný
+stav nezná — pomlčka pak zůstane, dokud nepošlete **Zapnout** nebo **Vypnout**. Volné místo ukáže `df -h /`. Měření zaberou asi 4 MB za rok, takže kartu
 zaplní spíš něco jiného — nejčastěji staré obrazy serveru, které po každé aktualizaci
 s `--build` zůstávají na kartě. Ty uvolní `docker image prune`; data se tím nesmažou.
 

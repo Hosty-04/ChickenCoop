@@ -75,7 +75,7 @@ v `Server/README.md`.
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
 | `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
-| `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
+| `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`), neuložený stav automatiky | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon, automatika s pomlčkou a „⚠ stav se neuložil" |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
@@ -94,7 +94,8 @@ mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkali
 
 V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
 nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
-ostatní počítají normálně.
+ostatní počítají normálně. Automatika je uložená jako neznámá, tak jako po restartu serveru
+s plnou kartou; pomlčku na dlaždici zruší až potvrzený příkaz Zapnout nebo Vypnout.
 
 ## Co je v grafech
 

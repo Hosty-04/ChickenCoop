@@ -707,6 +707,11 @@ function renderAutomation(automation) {
     return;
   }
 
+  if (automation.enabled === null) {
+    setTile('automation', '–', '⚠ stav se neuložil', 'is-warning');
+    return;
+  }
+
   if (automation.enabled) {
     setTile('automation', 'Zapnutá');
     return;

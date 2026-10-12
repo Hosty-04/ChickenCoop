@@ -360,8 +360,14 @@ export function readSetting(key) {
   return row ? JSON.parse(row.value) : null;
 }
 
-export function writeSetting(key, value) {
-  upsertSetting.run(key, JSON.stringify(value));
+export function writeSetting(key, value, reclaim = false) {
+  try {
+    upsertSetting.run(key, JSON.stringify(value));
+  } catch (err) {
+    if (!reclaim) throw err;
+    db.exec('PRAGMA wal_checkpoint(TRUNCATE)');
+    upsertSetting.run(key, JSON.stringify(value));
+  }
 }
 
 export function closeDb() {
