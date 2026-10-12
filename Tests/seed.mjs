@@ -15,14 +15,14 @@ const SLOZKA = fileURLToPath(new URL('.', import.meta.url));
 const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
-  plny: { soubor: 'kurnik-test.db', popis: 'skoro dva roky měření, všechny události v grafech' },
   dlouhy: { soubor: 'kurnik-test-dlouhy.db', popis: 'pět let a tři měsíce měření, Vše oříznuté na 5 let, Napájení i Snáška po měsících' },
+  plny: { soubor: 'kurnik-test.db', popis: 'skoro dva roky měření, všechny události v grafech' },
   poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
-  instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
   velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
+  instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
 };

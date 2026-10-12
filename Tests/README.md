@@ -69,32 +69,32 @@ v `Server/README.md`.
 
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
-| `kurnik-test.db` | běžný stav | skoro dva roky měření, všechny události v grafech |
 | `kurnik-test-dlouhy.db` | běžný stav | pět let a tři měsíce měření: Vše ukazuje jen posledních 5 let a Napájení i Snášku průměruje po měsících |
+| `kurnik-test.db` | běžný stav | skoro dva roky měření, všechny události v grafech |
 | `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
-| `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
 | `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
+| `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
-Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db` 200 kB),
-`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má 720 dní a 8,5 MB.
 `kurnik-test-dlouhy.db` má 1920 dní a 6,2 MB, protože do posledního týdne v něm přibývá jedno
-měření za hodinu místo šesti; v delších rozsazích se to průměrováním neprojeví.
+měření za hodinu místo šesti; v delších rozsazích se to průměrováním neprojeví. `kurnik-test.db`
+má 720 dní a 8,5 MB. Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db`
+200 kB) a `kurnik-test-instalace.db` začíná před dvaceti hodinami.
 
 U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím baterie: s kriticky
 vybitou baterií kurník hnízda nekontroluje, takže karta Hnízda zůstane u poslední kontroly.
 
-V `kurnik-test-instalace.db` jsou obě váhy od instalace nezkalibrované. Za dvě hodiny se
-hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva o hnízdech
-mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkalibrované.
-
 V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
 nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
 ostatní počítají normálně.
+
+V `kurnik-test-instalace.db` jsou obě váhy od instalace nezkalibrované. Za dvě hodiny se
+hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva o hnízdech
+mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkalibrované.
 
 ## Co je v grafech
 
@@ -148,8 +148,8 @@ node Tests/seed.mjs
 node Tests/seed.mjs plny poplach
 ```
 
-První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`, `dlouhy`,
-`poplach`, `porucha`, `meze`, `instalace`, `velky`, `stara`, `jedno` a `prazdna`. Generátor u každé databáze
+První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `dlouhy`, `plny`,
+`poplach`, `porucha`, `meze`, `velky`, `stara`, `instalace`, `jedno` a `prazdna`. Generátor u každé databáze
 vypíše seznam událostí i s časy, takže je jasné, kam se v grafu dívat.
 
 Hodnoty sedí na mřížce protokolu — baterie po 50 mV v rozsahu 5–8 V, panel po 100 mV do
