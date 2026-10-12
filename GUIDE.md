@@ -561,54 +561,38 @@ mimo něj.
 
 ## Co je na stránce
 
-Nahoře je pět dlaždic: napětí baterie, napětí solárního panelu, stav dvířek, čas
-poslední zprávy a stav automatiky. Automatiku stránka zná z posledního příkazu **Zapnout**
-nebo **Vypnout**, jehož příjem kurník potvrdil; dokud žádný takový nebyl, ukazuje výchozí
-**Zapnutá**. Když se potvrzený stav nepodaří uložit, ukáže dlaždice pomlčku a **⚠ stav se
-neuložil**, protože po restartu serveru by jinak ukazovala starý stav. Pod nimi karta **Hnízda**, histogram **Snáška** a graf **Napájení** s napětím
-baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní,
-30 dní, rok, nebo **Vše** od prvního měření. Tlačítkem **Tabulka** se každý z nich
-přepne na stejná data v číslech.
+Stránka má odshora záhlaví, volbu rozsahu, pět dlaždic s aktuálním stavem, karty **Hnízda**,
+**Snáška** a **Napájení**, ovládání a kartu **Data** s počtem všech uložených měření
+a tlačítkem pro smazání historie. Nové hodnoty se doplňují samy, stránku není potřeba
+načítat znovu.
 
-**Vše** zobrazuje nanejvýš posledních 5 let a pod oběma grafy to připomíná poznámka.
-Začíná prvním dnem měsíce, který byl před 60 měsíci, takže když databáze běží 5 let
-a 1 měsíc, zmizí z grafů i tabulek celý první měsíc. Starší měření v databázi zůstávají,
-jen se nezobrazují; nic se nemaže samo, smaže je až tlačítko pro smazání historie.
+### Záhlaví stránky
 
-Pro graf **Napájení** platí: čím delší rozsah, tím hrubší průměr — do dne po deseti minutách,
-do týdne po hodině, do měsíce po šesti hodinách, do roku po dnech, do dvou let po týdnech
-a dál po měsících. Každý pohled tak má nanejvýš pár stovek bodů, ať pokrývá den nebo pět let.
-Podnadpis grafu ukazuje, za jak dlouhé okno se právě průměruje.
+Vpravo nahoře svítí indikátor spojení serveru s The Things Network. Vedle něj je na počítači
+a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení.
 
-Popisky časové osy leží vždy na kulatých hodnotách — celé minuty a hodiny, půlnoc, pondělí,
-první den měsíce nebo roku — a jejich hustota se řídí šířkou grafu, aby se nepřekrývaly.
-Když osa ukazuje hodiny, je místo půlnoci datum. U Vše s pěti lety jsou na počítači i na
-telefonu popisky po letech, u kratší historie podle šířky po měsících nebo letech.
+Když databáze nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné
+chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
+Varování zmizí samo, jakmile se zase uloží další zpráva; co s ním dělat, je v kapitole
+**Když to nejede**.
 
-U panelu se do průměru počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
-průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
-ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
-zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
-té napětí drží i v noci. Stránka na to pod grafem upozorňuje, kdykoli se průměruje po hodině
-a déle — do 24 hodin je každý bod jedno desetiminutové měření a nic se neprůměruje.
+### Dlaždice
 
-Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo: do 24 hodin po hodinách,
-do měsíce po dnech, do roku po týdnech a dál po měsících. Kontrola v celou hodinu hlásí vejce
-snesená za uplynulou hodinu, proto se kontrola v 10:00 započítá do sloupce 9:00–10:00. Dnešek,
-tento týden a tento měsíc jsou ve sloupcích po dnech, týdnech a měsících vidět od první
-kontroly a doplňují se průběžně.
-Po najetí myší je vidět, ve kterých hnízdech vejce přibyla. Počítá se jen přírůstek — když
-vejce sesbíráte, počet v hnízdě klesne, ale snáška zůstane.
+| Dlaždice | Co ukazuje | Poznámka pod hodnotou |
+|---|---|---|
+| **Baterie** | napětí z poslední zprávy | **⚠ kriticky vybitá**, **⚠ čidlo neodpovídá** nebo **na horní mezi rozsahu** |
+| **Panel** | napětí solárního panelu z poslední zprávy | **⚠ čidlo neodpovídá** nebo **na horní mezi rozsahu** |
+| **Dvířka** | **Otevřeno**, **Zavřeno**, **Porucha** nebo **Neznámý** | u poruchy **⚠ čeká na odblokování**, u neznámé polohy **⚠ koncový spínač nehlásí polohu** |
+| **Poslední zpráva** | čas poslední zprávy, z jiného dne i s datem | jak je to dávno a síla signálu, třeba **před 5 min (-97 dBm)** |
+| **Automatika** | **Zapnutá**, **Vypnutá** nebo **–** | u vypnuté **⚠ od** a čas vypnutí, u pomlčky **⚠ stav se neuložil** |
 
-Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
+Dokud nepřišla žádná zpráva, ukazují první čtyři dlaždice pomlčku. Co znamenají poznámky
+u baterie a panelu, popisuje část **Když data chybí**.
 
-Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
-a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení. Když databáze
-nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné chyby
-**Chyba databáze**. Kliknutím se stránka posune ke kartě Data s celou hláškou a varování
-zmizí samo, jakmile se zase uloží další zpráva.
-
-Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
+Automatiku stránka zná z posledního příkazu **Zapnout** nebo **Vypnout**, jehož příjem kurník
+potvrdil; dokud žádný takový nebyl, ukazuje výchozí **Zapnutá**. Když se potvrzený stav
+nepodaří uložit, ukáže dlaždice pomlčku, protože po restartu serveru by jinak ukazovala starý
+stav.
 
 ### Hnízda
 
@@ -635,37 +619,86 @@ Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvo
 Při kriticky vybité baterii a při vypnuté automatice kurník hnízda nekontroluje. Karta pak
 ukazuje poslední kontrolu i s jejím datem.
 
+### Snáška a Napájení
+
+Histogram **Snáška** ukazuje, kolik vajec ve všech hnízdech přibylo, graf **Napájení** napětí
+baterie a panelu. Oba se řídí volbou rozsahu nahoře — 6 hodin, 24 hodin, 7 dní, 30 dní, rok,
+nebo **Vše** od prvního měření. Tlačítkem **Tabulka** se každý z nich přepne na stejná data
+v číslech. Popisek bodu nebo sloupce se na počítači ukáže po najetí myší, na telefonu po
+klepnutí.
+
+Čím delší rozsah, tím delší okno, za které se měření průměrují a vejce sčítají. Každý pohled
+tak má nanejvýš pár stovek bodů, ať pokrývá den nebo pět let.
+
+| Rozsah | Napájení, průměr za | Snáška, sloupec za | Výpadek je v Napájení vidět od |
+|---|---|---|---|
+| 6 h a 24 h | 10 minut — každý bod je jedno měření | hodinu | 20 minut |
+| 7 dní | hodinu | den | 2 hodin |
+| 30 dní | 6 hodin | den | 12 hodin |
+| 1 rok | den | týden | 2 dnů |
+| Vše | podle délky historie | podle délky historie | podle okna |
+
+Ve **Vše** se okno řídí tím, jak dlouhá je historie: Napájení se průměruje do dne po
+10 minutách, do týdne po hodině, do měsíce po 6 hodinách, do roku po dnech, do dvou let
+po týdnech a dál po měsících; Snáška má sloupce do dne po hodinách, do měsíce po dnech,
+do roku po týdnech a dál po měsících. Výpadek je pak vidět zhruba od dvou oken, s historií
+nad dva roky tedy od 2 měsíců.
+
+**Vše** zobrazuje nanejvýš posledních 5 let a pod oběma grafy to připomíná poznámka. Začíná
+prvním dnem měsíce, který byl před 60 měsíci, takže když databáze běží 5 let a 1 měsíc,
+zmizí z grafů i tabulek celý první měsíc. Starší měření v databázi zůstávají, jen se
+nezobrazují; nic se nemaže samo, smaže je až tlačítko pro smazání historie.
+
+Podnadpis **Napájení** ukazuje, za jak dlouhé okno se právě průměruje, podnadpis **Snášky**
+součet vajec za zobrazený rozsah.
+
+**Panel.** Do průměru se počítají jen hodnoty ze dne. V noci panel nedává nic a tyhle nuly by
+průměr srazily na zlomek skutečnosti — u ročního pohledu, kde je jeden bod celý den, by graf
+ukazoval napětí, jaké panel nikdy neměl. Kde ale do jednoho bodu padne celá noc a nic jiného,
+zůstává nula, takže u krátkých rozsahů jsou noci v grafu dál vidět. Baterie se průměruje celá,
+té napětí drží i v noci. Stránka na to pod grafem upozorňuje, kdykoli se průměruje po hodině
+a déle.
+
+**Snáška.** Počítá se jen přírůstek — když vejce sesbíráte, počet v hnízdě klesne, ale snáška
+zůstane. Kontrola v celou hodinu hlásí vejce snesená za uplynulou hodinu, proto se kontrola
+v 10:00 započítá do sloupce 9:00–10:00. Dnešek, tento týden a tento měsíc jsou ve sloupcích
+vidět od první kontroly a doplňují se průběžně. Popisek sloupce ukazuje, ve kterých hnízdech
+vejce přibyla.
+
+**Časová osa.** Popisky leží vždy na kulatých hodnotách — celé minuty a hodiny, půlnoc,
+pondělí, první den měsíce nebo roku — a jejich hustota se řídí šířkou grafu, aby se
+nepřekrývaly. Když osa ukazuje hodiny, je místo půlnoci datum. U Vše s pěti lety jsou
+na počítači i na telefonu popisky po letech, u kratší historie podle šířky po měsících nebo
+letech.
+
 ### Když data chybí
 
-Kurník se ozývá každých 10 minut. Když zpráva nedorazí, neuloží se nic: **v grafu vznikne
-díra široká jako výpadek** a v tabulce prostě chybí řádky, takže se výpadek pozná skokem
-v časovém sloupci. Jedna ztracená zpráva graf nepřeruší — čára se spojí, dokud mezera
-nepřeroste dvě okna zvoleného rozsahu. V grafu je proto výpadek vidět zhruba od 20 minut
-ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech a 2 dnů v roce. Ve Vše záleží na
-délce historie: do roku je to stejné jako u stejně dlouhého rozsahu, do dvou let zhruba
-2 týdny a s delší historií 2 měsíce.
-V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích do 24 hodin tedy i po
-jediné ztracené zprávě.
+**Výpadek spojení.** Kurník se ozývá každých 10 minut. Když zpráva nedorazí, neuloží se nic:
+**v grafu vznikne díra široká jako výpadek** a v tabulce chybí řádky, takže se výpadek pozná
+skokem v časovém sloupci. Jedna ztracená zpráva graf nepřeruší — čára se spojí, dokud mezera
+nepřeroste dvě okna zvoleného rozsahu; od kdy je díra vidět, ukazuje tabulka v části
+**Snáška a Napájení**. V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích
+do 24 hodin tedy i po jediné ztracené zprávě.
 
-Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo naměří nesmysl
-(baterie mimo rozsah 1–10 V, panel nad 12,5 V). Dlaždice pak ukáže pomlčku a oranžové
-**⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci a v grafu se přeruší jen ta jedna
-čára — druhá pokračuje dál. V delších rozsazích taková hodnota zmizí beze stopy, protože se
-do průměru okna nepočítá.
+**Chybějící hodnota.** Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo
+naměří nesmysl (baterie mimo rozsah 1–10 V, panel nad 12,5 V). Dlaždice pak ukáže pomlčku
+a oranžové **⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci a v grafu se přeruší
+jen ta jedna čára — druhá pokračuje dál. V delších rozsazích taková hodnota zmizí beze stopy,
+protože se do průměru okna nepočítá.
 
-**Odpojený, zastíněný nebo rozbitý panel** čidlo hlásit umí: naměří 0,00 V. Denní hrb
-v grafu proto klesne na nulu a v tabulce je `0,00 V`, ne pomlčka. Pomlčka u panelu znamená,
-že selhalo samotné měření, ne že panel nic nedává.
+**Panel na nule.** Odpojený, zastíněný nebo rozbitý panel čidlo hlásit umí: naměří 0,00 V.
+Denní hrb v grafu proto klesne na nulu a v tabulce je `0,00 V`, ne pomlčka. Pomlčka u panelu
+znamená, že selhalo samotné měření, ne že panel nic nedává.
 
-**Odpojená baterie** vypadá jinak, protože z ní běží celý kurník: přestanou chodit zprávy
-a na stránce je to obyčejný výpadek. Pomlčka u baterie znamená, že kurník běží dál, jen se
-neozval senzor INA226; v takovém případě kurník pro jistotu odpojí i panel.
+**Odpojená baterie.** Z baterie běží celý kurník, takže přestanou chodit zprávy a na stránce
+je to obyčejný výpadek. Pomlčka u baterie znamená, že kurník běží dál, jen se neozval senzor
+INA226; v takovém případě kurník pro jistotu odpojí i panel.
 
-Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na konec toho, co se vejde
-do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může být vyšší, dlaždice,
-graf i tabulka ukazují tuhle mez.
+**Horní mez rozsahu.** Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na
+konec toho, co se vejde do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může
+být vyšší, dlaždice, graf i tabulka ukazují tuhle mez.
 
-**Hnízda a Snáška.** Tabulka Snášky ukazuje, kolik vajec v každém intervalu přibylo:
+**Pomlčky ve Snášce.** Tabulka Snášky ukazuje, kolik vajec v každém intervalu přibylo:
 
 | V buňce | Co znamená |
 |---|---|
@@ -687,9 +720,9 @@ Ve sloupcích po dnech, týdnech a měsících je pomlčka, jen když za celý d
 nepřišel ani jeden počet.
 
 V grafu vypadá interval s pomlčkou stejně jako nula, tedy bez sloupce; rozdíl ukáže popisek
-po najetí myší: u nuly **Celkem: 0 vajec**, u pomlčky v celém řádku **Bez dat**.
-Když chybí jen některá hnízda, je v popisku pod součtem řádek, která to jsou, třeba
-**Bez dat: hnízdo 2** nebo **Bez dat: hnízda 1, 3 a 4**.
+sloupce: u nuly **Celkem: 0 vajec**, u pomlčky v celém řádku **Bez dat**. Když chybí jen
+některá hnízda, je v popisku pod součtem řádek, která to jsou, třeba **Bez dat: hnízdo 2**
+nebo **Bez dat: hnízda 1, 3 a 4**.
 
 Vejce snesená během výpadku se neztratí: první kontrola po něm porovná počet s posledním
 známým a celý přírůstek připíše svému intervalu, takže po výpadku bývá jeden vyšší sloupec.
