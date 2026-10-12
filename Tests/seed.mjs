@@ -21,7 +21,7 @@ const DATABAZE = {
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
-  velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy, neuložený stav automatiky', hnizd: 15, neulozeno: true },
+  velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
@@ -257,7 +257,7 @@ function nastaveni(stav) {
 }
 
 function vytvor(stav) {
-  const { soubor, popis, hnizd = 2, vypnuto, neulozeno = false } = DATABAZE[stav];
+  const { soubor, popis, hnizd = 2, vypnuto } = DATABAZE[stav];
   const podil = podily(hnizd);
   const cesta = join(SLOZKA, soubor);
   const { zacatek, konec, udalosti, hnizda, husteOd = zacatek } = nastaveni(stav);
@@ -300,11 +300,9 @@ function vytvor(stav) {
     ) WITHOUT ROWID
   `);
 
-  const automatika = vypnuto !== undefined
-    ? { enabled: false, at: new Date(ted - vypnuto).toISOString() }
-    : neulozeno ? { enabled: null, at: null } : null;
-  if (automatika) {
-    db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)').run('automation', JSON.stringify(automatika));
+  if (vypnuto !== undefined) {
+    db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)')
+      .run('automation', JSON.stringify({ enabled: false, at: new Date(ted - vypnuto).toISOString() }));
   }
 
   const vloz = db.prepare(`
@@ -400,11 +398,8 @@ function vytvor(stav) {
   db.exec('COMMIT');
   db.close();
 
-  const stavAutomatiky = [
-    ...(vypnuto === undefined ? [] : [{ jmeno: 'automatika vypnutá', od: ted - vypnuto, kde: 'dlaždice' }]),
-    ...(neulozeno ? [{ jmeno: 'stav automatiky se nepodařilo uložit', od: ted, kde: 'dlaždice' }] : [])
-  ];
-  return { soubor, popis, zapsano, kontrol, zacatek, konec, husteOd, udalosti: [...udalosti, ...hnizda, ...stavAutomatiky] };
+  const automatika = vypnuto === undefined ? [] : [{ jmeno: 'automatika vypnutá', od: ted - vypnuto, kde: 'dlaždice' }];
+  return { soubor, popis, zapsano, kontrol, zacatek, konec, husteOd, udalosti: [...udalosti, ...hnizda, ...automatika] };
 }
 
 const cas = (t) => new Date(t).toLocaleString('cs-CZ', {
