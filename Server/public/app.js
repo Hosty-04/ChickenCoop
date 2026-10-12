@@ -94,9 +94,9 @@ const MESSAGES = new Map([
 ]);
 
 let range = 24;
-let power = { range: null, bucketMs: 0, points: [], chartFrom: 0 };
+let power = { range: null, bucketMs: 0, points: [] };
 let powerWindow = null;
-let eggs = { range: null, bucketMs: 0, points: [], edges: [], first: 0, since: 0 };
+let eggs = { range: null, bucketMs: 0, points: [], edges: [], since: 0 };
 let powerChart = null;
 let eggChart = null;
 let palette = readPalette();
@@ -343,13 +343,13 @@ function pointRadius(ctx) {
   return spacing >= POINT_GAP_PX ? POINT_RADIUS : 0;
 }
 
-function series(points, times, value) {
+function series(times, value) {
   const limit = power.bucketMs * MAX_JOIN_BUCKETS;
   const out = [];
 
   for (let i = 0; i < times.length; i++) {
     if (i > 0 && times[i] - times[i - 1] > limit) out.push({ x: (times[i - 1] + times[i]) / 2, y: null });
-    out.push({ x: times[i], y: value(points[i]) });
+    out.push({ x: times[i], y: value(power.points[i]) });
   }
   return out;
 }
@@ -413,12 +413,11 @@ function valueAxis(ticks) {
 }
 
 function drawPower() {
-  const shown = power.points.filter((p) => Date.parse(p.time) >= power.chartFrom);
-  const times = shown.map((p) => Date.parse(p.time));
+  const times = power.points.map((p) => Date.parse(p.time));
   const now = Date.now();
-  powerWindow = { from: power.range === 'all' ? Math.min(times[0] ?? power.chartFrom, now) : now - power.range * HOUR_MS, to: now };
-  const battery = series(shown, times, (p) => toVolts(p.batteryMv));
-  const panel = series(shown, times, (p) => toVolts(p.panelMv));
+  powerWindow = { from: power.range === 'all' ? Math.min(times[0], now) : now - power.range * HOUR_MS, to: now };
+  const battery = series(times, (p) => toVolts(p.batteryMv));
+  const panel = series(times, (p) => toVolts(p.panelMv));
 
   if (powerChart) {
     powerChart.data.datasets[0].data = battery;
@@ -463,8 +462,8 @@ function drawPower() {
 }
 
 function drawEggs() {
-  const edges = eggs.edges.slice(eggs.first);
-  const data = eggs.points.slice(eggs.first).map((p, i) => ({ x: (edges[i] + edges[i + 1]) / 2, y: p.total }));
+  const { edges } = eggs;
+  const data = eggs.points.map((p, i) => ({ x: (edges[i] + edges[i + 1]) / 2, y: p.total }));
 
   if (eggChart) {
     eggChart.data.datasets[0].data = data;
@@ -499,9 +498,9 @@ function drawEggs() {
         tooltip: {
           displayColors: false,
           callbacks: {
-            title: (items) => eggPeriod(eggs.first + items[0].dataIndex),
+            title: (items) => eggPeriod(items[0].dataIndex),
             label: (ctx) => {
-              const point = eggs.points[eggs.first + ctx.dataIndex];
+              const point = eggs.points[ctx.dataIndex];
               if (point.total === null) return 'Bez dat';
               const missing = point.laid.flatMap((n, i) => (n === null ? [i + 1] : []));
               return [
@@ -545,7 +544,7 @@ function renderPower() {
   el('plot-wrap').hidden = empty || tableShown;
   el('legend').hidden = empty || tableShown;
   el('chart-hint').hidden = empty || labelMode() === 'time';
-  el('chart-all-hint').hidden = empty || tableShown || power.range !== 'all';
+  el('chart-all-hint').hidden = empty || power.range !== 'all';
 
   if (empty) {
     powerChart?.destroy();
@@ -560,7 +559,7 @@ function renderEggs() {
   const tableShown = !el('eggs-table-wrap').hidden;
   el('eggs-empty').hidden = !empty || eggs.range === null;
   el('eggs-plot-wrap').hidden = empty || tableShown;
-  el('eggs-all-hint').hidden = empty || tableShown || eggs.range !== 'all';
+  el('eggs-all-hint').hidden = empty || eggs.range !== 'all';
 
   if (empty) {
     eggChart?.destroy();
@@ -585,14 +584,14 @@ async function loadHistory() {
   try {
     const body = await api(`/api/history?hours=${requested}`);
     if (seq !== historySeq) return;
-    power = { range: requested, bucketMs: body.bucketMs, points: body.points, chartFrom: body.chartFrom ? Date.parse(body.chartFrom) : 0 };
+    power = { range: requested, bucketMs: body.bucketMs, points: body.points };
     el('chart-sub').textContent = power.points.length === 0
       ? 'baterie a solární panel'
       : `baterie a solární panel · průměr za ${BUCKET_NAMES[power.bucketMs]}`;
     hideToast('chart-toast', 'history');
   } catch (err) {
     if (redirected(err) || seq !== historySeq) return;
-    if (power.range !== requested) power = { range: null, bucketMs: 0, points: [], chartFrom: 0 };
+    if (power.range !== requested) power = { range: null, bucketMs: 0, points: [] };
     shownUplink = undefined;
     el('chart-sub').textContent = 'historii se nepodařilo načíst';
     showToast(`Historii se nepodařilo načíst: ${reason(err)}`, 'is-error', 'chart-toast', 'history');
@@ -607,21 +606,18 @@ async function loadEggs() {
   try {
     const body = await api(`/api/eggs?hours=${requested}`);
     if (seq !== eggsSeq) return;
-    const edges = body.end ? [...body.points.map((p) => Date.parse(p.time)), Date.parse(body.end)] : [];
-    const chartFrom = body.chartFrom ? Date.parse(body.chartFrom) : 0;
     eggs = {
       range: requested,
       bucketMs: body.bucketMs,
       points: body.points,
-      edges,
-      first: Math.max(0, edges.findIndex((edge) => edge >= chartFrom)),
+      edges: body.end ? [...body.points.map((p) => Date.parse(p.time)), Date.parse(body.end)] : [],
       since: body.since ? Date.parse(body.since) : 0
     };
-    el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(eggs.points.slice(eggs.first).reduce((sum, p) => sum + (p.total ?? 0), 0))}`;
+    el('eggs-sub').textContent = `histogram snesených vajec · celkem ${countEggs(eggs.points.reduce((sum, p) => sum + (p.total ?? 0), 0))}`;
     hideToast('eggs-toast', 'eggs');
   } catch (err) {
     if (redirected(err) || seq !== eggsSeq) return;
-    if (eggs.range !== requested) eggs = { range: null, bucketMs: 0, points: [], edges: [], first: 0, since: 0 };
+    if (eggs.range !== requested) eggs = { range: null, bucketMs: 0, points: [], edges: [], since: 0 };
     shownCheck = undefined;
     el('eggs-sub').textContent = 'historii snášky se nepodařilo načíst';
     showToast(`Historii snášky se nepodařilo načíst: ${reason(err)}`, 'is-error', 'eggs-toast', 'eggs');

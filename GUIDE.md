@@ -569,10 +569,10 @@ baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 ho
 30 dní, rok, nebo **Vše** od prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
 
-**Vše** v grafech zobrazuje nanejvýš posledních 5 let a pod oběma grafy to připomíná
-poznámka. Graf začíná prvním dnem měsíce, který byl před 60 měsíci, takže když databáze běží
-5 let a 1 měsíc, zmizí z grafů celý první měsíc. Tabulka ve Vše ukazuje celou historii od
-prvního měření. Nic se nemaže samo, starší měření smaže jen tlačítko pro smazání historie.
+**Vše** zobrazuje nanejvýš posledních 5 let a pod oběma grafy to připomíná poznámka.
+Začíná prvním dnem měsíce, který byl před 60 měsíci, takže když databáze běží 5 let
+a 1 měsíc, zmizí z grafů i tabulek celý první měsíc. Starší měření v databázi zůstávají,
+jen se nezobrazují; nic se nemaže samo, smaže je až tlačítko pro smazání historie.
 
 Pro graf **Napájení** platí: čím delší rozsah, tím hrubší průměr — do dne po deseti minutách,
 do týdne po hodině, do měsíce po šesti hodinách, do roku po dnech, do dvou let po týdnech
