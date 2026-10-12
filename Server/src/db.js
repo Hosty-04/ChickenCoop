@@ -130,7 +130,9 @@ function transaction(work) {
     db.exec('COMMIT');
     return result;
   } catch (err) {
-    db.exec('ROLLBACK');
+    try {
+      db.exec('ROLLBACK');
+    } catch {}
     throw err;
   }
 }
@@ -232,12 +234,14 @@ export function writeReading(deviceId, reading, radio, at) {
 export function readHistory(deviceId, hours) {
   const now = Date.now();
   const oldest = selectOldest.get(deviceId)?.oldest;
-  const from = hours === null ? Math.max(oldest ?? now, allFrom(now)) : now - hours * HOUR_MS;
+  const from = hours === null ? oldest ?? now : now - hours * HOUR_MS;
   const bucket = historyBucket(Math.max((now - from) / HOUR_MS, 1));
-  if (!oldest) return { bucketMs: bucket, points: [] };
+  const chartFrom = hours === null ? new Date(allFrom(now)).toISOString() : undefined;
+  if (!oldest) return { bucketMs: bucket, chartFrom, points: [] };
 
   return {
     bucketMs: bucket,
+    chartFrom,
     points: historyStatement(bucket).all(deviceId, from, now).map((row) => ({
       time: fromLocalClock(row.slot).toISOString(),
       batteryMv: rounded(row.battery_mv),
@@ -303,7 +307,7 @@ export function readEggs(deviceId, hours, nestCount) {
   if (!oldest) return { bucketMs: DAY_MS, points: [] };
 
   const reported = now - HOUR_MS;
-  const start = hours === null ? Math.max(oldest, allFrom(now)) : reported - hours * HOUR_MS;
+  const start = hours === null ? oldest : reported - hours * HOUR_MS;
   const bucket = eggBucket(hours ?? Math.max((now - start) / HOUR_MS, 1));
   const first = slotOf(start, bucket, hours === null ? Math.floor : Math.ceil);
   const last = slotOf(reported, bucket);
@@ -335,6 +339,7 @@ export function readEggs(deviceId, hours, nestCount) {
     bucketMs: bucket,
     end: fromLocalClock(nextSlot(last, bucket)).toISOString(),
     since: new Date(oldest).toISOString(),
+    chartFrom: hours === null ? new Date(allFrom(now)).toISOString() : undefined,
     points
   };
 }
