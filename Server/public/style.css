@@ -203,6 +203,11 @@ button.primary:hover:not(:disabled) {
   background: var(--critical);
 }
 
+.badge.is-alert {
+  color: var(--critical);
+  text-decoration: none;
+}
+
 .filterbar {
   display: flex;
   flex-wrap: wrap;

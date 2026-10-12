@@ -23,6 +23,7 @@
       <span id="device" class="device"></span>
     </div>
     <span id="link" class="badge"><span class="dot"></span><span id="link-text">připojuji…</span></span>
+    <a id="db-alert" class="badge is-down is-alert" href="#data" hidden><span class="dot"></span><span id="db-alert-text">Chyba databáze</span></a>
     <div class="topbar-actions">
       <button id="theme" type="button" class="ghost" aria-label="Přepnout motiv">Motiv</button>
       <button id="logout" type="button" class="ghost">Odhlásit</button>
@@ -176,7 +177,7 @@
     <p class="toast" id="toast" role="status" hidden></p>
   </section>
 
-  <section class="card">
+  <section class="card" id="data">
     <div class="card-head"><h2>Data</h2></div>
     <div class="queue">
       <div class="queue-text">

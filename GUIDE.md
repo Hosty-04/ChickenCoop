@@ -603,7 +603,10 @@ vejce sesbíráte, počet v hnízdě klesne, ale snáška zůstane.
 Pod ovládáním je karta **Data** s počtem uložených měření a tlačítkem pro smazání historie.
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network; vedle něj na počítači
-a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení.
+a pod ním na telefonu je přepínač světlého a tmavého motivu a odhlášení. Když databáze
+nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné chyby
+**Chyba databáze**. Kliknutím se stránka posune ke kartě Data s celou hláškou a varování
+zmizí samo, jakmile se zase uloží další zpráva.
 
 Nové hodnoty se doplňují samy, stránku není potřeba načítat znovu.
 
@@ -789,7 +792,8 @@ docker volume rm server_coop-data
 docker compose up -d
 ```
 
-Když hláška končí `database or disk is full`, na kartě došlo místo. Kurník se dál ozývá
+Když hláška končí `database or disk is full` a nahoře svítí **Plná databáze**, na kartě došlo
+místo. Kurník se dál ozývá
 a dlaždice se obnovují, jen se nová měření neukládají a v grafu po nich zůstane díra.
 Uložená data zůstanou v pořádku a jakmile se místo uvolní, server začne zase ukládat sám,
 bez restartu. Automatika, kterou mezitím přepnete, ukáže pomlčku; po uvolnění místa se

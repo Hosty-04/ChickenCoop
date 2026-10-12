@@ -843,7 +843,11 @@ function renderStatus(status) {
   renderAutomation(status.automation);
   renderNests(status);
 
-  if (status.dbOk === false) {
+  const dbFailed = status.dbOk === false;
+  el('db-alert').hidden = !dbFailed;
+  el('db-alert').title = dbFailed ? status.dbError ?? '' : '';
+  el('db-alert-text').textContent = status.dbError?.includes('disk is full') ? 'Plná databáze' : 'Chyba databáze';
+  if (dbFailed) {
     showToast(`Databáze hlásí chybu (${status.dbError}), měření se nemusí ukládat.`, 'is-error', 'data-toast', 'database');
   } else {
     hideToast('data-toast', 'database');
