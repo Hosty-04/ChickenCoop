@@ -637,8 +637,9 @@ Kurník se ozývá každých 10 minut. Když zpráva nedorazí, neuloží se nic
 díra široká jako výpadek** a v tabulce prostě chybí řádky, takže se výpadek pozná skokem
 v časovém sloupci. Jedna ztracená zpráva graf nepřeruší — čára se spojí, dokud mezera
 nepřeroste dvě okna zvoleného rozsahu. V grafu je proto výpadek vidět zhruba od 20 minut
-ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech, 2 dnů v roce, 2 týdnů ve Vše
-do dvou let historie a 2 měsíců ve Vše s delší historií.
+ve 24 hodinách, 2 hodin v 7 dnech, 12 hodin ve 30 dnech a 2 dnů v roce. Ve Vše záleží na
+délce historie: do roku je to stejné jako u stejně dlouhého rozsahu, do dvou let zhruba
+2 týdny a s delší historií 2 měsíce.
 V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích do 24 hodin tedy i po
 jediné ztracené zprávě.
 

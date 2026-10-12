@@ -69,7 +69,7 @@ v `Server/README.md`.
 
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
-| `kurnik-test.db` | běžný stav | dva roky měření, všechny události v grafech |
+| `kurnik-test.db` | běžný stav | skoro dva roky měření, všechny události v grafech |
 | `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
@@ -80,7 +80,7 @@ v `Server/README.md`.
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
 Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db` 200 kB),
-`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má dva roky a 8,7 MB.
+`kurnik-test-instalace.db` začíná před dvaceti hodinami a `kurnik-test.db` má 720 dní a 8,5 MB.
 
 U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím baterie: s kriticky
 vybitou baterií kurník hnízda nekontroluje, takže karta Hnízda zůstane u poslední kontroly.
@@ -119,7 +119,10 @@ některé dny se na to zapomene. Během kriticky vybité baterie se hnízda neko
 
 Ke každému rozsahu patří jinak dlouhý výpadek proto, že se v grafu projeví, až když
 vyprázdní aspoň dvě okna toho rozsahu — v 7 dnech jsou okna hodinová, ve 30 dnech
-šestihodinová a v roce denní.
+šestihodinová, v roce denní a ve Vše týdenní. Historie má proto 720 dní, o něco méně než dva
+roky: s historií nad dva roky by Vše průměrovalo Napájení po měsících a 21denní výpadek by
+v grafu zmizel. Týdenní zůstane Vše ještě deset dní po přegenerování. Snáška je ve Vše po
+měsících, protože historie je delší než rok.
 
 ## Přegenerování
 

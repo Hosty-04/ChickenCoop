@@ -15,7 +15,7 @@ const SLOZKA = fileURLToPath(new URL('.', import.meta.url));
 const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
-  plny: { soubor: 'kurnik-test.db', popis: 'dva roky měření, všechny události v grafech' },
+  plny: { soubor: 'kurnik-test.db', popis: 'skoro dva roky měření, všechny události v grafech' },
   poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
@@ -203,7 +203,10 @@ function nastaveni(stav) {
 
   const tyden = ted - 7 * DEN;
 
-  if (stav === 'plny') return { zacatek: ted - 730 * DEN, konec, udalosti: dlouheUdalosti(), hnizda: dlouhaHnizda(ted - 730 * DEN) };
+  if (stav === 'plny') {
+    const zacatek = ted - 720 * DEN;
+    return { zacatek, konec, udalosti: dlouheUdalosti(), hnizda: dlouhaHnizda(zacatek) };
+  }
   if (stav === 'poplach') {
     return {
       zacatek: tyden,
