@@ -569,7 +569,7 @@ baterie a panelu. Oba grafy se řídí volbou rozsahu nahoře — 6 hodin, 24 ho
 30 dní, rok, nebo **Vše** od úplně prvního měření. Tlačítkem **Tabulka** se každý z nich
 přepne na stejná data v číslech.
 
-Čím delší rozsah, tím hrubší průměr: do dne po deseti minutách, do týdne po hodině, do
+Pro graf **Napájení** platí: čím delší rozsah, tím hrubší průměr — do dne po deseti minutách, do týdne po hodině, do
 měsíce po šesti hodinách, do roku po dnech a dál po týdnech. Každý pohled tak má řádově
 stovku bodů, ať pokrývá den nebo pět let. Podnadpis grafu ukazuje, za jak dlouhé okno se
 právě průměruje.
