@@ -10,6 +10,7 @@
 #include "battery.h"
 #include "nests.h"
 #include "system.h"
+#include "timebase.h"
 
 #define PANEL_STEP_MV       100U
 #define PANEL_CODE_MAX      125U
@@ -32,9 +33,12 @@
 #define DL_DOOR_CLOSE       0x08U
 #define DL_BLOCK            0x10U
 #define DL_UNBLOCK          0x20U
-#define DL_SEQUENCE         0x40U
-#define DL_SEQUENCE_LEN     1U
+#define DL_EXTENDED         0x40U
+#define DL_EXTENDED_LEN     4U
 #define DL_SEQUENCE_HISTORY 4U
+#define DL_STAMP_MASK       0x00FFFFFFUL
+#define DL_MAX_AGE_S        1800UL
+#define DL_MAX_AHEAD_S      300UL
 #define DL_NEST_TARE        0x01U
 #define DL_NEST_CALIBRATE   0x02U
 #define DL_NEST_PAIR        0x03U
@@ -92,6 +96,19 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
   eggs = Nests_GetEggs(nest);
 
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
+}
+
+static uint8_t Telemetry_Fresh(const uint8_t *stamp)
+{
+  uint32_t queued = ((uint32_t)stamp[0] << 16) | ((uint32_t)stamp[1] << 8) | stamp[2];
+  uint32_t age;
+
+  if (!Timebase_IsValid())
+    return 1U;
+
+  age = (Timebase_GetUnix() - queued) & DL_STAMP_MASK;
+
+  return (uint8_t)((age <= DL_MAX_AGE_S) || (age >= (DL_STAMP_MASK + 1UL - DL_MAX_AHEAD_S)));
 }
 
 static uint8_t Telemetry_NewSequence(uint8_t seq)
@@ -193,12 +210,13 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
     return;
 
   cmd  = buf[0];
-  head = (uint8_t)(TELEMETRY_LEN_DOWNLINK + ((cmd & DL_SEQUENCE) ? DL_SEQUENCE_LEN : 0U));
+  head = (uint8_t)(TELEMETRY_LEN_DOWNLINK + ((cmd & DL_EXTENDED) ? DL_EXTENDED_LEN : 0U));
 
   if ((length < head) || (length > (uint8_t)(head + TELEMETRY_LEN_DL_MAX - TELEMETRY_LEN_DOWNLINK)))
     return;
 
-  if ((cmd & DL_SEQUENCE) && !Telemetry_NewSequence(buf[TELEMETRY_LEN_DOWNLINK]))
+  if ((cmd & DL_EXTENDED) &&
+      (!Telemetry_Fresh(&buf[TELEMETRY_LEN_DOWNLINK + 1U]) || !Telemetry_NewSequence(buf[TELEMETRY_LEN_DOWNLINK])))
     return;
 
   switch (cmd & (DL_BLOCK | DL_UNBLOCK)) {

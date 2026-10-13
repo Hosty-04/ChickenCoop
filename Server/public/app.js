@@ -192,7 +192,7 @@ function queuedText(entry) {
 }
 
 function expiredText(entries) {
-  return `Příkaz vypršel, do kurníku se nedostal: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')}`;
+  return `Příkaz vypršel a neprovede se: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')}`;
 }
 
 function cancelledText(cleared) {

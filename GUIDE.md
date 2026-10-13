@@ -752,7 +752,8 @@ kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede
 znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje.
 
 Když se příkaz do kurníku nedostane do **30 minut**, třeba protože nejde brána, internet
-nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel, do kurníku se nedostal**.
+nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel a neprovede se**. Stáří
+příkazu hlídá i kurník, takže starší příkaz neprovede, ani kdyby ho síť doručila později.
 Dvířka se tak neotevřou v noci podle příkazu zadaného odpoledne. Kdo ho chce provést, zadá
 ho znovu.
 

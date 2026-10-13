@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import mqtt from 'mqtt';
 import { config, ttnUsername } from './config.js';
-import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX } from './codec.js';
+import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX, STAMP_MASK } from './codec.js';
 
 const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
@@ -37,6 +37,21 @@ export class TtnBridge extends EventEmitter {
     this.queueReset = false;
     this.expiring = false;
     this.expiryTimer = null;
+    this.expired = new Map();
+    this.clockOffset = 0;
+  }
+
+  #now() {
+    return Date.now() + this.clockOffset;
+  }
+
+  #age(entry) {
+    return this.#now() - Date.parse(entry.queuedAt);
+  }
+
+  #syncClock(message) {
+    const at = Date.parse(message?.received_at);
+    if (Number.isFinite(at)) this.clockOffset = at - Date.now();
   }
 
   restoreSequence(saved) {
@@ -88,16 +103,25 @@ export class TtnBridge extends EventEmitter {
     });
   }
 
+  #retire(entries) {
+    for (const entry of entries) this.expired.set(entry.correlationId, entry);
+    while (this.expired.size > SENT_MAX) this.expired.delete(this.expired.keys().next().value);
+    this.emit('expired', entries);
+  }
+
+  #purge() {
+    this.#publish('replace', this.pending).catch((err) => this.emit('error', err));
+  }
+
   #expire() {
-    const now = Date.now();
-    const expired = this.pending.filter((entry) => now - Date.parse(entry.queuedAt) >= COMMAND_TTL_MS);
+    const expired = this.pending.filter((entry) => this.#age(entry) >= COMMAND_TTL_MS);
     if (expired.length === 0 || !this.connected || this.expiring) return;
 
     this.expiring = true;
     this.#publish('replace', this.pending.filter((entry) => !expired.includes(entry)))
       .then(() => {
         this.#setPending(this.pending.filter((entry) => !expired.includes(entry)));
-        this.emit('expired', expired);
+        this.#retire(expired);
       })
       .catch((err) => this.emit('error', err))
       .finally(() => {
@@ -159,16 +183,29 @@ export class TtnBridge extends EventEmitter {
       return;
     }
 
+    this.#syncClock(message);
+
     const event = DOWN_EVENTS.find((name) => topic.endsWith(`/down/${name}`));
     if (event) {
       const ids = correlationIds(message);
       const tagged = ids.some((id) => id.startsWith(CORRELATION_TAG));
+
+      if (ids.some((id) => this.expired.has(id))) {
+        if (event === 'nack') this.#purge();
+        return;
+      }
+
       const entry = QUEUE_EVENTS.includes(event) ? this.#takeQueued(ids, tagged) : this.#takeSent(ids, tagged);
+
+      if (entry && (event === 'sent' || event === 'nack') && this.#age(entry) >= COMMAND_TTL_MS) {
+        this.#retire([entry]);
+        if (event === 'nack') this.#purge();
+        return;
+      }
 
       if (entry && event === 'sent') this.#remember(entry);
       if (entry && event === 'nack') this.#setPending([...this.pending, entry]);
       this.emit('downlink', { event, commands: entry?.commands ?? null, nests: entry?.nests ?? null });
-      if (entry && event === 'nack') this.#expire();
       return;
     }
 
@@ -209,8 +246,10 @@ export class TtnBridge extends EventEmitter {
       throw new DuplicateCommandError('stejný příkaz už ve frontě čeká');
     }
 
+    const now = this.#now();
     const sequence = this.#nextSequence();
-    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount, sequence));
+    const stamp = Math.floor(now / 1000) & STAMP_MASK;
+    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount, sequence, stamp));
     const id = this.nextId++;
     const entry = {
       id,
@@ -219,9 +258,10 @@ export class TtnBridge extends EventEmitter {
       nests: plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
       byte: plain[0],
       sequence,
+      stamp,
       key,
       payload: payload.toString('hex'),
-      queuedAt: new Date().toISOString()
+      queuedAt: new Date(now).toISOString()
     };
 
     this.#setPending([...this.pending, entry]);

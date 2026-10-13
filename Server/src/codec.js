@@ -35,8 +35,9 @@ export const NEST_COMMANDS = {
 };
 
 const NESTS_PER_BYTE = 4;
-const SEQUENCE_FLAG = 0x40;
+const EXTENDED_FLAG = 0x40;
 export const SEQUENCE_MAX = 255;
+export const STAMP_MASK = 0xffffff;
 
 const EXCLUSIVE_PAIRS = [
   ['systemOn', 'systemOff'],
@@ -85,7 +86,7 @@ export function decodeUplink(bytes, nestCount) {
   };
 }
 
-export function encodeDownlink(names, nests, nestCount, sequence = 0) {
+export function encodeDownlink(names, nests, nestCount, sequence = 0, stamp = 0) {
   if (!Array.isArray(names) || names.length === 0) {
     throw new Error('je potřeba alespoň jeden příkaz');
   }
@@ -104,9 +105,12 @@ export function encodeDownlink(names, nests, nestCount, sequence = 0) {
   if (!Number.isInteger(sequence) || sequence < 0 || sequence > SEQUENCE_MAX) {
     throw new Error(`pořadové číslo příkazu musí být od 0 do ${SEQUENCE_MAX}`);
   }
+  if (!Number.isInteger(stamp) || stamp < 0 || stamp > STAMP_MASK) {
+    throw new Error(`čas zařazení příkazu musí být od 0 do ${STAMP_MASK}`);
+  }
 
-  const byte = names.reduce((acc, name) => acc | (COMMANDS[name] ?? 0), sequence ? SEQUENCE_FLAG : 0);
-  const header = sequence ? [byte, sequence] : [byte];
+  const byte = names.reduce((acc, name) => acc | (COMMANDS[name] ?? 0), sequence ? EXTENDED_FLAG : 0);
+  const header = sequence ? [byte, sequence, (stamp >> 16) & 0xff, (stamp >> 8) & 0xff, stamp & 0xff] : [byte];
   const nestCommand = names.find((name) => Object.hasOwn(NEST_COMMANDS, name));
 
   if (!nestCommand) return Uint8Array.from(header);
