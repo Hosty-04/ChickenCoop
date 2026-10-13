@@ -229,7 +229,7 @@ void Battery_Process(void)
     return;
   }
 
-  Power_SwitchToLPRunMSI1MHz();
+  Power_SwitchToLPRunMSI2MHz();
 
   st_bat = INA226_PowerUp();
   if (st_bat == HAL_OK)

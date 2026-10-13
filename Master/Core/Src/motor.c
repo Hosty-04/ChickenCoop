@@ -229,7 +229,7 @@ Motor_Result_t Motor_Move(Motor_Dir_t dir)
   if (start == ENDSTOP_POS_UNKNOWN)
     return MOTOR_NO_REFERENCE;
 
-  Power_SwitchToLPRunMSI1MHz();
+  Power_SwitchToLPRunMSI2MHz();
   Endstop_Acquire();
   Motor_Begin();
 

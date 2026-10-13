@@ -35,7 +35,7 @@ void Power_Init(void)
   HAL_PWREx_SMPS_SetMode(PWR_SMPS_STEP_DOWN);
 }
 
-void Power_SwitchToLPRunMSI1MHz(void)
+void Power_SwitchToLPRunMSI2MHz(void)
 {
   RCC_OscInitTypeDef osc = {0};
   RCC_ClkInitTypeDef clk = {0};
@@ -48,7 +48,7 @@ void Power_SwitchToLPRunMSI1MHz(void)
   osc.OscillatorType      = RCC_OSCILLATORTYPE_MSI;
   osc.MSIState            = RCC_MSI_ON;
   osc.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
-  osc.MSIClockRange       = RCC_MSIRANGE_4;
+  osc.MSIClockRange       = RCC_MSIRANGE_5;
   osc.PLL.PLLState        = RCC_PLL_NONE;
 
   if (HAL_RCC_OscConfig(&osc) != HAL_OK) {

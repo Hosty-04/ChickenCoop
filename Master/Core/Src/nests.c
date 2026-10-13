@@ -420,7 +420,7 @@ void Nests_Process(void)
     return;
   }
 
-  Power_SwitchToLPRunMSI1MHz();
+  Power_SwitchToLPRunMSI2MHz();
 
   linked = (uint8_t)(Nests_PowerUp() == HAL_OK);
 
