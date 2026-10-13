@@ -86,6 +86,8 @@ const MESSAGES = new Map([
   ['pending', renderPending],
   ['command', (entry) => showToast(queuedText(entry), 'is-ok')],
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
+  ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
+  ['restarted', (entries) => showToast(restartedText(entries), 'is-error')],
   ['cleared', ({ removed }) => showToast(clearedText(removed), 'is-ok', 'data-toast')],
   ['downlink', ({ event, commands, nests }) => {
     const info = DOWNLINK_EVENTS[event];
@@ -188,6 +190,14 @@ function laidToday(n) {
 
 function queuedText(entry) {
   return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)} — čeká na další zprávu z kurníku`;
+}
+
+function expiredText(entries) {
+  return `Příkaz vypršel a neprovede se: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')}`;
+}
+
+function restartedText(entries) {
+  return `Kurník se restartoval dřív, než příkaz potvrdil: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')} — zkontrolujte stav a případně ho zadejte znovu`;
 }
 
 function cancelledText(cleared) {
@@ -1000,14 +1010,17 @@ el('wipe-dialog').addEventListener('cancel', (event) => {
 
 el('logout').addEventListener('click', async (event) => {
   const button = event.currentTarget;
+  const alert = el('logout-alert');
   button.disabled = true;
+  alert.hidden = true;
   try {
     await api('/api/logout', {});
     leaving = true;
     location.replace('/login.html');
   } catch (err) {
     button.disabled = false;
-    showToast(`Odhlášení selhalo: ${reason(err)}`, 'is-error');
+    alert.title = reason(err);
+    alert.hidden = false;
   }
 });
 

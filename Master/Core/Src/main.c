@@ -33,8 +33,6 @@
 #include "door.h"
 #include "battery.h"
 #include "nests.h"
-#include "ina226.h"
-#include "telemetry.h"
 #include "lora_app.h"
 #include "power.h"
 #include "sys_conf.h"
@@ -122,10 +120,6 @@ int main(void)
 #endif
 
   Power_Init();
-
-  if (INA226_PowerUp() == HAL_OK)
-    (void)INA226_ConfigBattery();
-  INA226_PowerDown();
 
   Battery_Init();
   Door_Init();

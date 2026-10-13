@@ -276,11 +276,6 @@ static volatile bool user_button_is_press = false;
   */
 static bool CertMode = LORAWAN_CERTIFICATION_MODE;
 
-/**
-  * @brief Type of Event to generate application Tx
-  */
-// static TxEventType_t EventType = TX_ON_TIMER;
-
 #if defined (LOW_POWER_DISABLE) && (LOW_POWER_DISABLE == 0)
 /**
   * @brief Timer to handle the sleep time
@@ -312,6 +307,8 @@ static Callbacks_t Callbacks =
 #define GPS_LEAP_SECONDS     18UL
 #define LORAWAN_TX_RETRY_MS  30000UL
 #define LORAWAN_TX_RETRY_MAX 2U
+#define RNG_ATTEMPTS         10U
+#define RNG_FALLBACK_MASK    0x55555555UL
 
 static volatile uint32_t modem_sleep_ms   = 0;
 static volatile uint32_t modem_sleep_tick = 0;
@@ -505,70 +502,31 @@ static void SystemReset(void)
   /* USER CODE END SystemReset_Last */
 }
 
-/* static uint32_t GetRandomValue(void)
-{
-  uint32_t rand_nb = 0;
-  // Init and enable RNG
-  hrng.Instance = RNG;
-  hrng.Init.ClockErrorDetection = RNG_CED_ENABLE;
-
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  // Wait for data ready interrupt: 42+4 RNG clock cycles
-  if (HAL_RNG_GenerateRandomNumber(&hrng, &rand_nb) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  // Disable RNG
-  HAL_RNG_DeInit(&hrng);
-
-  return rand_nb;
-} */
-
 static uint32_t GetRandomValue(void)
 {
-  uint32_t rand_nb = 0;
-  
-  /* Enable RNG clock gating */
+  uint32_t value = 0U;
+  uint8_t  attempt = 0U;
+  uint8_t  ready;
+
   __HAL_RCC_RNG_CLK_ENABLE();
-  
-  /* Hard reset the RNG peripheral to clear any lock or error states after STOP mode */
   __HAL_RCC_RNG_FORCE_RESET();
   __HAL_RCC_RNG_RELEASE_RESET();
-  
-  /* Init and enable RNG */
-  hrng.Instance = RNG;
-  hrng.Init.ClockErrorDetection = RNG_CED_DISABLE; /* Disable clock error detection */
-  
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
-  {
-    /* If HAL_Init still fails, use fallback right away to prevent halting the system */
-    return HAL_GetTick() ^ 0x55555555;
-  }
-  
-  /* Try to generate a random number. If it fails due to clock instability, */
-  /* retry in a short loop instead of halting the system. */
-  uint8_t retry = 0;
-  while (HAL_RNG_GenerateRandomNumber(&hrng, &rand_nb) != HAL_OK)
-  {
-    retry++;
-    if (retry > 10) 
-    {
-      /* If it fails 10 times consecutively, generate a fallback number using software */
-      rand_nb = HAL_GetTick() ^ 0x55555555; 
-      break;
-    }
-  }
 
-  /* Disable RNG to save power */
-  HAL_RNG_DeInit(&hrng);
+  hrng.Instance                 = RNG;
+  hrng.Init.ClockErrorDetection = RNG_CED_DISABLE;
+
+  ready = (uint8_t)(HAL_RNG_Init(&hrng) == HAL_OK);
+
+  while (ready && (attempt < RNG_ATTEMPTS) && (HAL_RNG_GenerateRandomNumber(&hrng, &value) != HAL_OK))
+    attempt++;
+
+  if (!ready || (attempt >= RNG_ATTEMPTS))
+    value = HAL_GetTick() ^ RNG_FALLBACK_MASK;
+
+  (void)HAL_RNG_DeInit(&hrng);
   __HAL_RCC_RNG_CLK_DISABLE();
-  
-  return rand_nb;
+
+  return value;
 }
 
 static void RestoreContext(const modem_context_type_t ctx_type, uint32_t offset, uint8_t *buffer,

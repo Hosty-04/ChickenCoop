@@ -571,10 +571,11 @@ načítat znovu.
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network. Vedle něj je na počítači
 a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení.
 
-Když databáze nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné
-chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
+Když databáze nemůže ukládat, objeví se mezi indikátorem a tlačítky červené **Plná databáze**,
+u jiné chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
 Varování zmizí samo, jakmile se zase uloží další zpráva; co s ním dělat, je v kapitole
-**Když to nejede**.
+**Když to nejede**. Na stejném místě se objeví červené **Odhlášení selhalo**, když se odhlášení
+nepovede, protože server neodpovídá; zmizí při dalším pokusu.
 
 ### Dlaždice
 
@@ -744,14 +745,24 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
-na potvrzení**. Kurník příjem potvrdí ve své další zprávě — po pohybu dvířek nebo nastavení
-váhy ji pošle hned — a stránka ohlásí **Kurník příkaz přijal**. Když potvrzení nedorazí, příkaz
-se sám vrátí do fronty a pošle se znovu.
+na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou, kterou kvůli tomu
+pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohnou a váhy nastaví hned
+potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu. Pokud ho
+kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
+znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje. Platí to i po resetu kurníku.
+Když se kurník restartuje dřív, než příkaz potvrdí, třeba po odpojení baterie, server příkaz
+už znovu neposílá a stránka ohlásí **Kurník se restartoval dřív, než příkaz potvrdil**.
+Zkontrolujte stav a příkaz případně zadejte znovu.
 
-> Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
-> restartu má smysl na něj kliknout, i když se nic nezobrazuje. Restart serveru také
-> odhlásí všechna otevřená okna a stránka se sama vrátí na přihlášení.
+Když se příkaz do kurníku nedostane do **30 minut**, třeba protože nejde brána, internet
+nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel a neprovede se**. Stáří
+příkazu hlídá i kurník, takže starší příkaz neprovede, ani kdyby ho síť doručila později.
+Dvířka se tak neotevřou v noci podle příkazu zadaného odpoledne. Kdo ho chce provést, zadá
+ho znovu.
+
+> Při restartu serveru se fronta smaže i v síti, takže příkazy, které do kurníku ještě
+> nedorazily, je potřeba zadat znovu. Restart serveru také odhlásí všechna otevřená okna
+> a stránka se sama vrátí na přihlášení.
 
 Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
 hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
@@ -780,8 +791,8 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
 5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
-Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se ale do kurníku
-dostává po jednom, s každou jeho zprávou, tedy zhruba po deseti minutách.
+Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se do kurníku
+dostává po jednom, další vždy pár sekund po potvrzení předchozího.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
 

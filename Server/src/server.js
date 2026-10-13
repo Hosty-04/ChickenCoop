@@ -44,6 +44,7 @@ const AUTOMATION_COMMANDS = { systemOn: true, systemOff: false };
 const AUTOMATION_UNKNOWN = { enabled: null, at: null };
 
 let unsavedAutomation = null;
+let unsavedSequence = null;
 
 const PUBLIC_PATHS = new Set([
   '/login.html', '/login.js', '/common.js', '/theme.js', '/style.css', '/manifest.webmanifest',
@@ -209,6 +210,24 @@ function storeAutomation(automation, reclaim = false) {
   }
 }
 
+function storeSequence(sequence, reclaim = false) {
+  try {
+    writeSetting('commandSequence', sequence, reclaim);
+    unsavedSequence = null;
+    return true;
+  } catch (err) {
+    state.dbOk = false;
+    state.dbError = err.message;
+    unsavedSequence = sequence;
+    console.error('command number not saved:', err.message);
+    return false;
+  }
+}
+
+ttn.on('sequence', (sequence) => {
+  if (!storeSequence(sequence, true)) broadcast('status', state);
+});
+
 function trackAutomation(event, commands, at) {
   const command = commands?.find((name) => Object.hasOwn(AUTOMATION_COMMANDS, name));
   if (event !== 'ack' || !command) return;
@@ -222,6 +241,20 @@ ttn.on('downlink', ({ event, commands, nests }) => {
   broadcast('downlink', { event, commands, nests, at });
   console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
   trackAutomation(event, commands, at);
+});
+
+ttn.on('expired', (entries) => {
+  broadcast('expired', entries);
+  for (const entry of entries) {
+    console.log(`command expired (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
+  }
+});
+
+ttn.on('restarted', (entries) => {
+  broadcast('restarted', entries);
+  for (const entry of entries) {
+    console.log(`coop rejoined before confirming (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
+  }
 });
 
 ttn.on('uplink', (uplink) => {
@@ -238,6 +271,7 @@ ttn.on('uplink', (uplink) => {
     state.dbError = null;
     if (nests) refreshNests();
     if (unsavedAutomation) storeAutomation(unsavedAutomation);
+    if (unsavedSequence) storeSequence(unsavedSequence);
   } catch (err) {
     state.dbOk = false;
     state.dbError = err.message;
@@ -255,6 +289,7 @@ function seedFromDb() {
     state.readings = countReadings(config.ttn.deviceId);
     state.nests = readNests(config.ttn.deviceId, config.nestCount);
     automation = readSetting('automation');
+    ttn.restoreSequence(readSetting('commandSequence'));
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;
@@ -273,6 +308,7 @@ async function shutdown() {
   setTimeout(() => process.exit(0), 3000).unref();
   await ttn.stop();
   if (unsavedAutomation) storeAutomation(unsavedAutomation, true);
+  if (unsavedSequence) storeSequence(unsavedSequence, true);
   try {
     closeDb();
   } catch {}

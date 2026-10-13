@@ -151,6 +151,7 @@ button.primary:hover:not(:disabled) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
 }
 
@@ -162,10 +163,20 @@ button.primary:hover:not(:disabled) {
   margin-right: auto;
 }
 
+.topbar-alerts,
 .topbar-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.topbar-alerts {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.topbar-alerts:not(:has(> :not([hidden]))) {
+  display: none;
 }
 
 .device {
@@ -646,6 +657,10 @@ dialog h2 {
 
   .plot {
     height: 260px;
+  }
+
+  .topbar-alerts {
+    flex: 1 1 100%;
   }
 
   .topbar-actions {

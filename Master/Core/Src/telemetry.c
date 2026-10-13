@@ -10,6 +10,8 @@
 #include "battery.h"
 #include "nests.h"
 #include "system.h"
+#include "timebase.h"
+#include "rtc.h"
 
 #define PANEL_STEP_MV       100U
 #define PANEL_CODE_MAX      125U
@@ -32,12 +34,20 @@
 #define DL_DOOR_CLOSE       0x08U
 #define DL_BLOCK            0x10U
 #define DL_UNBLOCK          0x20U
+#define DL_EXTENDED         0x40U
+#define DL_EXTENDED_LEN     4U
+#define DL_HISTORY_REG      RTC_BKP_DR8
+#define DL_HISTORY_LEN      4U
+#define DL_STAMP_MASK       0x00FFFFFFUL
+#define DL_MAX_AGE_S        1800UL
+#define DL_MAX_AHEAD_S      300UL
 #define DL_NEST_TARE        0x01U
 #define DL_NEST_CALIBRATE   0x02U
 #define DL_NEST_PAIR        0x03U
 #define DL_NESTS_PER_BYTE   4U
 
-static uint8_t telemetry_len = 0;
+static uint8_t telemetry_len     = 0;
+static uint8_t telemetry_dropped = 0;
 
 static uint8_t Telemetry_EncodePanel(void)
 {
@@ -88,6 +98,35 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
 }
 
+static uint8_t Telemetry_Fresh(uint32_t stamp)
+{
+  uint32_t age;
+
+  if (!Timebase_IsValid())
+    return 1U;
+
+  age = (Timebase_GetUnix() - stamp) & DL_STAMP_MASK;
+
+  return (uint8_t)((age <= DL_MAX_AGE_S) || (age >= (DL_STAMP_MASK + 1UL - DL_MAX_AHEAD_S)));
+}
+
+static uint8_t Telemetry_NewCommand(uint32_t id)
+{
+  uint32_t n;
+
+  for (n = 0U; n < DL_HISTORY_LEN; n++) {
+    if (HAL_RTCEx_BKUPRead(&hrtc, DL_HISTORY_REG + n) == id)
+      return 0U;
+  }
+
+  HAL_PWR_EnableBkUpAccess();
+  for (n = DL_HISTORY_LEN - 1U; n > 0U; n--)
+    HAL_RTCEx_BKUPWrite(&hrtc, DL_HISTORY_REG + n, HAL_RTCEx_BKUPRead(&hrtc, DL_HISTORY_REG + n - 1U));
+  HAL_RTCEx_BKUPWrite(&hrtc, DL_HISTORY_REG, id);
+
+  return 1U;
+}
+
 static void Telemetry_HandleNests(const uint8_t *buf, uint8_t length)
 {
   uint8_t nest, pair;
@@ -127,6 +166,9 @@ void Telemetry_Requeue(uint8_t length)
 
 void Telemetry_Clear(void)
 {
+  if (telemetry_len > telemetry_dropped)
+    telemetry_dropped = telemetry_len;
+
   telemetry_len = 0U;
 }
 
@@ -137,8 +179,12 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
   if (buf == NULL)
     return 0U;
 
-  length        = (telemetry_len < buf_size) ? telemetry_len : buf_size;
-  telemetry_len = 0U;
+  length = (telemetry_len > telemetry_dropped) ? telemetry_len : telemetry_dropped;
+  if (length > buf_size)
+    length = buf_size;
+
+  telemetry_len     = 0U;
+  telemetry_dropped = 0U;
 
   if (length < TELEMETRY_LEN_STATUS)
     return 0U;
@@ -159,12 +205,23 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
 
 void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
 {
-  uint8_t cmd;
+  uint8_t  cmd, head;
+  uint32_t stamp;
 
-  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK) || (length > TELEMETRY_LEN_DL_MAX))
+  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK))
     return;
 
-  cmd = buf[0];
+  cmd  = buf[0];
+  head = (uint8_t)(TELEMETRY_LEN_DOWNLINK + ((cmd & DL_EXTENDED) ? DL_EXTENDED_LEN : 0U));
+
+  if ((length < head) || (length > (uint8_t)(head + TELEMETRY_LEN_DL_MAX - TELEMETRY_LEN_DOWNLINK)))
+    return;
+
+  if (cmd & DL_EXTENDED) {
+    stamp = ((uint32_t)buf[2] << 16) | ((uint32_t)buf[3] << 8) | buf[4];
+    if (!Telemetry_Fresh(stamp) || !Telemetry_NewCommand(((uint32_t)buf[1] << 24) | stamp))
+      return;
+  }
 
   switch (cmd & (DL_BLOCK | DL_UNBLOCK)) {
     case DL_BLOCK:   Door_SetFault();   break;
@@ -184,5 +241,5 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
     default:                                 break;
   }
 
-  Telemetry_HandleNests(&buf[TELEMETRY_LEN_DOWNLINK], (uint8_t)(length - TELEMETRY_LEN_DOWNLINK));
+  Telemetry_HandleNests(&buf[head], (uint8_t)(length - head));
 }
