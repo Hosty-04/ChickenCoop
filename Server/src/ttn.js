@@ -103,10 +103,26 @@ export class TtnBridge extends EventEmitter {
     });
   }
 
-  #retire(entries) {
+  #silence(entries) {
     for (const entry of entries) this.expired.set(entry.correlationId, entry);
     while (this.expired.size > SENT_MAX) this.expired.delete(this.expired.keys().next().value);
+  }
+
+  #retire(entries) {
+    this.#silence(entries);
     this.emit('expired', entries);
+  }
+
+  #onJoin() {
+    const now = this.#now();
+    const unconfirmed = [...this.sent.values()].filter((entry) => now - entry.sentAt <= COMMAND_TTL_MS);
+
+    this.sent.clear();
+    this.#purge();
+    if (unconfirmed.length === 0) return;
+
+    this.#silence(unconfirmed);
+    this.emit('restarted', unconfirmed);
   }
 
   #purge() {
@@ -130,6 +146,7 @@ export class TtnBridge extends EventEmitter {
   }
 
   #remember(entry) {
+    entry.sentAt = this.#now();
     this.sent.set(entry.correlationId, entry);
     if (this.sent.size > SENT_MAX) this.sent.delete(this.sent.keys().next().value);
   }
@@ -152,6 +169,7 @@ export class TtnBridge extends EventEmitter {
       }
       const topics = [
         `${this.#base()}/up`,
+        `${this.#base()}/join`,
         ...DOWN_EVENTS.map((event) => `${this.#base()}/down/${event}`)
       ];
       this.client.subscribe(topics, { qos: 0 }, (err) => {
@@ -184,6 +202,11 @@ export class TtnBridge extends EventEmitter {
     }
 
     this.#syncClock(message);
+
+    if (topic.endsWith('/join')) {
+      this.#onJoin();
+      return;
+    }
 
     const event = DOWN_EVENTS.find((name) => topic.endsWith(`/down/${name}`));
     if (event) {

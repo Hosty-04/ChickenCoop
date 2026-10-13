@@ -749,7 +749,10 @@ na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou
 pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohnou a váhy nastaví hned
 potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu. Pokud ho
 kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
-znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje.
+znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje. Platí to i po resetu kurníku.
+Když se kurník restartuje dřív, než příkaz potvrdí, třeba po odpojení baterie, server příkaz
+už znovu neposílá a stránka ohlásí **Kurník se restartoval dřív, než příkaz potvrdil**.
+Zkontrolujte stav a příkaz případně zadejte znovu.
 
 Když se příkaz do kurníku nedostane do **30 minut**, třeba protože nejde brána, internet
 nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel a neprovede se**. Stáří

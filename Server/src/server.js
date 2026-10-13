@@ -250,6 +250,13 @@ ttn.on('expired', (entries) => {
   }
 });
 
+ttn.on('restarted', (entries) => {
+  broadcast('restarted', entries);
+  for (const entry of entries) {
+    console.log(`coop rejoined before confirming (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
+  }
+});
+
 ttn.on('uplink', (uplink) => {
   state.latest = uplink;
 
