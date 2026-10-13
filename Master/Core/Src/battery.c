@@ -23,7 +23,6 @@
 #define BATTERY_DEFER_MAX      4U
 #define BATTERY_READ_ATTEMPTS  3U
 #define BATTERY_PANEL_HYST_V   0.05f
-#define PANEL_MAX_VALID_V      12.5f
 
 #define PANEL_SETTLE_MS        200U
 #define PANEL_DIV_R1_OHM       970000.0f
@@ -41,6 +40,7 @@ static const uint32_t battery_adc_channels[] = {
 
 static UTIL_TIMER_Object_t battery_timer;
 static volatile uint8_t    battery_pending = 0;
+static uint8_t             battery_full    = 0;
 
 static uint8_t  battery_critical = 0;
 static uint8_t  battery_defer    = 0;
@@ -63,11 +63,6 @@ static float Battery_OverVoltageLimit(uint8_t month)
   if ((month == 0U) || ((month >= 6U) && (month <= 8U))) return 7.2f;
   if ((month == 12U) || (month <= 2U))                     return 7.5f;
   return 7.3f;
-}
-
-static uint8_t Battery_PanelPlausible(float v_panel)
-{
-  return (uint8_t)((v_panel >= 0.0f) && (v_panel <= PANEL_MAX_VALID_V));
 }
 
 static float Battery_CriticalLimit(uint8_t month)
@@ -217,25 +212,15 @@ void Battery_Init(void)
   (void)HAL_ADC_DeInit(&hadc);
 
   UTIL_TIMER_Create(&battery_timer, 0xFFFFFFFFU, UTIL_TIMER_ONESHOT, Battery_OnTimer, NULL);
-  battery_pending = 1U;
 }
 
-void Battery_Process(void)
+void Battery_Measure(void)
 {
   float    v_bat = 0.0f, v_panel = 0.0f;
   uint8_t  month, bat_ok, panel_ok;
   HAL_StatusTypeDef st_bat, st_panel;
 
-  if (!battery_pending)
-    return;
-  battery_pending = 0U;
-
-  if (Battery_RadioBusy()) {
-    Battery_ArmTimer(BATTERY_DEFER_S);
-    return;
-  }
-
-  Power_SwitchToLPRunMSI1MHz();
+  Power_SwitchToLPRunMSI2MHz();
 
   st_bat = INA226_PowerUp();
   if (st_bat == HAL_OK)
@@ -251,7 +236,7 @@ void Battery_Process(void)
   st_panel = Battery_ReadPanel(&v_panel);
 
   bat_ok         = (uint8_t)(st_bat == HAL_OK);
-  panel_ok       = (uint8_t)((st_panel == HAL_OK) && Battery_PanelPlausible(v_panel));
+  panel_ok       = (uint8_t)(st_panel == HAL_OK);
   panel_mv_valid = panel_ok;
 
   if (panel_ok)
@@ -277,7 +262,27 @@ void Battery_Process(void)
   Power_SwitchToRunHSE48MHz();
 
   Battery_Schedule();
-  Telemetry_RequestStatus();
+
+  if (battery_full) {
+    battery_full = 0U;
+    Telemetry_RequestFull();
+  } else {
+    Telemetry_RequestStatus();
+  }
+}
+
+void Battery_Process(void)
+{
+  if (!battery_pending)
+    return;
+  battery_pending = 0U;
+
+  if (Battery_RadioBusy()) {
+    Battery_ArmTimer(BATTERY_DEFER_S);
+    return;
+  }
+
+  Battery_Measure();
 }
 
 uint8_t Battery_WorkPending(void)
@@ -285,8 +290,10 @@ uint8_t Battery_WorkPending(void)
   return battery_pending;
 }
 
-void Battery_Request(void)
+void Battery_Request(uint8_t full)
 {
+  if (full)
+    battery_full = 1U;
   battery_pending = 1U;
 }
 

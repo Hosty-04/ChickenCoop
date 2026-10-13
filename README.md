@@ -97,22 +97,22 @@ kde:
 
 U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
 
-### Kontrola fotovoltaického panelu a akumulátoru (30 s a 12 s)
+### Kontrola fotovoltaického panelu a akumulátoru (29 s a 12 s)
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
 | INA226 | 330 µA | 420 µA | 1,01 µAh | 1,28 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,4 µAh | 4,55 µAh |
-| **Celkem** | **450 µA** | **810 µA** | **2,41 µAh** | **5,83 µAh** |
+| M (LP Run @ 2 MHz) | 220 µA | 490 µA | 2,52 µAh | 5,61 µAh |
+| **Celkem** | **550 µA** | **910 µA** | **3,53 µAh** | **6,89 µAh** |
 
 ---
 
 $$
-t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{500\ \text{kHz}} = 16 \cdot 346\ \text{µs} = 5,54\ \text{ms}
+t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{1\ \text{MHz}} = 16 \cdot 173\ \text{µs} = 2,77\ \text{ms}
 $$
 
 $$
-t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 5,54\ \text{ms}) \approx \mathbf{30\ \text{s}}
+t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 2,77\ \text{ms}) \approx \mathbf{29\ \text{s}}
 $$
 
 $$
@@ -138,8 +138,8 @@ kde:
 | Motor | 100 mA | 250 mA | 0,889 mAh | 10 mAh |
 | DRV8838 | 340 µA | 600 µA | 3,02 µAh | 24 µAh |
 | INA226 | 330 µA | 420 µA | 2,93 µAh | 16,8 µAh |
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 1,07 µAh | 15,6 µAh |
-| **Celkem** | **101 mA** | **251 mA** | **0,896 mAh** | **10,1 mAh** |
+| M (LP Run @ 2 MHz) | 220 µA | 490 µA | 1,96 µAh | 19,6 µAh |
+| **Celkem** | **101 mA** | **252 mA** | **0,897 mAh** | **10,1 mAh** |
 
 ---
 
@@ -181,14 +181,14 @@ Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; v�
 
 | Komponenta | Proud (typ) | Proud (max) | Spotřeba (typ) | Spotřeba (max) |
 |:---|:---:|:---:|:---:|:---:|
-| M (LP Run @ 1 MHz) | 120 µA | 390 µA | 16,0 µAh | 57,2 µAh |
+| M (LP Run @ 2 MHz) | 220 µA | 490 µA | 29,3 µAh | 71,9 µAh |
 | MAX3485 (M) | 1,1 mA | 2,2 mA | 147 µAh | 323 µAh |
 | MAX3485 (Mx) | 1,1 mA | 2,2 mA | 147 µAh | 323 µAh |
 | Mx (LP Run @ 131 kHz) | 32 µA | 37 µA | 4,27 µAh | 5,43 µAh |
 | HX711 a tenzometr | 4,4 mA | 4,4 mA | 587 µAh | 645 µAh |
 | Spínače (P,pu) | 33 µA | 33 µA | 13,2 µAh | 14,4 µAh |
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 9,63 µAh |
-| **Celkem** | **6,82 mA** | **9,29 mA** | **0,923 mAh** | **1,38 mAh** |
+| **Celkem** | **6,92 mA** | **9,39 mA** | **0,937 mAh** | **1,39 mAh** |
 
 ---
 
@@ -323,12 +323,12 @@ CPU je většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 923 µAh | 43,9 % | 1,38 mAh | 10,9 % |
-| Pohyb dvířek | 896 µAh | 42,6 % | 10,1 mAh | 79,8 % |
-| Komunikace | 153 µAh | 7,3 % | 166 µAh | 1,3 % |
+| Kontrola vajec | 937 µAh | 44,2 % | 1,39 mAh | 11,0 % |
+| Pohyb dvířek | 897 µAh | 42,3 % | 10,1 mAh | 79,7 % |
+| Komunikace | 153 µAh | 7,2 % | 166 µAh | 1,3 % |
 | Klidový režim | 129 µAh | 6,1 % | 1 mAh | 7,9 % |
-| Kontrola panelu a baterie | 2,41 µAh | 0,1 % | 5,83 µAh | 0,0 % |
-| **Celkem** | **2,10 mAh** | **100 %** | **12,6 mAh** | **100 %** |
+| Kontrola panelu a baterie | 3,53 µAh | 0,2 % | 6,89 µAh | 0,1 % |
+| **Celkem** | **2,12 mAh** | **100 %** | **12,6 mAh** | **100 %** |
 
 ### Energie dodávaná do akumulátoru
 
@@ -428,7 +428,7 @@ LoRaWAN rádio může vysílat teprve po vypnutí všech ostatních systémů, a
 
 Data jsou z kurníku odesílána ve dvou a více bajtech. První bajt nese 7 bitů s napětím solárního panelu (rozsah 0–12,5 V, krok 100 mV + indikace poruchy) a 1 bit pro indikaci zapnutí/vypnutí kritického režimu. Druhý bajt obsahuje 6 bitů pro napětí akumulátoru (5–8 V, krok 50 mV + indikace poruchy) a 2 bity pro stav dvířek (otevřeno/zavřeno/porucha). Další bajty jsou po čtyřech bitech alokovány pro počet vajec v jednotlivých snáškových hnízdech; hodnota 0–10 udává počet vajec, 11 kvočnu, 12 nezkalibrovanou váhu, 14 poruchu váhy a 15 hnízdo, které neodpovídá. Po kontrole stavu hnízd a po vynulování nebo kalibraci váhy se odešlou všechny bajty, kdykoliv jindy pouze první dva.
 
-Příjem dat (manuální ovládání) následuje vždy po skončení vysílání, tedy maximálně co 10 minut, a využívá jeden nebo více bajtů. V prvním bajtu bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Od druhého bajtu připadají na každé snáškové hnízdo dva bity, čtyři hnízda na bajt, hnízdo 1 v bitech 0 a 1: kombinace 01 váhu hnízda vynuluje a 10 ji zkalibruje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny.
+Příjem dat (manuální ovládání) následuje vždy po skončení vysílání, tedy maximálně co 10 minut, a využívá jeden nebo více bajtů. V prvním bajtu bit 0 zapne systém, bit 1 ho vypne, bit 2 otevře dvířka, bit 3 je zavře, bit 4 dvířka zablokuje (uvede do poruchy) a bit 5 je odblokuje. Od druhého bajtu připadají na každé snáškové hnízdo dva bity, čtyři hnízda na bajt, hnízdo 1 v bitech 0 a 1: kombinace 01 váhu hnízda vynuluje a 10 ji zkalibruje. Nastavení obou bitů jedné dvojice se ignoruje, stejně jako nulová dvojice — v obou případech zůstává daná vlastnost beze změny. Zapnutí či vypnutí systému a zablokování dvířek si hlavní řadič pamatuje v záložním registru RTC i v paměti flash, takže platí i po resetu nebo odpojení akumulátoru.
 
 Kalibrace tenzometrů probíhá vůči etalonu o hmotnosti 1 kg a oba její kroky se spouštějí z webové stránky právě tímto manuálním ovládáním. S prázdným hnízdem se nejprve vynulováním uloží referenční nulová hodnota, poté se s etalonem uprostřed hnízda kalibrací spočítá převodní konstanta (gramy na jeden dílek převodníku); obojí si hnízdový řadič uloží do paměti EEPROM. Vynulování i kalibrace proběhnou ihned po přijetí, a to jen u vybraných hnízd; ostatní hnízda se přitom neměří a po dokončení se odešlou všechny bajty, takže stránka hned ukáže výsledek.
 
@@ -515,7 +515,7 @@ Kompenzace přes náhradní odpor udržuje napětí na motoru typicky v rozmezí
 
 Časovou základnu hlavního mikrořadiče tvoří obvod RTC taktovaný krystalem LSE 32,768 kHz v binárním režimu. Jeho 32bitový čítač tiká rychlostí 1024 tiků za sekundu i v režimu Stop2 a slouží zároveň jako HAL_GetTick (SysTick se nepoužívá). Nad ním běží utility timer: všechny softwarové časovače (dvířka, hnízda, baterie, LoRaWAN) obsluhuje jediný alarm RTC, nastavený vždy na nejbližší z nich. Čas se uchovává jako unixové sekundy v UTC. Místní datum, čas a pásmo (SEČ/SELČ, přechod poslední neděli v březnu a v říjnu v 01:00 UTC) se dopočítávají až při dotazu. Přesný čas dodává síť LoRaWAN příkazem DeviceTimeReq, a to hned po připojení k síti a potom zhruba každých 12 hodin. Drift krystalu za tu dobu dělá nejvýš asi 3 s. Každou hodinu se referenční čas uloží do záložních registrů RTC, takže po resetu mikrořadiče čas plynule pokračuje. Po úplné ztrátě napájení se až do synchronizace použije náhradní čas a systém ho vede jako neplatný.
 
-Většinu dne je hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu Standby s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován přesným externím krystalem LSE 32 kHz, umístěným na LoRa-E5 mini. Jakmile ale RTC signalizuje, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktován úsporným interním oscilátorem MSI na 1 MHz. Pro složitý výpočet astronomických hodin řadič volí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. Během přenosu dat je rádio automaticky taktováno přesným externím krystalem HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit dobu probuzení rádia (radio wakeup time) na 5 ms. V režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič využívá úsporný napájecí režim SMPS.
+Většinu dne je hlavní mikrořadič v režimu Stop2 s RTC. Tento režim se vyznačuje velmi nízkou spotřebou a na rozdíl od režimu Standby s RTC dokáže mimo jiné udržet logické úrovně a nastavení pinů. Řadič je taktován přesným externím krystalem LSE 32 kHz, umístěným na LoRa-E5 mini. Jakmile ale RTC signalizuje, že je čas na práci, řadič se přepne do režimu LP Run (Low-Power Run). V tomto režimu je taktován úsporným interním oscilátorem MSI na 2 MHz — nejnižším kmitočtu, při kterém sběrnice I2C k senzoru INA226 ještě splňuje časování režimu Standard mode (datasheet STM32WLE5, tabulka 90). Pro složitý výpočet astronomických hodin řadič volí strategii Race-to-Sleep. Ta spočívá v přepnutí do méně úsporného, ale rychlejšího režimu Run (HSE, 48 MHz) po velmi krátkou dobu. Během přenosu dat je rádio automaticky taktováno přesným externím krystalem HSE na 32 MHz a po skončení přenosu se uspí. Kvůli nízké taktovací frekvenci je potřeba zvýšit dobu probuzení rádia (radio wakeup time) na 5 ms. V režimu LP Run je potřeba snížit napětí interního regulátoru na Scale 2. Tento řadič využívá úsporný napájecí režim SMPS.
 
 Hnízdové mikrořadiče nejsou po většinu dne napájeny; potřebné informace si ukládají do paměti EEPROM. Po připojení napájení se daný řadič přepne do režimu LP Run (MSI, 131 kHz) a ihned po vykonání úkonu se vrátí do režimu Stop bez RTC — zanedbatelná spotřeba. Řadiče jsou postupně úkolovány pomocí sběrnice LPUART přes hlavní mikrořadič, proto nepotřebují vlastní RTC. Napětí interního regulátoru je možno kvůli nízké taktovací frekvenci trvale snížit (Voltage Scale 2). Pro inicializaci hnízdových řadičů je vyhrazen zanedbatelný čas 10 ms.
 

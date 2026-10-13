@@ -11,7 +11,12 @@
 
 #define INA226_I2C_ADDR         (0x40U << 1)
 #define INA226_I2C_TIMEOUT_MS   50U
-#define INA226_I2C_TIMING_DEF   0x10805D88UL
+#define INA226_I2C_MIN_HZ       2000000UL
+#define INA226_SCL_LOW_PS       5500000UL
+#define INA226_SCL_HIGH_PS      4500000UL
+#define INA226_SCL_DELAY_PS     1250000UL
+#define INA226_SDA_HOLD_PS      250000UL
+#define INA226_SDA_VALID_PS     2190000UL
 #define INA226_ATTEMPTS         3U
 #define INA226_RETRY_MS         2U
 #define INA226_V_MIN_VALID_V    1.0f
@@ -94,27 +99,34 @@ static void INA226_BusRecover(void)
   INA226_BusDelay();
 }
 
+static uint32_t INA226_Cycles(uint32_t ps, uint32_t period_ps)
+{
+  return (ps + period_ps - 1U) / period_ps;
+}
+
 static uint32_t INA226_ComputeTiming(uint32_t i2cclk_hz)
 {
-  const float t_low   = 5.5e-6f;
-  const float t_high  = 4.5e-6f;
-  const float t_setup = 450e-9f;
-  uint32_t presc;
+  uint32_t clk_ps, hold_ps, valid_ps, presc;
+
+  if (i2cclk_hz < INA226_I2C_MIN_HZ)
+    return 0U;
+
+  clk_ps   = (uint32_t)(1000000000000ULL / i2cclk_hz);
+  hold_ps  = (INA226_SDA_HOLD_PS > 3U * clk_ps) ? (INA226_SDA_HOLD_PS - 3U * clk_ps) : 0U;
+  valid_ps = (INA226_SDA_VALID_PS > 4U * clk_ps) ? (INA226_SDA_VALID_PS - 4U * clk_ps) : 0U;
 
   for (presc = 0U; presc <= 15U; presc++) {
-    float   t_presc = (float)(presc + 1U) / (float)i2cclk_hz;
-    int32_t scll    = (int32_t)(t_low   / t_presc + 0.5f) - 1;
-    int32_t sclh    = (int32_t)(t_high  / t_presc + 0.5f) - 1;
-    int32_t scldel  = (int32_t)(t_setup / t_presc + 0.5f) - 1;
+    uint32_t t_ps   = (presc + 1U) * clk_ps;
+    uint32_t scll   = INA226_Cycles(INA226_SCL_LOW_PS, t_ps) - 1U;
+    uint32_t sclh   = INA226_Cycles(INA226_SCL_HIGH_PS, t_ps) - 1U;
+    uint32_t scldel = INA226_Cycles(INA226_SCL_DELAY_PS, t_ps) - 1U;
+    uint32_t sdadel = INA226_Cycles(hold_ps, t_ps);
 
-    if (scldel < 0)
-      scldel = 0;
-
-    if ((scll >= scldel) && (scll <= 255) && (sclh >= 0) && (sclh <= 255) && (scldel <= 15))
-      return (presc << 28) | ((uint32_t)scldel << 20) | ((uint32_t)sclh << 8) | (uint32_t)scll;
+    if ((scll <= 255U) && (sclh <= 255U) && (scldel <= 15U) && (sdadel <= 15U) && ((sdadel * t_ps) <= valid_ps))
+      return (presc << 28) | (scldel << 20) | (sdadel << 16) | (sclh << 8) | scll;
   }
 
-  return INA226_I2C_TIMING_DEF;
+  return 0U;
 }
 
 static void INA226_ClearError(void)
@@ -183,8 +195,13 @@ static HAL_StatusTypeDef INA226_Configure(uint16_t cfg)
 
 static HAL_StatusTypeDef INA226_Start(void)
 {
+  uint32_t timing = INA226_ComputeTiming(HAL_RCC_GetPCLK1Freq());
+
   if (hi2c2.State != HAL_I2C_STATE_RESET)
     (void)HAL_I2C_DeInit(&hi2c2);
+
+  if (timing == 0U)
+    return HAL_ERROR;
 
   if (INA226_BusStuck()) {
     INA226_BusRecover();
@@ -193,7 +210,7 @@ static HAL_StatusTypeDef INA226_Start(void)
   }
 
   hi2c2.Instance              = I2C2;
-  hi2c2.Init.Timing           = INA226_ComputeTiming(HAL_RCC_GetPCLK1Freq());
+  hi2c2.Init.Timing           = timing;
   hi2c2.Init.OwnAddress1      = 0U;
   hi2c2.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
@@ -253,14 +270,12 @@ HAL_StatusTypeDef INA226_Read(float *voltage, float *current)
   HAL_StatusTypeDef st;
 
   st = INA226_ReadReg(INA226_REG_BUS_V, &raw_bus);
-  if (st == HAL_OK)
+  if ((st == HAL_OK) && (current != NULL))
     st = INA226_ReadReg(INA226_REG_CURRENT, &raw_current);
   if (st != HAL_OK)
     return st;
 
-  if (voltage != NULL)
-    *voltage = (float)raw_bus * INA226_BUS_V_LSB_V;
-
+  *voltage = (float)raw_bus * INA226_BUS_V_LSB_V;
   if (current != NULL)
     *current = fabsf((float)(int16_t)raw_current * INA226_CURRENT_LSB_A);
 

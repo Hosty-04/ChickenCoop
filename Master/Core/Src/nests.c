@@ -277,12 +277,12 @@ static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
   if (cmd == 0U)
     return Nests_Release(addr);
 
-  n->state = NESTS_STATE_OFFLINE;
+  n->request = 0U;
+  n->state   = NESTS_STATE_OFFLINE;
 
   if (Nests_Command(addr, cmd, Nests_Argument(cmd)) != HAL_OK)
     return 0U;
 
-  n->request = 0U;
   HAL_Delay(NESTS_SAMPLE_MS);
   start = HAL_GetTick();
 
@@ -363,6 +363,14 @@ static uint8_t Nests_RadioBusy(void)
   return 1U;
 }
 
+static void Nests_DropRequests(void)
+{
+  uint8_t nest;
+
+  for (nest = 0U; nest < NESTS_COUNT; nest++)
+    nests_data[nest].request = 0U;
+}
+
 static void Nests_Request(uint8_t nest, uint8_t cmd)
 {
   if (!nests_enabled || (nest >= NESTS_COUNT))
@@ -397,10 +405,11 @@ void Nests_Process(void)
   reach  = Nests_Reach(hourly);
 
   if ((reach == 0U) || !Nests_Allowed()) {
+    Nests_DropRequests();
     nests_defer = 0U;
     if (hourly) {
       Nests_Plan();
-      Battery_Request();
+      Battery_Request(0U);
     }
     Nests_Schedule();
     return;
@@ -411,7 +420,7 @@ void Nests_Process(void)
     return;
   }
 
-  Power_SwitchToLPRunMSI1MHz();
+  Power_SwitchToLPRunMSI2MHz();
 
   linked = (uint8_t)(Nests_PowerUp() == HAL_OK);
 
@@ -421,23 +430,26 @@ void Nests_Process(void)
       nests_data[nest].state = NESTS_STATE_OFFLINE;
   }
 
+  Nests_DropRequests();
   Nests_PowerDown();
 
   Power_SwitchToRunHSE48MHz();
 
   if (hourly) {
     Nests_Plan();
-    Battery_Request();
+    Battery_Request(1U);
+  } else {
+    Telemetry_RequestFull();
   }
 
   Nests_Schedule();
-  nests_pending = 0U;
-  Telemetry_RequestFull();
 }
 
 void Nests_Reschedule(void)
 {
-  if (nests_due > (Timebase_GetUnix() + 2UL * NESTS_CHECK_S))
+  uint32_t now = Timebase_GetUnix();
+
+  if ((nests_due > (now + 2UL * NESTS_CHECK_S)) || ((nests_due != 0UL) && ((nests_due + NESTS_CHECK_S) < now)))
     Nests_Plan();
 
   if (nests_defer == 0U)
@@ -456,12 +468,8 @@ void Nests_Enable(void)
 
 void Nests_Disable(void)
 {
-  uint8_t nest;
-
   nests_enabled = 0U;
-
-  for (nest = 0U; nest < NESTS_COUNT; nest++)
-    nests_data[nest].request = 0U;
+  Nests_DropRequests();
 }
 
 void Nests_RequestTare(uint8_t nest)

@@ -12,7 +12,7 @@
 
 void Power_Init(void);
 
-void Power_SwitchToLPRunMSI1MHz(void);
+void Power_SwitchToLPRunMSI2MHz(void);
 void Power_SwitchToRunHSE48MHz(void);
 
 void Power_DisableDebug(void);
