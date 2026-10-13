@@ -569,7 +569,9 @@ načítat znovu.
 ### Záhlaví stránky
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network. Vedle něj je na počítači
-a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení.
+a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení. Když se odhlášení
+nepovede, protože server neodpovídá, objeví se u tlačítek červené **Odhlášení selhalo**;
+zmizí při dalším pokusu.
 
 Když databáze nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné
 chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.

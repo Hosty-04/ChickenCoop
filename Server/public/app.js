@@ -1005,14 +1005,17 @@ el('wipe-dialog').addEventListener('cancel', (event) => {
 
 el('logout').addEventListener('click', async (event) => {
   const button = event.currentTarget;
+  const alert = el('logout-alert');
   button.disabled = true;
+  alert.hidden = true;
   try {
     await api('/api/logout', {});
     leaving = true;
     location.replace('/login.html');
   } catch (err) {
     button.disabled = false;
-    showToast(`Odhlášení selhalo: ${reason(err)}`, 'is-error');
+    alert.title = reason(err);
+    alert.hidden = false;
   }
 });
 
