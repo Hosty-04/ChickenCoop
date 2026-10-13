@@ -101,8 +101,15 @@ Firmware je nastavený na dvě snášková hnízda. Jiný počet (1 až 15) pat�
 ```
 
 Stejné číslo pak dostane i server, viz `NEST_COUNT` v kapitole 6. Hnízda se číslují od
-krabičky nejblíž hlavní krabičce: první má adresu 1, druhá 2 a tak dál, a tu samou adresu
-musí mít nastavenou i řadič v dané krabičce.
+krabičky nejblíž hlavní krabičce: první má adresu 1, druhá 2 a tak dál. Tu samou adresu
+dostane řadič v dané krabičce v souboru `Slave/Core/Inc/nest.h`:
+
+```c
+#define NEST_ADDRESS  1U
+```
+
+Firmware hnízdového řadiče se proto pro každou krabičku přeloží a nahraje zvlášť, pokaždé
+s její adresou.
 
 ## 1. Účet v The Things Network
 
