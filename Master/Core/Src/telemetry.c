@@ -32,6 +32,9 @@
 #define DL_DOOR_CLOSE       0x08U
 #define DL_BLOCK            0x10U
 #define DL_UNBLOCK          0x20U
+#define DL_SEQUENCE         0x40U
+#define DL_SEQUENCE_LEN     1U
+#define DL_SEQUENCE_HISTORY 4U
 #define DL_NEST_TARE        0x01U
 #define DL_NEST_CALIBRATE   0x02U
 #define DL_NEST_PAIR        0x03U
@@ -39,6 +42,8 @@
 
 static uint8_t telemetry_len     = 0;
 static uint8_t telemetry_dropped = 0;
+static uint8_t telemetry_seq[DL_SEQUENCE_HISTORY];
+static uint8_t telemetry_seq_pos = 0;
 
 static uint8_t Telemetry_EncodePanel(void)
 {
@@ -87,6 +92,21 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
   eggs = Nests_GetEggs(nest);
 
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
+}
+
+static uint8_t Telemetry_NewSequence(uint8_t seq)
+{
+  uint8_t n;
+
+  for (n = 0U; n < DL_SEQUENCE_HISTORY; n++) {
+    if (telemetry_seq[n] == seq)
+      return 0U;
+  }
+
+  telemetry_seq[telemetry_seq_pos] = seq;
+  telemetry_seq_pos = (uint8_t)((telemetry_seq_pos + 1U) % DL_SEQUENCE_HISTORY);
+
+  return 1U;
 }
 
 static void Telemetry_HandleNests(const uint8_t *buf, uint8_t length)
@@ -167,12 +187,19 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
 
 void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
 {
-  uint8_t cmd;
+  uint8_t cmd, head;
 
-  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK) || (length > TELEMETRY_LEN_DL_MAX))
+  if ((buf == NULL) || (length < TELEMETRY_LEN_DOWNLINK))
     return;
 
-  cmd = buf[0];
+  cmd  = buf[0];
+  head = (uint8_t)(TELEMETRY_LEN_DOWNLINK + ((cmd & DL_SEQUENCE) ? DL_SEQUENCE_LEN : 0U));
+
+  if ((length < head) || (length > (uint8_t)(head + TELEMETRY_LEN_DL_MAX - TELEMETRY_LEN_DOWNLINK)))
+    return;
+
+  if ((cmd & DL_SEQUENCE) && !Telemetry_NewSequence(buf[TELEMETRY_LEN_DOWNLINK]))
+    return;
 
   switch (cmd & (DL_BLOCK | DL_UNBLOCK)) {
     case DL_BLOCK:   Door_SetFault();   break;
@@ -192,5 +219,5 @@ void Telemetry_HandleDownlink(const uint8_t *buf, uint8_t length)
     default:                                 break;
   }
 
-  Telemetry_HandleNests(&buf[TELEMETRY_LEN_DOWNLINK], (uint8_t)(length - TELEMETRY_LEN_DOWNLINK));
+  Telemetry_HandleNests(&buf[head], (uint8_t)(length - head));
 }

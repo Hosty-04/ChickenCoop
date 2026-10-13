@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import mqtt from 'mqtt';
 import { config, ttnUsername } from './config.js';
-import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT } from './codec.js';
+import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX } from './codec.js';
 
 const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
@@ -31,6 +31,17 @@ export class TtnBridge extends EventEmitter {
     this.pending = [];
     this.sent = new Map();
     this.nextId = 1;
+    this.sequence = 1 + Math.floor(Math.random() * SEQUENCE_MAX);
+  }
+
+  restoreSequence(saved) {
+    if (Number.isInteger(saved) && saved >= 1 && saved <= SEQUENCE_MAX) this.sequence = saved;
+  }
+
+  #nextSequence() {
+    this.sequence = (this.sequence % SEQUENCE_MAX) + 1;
+    this.emit('sequence', this.sequence);
+    return this.sequence;
   }
 
   #base() {
@@ -142,22 +153,26 @@ export class TtnBridge extends EventEmitter {
   }
 
   sendCommand(names, nests) {
-    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount));
-    const hex = payload.toString('hex');
+    const plain = Buffer.from(encodeDownlink(names, nests, config.nestCount));
+    const key = plain.toString('hex');
 
     if (!this.connected) throw new Error(NOT_CONNECTED);
-    if (this.pending.some((entry) => entry.payload === hex)) {
+    if (this.pending.some((entry) => entry.key === key)) {
       throw new DuplicateCommandError('stejný příkaz už ve frontě čeká');
     }
 
+    const sequence = this.#nextSequence();
+    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount, sequence));
     const id = this.nextId++;
     const entry = {
       id,
       correlationId: `${CORRELATION_PREFIX}${id}`,
       commands: names,
-      nests: payload.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
-      byte: payload[0],
-      payload: hex,
+      nests: plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
+      byte: plain[0],
+      sequence,
+      key,
+      payload: payload.toString('hex'),
       queuedAt: new Date().toISOString()
     };
 

@@ -307,7 +307,7 @@ static Callbacks_t Callbacks =
 #define GPS_LEAP_SECONDS     18UL
 #define LORAWAN_TX_RETRY_MS  30000UL
 #define LORAWAN_TX_RETRY_MAX 2U
-#define RNG_ATTEMPTS         11U
+#define RNG_ATTEMPTS         10U
 #define RNG_FALLBACK_MASK    0x55555555UL
 
 static volatile uint32_t modem_sleep_ms   = 0;

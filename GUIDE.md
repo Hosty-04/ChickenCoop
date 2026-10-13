@@ -746,7 +746,9 @@ Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na
 Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
 na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou, kterou kvůli tomu
 pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohnou a váhy nastaví hned
-potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu.
+potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu. Pokud ho
+kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
+znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
@@ -780,8 +782,8 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
 5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
-Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se ale do kurníku
-dostává po jednom, s každou jeho zprávou, tedy zhruba po deseti minutách.
+Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se do kurníku
+dostává po jednom, další vždy pár sekund po potvrzení předchozího.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
 
