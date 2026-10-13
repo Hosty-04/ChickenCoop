@@ -569,14 +569,13 @@ načítat znovu.
 ### Záhlaví stránky
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network. Vedle něj je na počítači
-a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení. Když se odhlášení
-nepovede, protože server neodpovídá, objeví se u tlačítek červené **Odhlášení selhalo**;
-zmizí při dalším pokusu.
+a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení.
 
-Když databáze nemůže ukládat, objeví se vedle indikátoru červené **Plná databáze**, u jiné
-chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
+Když databáze nemůže ukládat, objeví se mezi indikátorem a tlačítky červené **Plná databáze**,
+u jiné chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
 Varování zmizí samo, jakmile se zase uloží další zpráva; co s ním dělat, je v kapitole
-**Když to nejede**.
+**Když to nejede**. Na stejném místě se objeví červené **Odhlášení selhalo**, když se odhlášení
+nepovede, protože server neodpovídá; zmizí při dalším pokusu.
 
 ### Dlaždice
 
