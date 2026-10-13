@@ -744,9 +744,9 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
-na potvrzení**. Kurník příjem potvrdí ve své další zprávě — po pohybu dvířek nebo nastavení
-váhy ji pošle hned — a stránka ohlásí **Kurník příkaz přijal**. Když potvrzení nedorazí, příkaz
-se sám vrátí do fronty a pošle se znovu.
+na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou, kterou kvůli tomu
+pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohnou a váhy nastaví hned
+potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu.
 
 > Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
 > v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po

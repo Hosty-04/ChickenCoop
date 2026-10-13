@@ -37,7 +37,8 @@
 #define DL_NEST_PAIR        0x03U
 #define DL_NESTS_PER_BYTE   4U
 
-static uint8_t telemetry_len = 0;
+static uint8_t telemetry_len     = 0;
+static uint8_t telemetry_dropped = 0;
 
 static uint8_t Telemetry_EncodePanel(void)
 {
@@ -127,6 +128,9 @@ void Telemetry_Requeue(uint8_t length)
 
 void Telemetry_Clear(void)
 {
+  if (telemetry_len > telemetry_dropped)
+    telemetry_dropped = telemetry_len;
+
   telemetry_len = 0U;
 }
 
@@ -137,8 +141,12 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
   if (buf == NULL)
     return 0U;
 
-  length        = (telemetry_len < buf_size) ? telemetry_len : buf_size;
-  telemetry_len = 0U;
+  length = (telemetry_len > telemetry_dropped) ? telemetry_len : telemetry_dropped;
+  if (length > buf_size)
+    length = buf_size;
+
+  telemetry_len     = 0U;
+  telemetry_dropped = 0U;
 
   if (length < TELEMETRY_LEN_STATUS)
     return 0U;
