@@ -86,6 +86,7 @@ const MESSAGES = new Map([
   ['pending', renderPending],
   ['command', (entry) => showToast(queuedText(entry), 'is-ok')],
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
+  ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
   ['cleared', ({ removed }) => showToast(clearedText(removed), 'is-ok', 'data-toast')],
   ['downlink', ({ event, commands, nests }) => {
     const info = DOWNLINK_EVENTS[event];
@@ -188,6 +189,10 @@ function laidToday(n) {
 
 function queuedText(entry) {
   return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)} — čeká na další zprávu z kurníku`;
+}
+
+function expiredText(entries) {
+  return `Příkaz vypršel, do kurníku se nedostal: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')}`;
 }
 
 function cancelledText(cleared) {

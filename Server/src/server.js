@@ -243,6 +243,13 @@ ttn.on('downlink', ({ event, commands, nests }) => {
   trackAutomation(event, commands, at);
 });
 
+ttn.on('expired', (entries) => {
+  broadcast('expired', entries);
+  for (const entry of entries) {
+    console.log(`command expired (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
+  }
+});
+
 ttn.on('uplink', (uplink) => {
   state.latest = uplink;
 

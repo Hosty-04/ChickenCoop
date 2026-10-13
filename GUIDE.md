@@ -750,10 +750,14 @@ potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle s
 kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
 znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje.
 
-> Frontu si server pamatuje jen dokud běží. Po jeho restartu se řádek ukáže prázdný, i když
-> v síti něco čeká, a stejný příkaz jde zařadit znovu; **Zrušit** ale vždy smaže vše, co v síti opravdu je, takže po
-> restartu má smysl na něj kliknout, i když se nic nezobrazuje. Restart serveru také
-> odhlásí všechna otevřená okna a stránka se sama vrátí na přihlášení.
+Když se příkaz do kurníku nedostane do **30 minut**, třeba protože nejde brána, internet
+nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel, do kurníku se nedostal**.
+Dvířka se tak neotevřou v noci podle příkazu zadaného odpoledne. Kdo ho chce provést, zadá
+ho znovu.
+
+> Při restartu serveru se fronta smaže i v síti, takže příkazy, které do kurníku ještě
+> nedorazily, je potřeba zadat znovu. Restart serveru také odhlásí všechna otevřená okna
+> a stránka se sama vrátí na přihlášení.
 
 Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
 hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání

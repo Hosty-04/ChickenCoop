@@ -7,6 +7,8 @@ const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
 const QUEUE_EVENTS = ['sent', 'failed'];
 const SENT_MAX = 16;
+export const COMMAND_TTL_MS = 30 * 60 * 1000;
+const EXPIRY_CHECK_MS = 15 * 1000;
 const CORRELATION_TAG = 'kurnik:';
 const CORRELATION_PREFIX = `${CORRELATION_TAG}${Date.now().toString(36)}:`;
 
@@ -32,6 +34,9 @@ export class TtnBridge extends EventEmitter {
     this.sent = new Map();
     this.nextId = 1;
     this.sequence = 1 + Math.floor(Math.random() * SEQUENCE_MAX);
+    this.queueReset = false;
+    this.expiring = false;
+    this.expiryTimer = null;
   }
 
   restoreSequence(saved) {
@@ -66,6 +71,40 @@ export class TtnBridge extends EventEmitter {
     return entry;
   }
 
+  #downlink(entry) {
+    return {
+      f_port: DOWNLINK_PORT,
+      frm_payload: Buffer.from(entry.payload, 'hex').toString('base64'),
+      priority: 'NORMAL',
+      confirmed: true,
+      correlation_ids: [entry.correlationId]
+    };
+  }
+
+  #publish(action, entries) {
+    const body = JSON.stringify({ downlinks: entries.map((entry) => this.#downlink(entry)) });
+    return new Promise((resolve, reject) => {
+      this.client.publish(`${this.#base()}/down/${action}`, body, { qos: 1 }, (err) => (err ? reject(err) : resolve()));
+    });
+  }
+
+  #expire() {
+    const now = Date.now();
+    const expired = this.pending.filter((entry) => now - Date.parse(entry.queuedAt) >= COMMAND_TTL_MS);
+    if (expired.length === 0 || !this.connected || this.expiring) return;
+
+    this.expiring = true;
+    this.#publish('replace', this.pending.filter((entry) => !expired.includes(entry)))
+      .then(() => {
+        this.#setPending(this.pending.filter((entry) => !expired.includes(entry)));
+        this.emit('expired', expired);
+      })
+      .catch((err) => this.emit('error', err))
+      .finally(() => {
+        this.expiring = false;
+      });
+  }
+
   #remember(entry) {
     this.sent.set(entry.correlationId, entry);
     if (this.sent.size > SENT_MAX) this.sent.delete(this.sent.keys().next().value);
@@ -83,6 +122,10 @@ export class TtnBridge extends EventEmitter {
 
     this.client.on('connect', () => {
       this.connected = true;
+      if (!this.queueReset) {
+        this.queueReset = true;
+        this.#publish('replace', []).catch((err) => this.emit('error', err));
+      }
       const topics = [
         `${this.#base()}/up`,
         ...DOWN_EVENTS.map((event) => `${this.#base()}/down/${event}`)
@@ -92,7 +135,11 @@ export class TtnBridge extends EventEmitter {
         else this.emit('ready', topics);
       });
       this.emit('state', { connected: true });
+      this.#expire();
     });
+
+    this.expiryTimer = setInterval(() => this.#expire(), EXPIRY_CHECK_MS);
+    this.expiryTimer.unref();
 
     this.client.on('reconnect', () => this.emit('state', { connected: false, reconnecting: true }));
     this.client.on('close', () => {
@@ -121,6 +168,7 @@ export class TtnBridge extends EventEmitter {
       if (entry && event === 'sent') this.#remember(entry);
       if (entry && event === 'nack') this.#setPending([...this.pending, entry]);
       this.emit('downlink', { event, commands: entry?.commands ?? null, nests: entry?.nests ?? null });
+      if (entry && event === 'nack') this.#expire();
       return;
     }
 
@@ -176,43 +224,25 @@ export class TtnBridge extends EventEmitter {
       queuedAt: new Date().toISOString()
     };
 
-    const body = JSON.stringify({
-      downlinks: [{
-        f_port: DOWNLINK_PORT,
-        frm_payload: payload.toString('base64'),
-        priority: 'NORMAL',
-        confirmed: true,
-        correlation_ids: [entry.correlationId]
-      }]
-    });
-
     this.#setPending([...this.pending, entry]);
 
-    return new Promise((resolve, reject) => {
-      this.client.publish(`${this.#base()}/down/push`, body, { qos: 1 }, (err) => {
-        if (err) {
-          this.#setPending(this.pending.filter((queued) => queued !== entry));
-          return reject(err);
-        }
-        resolve(entry);
-      });
+    return this.#publish('push', [entry]).then(() => entry, (err) => {
+      this.#setPending(this.pending.filter((queued) => queued !== entry));
+      throw err;
     });
   }
 
-  clearQueue() {
+  async clearQueue() {
     if (!this.connected) throw new Error(NOT_CONNECTED);
 
-    return new Promise((resolve, reject) => {
-      this.client.publish(`${this.#base()}/down/replace`, JSON.stringify({ downlinks: [] }), { qos: 1 }, (err) => {
-        if (err) return reject(err);
-        const cleared = this.pending.length;
-        this.#setPending([]);
-        resolve({ cleared });
-      });
-    });
+    await this.#publish('replace', []);
+    const cleared = this.pending.length;
+    this.#setPending([]);
+    return { cleared };
   }
 
   stop() {
+    clearInterval(this.expiryTimer);
     return new Promise((resolve) => {
       if (!this.client) return resolve();
       this.client.end(false, {}, resolve);
