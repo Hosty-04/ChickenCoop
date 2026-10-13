@@ -409,7 +409,7 @@ void Nests_Process(void)
     nests_defer = 0U;
     if (hourly) {
       Nests_Plan();
-      Battery_Request();
+      Battery_Request(0U);
     }
     Nests_Schedule();
     return;
@@ -437,16 +437,19 @@ void Nests_Process(void)
 
   if (hourly) {
     Nests_Plan();
-    Battery_Request();
+    Battery_Request(1U);
+  } else {
+    Telemetry_RequestFull();
   }
 
   Nests_Schedule();
-  Telemetry_RequestFull();
 }
 
 void Nests_Reschedule(void)
 {
-  if (nests_due > (Timebase_GetUnix() + 2UL * NESTS_CHECK_S))
+  uint32_t now = Timebase_GetUnix();
+
+  if ((nests_due > (now + 2UL * NESTS_CHECK_S)) || ((nests_due != 0UL) && ((nests_due + NESTS_CHECK_S) < now)))
     Nests_Plan();
 
   if (nests_defer == 0U)

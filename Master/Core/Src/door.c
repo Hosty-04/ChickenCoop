@@ -13,6 +13,7 @@
 #include "telemetry.h"
 #include "timebase.h"
 #include "rtc.h"
+#include "flash_if.h"
 #include "lora_app.h"
 #include "stm32_timer.h"
 #include "utilities_conf.h"
@@ -32,6 +33,7 @@
 
 #define DOOR_BKP_REG             RTC_BKP_DR4
 #define DOOR_BKP_MAGIC           0x00D0UL
+#define DOOR_NVM_ADDR            0x0803F800UL
 
 typedef enum {
   DOOR_EVT_NONE = 0,
@@ -79,17 +81,32 @@ static int16_t  door_sun_tz_min     = 0;
 static uint32_t door_time_sync_unix = 0;
 static uint8_t  door_sync_fast      = 0;
 
+static uint32_t Door_ReadNvm(void)
+{
+  uint64_t record = *(const volatile uint64_t *)DOOR_NVM_ADDR;
+  uint32_t word   = (uint32_t)record;
+
+  return ((uint32_t)(record >> 32) == ~word) ? word : 0UL;
+}
+
 static void Door_StoreState(void)
 {
+  uint32_t word   = (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8) | (door_enabled ? 0UL : 1UL);
+  uint64_t record = ((uint64_t)~word << 32) | word;
+
   HAL_PWR_EnableBkUpAccess();
-  HAL_RTCEx_BKUPWrite(&hrtc, DOOR_BKP_REG,
-                      (DOOR_BKP_MAGIC << 16) | ((uint32_t)door_fault << 8) |
-                      (door_enabled ? 0UL : 1UL));
+  HAL_RTCEx_BKUPWrite(&hrtc, DOOR_BKP_REG, word);
+
+  if (Door_ReadNvm() != word)
+    (void)FLASH_IF_Write((void *)DOOR_NVM_ADDR, &record, sizeof(record));
 }
 
 static void Door_LoadState(void)
 {
   uint32_t word = HAL_RTCEx_BKUPRead(&hrtc, DOOR_BKP_REG);
+
+  if ((word >> 16) != DOOR_BKP_MAGIC)
+    word = Door_ReadNvm();
 
   if ((word >> 16) == DOOR_BKP_MAGIC) {
     door_fault   = (uint8_t)((word >> 8) & 0x01U);

@@ -11,9 +11,10 @@
 #include "main.h"
 
 void    Battery_Init(void);
+void    Battery_Measure(void);
 void    Battery_Process(void);
 uint8_t Battery_WorkPending(void);
-void    Battery_Request(void);
+void    Battery_Request(uint8_t full);
 
 uint8_t  Battery_IsCritical(void);
 uint16_t Battery_GetVoltage_mV(void);

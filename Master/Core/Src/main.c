@@ -130,6 +130,7 @@ int main(void)
   Battery_Init();
   Door_Init();
   Door_Setup(2026, 1, 1, 0, 0, 0, COOP_LATITUDE, COOP_LONGITUDE);
+  Battery_Measure();
   Nests_Init();
   if (!System_IsEnabled())
     Nests_Disable();

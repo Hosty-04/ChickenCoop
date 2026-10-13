@@ -733,7 +733,8 @@ deset v plném košíku, protože víc se do zprávy nevejde.
 ## Ovládání
 
 Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky
-a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kontrolu hnízd.
+a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kontrolu hnízd. Vypnutí
+i zablokování si kurník pamatuje i po odpojení baterie.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
