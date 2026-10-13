@@ -91,14 +91,24 @@ static void Nests_RxPullUp(void)
   HAL_GPIO_Init(LPUART_RX_GPIO_Port, &gpio);
 }
 
+static HAL_StatusTypeDef Nests_PreciseClock(void)
+{
+  __HAL_RCC_LPUART1_CONFIG(RCC_LPUART1CLKSOURCE_PCLK1);
+
+  return HAL_UART_Init(&hlpuart1);
+}
+
 static HAL_StatusTypeDef Nests_PowerUp(void)
 {
+  uint8_t precise = Power_LockMSI();
+
   HAL_GPIO_WritePin(LPUART_CTRL_GPIO_Port, LPUART_CTRL_Pin, GPIO_PIN_RESET);
   Nests_CtrlPin(GPIO_MODE_OUTPUT_PP);
   HAL_GPIO_WritePin(COM_GPIO_Port, COM_Pin, GPIO_PIN_RESET);
   HAL_Delay(NESTS_BOOT_MS);
 
   if ((HAL_UART_Init(&hlpuart1) != HAL_OK) ||
+      (precise && (Nests_PreciseClock() != HAL_OK)) ||
       (HAL_UARTEx_EnableFifoMode(&hlpuart1) != HAL_OK))
     return HAL_ERROR;
 
@@ -112,6 +122,7 @@ static void Nests_PowerDown(void)
   (void)HAL_UART_DeInit(&hlpuart1);
   Nests_CtrlPin(GPIO_MODE_ANALOG);
   HAL_GPIO_WritePin(COM_GPIO_Port, COM_Pin, GPIO_PIN_SET);
+  Power_UnlockMSI();
 }
 
 static uint16_t Nests_Crc(const uint8_t *buf, uint8_t len)

@@ -9,9 +9,18 @@
 #include "main.h"
 #include "timebase.h"
 #include "stm32wlxx_ll_rcc.h"
+#include "stm32wlxx_ll_bus.h"
+#include "stm32wlxx_ll_tim.h"
 #include "smtc_modem_api.h"
 
-#define POWER_PLL_OFF_MS  10U
+#define POWER_PLL_OFF_MS        10U
+
+#define POWER_MSI_EDGES         64U
+#define POWER_MSI_PERIODS       (POWER_MSI_EDGES * 8U)
+#define POWER_MSI_TRIES         3U
+#define POWER_MSI_TIMEOUT_MS    50U
+#define POWER_MSI_TOLERANCE     5U
+#define POWER_PERMILLE          1000U
 
 extern void SystemClock_Config(void);
 
@@ -92,6 +101,72 @@ void Power_SwitchToRunHSE48MHz(void)
 
   if (was_lprun)
     (void)smtc_modem_suspend_radio_communications(false);
+}
+
+static uint8_t Power_MeasureMSI(uint32_t expected)
+{
+  uint32_t start = HAL_GetTick();
+  uint32_t cycles;
+  uint16_t first = 0U;
+  uint16_t last  = 0U;
+  uint8_t  edges = 0U;
+
+  LL_TIM_ClearFlag_CC1(TIM16);
+
+  while (edges <= POWER_MSI_EDGES) {
+    if (LL_TIM_IsActiveFlag_CC1(TIM16)) {
+      last = (uint16_t)LL_TIM_IC_GetCaptureCH1(TIM16);
+      if (edges == 0U) {
+        first = last;
+        LL_TIM_ClearFlag_CC1OVR(TIM16);
+      }
+      edges++;
+    } else if (TICKS_TO_MS(HAL_GetTick() - start) > POWER_MSI_TIMEOUT_MS) {
+      return 0U;
+    }
+  }
+
+  if (LL_TIM_IsActiveFlag_CC1OVR(TIM16))
+    return 0U;
+
+  cycles = (uint16_t)(last - first);
+  cycles = (cycles > expected) ? (cycles - expected) : (expected - cycles);
+
+  return (uint8_t)((cycles * POWER_PERMILLE) <= (expected * POWER_MSI_TOLERANCE));
+}
+
+uint8_t Power_LockMSI(void)
+{
+  uint32_t expected = (uint32_t)(((uint64_t)HAL_RCC_GetPCLK2Freq() * POWER_MSI_PERIODS) / LSE_VALUE);
+  uint8_t  locked   = 0U;
+  uint8_t  attempt;
+
+  if (!power_lprun || !LL_RCC_LSE_IsReady() || (expected > UINT16_MAX))
+    return 0U;
+
+  LL_RCC_MSI_EnablePLLMode();
+
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM16);
+  LL_TIM_SetRemap(TIM16, LL_TIM_TIM16_TI1_RMP_LSE);
+  LL_TIM_IC_SetActiveInput(TIM16, LL_TIM_CHANNEL_CH1, LL_TIM_ACTIVEINPUT_DIRECTTI);
+  LL_TIM_IC_SetPrescaler(TIM16, LL_TIM_CHANNEL_CH1, LL_TIM_ICPSC_DIV8);
+  LL_TIM_CC_EnableChannel(TIM16, LL_TIM_CHANNEL_CH1);
+  LL_TIM_EnableCounter(TIM16);
+
+  for (attempt = 0U; (attempt < POWER_MSI_TRIES) && !locked; attempt++)
+    locked = Power_MeasureMSI(expected);
+
+  LL_TIM_DisableCounter(TIM16);
+  LL_APB2_GRP1_ForceReset(LL_APB2_GRP1_PERIPH_TIM16);
+  LL_APB2_GRP1_ReleaseReset(LL_APB2_GRP1_PERIPH_TIM16);
+  LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_TIM16);
+
+  return locked;
+}
+
+void Power_UnlockMSI(void)
+{
+  LL_RCC_MSI_DisablePLLMode();
 }
 
 void Power_DisableDebug(void)
