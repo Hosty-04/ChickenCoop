@@ -760,6 +760,7 @@ Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po 
 [utp-3m]: https://www.alza.cz/alzapower-patch-cat5e-utp?dq=6592175
 [utp-05m]: https://m.alza.cz/alzapower-patch-cat5e-utp?dq=6592172
 [plochy]: https://www.kondik.cz/kabel-plochy-ds1058-1-27mm-barevny/
+[buzirka]: https://www.hornbach.cz/p/smrstovaci-buzirka-s-lepidlem-3-1mm-cerna/8570253/
 [listy]: https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/
 [term]: https://www.hornbach.cz/p/ukoncovaci-profil-15x10-mm-bily-9003/6647353/
 [term-in]: https://www.hornbach.cz/p/ukoncovaci-profil-vnitrni-uhel-15x10-mm/6647265/
