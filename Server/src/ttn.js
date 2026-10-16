@@ -30,6 +30,10 @@ function clashes(entry, names, nests) {
     (!pair.some((name) => Object.hasOwn(NEST_COMMANDS, name)) || entry.nests.some((nest) => nests.includes(nest))));
 }
 
+function sameCommands(a, b) {
+  return a.length === b.length && a.every((name) => b.includes(name));
+}
+
 export class QueuedCommandError extends Error {
   constructor(queued) {
     super('ve frontě už čeká stejný nebo opačný příkaz');
@@ -157,8 +161,8 @@ export class TtnBridge extends EventEmitter {
       });
   }
 
-  #blocking(names, nests) {
-    return this.pending.find((entry) => this.#age(entry) < COMMAND_TTL_MS && clashes(entry, names, nests)) ?? null;
+  #clashing(names, nests) {
+    return this.pending.filter((entry) => this.#age(entry) < COMMAND_TTL_MS && clashes(entry, names, nests));
   }
 
   #remember(entry) {
@@ -242,7 +246,7 @@ export class TtnBridge extends EventEmitter {
         return;
       }
 
-      const newer = entry && event === 'nack' ? this.#blocking(entry.commands, entry.nests) : null;
+      const newer = entry && event === 'nack' ? this.#clashing(entry.commands, entry.nests)[0] : null;
       if (newer) {
         this.#silence([entry]);
         this.#purge();
@@ -289,19 +293,26 @@ export class TtnBridge extends EventEmitter {
     const chosen = plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null;
 
     if (!this.connected) throw new Error(NOT_CONNECTED);
-    const queued = this.#blocking(names, chosen);
-    if (queued) throw new QueuedCommandError(queued);
+    const replaced = this.#clashing(names, chosen);
+    const blocking = replaced.find((entry) => !chosen || !sameCommands(entry.commands, names));
+    if (blocking) throw new QueuedCommandError(blocking);
+
+    const merged = chosen && [...new Set([...chosen, ...replaced.flatMap((entry) => entry.nests)])].sort((a, b) => a - b);
+    if (replaced.length > 0 && merged.length === replaced.reduce((sum, entry) => sum + entry.nests.length, 0)) {
+      throw new QueuedCommandError(replaced[0]);
+    }
 
     const now = this.#now();
     const sequence = this.#nextSequence();
     const stamp = Math.floor(now / 1000) & STAMP_MASK;
-    const payload = Buffer.from(encodeDownlink(names, nests, config.nestCount, sequence, stamp));
+    const payload = Buffer.from(encodeDownlink(names, merged, config.nestCount, sequence, stamp));
     const id = this.nextId++;
     const entry = {
       id,
       correlationId: `${CORRELATION_PREFIX}${id}`,
       commands: names,
-      nests: chosen,
+      nests: merged,
+      replaced: replaced.map((queued) => ({ commands: queued.commands, nests: queued.nests })),
       byte: plain[0],
       sequence,
       stamp,
@@ -309,10 +320,14 @@ export class TtnBridge extends EventEmitter {
       queuedAt: new Date(now).toISOString()
     };
 
-    this.#setPending([...this.pending, entry]);
+    this.#setPending([...this.pending.filter((queued) => !replaced.includes(queued)), entry]);
 
-    return this.#publish('push', [entry]).then(() => entry, (err) => {
-      this.#setPending(this.pending.filter((queued) => queued !== entry));
+    const published = replaced.length > 0 ? this.#publish('replace', this.pending) : this.#publish('push', [entry]);
+    return published.then(() => {
+      this.#silence(replaced);
+      return entry;
+    }, (err) => {
+      this.#setPending([...this.pending.filter((queued) => queued !== entry), ...replaced]);
       throw err;
     });
   }

@@ -688,6 +688,19 @@ nepřeroste dvě okna zvoleného rozsahu; od kdy je díra vidět, ukazuje tabulk
 **Snáška a Napájení**. V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích
 do 24 hodin tedy i po jediné ztracené zprávě.
 
+**Zatím žádná data.** Tuhle hlášku ukáže karta místo grafu, když ve zvoleném rozsahu není nic
+k zobrazení, a to každá karta zvlášť. U **Napájení** to znamená, že za celý rozsah nedorazila
+jediná zpráva: kurník ještě nic neposlal, historie se právě smazala, nebo výpadek trvá déle
+než zvolený rozsah — rozsah 6 h pak hlásí tohle, delší rozsahy ukážou starší data s dírou na
+konci. **Snáška** ji ukáže, když za celý rozsah nepřišel ani jeden počet vajec: z týchž
+důvodů, nebo protože žádné hnízdo počet neposílá (váha není zkalibrovaná, má poruchu, hnízdo
+neodpovídá nebo na něm sedí kvočna), nebo se hnízda delší dobu nekontrolují kvůli kriticky
+vybité baterii či vypnuté automatice. V rozsazích 6 h a 24 h ukazuje Snáška jen hodiny, které
+už skončily, takže první počet po zapnutí kurníku se v ní objeví až po další celé hodině,
+i když karta Hnízda ho ukazuje hned. Napájení tak může mít data a Snáška zároveň hlásit
+**Zatím žádná data**, typicky než se váhy zkalibrují. Sloupce s nulou hlášku nevyvolají —
+nula znamená, že kontrola proběhla a nic nepřibylo.
+
 **Chybějící hodnota.** Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo
 naměří nesmysl (baterie mimo rozsah 1–10 V, panel nad rozsah převodníku, asi 13 V). Dlaždice
 pak ukáže pomlčku a oranžové **⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci
@@ -749,8 +762,10 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 > Opakované klikání nepomůže — z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/
 > **Zablokovat**, **Zapnout**/**Vypnout**) může ve frontě čekat jen jeden příkaz a pro každé
 > hnízdo jen jedno **Vynulovat** nebo **Kalibrovat**. Další takové kliknutí stránka odmítne
-> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Ostatní
-> příkazy se řadí za sebe a provedou se všechny.
+> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Výjimkou je
+> stejný příkaz pro další hnízda: čeká-li třeba **Vynulovat** pro hnízdo 1 a zadáte
+> **Vynulovat** pro všechna hnízda, čekající příkaz se nahradí jedním pro všechna hnízda
+> dohromady. Ostatní příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
