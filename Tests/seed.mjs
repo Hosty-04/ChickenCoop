@@ -177,7 +177,7 @@ function vsechnyStavy(konec) {
   return [{
     jmeno: 'všechny stavy hnízd naráz',
     stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'ok', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
-    od: ted - 3 * HOD,
+    od: ted - HOD,
     do: konec + KROK,
     kde: 'dlaždice'
   }, plneKosiky([5], konec)];
@@ -200,8 +200,6 @@ function dlouheUdalosti() {
 
 function dlouholeteUdalosti() {
   return [
-    { jmeno: 'odpojený panel (62 dní)', typ: 'panelOdpojen', od: ted - 700 * DEN, do: ted - 638 * DEN, kde: 'vše' },
-    { jmeno: 'výpadek 100 dní', typ: 'vypadek', od: ted - 1100 * DEN, do: ted - 1000 * DEN, kde: 'vše' },
     { jmeno: 'starší než 5 let, ve Vše schované', typ: 'skryto', od: ted - 1920 * DEN, do: ted - 1826 * DEN, kde: 'nikde' }
   ];
 }
@@ -224,24 +222,24 @@ function nastaveni(stav) {
     return {
       zacatek: tyden,
       konec,
-      udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka'), ...kratkeUdalosti()],
-      hnizda: [{ jmeno: 'kvočna v hnízdě 1, hnízdo 2 neodpovídá', stavy: ['kvocna', 'offline'], od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
+      udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka')],
+      hnizda: [{ jmeno: 'kvočna v hnízdě 1, hnízdo 2 neodpovídá', stavy: ['kvocna', 'offline'], od: ted - HOD, do: konec + KROK, kde: 'dlaždice' }]
     };
   }
   if (stav === 'porucha') {
     return {
       zacatek: tyden,
       konec,
-      udalosti: [chvost('porucha', 'kriticky vybitá baterie, dvířka v poruše'), ...kratkeUdalosti()],
-      hnizda: [{ jmeno: 'porucha váhy v hnízdě 1', stavy: ['porucha'], od: ted - 3 * HOD, do: konec + KROK, kde: 'dlaždice' }, ...kratkaHnizda()]
+      udalosti: [chvost('porucha', 'kriticky vybitá baterie, dvířka v poruše')],
+      hnizda: [{ jmeno: 'porucha váhy v hnízdě 1', stavy: ['porucha'], od: ted - 2 * HOD, do: konec + KROK, kde: 'dlaždice' }]
     };
   }
   if (stav === 'meze') {
     return {
       zacatek: tyden,
       konec,
-      udalosti: [chvost('nasyceno', 'baterie 8,00 V a panel 12,50 V'), ...kratkeUdalosti()],
-      hnizda: [plneKosiky([0, 1], konec), ...kratkaHnizda()]
+      udalosti: [chvost('nasyceno', 'baterie 8,00 V a panel 12,50 V')],
+      hnizda: [plneKosiky([0, 1], konec)]
     };
   }
   if (stav === 'instalace') {
@@ -249,7 +247,7 @@ function nastaveni(stav) {
     return { zacatek, konec, udalosti: [], hnizda: instalaceHnizd(zacatek, konec) };
   }
   if (stav === 'velky') {
-    return { zacatek: tyden, konec, udalosti: kratkeUdalosti(), hnizda: [...vsechnyStavy(konec), ...kratkaHnizda()] };
+    return { zacatek: tyden, konec, udalosti: [], hnizda: vsechnyStavy(konec) };
   }
   if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [], hnizda: [] };
   if (stav === 'jedno') return { zacatek: ted, konec: ted, udalosti: [], hnizda: [] };

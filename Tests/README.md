@@ -80,7 +80,7 @@ v `Server/README.md`.
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 
-`kurnik-test-dlouhy.db` má 1920 dní a 6,2 MB, protože do posledního týdne v něm přibývá jedno
+`kurnik-test-dlouhy.db` má 1920 dní a 6,5 MB, protože do posledního týdne v něm přibývá jedno
 měření za hodinu místo šesti; v delších rozsazích se to průměrováním neprojeví. `kurnik-test.db`
 má 720 dní a 8,5 MB. Krátké databáze mají týden historie a kolem 120 kB (`kurnik-test-velky.db`
 200 kB) a `kurnik-test-instalace.db` začíná před dvaceti hodinami.
@@ -98,7 +98,10 @@ mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkali
 
 ## Co je v grafech
 
-Platí pro `kurnik-test.db`; krátké databáze mají z tohohle seznamu první dva řádky.
+Neobvyklé události v grafech a tabulkách — výpadky, zprávy bez hodnot, horní mez rozsahu,
+kriticky vybitou baterii, odpojený panel, kvočnu nebo neodpovídající hnízda — má jen
+`kurnik-test.db`. Ostatní databáze mají obyčejné měření a neobvyklý je v nich jen stav na
+konci, kvůli kterému vznikly.
 
 | Rozsah | Události v Napájení |
 |---|---|
@@ -110,7 +113,8 @@ Platí pro `kurnik-test.db`; krátké databáze mají z tohohle seznamu první d
 
 Hnízda se kontrolují každou celou hodinu. Slepice snáší hlavně dopoledne, víc v létě než
 v zimě, a do prvního hnízda chodí raději než do druhého; vejce se sbírají v 17 hodin, jen
-některé dny se na to zapomene. Během kriticky vybité baterie se hnízda nekontrolují vůbec.
+některé dny se na to zapomene. Od 18 hodin do dopoledne proto karta Hnízda obvykle ukazuje
+0 vajec. Během kriticky vybité baterie se hnízda nekontrolují vůbec.
 
 | Rozsah | Události v hnízdech (karta Hnízda a Snáška) |
 |---|---|
@@ -127,15 +131,8 @@ roky: s historií nad dva roky by Vše průměrovalo Napájení po měsících a
 v grafu zmizel. Týdenní zůstane Vše ještě deset dní po přegenerování. Snáška je ve Vše po
 měsících, protože historie je delší než rok.
 
-V `kurnik-test-dlouhy.db` jsou události, které se projeví jen ve Vše:
-
-| Událost | Co je ve Vše vidět |
-|---|---|
-| první tři měsíce databáze | nic — Vše začíná prvním dnem měsíce před 60 měsíci, starší měsíce chybí v grafech i tabulkách |
-| výpadek 100 dní | díra v Napájení přes dva celé měsíce a ve Snášce dva měsíce s pomlčkou |
-| odpojený panel 62 dní | jeden celý měsíc s panelem na 0 V |
-
-Ostatní rozsahy ukazují obyčejné měření bez událostí.
+V `kurnik-test-dlouhy.db` je ve Vše vidět jen oříznutí na pět let: Vše začíná prvním dnem
+měsíce před 60 měsíci, takže první tři měsíce databáze chybí v grafech i tabulkách.
 
 ## Přegenerování
 
