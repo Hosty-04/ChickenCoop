@@ -145,8 +145,8 @@ node Tests/seed.mjs
 node Tests/seed.mjs plny poplach
 ```
 
-První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `dlouhy`, `plny`,
-`poplach`, `porucha`, `meze`, `velky`, `stara`, `instalace`, `jedno` a `prazdna`. Generátor u každé databáze
+První příkaz přepíše všechny databáze, druhý jen vyjmenované. Na výběr jsou `plny`, `dlouhy`,
+`velky`, `porucha`, `poplach`, `meze`, `instalace`, `jedno`, `prazdna` a `stara`. Generátor u každé databáze
 vypíše seznam událostí i s časy, takže je jasné, kam se v grafu dívat.
 
 Hodnoty sedí na mřížce protokolu — baterie po 50 mV v rozsahu 5–8 V, panel po 100 mV do

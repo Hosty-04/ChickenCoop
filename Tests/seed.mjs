@@ -15,16 +15,16 @@ const SLOZKA = fileURLToPath(new URL('.', import.meta.url));
 const ted = Math.floor(Date.now() / KROK) * KROK;
 
 const DATABAZE = {
-  dlouhy: { soubor: 'kurnik-test-dlouhy.db', popis: 'pět let a tři měsíce měření, Vše oříznuté na 5 let, Napájení i Snáška po měsících' },
   plny: { soubor: 'kurnik-test.db', popis: 'skoro dva roky měření, všechny události v grafech' },
-  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
-  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
-  meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
+  dlouhy: { soubor: 'kurnik-test-dlouhy.db', popis: 'pět let a tři měsíce měření, Vše oříznuté na 5 let, Napájení i Snáška po měsících' },
   velky: { soubor: 'kurnik-test-velky.db', popis: 'velký kurník s patnácti hnízdy, poslední kontrola se všemi stavy', hnizd: 15 },
-  stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' },
+  porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
+  poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
+  meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
   instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
-  prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' }
+  prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' },
+  stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' }
 };
 
 const STAV = { ok: 0, kvocna: 1, nekalibrovano: 2, porucha: 3, offline: 4 };
@@ -218,13 +218,8 @@ function nastaveni(stav) {
     const zacatek = new Date(ted - 1920 * DEN).setMinutes(0, 0, 0);
     return { zacatek, konec, husteOd: ted - 8 * DEN, udalosti: dlouholeteUdalosti(), hnizda: [] };
   }
-  if (stav === 'poplach') {
-    return {
-      zacatek: tyden,
-      konec,
-      udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka')],
-      hnizda: [{ jmeno: 'kvočna v hnízdě 1, hnízdo 2 neodpovídá', stavy: ['kvocna', 'offline'], od: ted - HOD, do: konec + KROK, kde: 'dlaždice' }]
-    };
+  if (stav === 'velky') {
+    return { zacatek: tyden, konec, udalosti: [], hnizda: vsechnyStavy(konec) };
   }
   if (stav === 'porucha') {
     return {
@@ -232,6 +227,14 @@ function nastaveni(stav) {
       konec,
       udalosti: [chvost('porucha', 'kriticky vybitá baterie, dvířka v poruše')],
       hnizda: [{ jmeno: 'porucha váhy v hnízdě 1', stavy: ['porucha'], od: ted - 2 * HOD, do: konec + KROK, kde: 'dlaždice' }]
+    };
+  }
+  if (stav === 'poplach') {
+    return {
+      zacatek: tyden,
+      konec,
+      udalosti: [chvost('poplach', 'mrtvé čidlo baterie i panelu, neznámá dvířka')],
+      hnizda: [{ jmeno: 'kvočna v hnízdě 1, hnízdo 2 neodpovídá', stavy: ['kvocna', 'offline'], od: ted - HOD, do: konec + KROK, kde: 'dlaždice' }]
     };
   }
   if (stav === 'meze') {
@@ -246,11 +249,8 @@ function nastaveni(stav) {
     const zacatek = ted - 20 * HOD;
     return { zacatek, konec, udalosti: [], hnizda: instalaceHnizd(zacatek, konec) };
   }
-  if (stav === 'velky') {
-    return { zacatek: tyden, konec, udalosti: [], hnizda: vsechnyStavy(konec) };
-  }
-  if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [], hnizda: [] };
   if (stav === 'jedno') return { zacatek: ted, konec: ted, udalosti: [], hnizda: [] };
+  if (stav === 'stara') return { zacatek: ted - 12 * DEN, konec: ted - 5 * DEN, udalosti: [], hnizda: [] };
   return { zacatek: ted, konec: ted - KROK, udalosti: [], hnizda: [] };
 }
 
