@@ -69,16 +69,16 @@ v `Server/README.md`.
 
 | Soubor | Poslední měření | Na co se dívat |
 |---|---|---|
-| `kurnik-test-dlouhy.db` | běžný stav | pět let a tři měsíce měření: Vše ukazuje jen posledních 5 let a Napájení i Snášku průměruje po měsících |
 | `kurnik-test.db` | běžný stav | skoro dva roky měření, všechny události v grafech |
-| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
-| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
-| `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
+| `kurnik-test-dlouhy.db` | běžný stav | pět let a tři měsíce měření: Vše ukazuje jen posledních 5 let a Napájení i Snášku průměruje po měsících |
 | `kurnik-test-velky.db` | 15 hnízd, poslední kontrola ve všech stavech (`NEST_COUNT=15`) | karta Hnízda se všemi poznámkami, okno výběru hnízd, Snáška a její tabulka s 15 sloupci, telefon |
-| `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
+| `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
+| `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
+| `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
 | `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
+| `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
 
 `kurnik-test-dlouhy.db` má 1920 dní a 6,5 MB, protože do posledního týdne v něm přibývá jedno
 měření za hodinu místo šesti; v delších rozsazích se to průměrováním neprojeví. `kurnik-test.db`
