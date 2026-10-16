@@ -88,6 +88,7 @@ const MESSAGES = new Map([
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
   ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
   ['restarted', (entries) => showToast(restartedText(entries), 'is-error')],
+  ['superseded', ({ dropped, newer }) => showToast(supersededText(dropped, newer), 'is-error')],
   ['cleared', ({ removed }) => showToast(clearedText(removed), 'is-ok', 'data-toast')],
   ['downlink', ({ event, commands, nests }) => {
     const info = DOWNLINK_EVENTS[event];
@@ -198,6 +199,10 @@ function expiredText(entries) {
 
 function restartedText(entries) {
   return `Kurník se restartoval dřív, než příkaz potvrdil: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')} — zkontrolujte stav a případně ho zadejte znovu`;
+}
+
+function supersededText(dropped, newer) {
+  return `Nepotvrzený příkaz se znovu nepošle: ${describe(dropped.commands, dropped.nests)} — ve frontě už čeká novější: ${describe(newer.commands, newer.nests)}`;
 }
 
 function cancelledText(cleared) {
@@ -457,9 +462,11 @@ function drawPower() {
       plugins: {
         legend: { display: false },
         tooltip: {
+          boxPadding: 3,
           callbacks: {
             title: (items) => formatTime(items[0].parsed.x, labelMode()),
-            label: (ctx) => `${ctx.dataset.label}: ${formatVolts(ctx.parsed.y)}`
+            label: (ctx) => `${ctx.dataset.label}: ${formatVolts(ctx.parsed.y)}`,
+            labelColor: (ctx) => ({ borderColor: ctx.dataset.borderColor, backgroundColor: ctx.dataset.borderColor, borderWidth: 3, borderRadius: 0 })
           }
         }
       },
@@ -901,7 +908,7 @@ async function sendCommand(button, command) {
     loadStatus();
   } catch (err) {
     if (redirected(err)) return;
-    if (err instanceof HttpError && err.status === 409) showToast('Stejný příkaz už ve frontě čeká, podruhé se nezařadil.');
+    if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
     else showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
   } finally {
     busy.delete(button);

@@ -3,9 +3,10 @@ const REQUEST_MS = 8000;
 export const el = (id) => document.getElementById(id);
 
 export class HttpError extends Error {
-  constructor(status, message) {
+  constructor(status, message, data = {}) {
     super(message);
     this.status = status;
+    this.data = data;
   }
 }
 
@@ -21,7 +22,7 @@ export async function api(url, body) {
     });
     if (res.ok) return await res.json();
     const data = await res.json().catch(() => ({}));
-    throw new HttpError(res.status, data.error ?? `HTTP ${res.status}`);
+    throw new HttpError(res.status, data.error ?? `HTTP ${res.status}`, data);
   } finally {
     clearTimeout(timer);
   }

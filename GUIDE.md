@@ -746,8 +746,11 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Opakované klikání nepomůže — stejný příkaz se do fronty zařadí jen jednou a stránka další
-> kliknutí odmítne s upozorněním. Různé příkazy se řadí za sebe a provedou se všechny.
+> Opakované klikání nepomůže — z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/
+> **Zablokovat**, **Zapnout**/**Vypnout**) může ve frontě čekat jen jeden příkaz a pro každé
+> hnízdo jen jedno **Vynulovat** nebo **Kalibrovat**. Další takové kliknutí stránka odmítne
+> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Ostatní
+> příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
@@ -757,6 +760,8 @@ pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohno
 potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu. Pokud ho
 kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
 znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje. Platí to i po resetu kurníku.
+Jen když mezitím zadáte opačný příkaz nebo příkaz pro stejné hnízdo, platí ten novější:
+nepotvrzený se znovu neposílá a stránka ohlásí **Nepotvrzený příkaz se znovu nepošle**.
 Když se kurník restartuje dřív, než příkaz potvrdí, třeba po odpojení baterie, server příkaz
 už znovu neposílá a stránka ohlásí **Kurník se restartoval dřív, než příkaz potvrdil**.
 Zkontrolujte stav a příkaz případně zadejte znovu.

@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
-import { TtnBridge, DuplicateCommandError } from './ttn.js';
+import { TtnBridge, QueuedCommandError } from './ttn.js';
 import { EGGS_MAX } from './codec.js';
 import {
   SESSION_COOKIE, SESSION_TTL_MS, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
@@ -141,7 +141,8 @@ app.post('/api/command', async (req, res) => {
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
-    res.status(err instanceof DuplicateCommandError ? 409 : 400).json({ ok: false, error: err.message });
+    if (err instanceof QueuedCommandError) res.status(409).json({ ok: false, error: err.message, queued: err.queued });
+    else res.status(400).json({ ok: false, error: err.message });
   }
 });
 
@@ -236,25 +237,30 @@ function trackAutomation(event, commands, at) {
   broadcast('status', state);
 }
 
+function commandText({ commands, nests }) {
+  return `${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''}`;
+}
+
 ttn.on('downlink', ({ event, commands, nests }) => {
   const at = new Date().toISOString();
   broadcast('downlink', { event, commands, nests, at });
-  console.log(`downlink ${event}${commands ? ` (${commands.join(', ')}${nests ? ` nests ${nests.join(',')}` : ''})` : ''}`);
+  console.log(`downlink ${event}${commands ? ` (${commandText({ commands, nests })})` : ''}`);
   trackAutomation(event, commands, at);
 });
 
 ttn.on('expired', (entries) => {
   broadcast('expired', entries);
-  for (const entry of entries) {
-    console.log(`command expired (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
-  }
+  for (const entry of entries) console.log(`command expired (${commandText(entry)})`);
 });
 
 ttn.on('restarted', (entries) => {
   broadcast('restarted', entries);
-  for (const entry of entries) {
-    console.log(`coop rejoined before confirming (${entry.commands.join(', ')}${entry.nests ? ` nests ${entry.nests.join(',')}` : ''})`);
-  }
+  for (const entry of entries) console.log(`coop rejoined before confirming (${commandText(entry)})`);
+});
+
+ttn.on('superseded', ({ dropped, newer }) => {
+  broadcast('superseded', { dropped, newer });
+  console.log(`unconfirmed command dropped (${commandText(dropped)}), newer one queued (${commandText(newer)})`);
 });
 
 ttn.on('uplink', (uplink) => {

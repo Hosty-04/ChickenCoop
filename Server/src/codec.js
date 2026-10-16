@@ -39,7 +39,7 @@ const EXTENDED_FLAG = 0x40;
 export const SEQUENCE_MAX = 255;
 export const STAMP_MASK = 0xffffff;
 
-const EXCLUSIVE_PAIRS = [
+export const EXCLUSIVE_PAIRS = [
   ['systemOn', 'systemOff'],
   ['doorOpen', 'doorClose'],
   ['block', 'unblock'],
