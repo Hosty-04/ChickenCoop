@@ -88,6 +88,7 @@ const MESSAGES = new Map([
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
   ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
   ['restarted', (entries) => showToast(restartedText(entries), 'is-error')],
+  ['superseded', ({ dropped, newer }) => showToast(supersededText(dropped, newer), 'is-error')],
   ['cleared', ({ removed }) => showToast(clearedText(removed), 'is-ok', 'data-toast')],
   ['downlink', ({ event, commands, nests }) => {
     const info = DOWNLINK_EVENTS[event];
@@ -198,6 +199,10 @@ function expiredText(entries) {
 
 function restartedText(entries) {
   return `Kurník se restartoval dřív, než příkaz potvrdil: ${entries.map((entry) => describe(entry.commands, entry.nests)).join(' · ')} — zkontrolujte stav a případně ho zadejte znovu`;
+}
+
+function supersededText(dropped, newer) {
+  return `Nepotvrzený příkaz se znovu nepošle: ${describe(dropped.commands, dropped.nests)} — ve frontě už čeká novější: ${describe(newer.commands, newer.nests)}`;
 }
 
 function cancelledText(cleared) {

@@ -157,6 +157,10 @@ export class TtnBridge extends EventEmitter {
       });
   }
 
+  #blocking(names, nests) {
+    return this.pending.find((entry) => this.#age(entry) < COMMAND_TTL_MS && clashes(entry, names, nests)) ?? null;
+  }
+
   #remember(entry) {
     entry.sentAt = this.#now();
     this.sent.set(entry.correlationId, entry);
@@ -238,6 +242,14 @@ export class TtnBridge extends EventEmitter {
         return;
       }
 
+      const newer = entry && event === 'nack' ? this.#blocking(entry.commands, entry.nests) : null;
+      if (newer) {
+        this.#silence([entry]);
+        this.#purge();
+        this.emit('superseded', { dropped: entry, newer });
+        return;
+      }
+
       if (entry && event === 'sent') this.#remember(entry);
       if (entry && event === 'nack') this.#setPending([...this.pending, entry]);
       this.emit('downlink', { event, commands: entry?.commands ?? null, nests: entry?.nests ?? null });
@@ -277,7 +289,7 @@ export class TtnBridge extends EventEmitter {
     const chosen = plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null;
 
     if (!this.connected) throw new Error(NOT_CONNECTED);
-    const queued = this.pending.find((entry) => this.#age(entry) < COMMAND_TTL_MS && clashes(entry, names, chosen));
+    const queued = this.#blocking(names, chosen);
     if (queued) throw new QueuedCommandError(queued);
 
     const now = this.#now();
