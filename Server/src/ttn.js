@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events';
 import mqtt from 'mqtt';
 import { config, ttnUsername } from './config.js';
-import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX, STAMP_MASK } from './codec.js';
+import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX, STAMP_MASK, EXCLUSIVE_PAIRS, NEST_COMMANDS } from './codec.js';
 
 const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
@@ -23,7 +23,19 @@ function correlationIds(message) {
   return found;
 }
 
-export class DuplicateCommandError extends Error {}
+function clashes(entry, names, nests) {
+  return EXCLUSIVE_PAIRS.some((pair) =>
+    pair.some((name) => names.includes(name)) &&
+    pair.some((name) => entry.commands.includes(name)) &&
+    (!pair.some((name) => Object.hasOwn(NEST_COMMANDS, name)) || entry.nests.some((nest) => nests.includes(nest))));
+}
+
+export class QueuedCommandError extends Error {
+  constructor(queued) {
+    super('ve frontě už čeká stejný nebo opačný příkaz');
+    this.queued = { commands: queued.commands, nests: queued.nests };
+  }
+}
 
 export class TtnBridge extends EventEmitter {
   constructor() {
@@ -262,12 +274,11 @@ export class TtnBridge extends EventEmitter {
 
   sendCommand(names, nests) {
     const plain = Buffer.from(encodeDownlink(names, nests, config.nestCount));
-    const key = plain.toString('hex');
+    const chosen = plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null;
 
     if (!this.connected) throw new Error(NOT_CONNECTED);
-    if (this.pending.some((entry) => entry.key === key)) {
-      throw new DuplicateCommandError('stejný příkaz už ve frontě čeká');
-    }
+    const queued = this.pending.find((entry) => this.#age(entry) < COMMAND_TTL_MS && clashes(entry, names, chosen));
+    if (queued) throw new QueuedCommandError(queued);
 
     const now = this.#now();
     const sequence = this.#nextSequence();
@@ -278,11 +289,10 @@ export class TtnBridge extends EventEmitter {
       id,
       correlationId: `${CORRELATION_PREFIX}${id}`,
       commands: names,
-      nests: plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null,
+      nests: chosen,
       byte: plain[0],
       sequence,
       stamp,
-      key,
       payload: payload.toString('hex'),
       queuedAt: new Date(now).toISOString()
     };

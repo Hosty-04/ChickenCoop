@@ -746,8 +746,11 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Opakované klikání nepomůže — stejný příkaz se do fronty zařadí jen jednou a stránka další
-> kliknutí odmítne s upozorněním. Různé příkazy se řadí za sebe a provedou se všechny.
+> Opakované klikání nepomůže — z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/
+> **Zablokovat**, **Zapnout**/**Vypnout**) může ve frontě čekat jen jeden příkaz a pro každé
+> hnízdo jen jedno **Vynulovat** nebo **Kalibrovat**. Další takové kliknutí stránka odmítne
+> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Ostatní
+> příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.

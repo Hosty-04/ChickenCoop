@@ -457,9 +457,11 @@ function drawPower() {
       plugins: {
         legend: { display: false },
         tooltip: {
+          boxPadding: 3,
           callbacks: {
             title: (items) => formatTime(items[0].parsed.x, labelMode()),
-            label: (ctx) => `${ctx.dataset.label}: ${formatVolts(ctx.parsed.y)}`
+            label: (ctx) => `${ctx.dataset.label}: ${formatVolts(ctx.parsed.y)}`,
+            labelColor: (ctx) => ({ borderColor: ctx.dataset.borderColor, backgroundColor: ctx.dataset.borderColor, borderWidth: 3, borderRadius: 0 })
           }
         }
       },
@@ -901,7 +903,7 @@ async function sendCommand(button, command) {
     loadStatus();
   } catch (err) {
     if (redirected(err)) return;
-    if (err instanceof HttpError && err.status === 409) showToast('Stejný příkaz už ve frontě čeká, podruhé se nezařadil.');
+    if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
     else showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
   } finally {
     busy.delete(button);
