@@ -749,8 +749,10 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 > Opakované klikání nepomůže — z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/
 > **Zablokovat**, **Zapnout**/**Vypnout**) může ve frontě čekat jen jeden příkaz a pro každé
 > hnízdo jen jedno **Vynulovat** nebo **Kalibrovat**. Další takové kliknutí stránka odmítne
-> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Ostatní
-> příkazy se řadí za sebe a provedou se všechny.
+> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Výjimkou je
+> stejný příkaz pro další hnízda: čeká-li třeba **Vynulovat** pro hnízdo 1 a zadáte
+> **Vynulovat** pro všechna hnízda, čekající příkaz se nahradí jedním pro všechna hnízda
+> dohromady. Ostatní příkazy se řadí za sebe a provedou se všechny.
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.

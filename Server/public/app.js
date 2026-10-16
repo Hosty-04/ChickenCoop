@@ -190,7 +190,10 @@ function laidToday(n) {
 }
 
 function queuedText(entry) {
-  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)} — čeká na další zprávu z kurníku`;
+  const replaced = entry.replaced?.length > 0
+    ? ` (nahrazuje ${entry.replaced.map((queued) => describe(queued.commands, queued.nests)).join(' · ')})`
+    : '';
+  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)}${replaced} — čeká na další zprávu z kurníku`;
 }
 
 function expiredText(entries) {
