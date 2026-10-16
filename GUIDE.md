@@ -688,6 +688,19 @@ nepřeroste dvě okna zvoleného rozsahu; od kdy je díra vidět, ukazuje tabulk
 **Snáška a Napájení**. V tabulce zmizí řádek, jakmile je celé okno bez měření — v rozsazích
 do 24 hodin tedy i po jediné ztracené zprávě.
 
+**Zatím žádná data.** Tuhle hlášku ukáže karta místo grafu, když ve zvoleném rozsahu není nic
+k zobrazení, a to každá karta zvlášť. U **Napájení** to znamená, že za celý rozsah nedorazila
+jediná zpráva: kurník ještě nic neposlal, historie se právě smazala, nebo výpadek trvá déle
+než zvolený rozsah — rozsah 6 h pak hlásí tohle, delší rozsahy ukážou starší data s dírou na
+konci. **Snáška** ji ukáže, když za celý rozsah nepřišel ani jeden počet vajec: z týchž
+důvodů, nebo protože žádné hnízdo počet neposílá (váha není zkalibrovaná, má poruchu, hnízdo
+neodpovídá nebo na něm sedí kvočna), nebo se hnízda delší dobu nekontrolují kvůli kriticky
+vybité baterii či vypnuté automatice. V rozsazích 6 h a 24 h ukazuje Snáška jen hodiny, které
+už skončily, takže první počet po zapnutí kurníku se v ní objeví až po další celé hodině,
+i když karta Hnízda ho ukazuje hned. Napájení tak může mít data a Snáška zároveň hlásit
+**Zatím žádná data**, typicky než se váhy zkalibrují. Sloupce s nulou hlášku nevyvolají —
+nula znamená, že kontrola proběhla a nic nepřibylo.
+
 **Chybějící hodnota.** Zpráva může dorazit i bez některé hodnoty, když se čidlo neozve nebo
 naměří nesmysl (baterie mimo rozsah 1–10 V, panel nad rozsah převodníku, asi 13 V). Dlaždice
 pak ukáže pomlčku a oranžové **⚠ čidlo neodpovídá**, v tabulce je pomlčka v tom sloupci
