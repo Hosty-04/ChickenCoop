@@ -128,7 +128,10 @@ function readPalette() {
     surface: token('--surface-1'),
     text: token('--text-muted'),
     grid: token('--grid'),
-    axis: token('--axis')
+    axis: token('--axis'),
+    tooltip: token('--tooltip'),
+    tooltipText: token('--tooltip-text'),
+    tooltipBorder: token('--tooltip-border')
   };
 }
 
@@ -381,17 +384,29 @@ function paintScales(scales) {
   }
 }
 
+function paintTooltip(tooltip) {
+  Object.assign(tooltip, {
+    backgroundColor: palette.tooltip,
+    titleColor: palette.tooltipText,
+    bodyColor: palette.tooltipText,
+    borderColor: palette.tooltipBorder,
+    borderWidth: 1
+  });
+}
+
 function paintPower(target) {
   const [battery, panel] = target.data.datasets;
   Object.assign(battery, { borderColor: palette.battery, backgroundColor: palette.battery, pointBorderColor: palette.surface });
   Object.assign(panel, { borderColor: palette.panel, backgroundColor: palette.panel, pointBorderColor: palette.surface });
   paintScales(target.options.scales);
+  paintTooltip(target.options.plugins.tooltip);
   return target;
 }
 
 function paintEggs(target) {
   target.data.datasets[0].backgroundColor = palette.eggs;
   paintScales(target.options.scales);
+  paintTooltip(target.options.plugins.tooltip);
   return target;
 }
 
