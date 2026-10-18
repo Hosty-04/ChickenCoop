@@ -12,9 +12,11 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
-## Schémata
+## Schéma
 
 ### Elektronika
+
+---
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_white.png">
@@ -24,11 +26,13 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 
 ### Komunikace
 
+---
+
 ## Popis
 
-### Mechanika
+### 1. Mechanika
 
-#### Krabičky
+### a) Krabičky
 
 Hlavní část systému je umístěna na vnější stěně kurníku, která splňuje požadavky na umístění solárního panelu popsané v kapitole Napájení. Toto řešení zjednodušuje montáž a zároveň z velké části eliminuje vliv amoniaku ze slepičího trusu na elektroniku.
 
@@ -38,7 +42,7 @@ Konstrukce obsahuje jednu krabičku pro akumulátor o tloušťce stěny 2,4 mm a
 
 V krabičkách K a Kx jsou desky plošných spojů připevněny ke dnu (šroub vede zespodu) přes odřezek plastového brčka a u víka krabiček jsou vytvořeny nízké drážky ve tvaru písmene U s mírně zaoblenými rohy, sloužící k protažení kabelů. Pro kabel o průřezu 1,5 mm² mají šířku 4,5 mm, hloubku 3 mm a zaoblení dna i hran 1 mm; pro kabel o průřezu 0,5 mm² šířku 3,5 mm, hloubku 2 mm a zaoblení dna i hran 0,75 mm; pro datový kabel pak šířku 6 mm, hloubku 3,5 mm a stejné zaoblení jako u prvního kabelu. Krabička pro akumulátor má zespodu dva kruhové otvory o průměru 5 mm určené pro průchod napájecích kabelů a dva větrací otvory o průměru 4 mm, umístěné v horní a spodní části tak, aby mohl uvnitř cirkulovat vzduch. Krabička Kx má zespodu jeden otvor o průměru 6 mm pro průchod kabelu od tenzometru, krabička K pak otvor o průměru 3 mm pro lanko.
 
-#### Kabeláž
+### b) Kabeláž
 
 Pro připojení solárního panelu a akumulátoru je použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Stejným způsobem je k desce plošných spojů připojen motor a mikrospínače, avšak za využití licny o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici.
 
@@ -46,9 +50,9 @@ Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. K deskám plošný
 
 Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně, respektive základové desce, pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
 
-U prototypu jsou využity stejné kabely a svorkovnice. Dále jsou použity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
+U prototypu jsou využity stejné kabely, vodiče a svorkovnice. Na rozdíl od finální verze jsou ale využity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
 
-#### Konstrukce
+### c) Konstrukce
 
 Na betonovou stěnu jsou pomocí vrutů a hmoždinek připevněny svislé dřevěné hranolky, k jejichž bočním stěnám jsou vruty upevněny hliníkové U-profily se šířkou dna 15 mm, výškou bočních stěn 15 mm, tloušťkou 1,5 mm a délkou 1 m. První vrut je umístěn na horní pozici, nad kterou se dvířka nikdy nedostanou, a druhý vrut na dolní pozici, kam dvířka nikdy nedojedou. U-profily zajišťují přesné vedení dvířek při minimálním tření. V těchto profilech se ve svislém směru pohybují nalakovaná pěněná PVC dvířka o rozměrech 24 × 35 cm a tloušťce 8 mm (pozor na výrobní tolerance). Hmotnost těchto dvířek je 350 g. Při vrtání otvorů do PVC je nutné použít nízké otáčky a nevyvíjet nadměrný přítlak. Pěněné PVC bylo zvoleno pro nízkou hmotnost, odolnost proti vlhkosti a snadnou obrobitelnost.
 
@@ -100,7 +104,7 @@ Optická závora není pro počítání vajec v kurníku vhodná mimo jiné kvů
 
 Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po bocích základové desky. Lišty jsou vysoké 21,5 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem — zároveň musí zůstat zachována vůle alespoň 3 mm. Do zadní lišty je vyvrtán otvor, kterým prochází již prodloužený kabel od tenzometru; kabel nesmí být mechanicky namáhán tahem. Kabel dále vede vzhůru po stěně do krabičky Kx, odkud je z boku vyveden datový kabel, vedoucí vysoko po stěně až do krabičky K. Uprostřed konstrukce, naproti košíku, je vytvořen stavitelný doraz pomocí zápustného imbusového šroubu M5 z nerezové oceli A2 (délka 30 mm), procházejícího spodní deskou skrz otvor o průměru 4,5 mm a zapuštěného do záhlubení o průměru 10 mm a hloubce 6 mm. Doraz tvoří mosazná kloboučková matice M5 (délka 10 mm, délka závitu 7,5 mm), zvolená kvůli omezení ulpívání nečistot. Optimální vůle dorazu je 0,8 mm, což odpovídá jedné otáčce šroubu M5 nebo přibližně tloušťce běžné platební karty.
 
-### Řízení
+### 2. Řízení
 
 Hlavní řídicí jednotkou systému je mikrořadič LoRa-E5 mini (M) se STM32WLE5JC a integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožňuje na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda je umístěn mikrořadič STM32 NUCLEO-L031K6 (Mx). K programování slouží programátor ST-Link V2. Před programováním je potřeba programátor připojit k dané desce klasickými kabely DuPont — stačí propojit piny 3V3, SWCLK, SWDIO, GND a nRST. U finální verze jsou desky osazeny v paticích (dutinkových lištách).
 
@@ -217,7 +221,7 @@ Před odpojením napájení VCC od jednotlivých částí systému, před jejich
 
 Kvůli nízkopříkonové povaze systému je nutné u mikrořadiče LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, Schottkyho diodu a lineární LDO regulátor. U hnízdových mikrořadičů je nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je u obou mikrořadičů třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru (po vývoji i debug piny SWDIO a SWCLK). Nakonec je u LoRa-E5 mini potřeba, pokud se rádio nepoužívá, nastavit externí RF switch (piny PA4 a PA5) na logickou nulu a vypnout TCXO; u hnízdových mikrořadičů je pak potřeba v power registrech (PWR) zapnout ultra low power režim (bit ULP) a vypnout fast wakeup (bit FWU).
 
-### Elektronika
+### 3. Elektronika
 
 Prototyp je sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze obsahuje jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách jsou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
@@ -318,7 +322,7 @@ Měření hmotnosti snáškového hnízda zprostředkovává tenzometr se zanedb
 
 Na deskách plošných spojů musí být všechny součástky v jednotlivých krabičkách co nejblíže u sebe a kondenzátory co nejblíže příslušným pinům; silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu tvoří záporný pól solárního panelu a akumulátoru.
 
-### Napájení
+### 4. Napájení
 
 Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 V / Isc = 1,23 A / Impp = 1,11 A. Panel je svisle připevněný na stěnu mimo výběh pod malou stříškou a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž mimo výběh zároveň omezuje usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká. Vlivem teplotních ztrát a nepatrného úbytku napětí na krátké kabeláži je účinnost panelu přibližně 95 %.
 
