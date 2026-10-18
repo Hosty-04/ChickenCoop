@@ -12,8 +12,6 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 - Ověřte funkčnost systému experimentálním měřením a vyhodnoťte spolehlivost detekce a ovládání.
 - Zveřejněte veškeré výrobní podklady na vhodné platformě (např. GitHub).
 
-<a href="./GUIDE.md">**Návod pro zprovoznění**</a>
-
 ## Schémata
 
 ### Elektronika
@@ -42,13 +40,13 @@ V krabičkách K a Kx jsou desky plošných spojů připevněny ke dnu (šroub v
 
 #### Kabeláž
 
-Pro připojení solárního panelu a akumulátoru je použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Stejným způsobem je k desce plošných spojů připojen motor a mikrospínače, avšak s licnou o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici.
+Pro připojení solárního panelu a akumulátoru je použita měděná ohebná licna o průřezu 1,5 mm², připojená přes 4pinovou pružinovou WAGO svorkovnici s roztečí 5,08 mm k desce plošných spojů. Tento průřez poskytuje dostatečnou proudovou rezervu při minimálním úbytku napětí. Stejným způsobem je k desce plošných spojů připojen motor a mikrospínače, avšak za využití licny o průřezu 0,5 mm² a motor přes 2pinovou svorkovnici.
 
 Pro datovou komunikaci byl zvolen kabel UTP CAT5e typu licna. K deskám plošných spojů je připojený přes konektory RJ45. Prodloužení vodičů tenzometru o průřezu 0,08 mm² zajišťují 4 ploché vodiče o stejné barvě a průřezu. Spojeny jsou pájkou a přes každý spoj je převlečena smršťovací bužírka s lepidlem o poměru 3:1 a rozměru 3 mm / 1 mm. K desce plošných spojů jsou připojeny přes 6pinovou pružinovou WAGO svorkovnici s roztečí 2,54 mm (možnost připojit stínění).
 
-Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně, respektive základové desce, pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm — dostatečně prostorné, a přitom minimalistické řešení. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
+Kabely a vodiče jsou vedeny v klasické elektroinstalační PVC liště o rozměrech 15 × 10 mm, upevněné k betonové stěně, respektive základové desce, pomocí vrutů 3 × 30 mm a hmoždinek o průměru 5 mm. Spoje jsou utěsněny akrylovým tmelem. Speciální UV odolná lišta není pro kabely vedené po venkovní stěně kurníku potřeba, protože tato stěna je vystavena slunci pouze při jeho západu. Životnost běžné lišty se odhaduje na 5–10 let.
 
-U prototypu jsou využity stejné kabely, svorkovnice a svorky. Dále jsou použity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
+U prototypu jsou využity stejné kabely a svorkovnice. Dále jsou použity drátky do nepájivého pole o průřezu 0,5 mm², který plně vyhovuje proudovému odběru systému.
 
 #### Konstrukce
 
