@@ -24,6 +24,8 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
   <img alt="electronics_block_schematic" src="Schematics/block_schematic_electronics_black.png">
 </picture>
 
+---
+
 ### Komunikace
 
 ---
@@ -33,6 +35,8 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
   <source media="(prefers-color-scheme: light)" srcset="Schematics/block_schematic_comms_black.png">
   <img alt="comms_block_schematic" src="Schematics/block_schematic_comms_black.png">
 </picture>
+
+---
 
 *Uživatelské příkazy cestují opačným směrem.*
 
