@@ -19,14 +19,20 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 ---
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_white.png">
-  <source media="(prefers-color-scheme: light)" srcset="Schematics/block_schematic_black.png">
-  <img alt="block_schematic" src="Schematics/block_schematic_black.png">
+  <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_electronics_white.png">
+  <source media="(prefers-color-scheme: light)" srcset="Schematics/block_schematic_electronics_black.png">
+  <img alt="electronics_block_schematic" src="Schematics/block_schematic_electronics_black.png">
 </picture>
 
 ### Komunikace
 
 ---
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Schematics/block_schematic_comms_white.png">
+  <source media="(prefers-color-scheme: light)" srcset="Schematics/block_schematic_comms_black.png">
+  <img alt="comms_block_schematic" src="Schematics/block_schematic_comms_black.png">
+</picture>
 
 ## Popis
 
