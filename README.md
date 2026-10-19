@@ -34,6 +34,8 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
   <img alt="comms_block_schematic" src="Schematics/block_schematic_comms_black.png">
 </picture>
 
+*Uživatelské příkazy cestují opačným směrem.*
+
 ## Popis
 
 ### 1. Mechanika
