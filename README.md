@@ -40,7 +40,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 
 ## Popis
 
-### 1. Mechanika
+### 1) Mechanika
 
 ### a) Krabičky
 
@@ -118,7 +118,7 @@ Optická závora není pro počítání vajec v kurníku vhodná mimo jiné kvů
 
 Ze zbytku OSB desky jsou vyrobeny ochranné lišty, přišroubované zeshora po bocích základové desky. Lišty jsou vysoké 21,5 mm, protože vzdálenost mezi deskami činí 20,7 mm a celá horní konstrukce musí být podepřena pouze tenzometrem — zároveň musí zůstat zachována vůle alespoň 3 mm. Do zadní lišty je vyvrtán otvor, kterým prochází již prodloužený kabel od tenzometru; kabel nesmí být mechanicky namáhán tahem. Kabel dále vede vzhůru po stěně do krabičky Kx, odkud je z boku vyveden datový kabel, vedoucí vysoko po stěně až do krabičky K. Uprostřed konstrukce, naproti košíku, je vytvořen stavitelný doraz pomocí zápustného imbusového šroubu M5 z nerezové oceli A2 (délka 30 mm), procházejícího spodní deskou skrz otvor o průměru 4,5 mm a zapuštěného do záhlubení o průměru 10 mm a hloubce 6 mm. Doraz tvoří mosazná kloboučková matice M5 (délka 10 mm, délka závitu 7,5 mm), zvolená kvůli omezení ulpívání nečistot. Optimální vůle dorazu je 0,8 mm, což odpovídá jedné otáčce šroubu M5 nebo přibližně tloušťce běžné platební karty.
 
-### 2. Řízení
+### 2) Řízení
 
 Hlavní řídicí jednotkou systému je mikrořadič LoRa-E5 mini (M) se STM32WLE5JC a integrovaným LoRa modulem, komunikujícím přes LoRaWAN stack. Technologie LoRaWAN umožňuje na rozdíl od Wi-Fi komunikaci na velké vzdálenosti při nízké spotřebě energie a na rozdíl od NB-IoT trvalé řešení s dobrým pokrytím. U každého snáškového hnízda je umístěn mikrořadič STM32 NUCLEO-L031K6 (Mx). K programování slouží programátor ST-Link V2. Před programováním je potřeba programátor připojit k dané desce klasickými kabely DuPont — stačí propojit piny 3V3, SWCLK, SWDIO, GND a nRST. U finální verze jsou desky osazeny v paticích (dutinkových lištách).
 
@@ -245,7 +245,7 @@ Před odpojením napájení VCC od jednotlivých částí systému, před jejich
 
 Kvůli nízkopříkonové povaze systému je nutné u mikrořadiče LoRa-E5 mini odpájet zelenou User LED diodu, TX LED diodu, RX LED diodu, Schottkyho diodu a lineární LDO regulátor. U hnízdových mikrořadičů je nutné odpájet červenou Power LED diodu a pájecí můstky SB2, SB3, SB9, SB14 a SB15 (LED diody, lineární LDO regulátor a interní programátor). Zvláštní pozornost je u obou mikrořadičů třeba věnovat plovoucím pinům — nepoužívané piny musí být vždy v analogovém režimu bez pull rezistoru (po vývoji i debug piny SWDIO a SWCLK). Nakonec je u LoRa-E5 mini potřeba, pokud se rádio nepoužívá, nastavit externí RF switch (piny PA4 a PA5) na logickou nulu a vypnout TCXO; u hnízdových mikrořadičů je pak potřeba v power registrech (PWR) zapnout ultra low power režim (bit ULP) a vypnout fast wakeup (bit FWU).
 
-### 3. Elektronika
+### 3) Elektronika
 
 Prototyp je sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze obsahuje jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách jsou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
@@ -358,7 +358,7 @@ Měření hmotnosti snáškového hnízda zprostředkovává tenzometr se zanedb
 
 Na deskách plošných spojů musí být všechny součástky v jednotlivých krabičkách co nejblíže u sebe a kondenzátory co nejblíže příslušným pinům; silové části a cesty však musí zůstat oddělené od ostatní elektroniky. Souvislou zemní plochu tvoří záporný pól solárního panelu a akumulátoru.
 
-### 4. Napájení
+### 4) Napájení
 
 Výrobu energie zajišťuje fotovoltaický panel s parametry Voc = 11 V / Vmpp = 9 V / Isc = 1,23 A / Impp = 1,11 A. Panel je svisle připevněný na stěnu mimo výběh pod malou stříškou a orientovaný na jih, případně na východ nebo západ (v tomto případě na jihozápad), aby co nejlépe využíval dostupnou sluneční energii. Vertikální montáž mimo výběh zároveň omezuje usazování sněhu a nečistot. Tento panel byl zvolen proto, že při použití jednoduchého MOSFET odpojovače poskytuje vhodný poměr mezi napěťovou rezervou pro nabíjení 6V akumulátoru a dostupným nabíjecím proudem; panel je schopen reálně dodat maximálně kolem 1,2 A, tudíž je přesně na hranici nejvyššího povoleného nabíjecího proudu akumulátoru (1,2 A). Jeho vyšší výkon navíc zvyšuje energetickou rezervu systému v zimě, kdy je intenzita slunečního záření nízká. Vlivem teplotních ztrát a nepatrného úbytku napětí na krátké kabeláži je účinnost panelu přibližně 95 %.
 
@@ -784,7 +784,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
 | **Celkem** | | | **6046 Kč** | **7315 Kč** |
 
-*Poznámka: Do celkové ceny není započtena doprava.*
+> Do celkové ceny *není* započtena doprava
 
 
 [cya-15-cerveny]: https://www.gme.cz/v/1512358/elektrokabel-cya-1x15-cerveny-h07v-k-izolovany-vodic-lanko
