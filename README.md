@@ -388,17 +388,11 @@ Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s nap
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
 | **Celkem** | **11,9 µA** | **45,8 µA** | **129 µAh** | **1 mAh** |
 
-$$
-I_N = \frac{U_{nap}}{R_{pd} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
-$$
+$\displaystyle I_N = \frac{U_{nap}}{R_{pd} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}$
 
-$$
-I_{leak,min} = I_{DSS,min} + I_{GSS} = 1\ \mu\text{A} + 100\ \text{nA} = \mathbf{1,1\ \mu\text{A}}
-$$
+$\displaystyle I_{leak,min} = I_{DSS,min} + I_{GSS} = 1\ \mu\text{A} + 100\ \text{nA} = \mathbf{1,1\ \mu\text{A}}$
 
-$$
-I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
-$$
+$\displaystyle I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}$
 
 kde:
 - $I_N$ ... proud tekoucí pull-down rezistorem u spínače s N-MOS tranzistorem
@@ -421,17 +415,11 @@ U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepn
 | M (LP Run @ 2 MHz) | 220 µA | 490 µA | 2,52 µAh | 5,61 µAh |
 | **Celkem** | **550 µA** | **910 µA** | **3,53 µAh** | **6,89 µAh** |
 
-$$
-t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{1\ \text{MHz}} = 16 \cdot 173\ \text{µs} = 2,77\ \text{ms}
-$$
+$\displaystyle t_{p,v} = n_{p,v} \cdot \frac{n_{c,v} + n_{c,p}}{f_{clk}} = 16 \cdot \frac{160,5 + 12,5}{1\ \text{MHz}} = 16 \cdot 173\ \text{µs} = 2,77\ \text{ms}$
 
-$$
-t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 2,77\ \text{ms}) \approx \mathbf{29\ \text{s}}
-$$
+$\displaystyle t_p = 144 \cdot (t_u + t_{p,v}) = 144 \cdot (200\ \text{ms} + 2,77\ \text{ms}) \approx \mathbf{29\ \text{s}}$
 
-$$
-t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} \approx 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}
-$$
+$\displaystyle t_a = 144 \cdot n_{a,v} \cdot t_{a,v} = 144 \cdot 64 \cdot 1,1\ \text{ms} \approx 144 \cdot 80\ \text{ms} \approx \mathbf{12\ \text{s}}$
 
 kde:
 - $t_p$ ... doba měření napětí na panelu
@@ -455,25 +443,15 @@ kde:
 | M (LP Run @ 2 MHz) | 220 µA | 490 µA | 1,96 µAh | 19,6 µAh |
 | **Celkem** | **101 mA** | **252 mA** | **0,897 mAh** | **10,1 mAh** |
 
-$$
-O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
-$$
+$\displaystyle O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}$
 
-$$
-v_{min} = f_{min} \cdot O_s = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
-$$
+$\displaystyle v_{min} = f_{min} \cdot O_s = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}$
 
-$$
-v_{max} = f_{max} \cdot O_s = \frac{17\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}
-$$
+$\displaystyle v_{max} = f_{max} \cdot O_s = \frac{17\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 22,3\ \text{mm/s}$
 
-$$
-t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{mm/s}} = 2 \cdot 15,7\ \text{s} \approx \mathbf{32\ \text{s}}
-$$
+$\displaystyle t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{mm/s}} = 2 \cdot 15,7\ \text{s} \approx \mathbf{32\ \text{s}}$
 
-$$
-t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}
-$$
+$\displaystyle t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}$
 
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
@@ -502,49 +480,27 @@ Mikrospínače spotřebovávají málo energie, a to jen velmi krátkou dobu; v�
 | Spínače (P,pd) | 33 µA | 33 µA | 8,8 µAh | 9,63 µAh |
 | **Celkem** | **6,92 mA** | **9,39 mA** | **0,937 mAh** | **1,39 mAh** |
 
-$$
-t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{Hz}} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s}
-$$
+$\displaystyle t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{Hz}} = 0,5\ \text{s} + 3,2\ \text{s} = 3,7\ \text{s}$
 
-$$
-t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \text{s} \approx 4\ \text{s}
-$$
+$\displaystyle t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \text{s} \approx 4\ \text{s}$
 
-$$
-t_{h,max} = t_{h,min} + t_p + t_x = 3,79\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,07\ \text{s} \approx 4,1\ \text{s}
-$$
+$\displaystyle t_{h,max} = t_{h,min} + t_p + t_x = 3,79\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,07\ \text{s} \approx 4,1\ \text{s}$
 
-$$
-t_{min} = 24 \cdot h \cdot t_{h,min} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
-$$
+$\displaystyle t_{min} = 24 \cdot h \cdot t_{h,min} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}$
 
-$$
-t_r = 2 \cdot t_v = 2 \cdot 3,2\ \text{s} = 6,4\ \text{s}
-$$
+$\displaystyle t_r = 2 \cdot t_v = 2 \cdot 3,2\ \text{s} = 6,4\ \text{s}$
 
-$$
-t_{max} = 24 \cdot h \cdot t_{h,max} + h \cdot t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 5 \cdot 6,4\ \text{s} = 524\ \text{s} \approx \mathbf{8,8\ \text{min}}
-$$
+$\displaystyle t_{max} = 24 \cdot h \cdot t_{h,max} + h \cdot t_r = 24 \cdot 5 \cdot 4,1\ \text{s} + 5 \cdot 6,4\ \text{s} = 524\ \text{s} \approx \mathbf{8,8\ \text{min}}$
 
-$$
-t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}
-$$
+$\displaystyle t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}$
 
-$$
-t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,2\ \text{min}}
-$$
+$\displaystyle t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 15 \approx \mathbf{26,2\ \text{min}}$
 
-$$
-t_{P,pd,min} = 24 \cdot t_{h,min} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 10 = \mathbf{16\ \text{min}}
-$$
+$\displaystyle t_{P,pd,min} = 24 \cdot t_{h,min} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 10 = \mathbf{16\ \text{min}}$
 
-$$
-t_{P,pd,max} = (24 \cdot t_{h,max} + t_r) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}
-$$
+$\displaystyle t_{P,pd,max} = (24 \cdot t_{h,max} + t_r) \cdot (4 + 3 + 2 + 1) = (24 \cdot 4,1\ \text{s} + 6,4\ \text{s}) \cdot 10 \approx \mathbf{17,5\ \text{min}}$
 
-$$
-I_P = \frac{U_{nap}}{R_{pull} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}
-$$
+$\displaystyle I_P = \frac{U_{nap}}{R_{pull} + R_G} = \frac{3,3\ \text{V}}{100\ \text{k}\Omega + 220\ \Omega} \approx \mathbf{33\ \text{µA}}$
 
 kde:
 - $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
@@ -580,33 +536,20 @@ STM32 NUCLEO-L031K6, MAX3485, HX711 a tenzometr jsou přítomny v každé krabi�
 | LoRa RX | 4,8 mA | 4,8 mA | 6,67 µAh | 20 µAh |
 | **Celkem** | **25,8 mA** | **25,8 mA** | **153 µAh** | **166 µAh** |
 
-$$
-T_{sym} = \frac{2^{SF}}{BW} = \frac{2^9}{125\ \text{kHz}} = 4,096\ \text{ms}
-$$
+$\displaystyle T_{sym} = \frac{2^{SF}}{BW} = \frac{2^9}{125\ \text{kHz}} = 4,096\ \text{ms}$
 
-$$
-n_{sym} = 8 + \left\lceil \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \right\rceil \cdot 5
-$$
+$\displaystyle n_{sym} = 8 + \left\lceil \frac{8 \cdot n_B - 4 \cdot SF + 44}{4 \cdot SF} \right\rceil \cdot 5$
 
-$$
-t_{5B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 33) \cdot 4,096\ \text{ms} = 185,3\ \text{ms}
-$$
+$\displaystyle t_{5B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 33) \cdot 4,096\ \text{ms} = 185,3\ \text{ms}$
 
-$$
-t_{2B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 28) \cdot 4,096\ \text{ms} = 164,9\ \text{ms}
-$$
+$\displaystyle t_{2B} = (n_{pre} + 4,25 + n_{sym}) \cdot T_{sym} = (8 + 4,25 + 28) \cdot 4,096\ \text{ms} = 164,9\ \text{ms}$
 
-$$
-t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} + 2 \cdot t_{2B} = 24 \cdot 185,3\ \text{ms} + 2 \cdot 164,9\ \text{ms} + 120 \cdot 164,9\ \text{ms} + 2 \cdot 164,9\ \text{ms} = 24,9\ \text{s} \approx \mathbf{25\ \text{s}}
-$$
+$\displaystyle t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} + 2 \cdot t_{2B}$<br>
+$\displaystyle \phantom{t_{v}} = 24 \cdot 185,3\ \text{ms} + 2 \cdot 164,9\ \text{ms} + 120 \cdot 164,9\ \text{ms} + 2 \cdot 164,9\ \text{ms} = 24,9\ \text{s} \approx \mathbf{25\ \text{s}}$
 
-$$
-t_{p,min} = 148 \cdot t_{o,min} = 148 \cdot 30\ \text{ms} = 4,44\ \text{s} \approx \mathbf{5\ \text{s}}
-$$
+$\displaystyle t_{p,min} = 148 \cdot t_{o,min} = 148 \cdot 30\ \text{ms} = 4,44\ \text{s} \approx \mathbf{5\ \text{s}}$
 
-$$
-t_{p,max} = 2 \cdot 148 \cdot t_{o,max} = 2 \cdot 148 \cdot 50\ \text{ms} = 14,8\ \text{s} \approx \mathbf{15\ \text{s}}
-$$
+$\displaystyle t_{p,max} = 2 \cdot 148 \cdot t_{o,max} = 2 \cdot 148 \cdot 50\ \text{ms} = 14,8\ \text{s} \approx \mathbf{15\ \text{s}}$
 
 kde:
 - $t_v$ ... doba vysílání
@@ -647,39 +590,23 @@ CPU je většinu času v režimu Stop2 s RTC.
 | Západ | 2662 | 567 |
 | Jihozápad | 2772 | 1248 |
 
-$$
-P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}
-$$
+$\displaystyle P_{vst} = U_{aku} \cdot I_{max} = 6,8\ \text{V} \cdot 1,2\ \text{A} = 8,16\ \text{W}$
 
-$$
-P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 288\ \text{mW}
-$$
+$\displaystyle P_{ztr} = I_{max}^2 \cdot 2 \cdot R_{DSon} = 1,2^2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 288\ \text{mW}$
 
-$$
-U_{ztr} = I_{max} \cdot 2 \cdot R_{DSon} = 1,2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 240\ \text{mV}
-$$
+$\displaystyle U_{ztr} = I_{max} \cdot 2 \cdot R_{DSon} = 1,2\ \text{A} \cdot 2 \cdot 100\ \text{m}\Omega = 240\ \text{mV}$
 
-$$
-\eta_{bias} = \frac{P_{vst}}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816
-$$
+$\displaystyle \eta_{bias} = \frac{P_{vst}}{P_{max}} = \frac{8,16\ \text{W}}{10\ \text{W}} = 0,816$
 
-$$
-\eta_{mos} = \frac{P_{vst} - P_{ztr}}{P_{vst}} = \frac{8,16\ \text{W} - 288\ \text{mW}}{8,16\ \text{W}} = 0,965
-$$
+$\displaystyle \eta_{mos} = \frac{P_{vst} - P_{ztr}}{P_{vst}} = \frac{8,16\ \text{W} - 288\ \text{mW}}{8,16\ \text{W}} = 0,965$
 
 **Příklad výpočtu pro léto, jih**
 
-$$
-E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} = 26,1\ \text{Wh/den}
-$$
+$\displaystyle E_{den} = \frac{E_{červen} + E_{červenec} + E_{srpen}}{\text{92 dní}} = \frac{0,7 + 0,8 + 0,9\ \text{kWh}}{92} = 26,1\ \text{Wh/den}$
 
-$$
-E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,965 \cdot 0,88 = \mathbf{18,1\ \text{Wh/den}}
-$$
+$\displaystyle E_{aku} = E_{den} \cdot \eta_{bias} \cdot \eta_{mos} \cdot \eta_{aku} = 26,1\ \text{Wh/den} \cdot 0,816 \cdot 0,965 \cdot 0,88 = \mathbf{18,1\ \text{Wh/den}}$
 
-$$
-Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} = \mathbf{2662\ \text{mAh/den}}
-$$
+$\displaystyle Q_{aku} = \frac{E_{aku}}{U_{aku}} = \frac{18,1\ \text{Wh/den}}{6,8\ \text{V}} = \mathbf{2662\ \text{mAh/den}}$
 
 kde:
 - $E_{den}$ ... energie vyrobená za jeden den
@@ -707,9 +634,7 @@ Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit
 | Západ | +2642 | +547 |
 | Jihozápad | +2752 | +1228 |
 
-$$
-Q_{ztr} = Q_{aku} \cdot \frac{rate}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{\\%}}{30} = \mathbf{4\ \text{mAh/den}}
-$$
+$\displaystyle Q_{ztr} = Q_{aku} \cdot \frac{rate}{30} = 4\ \text{Ah} \cdot \frac{3\ \text{\\%}}{30} = \mathbf{4\ \text{mAh/den}}$
 
 kde:
 - $Q_{ztr}$ ... náboj ztracený samovybíjením akumulátoru
