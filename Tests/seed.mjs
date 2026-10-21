@@ -176,7 +176,7 @@ function plneKosiky(hnizda, konec) {
 function vsechnyStavy(konec) {
   return [{
     jmeno: 'všechny stavy hnízd naráz',
-    stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'ok', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
+    stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'nevynulovano', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
     od: ted - HOD,
     do: konec + KROK,
     kde: 'dlaždice'

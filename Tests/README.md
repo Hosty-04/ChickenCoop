@@ -89,8 +89,8 @@ U `kurnik-test-porucha.db` je stav hnízd z poslední kontroly před vybitím ba
 vybitou baterií kurník hnízda nekontroluje, takže karta Hnízda zůstane u poslední kontroly.
 
 V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný košík v hnízdě 6,
-nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
-ostatní počítají normálně.
+nezkalibrovaná váha v hnízdě 8, nevynulovaná váha v hnízdě 9 (jako po výměně krabičky hnízda),
+porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají; ostatní počítají normálně.
 
 V `kurnik-test-instalace.db` jsou obě váhy od instalace nevynulované a nezkalibrované. Za dvě
 hodiny se hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva
