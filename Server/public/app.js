@@ -10,6 +10,7 @@ const DOOR_LABELS = {
 const NEST_LABELS = {
   broody: { note: '⚠ sedí kvočna', tone: 'is-warning' },
   uncalibrated: { note: '⚠ váha není zkalibrovaná', tone: 'is-warning' },
+  untared: { note: '⚠ váha není zkalibrovaná, nejdřív ji vynulujte', tone: 'is-warning' },
   fault: { note: '⚠ porucha váhy', tone: 'is-critical' },
   offline: { note: '⚠ hnízdo neodpovídá', tone: 'is-warning' }
 };
@@ -843,7 +844,7 @@ function renderNests({ nestCount: count, eggsMax, nests: snapshot }) {
 
   for (let i = 0; i < count; i++) {
     const nest = snapshot?.nests[i] ?? { state: null, eggs: null, laidToday: 0 };
-    const known = nest.eggs !== null && nest.state !== 'uncalibrated';
+    const known = nest.eggs !== null && nest.state !== 'uncalibrated' && nest.state !== 'untared';
     const label = NEST_LABELS[nest.state];
     const tray = el(`nest-${i}-tray`);
 
@@ -939,7 +940,8 @@ async function sendCommand(button, command) {
     loadStatus();
   } catch (err) {
     if (redirected(err)) return;
-    if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
+    if (err instanceof HttpError && err.data.untared) showToast(`Nezařazeno: ${reason(err)}`);
+    else if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
     else showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
   } finally {
     busy.delete(button);

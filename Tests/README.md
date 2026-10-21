@@ -75,7 +75,7 @@ v `Server/README.md`.
 | `kurnik-test-porucha.db` | kriticky vybitá baterie, dvířka v poruše, porucha váhy v hnízdě 1 | tři červené hlášky: „⚠ kriticky vybitá", „⚠ čeká na odblokování" a „⚠ porucha váhy"; hnízdo 2 počítá dál |
 | `kurnik-test-poplach.db` | mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna v hnízdě 1, hnízdo 2 neodpovídá, automatika vypnutá před dvěma hodinami | šest oranžových hlášek naráz, u automatiky s časem vypnutí; hnízdo 1 odpovídá, takže řetěz se přerušil až za ním |
 | `kurnik-test-meze.db` | baterie 8,00 V, panel 12,50 V, obě hnízda plná | „na horní mezi rozsahu" u obou dlaždic, „⚠ košík je plný" u obou hnízd |
-| `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ne | „⚠ váha není zkalibrovaná" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
+| `kurnik-test-instalace.db` | první den po instalaci, hnízdo 1 zkalibrované, hnízdo 2 ještě ani nevynulované | „⚠ váha není zkalibrovaná, nejdřív ji vynulujte" a pomlčka místo počtu; Snáška jen od kalibrace hnízda 1 |
 | `kurnik-test-jedno.db` | jediné měření | graf s jediným bodem |
 | `kurnik-test-prazdna.db` | žádné | prázdné dlaždice, 0 záznamů, vypnuté tlačítko Smazat |
 | `kurnik-test-stara.db` | před pěti dny | 24 h hlásí „Zatím žádná data", 7 dní kreslí |
@@ -92,9 +92,10 @@ V `kurnik-test-velky.db` je při poslední kontrole kvočna v hnízdě 4, plný 
 nezkalibrovaná váha v hnízdě 8, porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají;
 ostatní počítají normálně.
 
-V `kurnik-test-instalace.db` jsou obě váhy od instalace nezkalibrované. Za dvě hodiny se
-hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva o hnízdech
-mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nezkalibrované.
+V `kurnik-test-instalace.db` jsou obě váhy od instalace nevynulované a nezkalibrované. Za dvě
+hodiny se hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva
+o hnízdech mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nevynulované,
+takže stránka u něj odmítne **Kalibrovat**, dokud ho nevynulujete.
 
 ## Co je v grafech
 

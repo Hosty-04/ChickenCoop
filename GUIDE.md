@@ -618,7 +618,8 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 |---|---|
 | **⚠ košík je plný** | v hnízdě je deset vajec, víc se jich do zprávy nevejde — je čas je vybrat |
 | **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
-| **⚠ váha není zkalibrovaná** | váhu je potřeba vynulovat a zkalibrovat, viz **Ovládání** |
+| **⚠ váha není zkalibrovaná, nejdřív ji vynulujte** | hnízdo ještě nikdy nebylo vynulované; bez toho se kalibrace neprovede, viz **Kalibrace váhy** |
+| **⚠ váha není zkalibrovaná** | váha je vynulovaná, zbývá ji zkalibrovat se závažím, viz **Kalibrace váhy** |
 | **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly |
 | **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
 
@@ -830,7 +831,7 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
-   kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
+   kontrolu s poznámkou **⚠ váha není zkalibrovaná**. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
    jedno závaží, kalibruje hnízda po jednom.
@@ -844,6 +845,18 @@ z denního limitu: vynulovat všechna hnízda najednou je jeden příkaz, ale ka
 hnízd s jedním závažím je pět dalších. Když limit nestačí, dokončete kalibraci další den.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
+
+Kalibrace počítá s nulou z posledního vynulování a sama hnízdo nevynuluje — se závažím
+na váze to ani nejde. Hnízdo, které ještě nikdy nebylo vynulované (karta u něj ukazuje
+**⚠ váha není zkalibrovaná, nejdřív ji vynulujte**), stránka kalibrovat nedovolí a napíše
+**Nezařazeno: hnízdo 2 ještě není vynulované**; příkaz se neodešle, takže nespotřebuje ani
+místo v denním limitu. Kdyby se do kurníku přesto dostal, hnízdo ho jen zahodí a dál hlásí
+nevynulovanou váhu.
+
+Jednou vynulované hnízdo jde později znovu kalibrovat i bez nového vynulování, pokud je
+prázdné a nezměnila se podestýlka ani košík. Naopak po výměně podestýlky nebo posunutí
+košíku stačí hnízdo jen vynulovat, kalibrace zůstává platná. Drobné změny do 25 g dorovnává
+kurník sám jednou denně, když je hnízdo prázdné; větší změna by se jinak počítala jako vejce.
 
 Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
 provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá nebo

@@ -42,6 +42,7 @@
 #define NESTS_FLAG_BROODY      0x0001U
 #define NESTS_FLAG_UNCALIB     0x0002U
 #define NESTS_FLAG_FAULT       0x0004U
+#define NESTS_FLAG_UNTARED     0x0008U
 
 #define MODBUS_READ_HOLDING    0x03U
 #define MODBUS_WRITE_MULTIPLE  0x10U
@@ -261,6 +262,7 @@ static uint16_t Nests_Argument(uint16_t cmd)
 static Nests_State_t Nests_StateOf(uint16_t flags)
 {
   if (flags & NESTS_FLAG_FAULT)   return NESTS_STATE_FAULT;
+  if (flags & NESTS_FLAG_UNTARED) return NESTS_STATE_UNTARED;
   if (flags & NESTS_FLAG_UNCALIB) return NESTS_STATE_UNCALIBRATED;
   if (flags & NESTS_FLAG_BROODY)  return NESTS_STATE_BROODY;
 

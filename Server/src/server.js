@@ -152,7 +152,25 @@ app.get('/api/eggs', (req, res) => {
   sendRange(req, res, (hours) => readEggs(config.ttn.deviceId, hours, config.nestCount));
 });
 
+function untaredNests(commands, nests) {
+  if (!Array.isArray(commands) || !commands.includes('calibrate') || !Array.isArray(nests)) return [];
+  refreshNests();
+  return [...new Set(nests)].filter((nest) => state.nests?.nests[nest - 1]?.state === 'untared').sort((a, b) => a - b);
+}
+
+function untaredText(nests) {
+  const list = nests.length === 1 ? String(nests[0]) : `${nests.slice(0, -1).join(', ')} a ${nests.at(-1)}`;
+  return nests.length === 1
+    ? `hnízdo ${list} ještě není vynulované — nejdřív ho vynulujte, a až karta Hnízda ukáže „váha není zkalibrovaná“, kalibraci zopakujte`
+    : `hnízda ${list} ještě nejsou vynulovaná — nejdřív je vynulujte, a až karta Hnízda ukáže „váha není zkalibrovaná“, kalibraci zopakujte`;
+}
+
 app.post('/api/command', async (req, res) => {
+  const untared = untaredNests(req.body?.commands, req.body?.nests);
+  if (untared.length > 0) {
+    return res.status(409).json({ ok: false, error: untaredText(untared), untared });
+  }
+
   try {
     const sent = await ttn.sendCommand(req.body?.commands ?? [], req.body?.nests);
     broadcast('command', sent);
