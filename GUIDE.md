@@ -846,8 +846,7 @@ hnízd s jedním závažím je pět dalších. Když limit nestačí, dokončete
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
 
-Kalibrace počítá s nulou z posledního vynulování a sama hnízdo nevynuluje — se závažím
-na váze to ani nejde. Hnízdo, které ještě nikdy nebylo vynulované (karta u něj ukazuje
+Hnízdo, které ještě nikdy nebylo vynulované (karta u něj ukazuje
 **⚠ váha není zkalibrovaná, nejdřív ji vynulujte**), stránka kalibrovat nedovolí a napíše
 **Nezařazeno: hnízdo 2 ještě není vynulované**; příkaz se neodešle, takže nespotřebuje ani
 místo v denním limitu. Kdyby se do kurníku přesto dostal, hnízdo ho jen zahodí a dál hlásí
