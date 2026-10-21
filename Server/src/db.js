@@ -72,8 +72,15 @@ const selectOldest = db.prepare(`
   SELECT MIN(time) AS oldest FROM readings WHERE device = ?
 `);
 
-const selectCount = db.prepare(`
-  SELECT COUNT(*) AS n FROM readings WHERE device = ?
+// Records behind the Napájení and Snáška views: power readings with a value
+// and nest checks (one check covers all nests) with at least one egg count
+const selectPowerCount = db.prepare(`
+  SELECT COUNT(*) AS n FROM readings
+  WHERE device = ? AND (battery_mv IS NOT NULL OR panel_mv IS NOT NULL)
+`);
+
+const selectEggCount = db.prepare(`
+  SELECT COUNT(DISTINCT time) AS n FROM nests WHERE device = ? AND eggs IS NOT NULL
 `);
 
 const selectNestsAt = db.prepare(`
@@ -342,14 +349,17 @@ export function readEggs(deviceId, hours, nestCount) {
 }
 
 export function countReadings(deviceId) {
-  return Number(selectCount.get(deviceId).n);
+  const power = Number(selectPowerCount.get(deviceId).n);
+  const eggs = Number(selectEggCount.get(deviceId).n);
+  return { power, eggs, total: power + eggs };
 }
 
 export function clearReadings(deviceId) {
   const removed = transaction(() => {
-    const { changes } = deleteReadings.run(deviceId);
+    const { total } = countReadings(deviceId);
+    deleteReadings.run(deviceId);
     deleteNests.run(deviceId);
-    return Number(changes);
+    return total;
   });
   db.exec('VACUUM');
   return removed;

@@ -309,6 +309,15 @@ static Callbacks_t Callbacks =
 #define LORAWAN_TX_RETRY_MAX 2U
 #define RNG_ATTEMPTS         10U
 #define RNG_FALLBACK_MASK    0x55555555UL
+#define LORAWAN_DR_SF9       3U   /* EU868 DR3 = SF9 / 125 kHz */
+
+/* Fixed SF9: keeps daily airtime within the TTN Fair Use Policy (30 s / 24 h) */
+static const uint8_t lorawan_dr_sf9[SMTC_MODEM_CUSTOM_ADR_DATA_LENGTH] = {
+  LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9,
+  LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9,
+  LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9,
+  LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9
+};
 
 static volatile uint32_t modem_sleep_ms   = 0;
 static volatile uint32_t modem_sleep_tick = 0;
@@ -657,6 +666,9 @@ static void EventCallback(void)
         APP_LOG(TS_OFF, VLEVEL_M,  "Event received: JOINED\r\n");
         APP_LOG(TS_OFF, VLEVEL_H,  "Modem is now joined \r\n");
         /* USER CODE BEGIN EventCallback_1 */
+        if (smtc_modem_adr_set_profile(stack_id, SMTC_MODEM_ADR_PROFILE_CUSTOM, lorawan_dr_sf9)
+            != SMTC_MODEM_RC_OK)
+          APP_LOG(TS_OFF, VLEVEL_M, "ADR profile SF9: failed\r\n");
         LoRaWAN_RequestTime();
         Telemetry_RequestStatus();
         Door_Reschedule();

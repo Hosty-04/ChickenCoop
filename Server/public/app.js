@@ -84,6 +84,7 @@ const busy = new Set();
 const MESSAGES = new Map([
   ['status', renderStatus],
   ['pending', renderPending],
+  ['quota', renderQuota],
   ['command', (entry) => showToast(queuedText(entry), 'is-ok')],
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
   ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
@@ -196,7 +197,8 @@ function queuedText(entry) {
   const replaced = entry.replaced?.length > 0
     ? ` (nahrazuje ${entry.replaced.map((queued) => describe(queued.commands, queued.nests)).join(' · ')})`
     : '';
-  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)}${replaced} — čeká na další zprávu z kurníku`;
+  const merged = entry.merged?.length > 0 ? ' (sloučeno s čekajícím příkazem do jedné zprávy)' : '';
+  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)}${replaced}${merged} — čeká na další zprávu z kurníku`;
 }
 
 function expiredText(entries) {
@@ -763,8 +765,18 @@ function renderPending(pending) {
   el('queue').classList.toggle('is-waiting', pending.length > 0);
 }
 
-function renderCount(readings) {
+function renderQuota(quota) {
+  if (!quota) return;
+  const full = quota.used >= quota.limit;
+  el('quota').textContent = full
+    ? `Limit ${quota.limit} zpráv s příkazy za 24 h je vyčerpán${quota.freeAt ? `, další od ${formatTime(quota.freeAt, sameDay(quota.freeAt, Date.now()) ? 'time' : 'datetime')}` : ''}.`
+    : `Zprávy s příkazy za posledních 24 h: ${quota.used} z ${quota.limit}`;
+  el('quota').classList.toggle('is-full', full);
+}
+
+function renderCount(readings, stored) {
   el('data-count').textContent = countRecords(readings);
+  el('data-split').textContent = stored ? `napájení ${NUMBER.format(stored.power)} · snáška ${NUMBER.format(stored.eggs)}` : '';
   el('wipe').disabled = readings === 0;
 }
 
@@ -873,7 +885,8 @@ function renderStatus(status) {
   el('device').textContent = status.device;
   setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
   renderPending(status.pending);
-  renderCount(status.readings);
+  renderQuota(status.quota);
+  renderCount(status.readings, status.stored);
   renderLatest(status.latest);
   renderAutomation(status.automation);
   renderNests(status);
