@@ -569,14 +569,25 @@ mimo něj.
 ## Co je na stránce
 
 Stránka má odshora záhlaví, volbu rozsahu, pět dlaždic s aktuálním stavem, karty **Hnízda**,
-**Snáška** a **Napájení**, ovládání a kartu **Data** s počtem uložených záznamů, ze kterých
-se skládají Napájení a Snáška, a tlačítkem pro smazání historie. Nové hodnoty se doplňují samy, stránku není potřeba
-načítat znovu.
+**Snáška**, **Napájení** a **Ovládání** a nakonec kartu **Data** s počtem uložených záznamů,
+ze kterých se skládají Napájení a Snáška, a tlačítkem pro smazání historie. Nové hodnoty se
+doplňují samy, stránku není potřeba načítat znovu.
+
+Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
+hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
+historie. Volba rozsahu, výběr hnízd a přepnutí grafu na tabulku platí jen v okně, kde je
+zvolíte.
 
 ### Záhlaví stránky
 
 Vpravo nahoře svítí indikátor spojení serveru s The Things Network. Vedle něj je na počítači
 a pod ním na telefonu přepínač světlého a tmavého motivu a odhlášení.
+
+| Indikátor | Co znamená |
+|---|---|
+| **TTN připojeno** | server je spojený se sítí; jestli se ozývá i kurník, ukazuje dlaždice **Poslední zpráva** |
+| **TTN odpojeno** | server ztratil spojení se sítí; stránka ukazuje poslední známé hodnoty a příkaz nejde zařadit ani frontu zrušit |
+| **připojuji…**, po pěti sekundách **Server nedostupný** | stránka ztratila spojení se serverem; jakmile zase odpoví, připojí se sama |
 
 Když databáze nemůže ukládat, objeví se mezi indikátorem a tlačítky červené **Plná databáze**,
 u jiné chyby **Chyba databáze**. Kliknutím se stránka posune ke kartě **Data** s celou hláškou.
@@ -594,8 +605,19 @@ nepovede, protože server neodpovídá; zmizí při dalším pokusu.
 | **Poslední zpráva** | čas poslední zprávy, z jiného dne i s datem | jak je to dávno a síla signálu, třeba **před 5 min (-97 dBm)** |
 | **Automatika** | **Zapnutá**, **Vypnutá** nebo **–** | u vypnuté **⚠ od** a čas vypnutí, u pomlčky **⚠ stav se neuložil** |
 
-Dokud nepřišla žádná zpráva, ukazují první čtyři dlaždice pomlčku. Co znamenají poznámky
-u baterie a panelu, popisuje část **Když data chybí**.
+Dokud nepřišla žádná zpráva, ukazují první čtyři dlaždice pomlčku. Poznámky **⚠ čidlo
+neodpovídá** a **na horní mezi rozsahu** vysvětluje část **Když data chybí**.
+
+Podle slunce se dvířka otevírají a zavírají, jen když kurník zná napětí baterie a ta není
+kriticky vybitá. Při **⚠ kriticky vybité** baterii kurník šetří: dvířka zůstanou, kde jsou,
+a nekontrolují se ani hnízda. Při **⚠ čidlo neodpovídá** u baterie se dvířka zastaví také,
+hnízda se kontrolují dál. Zprávy chodí v obou případech a ručně dvířka otevřít nebo zavřít
+jde i tak. Jakmile je baterie zase v pořádku, dvířka hned dojedou tam, kde mají podle slunce
+být.
+
+**Porucha** u dvířek znamená, že stojí a nepohnou se, dokud nepřijde **Odblokovat**. Buď jim
+něco překáželo nebo nedojela do koncové polohy (viz **Když to nejede**), nebo dostala příkaz
+**Zablokovat**.
 
 Automatiku stránka zná z posledního příkazu **Zapnout** nebo **Vypnout**, jehož příjem kurník
 potvrdil; dokud žádný takový nebyl, ukazuje výchozí **Zapnutá**. Když se potvrzený stav
@@ -714,7 +736,8 @@ znamená, že selhalo samotné měření, ne že panel nic nedává.
 
 **Odpojená baterie.** Z baterie běží celý kurník, takže přestanou chodit zprávy a na stránce
 je to obyčejný výpadek. Pomlčka u baterie znamená, že kurník běží dál, jen se neozval senzor
-INA226; v takovém případě kurník pro jistotu odpojí i panel.
+INA226; v takovém případě kurník pro jistotu odpojí i panel a dvířka se do dalšího úspěšného
+měření neřídí sluncem.
 
 **Horní mez rozsahu.** Poznámka **na horní mezi rozsahu** se objeví, když hodnota dojede na
 konec toho, co se vejde do zprávy — 8,00 V u baterie a 12,50 V u panelu. Skutečné napětí může
@@ -754,44 +777,69 @@ deset v plném košíku, protože víc se do zprávy nevejde.
 
 ## Ovládání
 
-Úplně dole jsou tlačítka pro otevření a zavření dvířek, zablokování a vypnutí automatiky
-a pro nastavení váhy v hnízdech. Vypnutá automatika zastaví dvířka i kontrolu hnízd. Vypnutí
-i zablokování si kurník pamatuje i po odpojení baterie.
+Pod grafy je karta **Ovládání** se čtyřmi dvojicemi tlačítek:
+
+| Tlačítka | Co dělají |
+|---|---|
+| **Otevřít**, **Zavřít** | pohnou dvířky |
+| **Odblokovat**, **Zablokovat** | zablokovaná dvířka stojí — nepohnou se podle slunce ani na **Otevřít** či **Zavřít** a dlaždice ukazuje **Porucha**; **Odblokovat** zruší zablokování i skutečnou poruchu |
+| **Zapnout**, **Vypnout** | vypnutá automatika zastaví dvířka i kontrolu hnízd; **Otevřít**, **Zavřít**, **Vynulovat** a **Kalibrovat** pak kurník přijme, ale neprovede |
+| **Vynulovat**, **Kalibrovat** | nastaví váhu ve vybraných hnízdech, viz **Kalibrace váhy** |
+
+Při východu slunce a hodinu po západu se dvířka ovládají sama; ruční **Otevřít** nebo
+**Zavřít** platí jen do nejbližší takové změny. Po odblokování nebo zapnutí automatiky
+dvířka hned dojedou tam, kde mají podle slunce být, pokud ve stejné zprávě nejde
+i **Otevřít** nebo **Zavřít** (viz **Fronta příkazů**). Vypnutí i zablokování si kurník
+pamatuje i po odpojení baterie.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
-> své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha.
-> Opakované klikání nepomůže — z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/
-> **Zablokovat**, **Zapnout**/**Vypnout**) může ve frontě čekat jen jeden příkaz a pro každé
-> hnízdo jen jedno **Vynulovat** nebo **Kalibrovat**. Další takové kliknutí stránka odmítne
-> s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Výjimkou je
-> stejný příkaz pro další hnízda: čeká-li třeba **Vynulovat** pro hnízdo 1 a zadáte
-> **Vynulovat** pro všechna hnízda, čekající příkaz se nahradí jedním pro všechna hnízda
-> dohromady. Ostatní příkazy se k tomu, co už ve frontě čeká, přidají a odejdou do kurníku
-> **jednou zprávou** — třeba **Odblokovat** a **Otevřít** se provedou naráz, nejdřív
-> odblokování, pak otevření. Výjimkou je **Vynulovat** a **Kalibrovat** pro různá hnízda,
-> které se do jedné zprávy nevejdou a pošlou se po sobě. Sloučený příkaz platí 30 minut
-> od posledního přidání.
+> své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha
+> a opakované klikání nepomůže — dokud příkaz čeká ve frontě, stránka ho podruhé nepřijme.
+
+### Fronta příkazů
 
 Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení, a pod ním
-počítadlo **Zprávy s příkazy za posledních 24 h**. Tlačítko
-**Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
+počítadlo **Zprávy s příkazy za posledních 24 h** (viz **Denní limit příkazů**). Zařazený
+příkaz stránka potvrdí hláškou **Zařazeno do fronty**.
+
+Z každé dvojice (**Otevřít**/**Zavřít**, **Odblokovat**/**Zablokovat**, **Zapnout**/**Vypnout**)
+může ve frontě čekat jen jeden příkaz a pro každé hnízdo jen jedno **Vynulovat** nebo
+**Kalibrovat**. Další takové kliknutí stránka odmítne hláškou **Nezařazeno, ve frontě už
+čeká** a vypíše, co čeká; kdo si to rozmyslí, frontu nejdřív zruší. Výjimkou je stejný příkaz
+pro další hnízda: čeká-li třeba **Vynulovat** pro hnízdo 1 a zadáte **Vynulovat** pro všechna
+hnízda, čekající příkaz se nahradí jedním pro všechna hnízda dohromady.
+
+Ostatní příkazy se k tomu, co už ve frontě čeká, přidají a odejdou do kurníku **jednou
+zprávou**; stránka k hlášce připíše **sloučeno s čekajícím příkazem do jedné zprávy**. Kurník
+je provede v pevném pořadí — blokace, automatika, dvířka, váhy. **Odblokovat** a **Otevřít**
+tak nejdřív odblokuje, pak otevře, a **Zapnout** a **Otevřít** nejdřív zapne automatiku, bez
+které by se dvířka neotevřela. Výjimkou je **Vynulovat** a **Kalibrovat** pro různá hnízda,
+které se do jedné zprávy nevejdou a pošlou se po sobě. Sloučený příkaz platí 30 minut
+od posledního přidání.
+
+Tlačítko **Zrušit** smaže celou frontu najednou — pokud se to stihne dřív, než se kurník
+ozve, neprovede se nic. Jednotlivý příkaz zrušit nejde; ty, které mají zůstat, je potřeba
+zadat znovu. Když indikátor v záhlaví hlásí **TTN odpojeno**, nejde příkaz zařadit ani frontu
+zrušit.
+
 Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
 na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou, kterou kvůli tomu
 pošle hned, a stránka ohlásí **Kurník příkaz přijal**. Dvířka se pohnou a váhy nastaví hned
-potom. Když potvrzení nedorazí, příkaz se sám vrátí do fronty a pošle se znovu. Pokud ho
-kurník mezitím už provedl a ztratilo se jen potvrzení, podruhé ho neprovede — dvířka se tak
-znovu nepohnou a váha se znovu nevynuluje ani nezkalibruje. Platí to i po resetu kurníku.
-Jen když mezitím zadáte opačný příkaz nebo příkaz pro stejné hnízdo, platí ten novější:
-nepotvrzený se znovu neposílá a stránka ohlásí **Nepotvrzený příkaz se znovu nepošle**.
-Když se kurník restartuje dřív, než příkaz potvrdí, třeba po odpojení baterie, server příkaz
-už znovu neposílá a stránka ohlásí **Kurník se restartoval dřív, než příkaz potvrdil**.
-Zkontrolujte stav a příkaz případně zadejte znovu.
+potom. Když potvrzení nedorazí, stránka ohlásí **Kurník příjem nepotvrdil, příkaz se pošle
+znovu** a příkaz se sám vrátí do fronty. Pokud ho kurník mezitím už provedl a ztratilo se jen
+potvrzení, podruhé ho neprovede — dvířka se tak znovu nepohnou a váha se znovu nevynuluje ani
+nezkalibruje. Platí to i po resetu kurníku. Jen když mezitím zadáte opačný příkaz nebo příkaz
+pro stejné hnízdo, platí ten novější: nepotvrzený se znovu neposílá a stránka ohlásí
+**Nepotvrzený příkaz se znovu nepošle**. Když se kurník restartuje dřív, než příkaz potvrdí,
+třeba po odpojení baterie, server příkaz už znovu neposílá a stránka ohlásí **Kurník se
+restartoval dřív, než příkaz potvrdil**. Zkontrolujte stav a příkaz případně zadejte znovu.
 
 Když se příkaz do kurníku nedostane do **30 minut**, třeba protože nejde brána, internet
 nebo kurník, z fronty sám zmizí a stránka ohlásí **Příkaz vypršel a neprovede se**. Stáří
 příkazu hlídá i kurník, takže starší příkaz neprovede, ani kdyby ho síť doručila později.
-Dvířka se tak neotevřou v noci podle příkazu zadaného odpoledne. Kdo ho chce provést, zadá
-ho znovu.
+Dvířka se tak neotevřou v noci podle příkazu zadaného odpoledne. Když síť zprávu do kurníku
+vůbec nedokáže vyslat, stránka ohlásí **Příkaz se nepodařilo doručit** a příkaz z fronty také
+zmizí. Kdo ho chce provést, zadá ho znovu.
 
 > Při restartu serveru se fronta smaže i v síti, takže příkazy, které do kurníku ještě
 > nedorazily, je potřeba zadat znovu. Restart serveru také odhlásí všechna otevřená okna
@@ -801,22 +849,34 @@ ho znovu.
 
 Do kurníku jde za posledních 24 hodin poslat nejvýš **7 zpráv s příkazy**. Síť The Things
 Network dovoluje jednomu zařízení 10 zpráv do kurníku denně, dvě z nich si každý den vezme
-kurník na seřízení hodin a jedna zůstává jako rezerva. Počítá se zpráva, ne tlačítko — co se
-sloučí do jedné zprávy, spotřebuje jedno místo, ať je v ní příkazů kolik chce. Počítají se
-zprávy, které brána už vyslala, i ty, které ve frontě ještě čekají. Když kurník příjem
-nepotvrdí a zpráva se posílá znovu, počítá se i opakování.
+kurník na seřízení hodin a jedna zůstává jako rezerva.
 
-Počítadlo pod frontou ukazuje, kolik z limitu je za posledních 24 hodin využito. Když je
-vyčerpaný, stránka další příkaz nepřijme a napíše, od kdy půjde poslat další — to je
-24 hodin po nejstarší započítané zprávě. Limit si server pamatuje v databázi, takže platí
-i po jeho restartu.
+Počítá se zpráva, ne tlačítko — co se sloučí do jedné zprávy, spotřebuje jedno místo, ať je
+v ní příkazů kolik chce. Vyplatí se proto zadat všechno potřebné, dokud první příkaz čeká
+ve frontě.
 
-Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
-hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
-historie.
+| Co se stane | Kolik míst to stojí |
+|---|---|
+| příkaz do prázdné fronty | jedno |
+| příkaz, který se přidá k čekající zprávě, třeba **Otevřít** k čekajícímu **Odblokovat** nebo **Vynulovat** pro další hnízda k čekajícímu **Vynulovat** | žádné další |
+| **Vynulovat**, když čeká **Kalibrovat** pro jiná hnízda, nebo naopak | jedno, jde samostatnou zprávou |
+| zpráva, kterou kurník nepotvrdil a posílá se znovu | jedno za každé opakování |
+| příkaz, který stránka odmítne (**Nezařazeno**) | žádné |
 
-Při východu slunce a hodinu po západu se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
-takové změny.
+Zpráva se započítá hned, jak se zařadí do fronty. Dokud čeká, místo se zase uvolní, když
+frontu zrušíte, když zpráva vyprší, když ji síť nedokáže vyslat a při restartu serveru, který
+frontu smaže. Zpráva, kterou brána vyslala, zůstává započítaná celých 24 hodin, i když ji
+kurník neprovedl — třeba **Otevřít** při vypnuté automatice nebo zablokovaných dvířkách.
+
+Počítadlo pod frontou ukazuje, kolik z limitu je využito, třeba **Zprávy s příkazy za
+posledních 24 h: 3 z 7**. Když je limit vyčerpaný, změní se na **Limit 7 zpráv s příkazy
+za 24 h je vyčerpán** s časem, od kdy půjde poslat další — to je 24 hodin po nejstarší
+vyslané zprávě. Do té doby stránka nepřijme příkaz, pro který by byla potřeba nová zpráva;
+příkaz, který se přidá k čekající zprávě, přijme i tak. Dvířka se mezitím dál otevírají
+a zavírají sama podle slunce. Limit si server pamatuje v databázi, takže platí i po jeho
+restartu.
+
+Kolik míst zabere nastavení vah ve více hnízdech, ukazuje příklad v části **Kalibrace váhy**.
 
 ### Kalibrace váhy
 
