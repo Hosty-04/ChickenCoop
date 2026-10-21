@@ -73,8 +73,8 @@ Pak firmware přeložte, nahrajte do kurníku a kurník vypněte a zapněte.
 
 ### Souřadnice kurníku
 
-Dvířka se otevírají za svítání a zavírají za soumraku a kurník si oba časy počítá sám ze
-zeměpisné polohy. Ve firmwaru je přednastavené místo z vývoje; vlastní souřadnice patří do
+Dvířka se otevírají při východu slunce a zavírají hodinu po západu, aby slepice stihly
+zajít dovnitř; kurník si oba časy počítá sám ze zeměpisné polohy. Ve firmwaru je přednastavené místo z vývoje; vlastní souřadnice patří do
 souboru `Master/Core/Inc/main.h`:
 
 ```c
@@ -815,7 +815,7 @@ Otevřených oken může být víc — třeba telefon a počítač zároveň. Co
 hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
 historie.
 
-Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
+Při východu slunce a hodinu po západu se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
 
 ### Kalibrace váhy
