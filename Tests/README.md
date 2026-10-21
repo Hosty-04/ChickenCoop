@@ -95,7 +95,7 @@ porucha váhy v hnízdě 11 a hnízda 14 a 15 neodpovídají; ostatní počítaj
 V `kurnik-test-instalace.db` jsou obě váhy od instalace nevynulované a nezkalibrované. Za dvě
 hodiny se hnízdo 1 vynuluje a o dvacet minut později zkalibruje; obojí přijde jako zpráva
 o hnízdech mimo celou hodinu, tak jako ze skutečného kurníku. Hnízdo 2 zůstane nevynulované,
-takže stránka u něj odmítne **Kalibrovat**, dokud ho nevynulujete.
+takže stránka u něj odmítne kalibrovat, dokud ho nevynulujete.
 
 ## Co je v grafech
 
