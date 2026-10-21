@@ -771,14 +771,14 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636,00 Kč |
 | Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984,00 Kč |
 | Programátor | 1 ks | [Odkaz][programmer] | 114,10 Kč | 138,00 Kč |
-| H-můstek DRV8838 | 1 ks | [Odkaz][h-bridge] | 81,82 Kč | 99,00 Kč |
+| H-můstek DRV8838 | 1 ks | [Odkaz][h-mustek] | 81,82 Kč | 99,00 Kč |
 | Feritový korálek | 5 ks | [Odkaz][ferit] | 13,42 Kč | 16,24 Kč |
 | Motor | 1 ks | [Odkaz][motor] | 88,00 Kč | 107,00 Kč |
 | Koncový spínač | 2 ks | [Odkaz][spinac] | 39,60 Kč | 48,00 Kč |
 | Senzor INA226 | 1 ks | [Odkaz][ina226] | 97,50 Kč | 118,00 Kč |
 | Tenzometr | 2 ks | [Odkaz][tenzometr] | 211,60 Kč | 256,00 Kč |
 | Převodník HX711 | 2 ks | [Odkaz][hx711] | 39,60 Kč | 48,00 Kč |
-| Transceiver MAX3485 | 3 ks | [Odkaz][max3485] | 258,00 Kč | 312,18 Kč |
+| Transceiver MAX3483 | 3 ks | [Odkaz][max3483] | 258,00 Kč | 312,18 Kč |
 | Rezistor 1 MΩ | 2 ks | [Odkaz][odpor-1M] | 1,65 Kč | 2,00 Kč |
 | Rezistor 330 kΩ | 2 ks | [Odkaz][odpor-330k] | 1,65 Kč | 2,00 Kč |
 | Kondenzátor 1 µF | 10 ks | [Odkaz][kondik-1u] | 4,46 Kč | 5,40 Kč |
@@ -834,14 +834,14 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [master]: https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html
 [slave]: https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html
 [programmer]: https://www.laskakit.cz/st-link-v2-programator-stm8-stm32/
-[h-bridge]: https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html
+[h-mustek]: https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html
 [ferit]: https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/
 [motor]: https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html
 [spinac]: https://www.laskakit.cz/omron-koncovy-spinac-pakovy-5a-125vac/
 [ina226]: https://www.laskakit.cz/laskakit-ina226-sensor-pro-mereni-napeti--proudu-a-vykonu/
 [tenzometr]: https://www.laskakit.cz/vazici-senzor-20kg-adc-modul-hx711/
 [hx711]: https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
-[max3485]: https://www.tme.eu/cz/details/max3485esa+/integr-obvody-rs232-rs422-rs485/analog-devices-maxim-integrated/
+[max3483]: https://cz.mouser.com/en/ProductDetail/Analog-Devices-Maxim-Integrated/MAX3483ESA%2bT?qs=LHmEVA8xxfb8TIbzToz7mw%3D%3D
 [odpor-1M]: https://dratek.cz/arduino-platforma/7658-rezistor-1m-0.25-w-1.html
 [odpor-330k]: https://dratek.cz/arduino-platforma/174965-metalizovany-rezistor-330k-0-25w-1.html?cv
 [kondik-1u]: https://www.gme.cz/v/1486151/hitano-ck-1u-50v-x7r-rm508-10-keramicky-kondenzator
