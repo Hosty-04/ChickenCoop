@@ -21,13 +21,13 @@ const DATABAZE = {
   porucha: { soubor: 'kurnik-test-porucha.db', popis: 'kriticky vybitá baterie, dvířka v poruše, porucha váhy' },
   poplach: { soubor: 'kurnik-test-poplach.db', popis: 'mrtvé čidlo baterie i panelu, neznámá dvířka, kvočna, hnízdo neodpovídá, vypnutá automatika', vypnuto: 2 * HOD },
   meze: { soubor: 'kurnik-test-meze.db', popis: 'baterie 8,00 V a panel 12,50 V na horní mezi rozsahu, plné košíky' },
-  instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nezkalibrované' },
+  instalace: { soubor: 'kurnik-test-instalace.db', popis: 'první den po instalaci, hnízdo 2 ještě nevynulované' },
   jedno: { soubor: 'kurnik-test-jedno.db', popis: 'jediné měření' },
   prazdna: { soubor: 'kurnik-test-prazdna.db', popis: 'prázdná databáze' },
   stara: { soubor: 'kurnik-test-stara.db', popis: 'poslední zpráva před pěti dny' }
 };
 
-const STAV = { ok: 0, kvocna: 1, nekalibrovano: 2, porucha: 3, offline: 4 };
+const STAV = { ok: 0, kvocna: 1, nekalibrovano: 2, porucha: 3, offline: 4, nevynulovano: 5 };
 
 let seminko = 20260101;
 
@@ -163,9 +163,9 @@ function instalaceHnizd(zacatek, konec) {
   const kalibrace = vynulovani + 2 * KROK;
 
   return [
-    { jmeno: 'váhy nezkalibrované od instalace', stavy: 'nekalibrovano', od: zacatek, do: vynulovani, kde: 'dlaždice, Snáška' },
-    { jmeno: 'hnízdo 1 vynulované (zpráva mimo celou hodinu)', stavy: 'nekalibrovano', zprava: true, od: vynulovani, do: kalibrace, kde: 'Snáška' },
-    { jmeno: 'hnízdo 1 zkalibrované (zpráva mimo celou hodinu)', stavy: ['ok', 'nekalibrovano'], zprava: true, od: kalibrace, do: konec + KROK, kde: 'dlaždice, Snáška' }
+    { jmeno: 'váhy od instalace nevynulované', stavy: 'nevynulovano', od: zacatek, do: vynulovani, kde: 'dlaždice, Snáška' },
+    { jmeno: 'hnízdo 1 vynulované (zpráva mimo celou hodinu)', stavy: ['nekalibrovano', 'nevynulovano'], zprava: true, od: vynulovani, do: kalibrace, kde: 'Snáška' },
+    { jmeno: 'hnízdo 1 zkalibrované (zpráva mimo celou hodinu)', stavy: ['ok', 'nevynulovano'], zprava: true, od: kalibrace, do: konec + KROK, kde: 'dlaždice, Snáška' }
   ];
 }
 
@@ -176,7 +176,7 @@ function plneKosiky(hnizda, konec) {
 function vsechnyStavy(konec) {
   return [{
     jmeno: 'všechny stavy hnízd naráz',
-    stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'ok', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
+    stavy: ['ok', 'ok', 'ok', 'kvocna', 'ok', 'ok', 'ok', 'nekalibrovano', 'nevynulovano', 'ok', 'porucha', 'ok', 'ok', 'offline', 'offline'],
     od: ted - HOD,
     do: konec + KROK,
     kde: 'dlaždice'
@@ -378,7 +378,7 @@ function vytvor(stav) {
 
     for (let i = 0; i < hnizd; i++) {
       const kod = stavHnizda(h, i);
-      const vazi = kod !== STAV.kvocna && kod !== STAV.nekalibrovano;
+      const vazi = kod !== STAV.kvocna && kod !== STAV.nekalibrovano && kod !== STAV.nevynulovano;
       const snese = plne.includes(i)
         ? hodina(t) >= 8 && hodina(t) <= 12
         : nahoda() < snaska(t) * (hnizd / 2) * podil[i];

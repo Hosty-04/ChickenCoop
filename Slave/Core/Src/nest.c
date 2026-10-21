@@ -49,6 +49,7 @@
 #define NEST_FLAG_BROODY      0x0001U
 #define NEST_FLAG_UNCALIB     0x0002U
 #define NEST_FLAG_FAULT       0x0004U
+#define NEST_FLAG_UNTARED     0x0008U
 
 #define NEST_EEPROM_CALIB     DATA_EEPROM_BASE
 #define NEST_EEPROM_COUNT     (DATA_EEPROM_BASE + 16UL)
@@ -192,6 +193,7 @@ static uint16_t Nest_Flags(void)
   if (nest_count.heavy >= NEST_BROODY_CHECKS) flags |= NEST_FLAG_BROODY;
   if (!Nest_Calibrated())                     flags |= NEST_FLAG_UNCALIB;
   if (nest_fault)                             flags |= NEST_FLAG_FAULT;
+  if (!nest_calib.valid)                      flags |= NEST_FLAG_UNTARED;
 
   return flags;
 }
@@ -437,8 +439,13 @@ static void Nest_Start(uint16_t command)
   nest_slow      = 1U;
   nest_wait_tick = HAL_GetTick();
 
-  if ((command == NEST_CMD_CALIBRATE) && (!nest_calib.valid || (nest_argument == 0U)))
-    Nest_Fail();
+  if (command == NEST_CMD_CALIBRATE) {
+    /* Never tared: there is no zero to calibrate against, the scale stays uncalibrated */
+    if (!nest_calib.valid)
+      Nest_Finish();
+    else if (nest_argument == 0U)
+      Nest_Fail();
+  }
 }
 
 static void Nest_Shutdown(uint8_t next)

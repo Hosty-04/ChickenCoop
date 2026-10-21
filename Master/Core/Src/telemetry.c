@@ -22,6 +22,7 @@
 #define BATTERY_CODE_NODATA 63U
 #define NEST_CODE_BROODY    11U
 #define NEST_CODE_UNCALIB   12U
+#define NEST_CODE_UNTARED   13U
 #define NEST_CODE_FAULT     14U
 #define NEST_CODE_NODATA    15U
 
@@ -89,6 +90,7 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
     case NESTS_STATE_OK:           break;
     case NESTS_STATE_BROODY:       return NEST_CODE_BROODY;
     case NESTS_STATE_UNCALIBRATED: return NEST_CODE_UNCALIB;
+    case NESTS_STATE_UNTARED:      return NEST_CODE_UNTARED;
     case NESTS_STATE_FAULT:        return NEST_CODE_FAULT;
     default:                       return NEST_CODE_NODATA;
   }

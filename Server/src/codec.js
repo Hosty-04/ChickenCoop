@@ -14,11 +14,13 @@ const BATTERY_CODE_NODATA = 63;
 export const EGGS_MAX = 10;
 const NEST_CODE_BROODY = 11;
 const NEST_CODE_UNCALIBRATED = 12;
+const NEST_CODE_UNTARED = 13;
 const NEST_CODE_FAULT = 14;
 const NEST_CODE_NODATA = 15;
 
 export const DOOR_STATES = ['closed', 'open', 'fault', 'unknown'];
-export const NEST_STATES = ['ok', 'broody', 'uncalibrated', 'fault', 'offline'];
+// 'untared' is appended so that state numbers already stored in the database keep their meaning
+export const NEST_STATES = ['ok', 'broody', 'uncalibrated', 'fault', 'offline', 'untared'];
 
 export const COMMANDS = {
   systemOn: 0x01,
@@ -52,6 +54,7 @@ function decodeNest(code) {
   if (code <= EGGS_MAX) return { eggs: code, state: 'ok' };
   if (code === NEST_CODE_BROODY) return { eggs: null, state: 'broody' };
   if (code === NEST_CODE_UNCALIBRATED) return { eggs: null, state: 'uncalibrated' };
+  if (code === NEST_CODE_UNTARED) return { eggs: null, state: 'untared' };
   if (code === NEST_CODE_FAULT) return { eggs: null, state: 'fault' };
   return { eggs: null, state: 'offline' };
 }

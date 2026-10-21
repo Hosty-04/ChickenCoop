@@ -10,6 +10,7 @@ const DOOR_LABELS = {
 const NEST_LABELS = {
   broody: { note: '⚠ sedí kvočna', tone: 'is-warning' },
   uncalibrated: { note: '⚠ váha není zkalibrovaná', tone: 'is-warning' },
+  untared: { note: '⚠ váha není zkalibrovaná, nejdřív ji vynulujte', tone: 'is-warning' },
   fault: { note: '⚠ porucha váhy', tone: 'is-critical' },
   offline: { note: '⚠ hnízdo neodpovídá', tone: 'is-warning' }
 };
@@ -84,6 +85,7 @@ const busy = new Set();
 const MESSAGES = new Map([
   ['status', renderStatus],
   ['pending', renderPending],
+  ['quota', renderQuota],
   ['command', (entry) => showToast(queuedText(entry), 'is-ok')],
   ['cancelled', ({ cleared }) => showToast(cancelledText(cleared), 'is-ok')],
   ['expired', (entries) => showToast(expiredText(entries), 'is-error')],
@@ -196,7 +198,8 @@ function queuedText(entry) {
   const replaced = entry.replaced?.length > 0
     ? ` (nahrazuje ${entry.replaced.map((queued) => describe(queued.commands, queued.nests)).join(' · ')})`
     : '';
-  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)}${replaced} — čeká na další zprávu z kurníku`;
+  const merged = entry.merged?.length > 0 ? ' (sloučeno s čekajícím příkazem do jedné zprávy)' : '';
+  return `Zařazeno do fronty: ${describe(entry.commands, entry.nests)}${replaced}${merged} — čeká na další zprávu z kurníku`;
 }
 
 function expiredText(entries) {
@@ -763,8 +766,18 @@ function renderPending(pending) {
   el('queue').classList.toggle('is-waiting', pending.length > 0);
 }
 
-function renderCount(readings) {
+function renderQuota(quota) {
+  if (!quota) return;
+  const full = quota.used >= quota.limit;
+  el('quota').textContent = full
+    ? `Limit ${quota.limit} zpráv s příkazy za 24 h je vyčerpán${quota.freeAt ? `, další od ${formatTime(quota.freeAt, sameDay(quota.freeAt, Date.now()) ? 'time' : 'datetime')}` : ''}.`
+    : `Zprávy s příkazy za posledních 24 h: ${quota.used} z ${quota.limit}`;
+  el('quota').classList.toggle('is-full', full);
+}
+
+function renderCount(readings, stored) {
   el('data-count').textContent = countRecords(readings);
+  el('data-split').textContent = stored ? `napájení ${NUMBER.format(stored.power)} · snáška ${NUMBER.format(stored.eggs)}` : '';
   el('wipe').disabled = readings === 0;
 }
 
@@ -831,7 +844,7 @@ function renderNests({ nestCount: count, eggsMax, nests: snapshot }) {
 
   for (let i = 0; i < count; i++) {
     const nest = snapshot?.nests[i] ?? { state: null, eggs: null, laidToday: 0 };
-    const known = nest.eggs !== null && nest.state !== 'uncalibrated';
+    const known = nest.eggs !== null && nest.state !== 'uncalibrated' && nest.state !== 'untared';
     const label = NEST_LABELS[nest.state];
     const tray = el(`nest-${i}-tray`);
 
@@ -873,7 +886,8 @@ function renderStatus(status) {
   el('device').textContent = status.device;
   setBadge(status.ttnConnected, status.ttnConnected ? 'TTN připojeno' : 'TTN odpojeno');
   renderPending(status.pending);
-  renderCount(status.readings);
+  renderQuota(status.quota);
+  renderCount(status.readings, status.stored);
   renderLatest(status.latest);
   renderAutomation(status.automation);
   renderNests(status);
@@ -926,7 +940,8 @@ async function sendCommand(button, command) {
     loadStatus();
   } catch (err) {
     if (redirected(err)) return;
-    if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
+    if (err instanceof HttpError && err.data.untared) showToast(`Nezařazeno: ${reason(err)}`);
+    else if (err instanceof HttpError && err.data.queued) showToast(`Nezařazeno, ve frontě už čeká: ${describe(err.data.queued.commands, err.data.queued.nests)}`);
     else showToast(`Příkaz selhal: ${reason(err)}`, 'is-error');
   } finally {
     busy.delete(button);

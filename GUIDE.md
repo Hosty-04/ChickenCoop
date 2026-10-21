@@ -73,8 +73,8 @@ Pak firmware přeložte, nahrajte do kurníku a kurník vypněte a zapněte.
 
 ### Souřadnice kurníku
 
-Dvířka se otevírají za svítání a zavírají za soumraku a kurník si oba časy počítá sám ze
-zeměpisné polohy. Ve firmwaru je přednastavené místo z vývoje; vlastní souřadnice patří do
+Dvířka se otevírají při východu slunce a zavírají hodinu po západu, aby slepice stihly
+zajít dovnitř; kurník si oba časy počítá sám ze zeměpisné polohy. Ve firmwaru je přednastavené místo z vývoje; vlastní souřadnice patří do
 souboru `Master/Core/Inc/main.h`:
 
 ```c
@@ -569,8 +569,8 @@ mimo něj.
 ## Co je na stránce
 
 Stránka má odshora záhlaví, volbu rozsahu, pět dlaždic s aktuálním stavem, karty **Hnízda**,
-**Snáška** a **Napájení**, ovládání a kartu **Data** s počtem všech uložených měření
-a tlačítkem pro smazání historie. Nové hodnoty se doplňují samy, stránku není potřeba
+**Snáška** a **Napájení**, ovládání a kartu **Data** s počtem uložených záznamů, ze kterých
+se skládají Napájení a Snáška, a tlačítkem pro smazání historie. Nové hodnoty se doplňují samy, stránku není potřeba
 načítat znovu.
 
 ### Záhlaví stránky
@@ -618,7 +618,8 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 |---|---|
 | **⚠ košík je plný** | v hnízdě je deset vajec, víc se jich do zprávy nevejde — je čas je vybrat |
 | **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
-| **⚠ váha není zkalibrovaná** | váhu je potřeba vynulovat a zkalibrovat, viz **Ovládání** |
+| **⚠ váha není zkalibrovaná, nejdřív ji vynulujte** | hnízdo ještě nikdy nebylo vynulované; bez toho se kalibrace neprovede, viz **Kalibrace váhy** |
+| **⚠ váha není zkalibrovaná** | váha je vynulovaná, zbývá ji zkalibrovat se závažím, viz **Kalibrace váhy** |
 | **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly |
 | **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
 
@@ -765,9 +766,14 @@ i zablokování si kurník pamatuje i po odpojení baterie.
 > s upozorněním, který příkaz už čeká; kdo si to rozmyslí, frontu nejdřív zruší. Výjimkou je
 > stejný příkaz pro další hnízda: čeká-li třeba **Vynulovat** pro hnízdo 1 a zadáte
 > **Vynulovat** pro všechna hnízda, čekající příkaz se nahradí jedním pro všechna hnízda
-> dohromady. Ostatní příkazy se řadí za sebe a provedou se všechny.
+> dohromady. Ostatní příkazy se k tomu, co už ve frontě čeká, přidají a odejdou do kurníku
+> **jednou zprávou** — třeba **Odblokovat** a **Otevřít** se provedou naráz, nejdřív
+> odblokování, pak otevření. Výjimkou je **Vynulovat** a **Kalibrovat** pro různá hnízda,
+> které se do jedné zprávy nevejdou a pošlou se po sobě. Sloučený příkaz platí 30 minut
+> od posledního přidání.
 
-Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení. Tlačítko
+Pod tlačítky je řádek **Ve frontě** s příkazy, které ještě čekají na doručení, a pod ním
+počítadlo **Zprávy s příkazy za posledních 24 h**. Tlačítko
 **Zrušit** je smaže — pokud se to stihne dřív, než se kurník ozve, neprovede se nic.
 Jakmile brána příkaz vyšle, zmizí z fronty a stránka ohlásí **Příkaz odeslán do kurníku, čeká
 na potvrzení**. Kurník příjem potvrdí do několika sekund krátkou zprávou, kterou kvůli tomu
@@ -791,11 +797,25 @@ ho znovu.
 > nedorazily, je potřeba zadat znovu. Restart serveru také odhlásí všechna otevřená okna
 > a stránka se sama vrátí na přihlášení.
 
+### Denní limit příkazů
+
+Do kurníku jde za posledních 24 hodin poslat nejvýš **7 zpráv s příkazy**. Síť The Things
+Network dovoluje jednomu zařízení 10 zpráv do kurníku denně, dvě z nich si každý den vezme
+kurník na seřízení hodin a jedna zůstává jako rezerva. Počítá se zpráva, ne tlačítko — co se
+sloučí do jedné zprávy, spotřebuje jedno místo, ať je v ní příkazů kolik chce. Počítají se
+zprávy, které brána už vyslala, i ty, které ve frontě ještě čekají. Když kurník příjem
+nepotvrdí a zpráva se posílá znovu, počítá se i opakování.
+
+Počítadlo pod frontou ukazuje, kolik z limitu je za posledních 24 hodin využito. Když je
+vyčerpaný, stránka další příkaz nepřijme a napíše, od kdy půjde poslat další — to je
+24 hodin po nejstarší započítané zprávě. Limit si server pamatuje v databázi, takže platí
+i po jeho restartu.
+
 Otevřených oken může být víc — třeba telefon a počítač zároveň. Co uděláte v jednom, se
 hned ukáže i v ostatních: zařazený příkaz, zrušená fronta, nově naměřené hodnoty i smazání
 historie.
 
-Za svítání a za soumraku se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
+Při východu slunce a hodinu po západu se dvířka ovládají sama; ruční příkaz platí jen do nejbližší
 takové změny.
 
 ### Kalibrace váhy
@@ -811,17 +831,31 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    pak ukazuje, co je vybrané (třeba **Hnízdo 2** nebo **Všechna hnízda**), a teprve teď
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
-   kontrolu. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
+   kontrolu s poznámkou **⚠ váha není zkalibrovaná**. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
    hodinu; ostatní hnízda přitom neměří.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
    jedno závaží, kalibruje hnízda po jednom.
 5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
-Jedním příkazem jde nastavit libovolný počet hnízd; víc příkazů ve frontě se do kurníku
-dostává po jednom, další vždy pár sekund po potvrzení předchozího.
+Jedním příkazem jde nastavit libovolný počet hnízd. **Vynulovat** a **Kalibrovat** pro
+různá hnízda se do jedné zprávy nesloučí, takže se do kurníku dostávají po jednom, další
+vždy pár sekund po potvrzení předchozího. Každý takový příkaz spotřebuje jedno místo
+z denního limitu: vynulovat všechna hnízda najednou je jeden příkaz, ale kalibrace pěti
+hnízd s jedním závažím je pět dalších. Když limit nestačí, dokončete kalibraci další den.
 Hnízdo během kalibrace nesmí obsadit slepice — nejlepší je kalibrovat večer, kdy jsou
 slepice zavřené na hřadu.
+
+Hnízdo, které ještě nikdy nebylo vynulované (karta u něj ukazuje
+**⚠ váha není zkalibrovaná, nejdřív ji vynulujte**), stránka kalibrovat nedovolí a napíše
+**Nezařazeno: hnízdo 2 ještě není vynulované**; příkaz se neodešle, takže nespotřebuje ani
+místo v denním limitu. Kdyby se do kurníku přesto dostal, hnízdo ho jen zahodí a dál hlásí
+nevynulovanou váhu.
+
+Jednou vynulované hnízdo jde později znovu kalibrovat i bez nového vynulování, pokud je
+prázdné a nezměnila se podestýlka ani košík. Naopak po výměně podestýlky nebo posunutí
+košíku stačí hnízdo jen vynulovat, kalibrace zůstává platná. Drobné změny do 25 g dorovnává
+kurník sám jednou denně, když je hnízdo prázdné; větší změna by se jinak počítala jako vejce.
 
 Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
 provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá nebo
@@ -878,6 +912,10 @@ uloží a dlaždice ukáže skutečný stav. Jen když se server s plnou kartou 
 stav nezná — pomlčka pak zůstane, dokud nepošlete **Zapnout** nebo **Vypnout**. Volné místo ukáže `df -h /`. Měření zaberou asi 4 MB za rok, takže kartu
 zaplní spíš něco jiného — nejčastěji staré obrazy serveru, které po každé aktualizaci
 s `--build` zůstávají na kartě. Ty uvolní `docker image prune`; data se tím nesmažou.
+
+**Stránka hlásí vyčerpaný limit příkazů.** Za posledních 24 hodin už do kurníku odešlo
+7 zpráv s příkazy (kapitola **Ovládání**, **Denní limit příkazů**). Počkejte do času, který
+stránka uvádí; mezitím kurník dál otevírá a zavírá dvířka sám podle slunce.
 
 **Dvířka hlásí poruchu.** Něco jim překáží, nebo nedojela do koncové polohy. Odstraňte
 překážku a klikněte na **Odblokovat**. Porucha se sama nezruší ani po vypnutí napájení.

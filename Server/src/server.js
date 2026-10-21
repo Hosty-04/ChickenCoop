@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
-import { TtnBridge, QueuedCommandError } from './ttn.js';
+import { TtnBridge, QueuedCommandError, CommandLimitError } from './ttn.js';
 import { EGGS_MAX } from './codec.js';
 import {
   SESSION_COOKIE, SESSION_TTL_MS, readCookie, lockoutRemainingMs, checkCredentials, passwordMatches,
@@ -32,13 +32,24 @@ const state = {
   dbOk: null,
   dbError: null,
   readings: 0,
+  stored: null,
   pending: [],
   nestCount: config.nestCount,
   eggsMax: EGGS_MAX,
   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   automation: null,
-  nests: null
+  nests: null,
+  quota: null
 };
+
+const QUOTA_REFRESH_MS = 60 * 1000;
+
+function refreshQuota() {
+  const quota = ttn.quota();
+  const changed = JSON.stringify(quota) !== JSON.stringify(state.quota);
+  state.quota = quota;
+  return changed;
+}
 
 const AUTOMATION_COMMANDS = { systemOn: true, systemOff: false };
 const AUTOMATION_UNKNOWN = { enabled: null, at: null };
@@ -101,6 +112,11 @@ function broadcast(type, data) {
   }
 }
 
+function storedCounts() {
+  const { power, eggs, total } = countReadings(config.ttn.deviceId);
+  return { readings: total, stored: { power, eggs } };
+}
+
 function refreshNests() {
   try {
     state.nests = readNests(config.ttn.deviceId, config.nestCount);
@@ -124,6 +140,7 @@ function sendRange(req, res, read) {
 
 app.get('/api/status', (req, res) => {
   refreshNests();
+  refreshQuota();
   res.json(state);
 });
 
@@ -135,13 +152,32 @@ app.get('/api/eggs', (req, res) => {
   sendRange(req, res, (hours) => readEggs(config.ttn.deviceId, hours, config.nestCount));
 });
 
+function untaredNests(commands, nests) {
+  if (!Array.isArray(commands) || !commands.includes('calibrate') || !Array.isArray(nests)) return [];
+  refreshNests();
+  return [...new Set(nests)].filter((nest) => state.nests?.nests[nest - 1]?.state === 'untared').sort((a, b) => a - b);
+}
+
+function untaredText(nests) {
+  const list = nests.length === 1 ? String(nests[0]) : `${nests.slice(0, -1).join(', ')} a ${nests.at(-1)}`;
+  return nests.length === 1
+    ? `hnízdo ${list} ještě není vynulované — nejdřív ho vynulujte, a až karta Hnízda ukáže „váha není zkalibrovaná“, kalibraci zopakujte`
+    : `hnízda ${list} ještě nejsou vynulovaná — nejdřív je vynulujte, a až karta Hnízda ukáže „váha není zkalibrovaná“, kalibraci zopakujte`;
+}
+
 app.post('/api/command', async (req, res) => {
+  const untared = untaredNests(req.body?.commands, req.body?.nests);
+  if (untared.length > 0) {
+    return res.status(409).json({ ok: false, error: untaredText(untared), untared });
+  }
+
   try {
     const sent = await ttn.sendCommand(req.body?.commands ?? [], req.body?.nests);
     broadcast('command', sent);
     res.json({ ok: true, ...sent });
   } catch (err) {
     if (err instanceof QueuedCommandError) res.status(409).json({ ok: false, error: err.message, queued: err.queued });
+    else if (err instanceof CommandLimitError) res.status(429).json({ ok: false, error: err.message, freeAt: err.freeAt });
     else res.status(400).json({ ok: false, error: err.message });
   }
 });
@@ -164,13 +200,14 @@ app.post('/api/data/clear', (req, res) => {
   try {
     const removed = clearReadings(config.ttn.deviceId);
     state.readings = 0;
+    state.stored = { power: 0, eggs: 0 };
     state.latest = null;
     state.nests = null;
     state.dbOk = true;
     state.dbError = null;
     broadcast('status', state);
     broadcast('cleared', { removed });
-    console.log(`history cleared, ${removed} readings removed`);
+    console.log(`history cleared, ${removed} records removed`);
     res.json({ ok: true, removed });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
@@ -193,7 +230,21 @@ ttn.on('error', (err) => console.error('TTN:', err.message));
 ttn.on('pending', (pending) => {
   state.pending = pending;
   broadcast('pending', pending);
+  if (refreshQuota()) broadcast('quota', state.quota);
 });
+
+ttn.on('quota', (sentLog) => {
+  try {
+    writeSetting('downlinkLog', sentLog, true);
+  } catch (err) {
+    console.error('command limit log not saved:', err.message);
+  }
+  if (refreshQuota()) broadcast('quota', state.quota);
+});
+
+setInterval(() => {
+  if (refreshQuota()) broadcast('quota', state.quota);
+}, QUOTA_REFRESH_MS).unref();
 
 function storeAutomation(automation, reclaim = false) {
   try {
@@ -272,7 +323,7 @@ ttn.on('uplink', (uplink) => {
 
   try {
     writeReading(uplink.deviceId, uplink.reading, uplink.radio, new Date(uplink.receivedAt));
-    state.readings = countReadings(config.ttn.deviceId);
+    Object.assign(state, storedCounts());
     state.dbOk = true;
     state.dbError = null;
     if (nests) refreshNests();
@@ -292,10 +343,11 @@ function seedFromDb() {
   try {
     const latest = readLatest(config.ttn.deviceId);
     if (latest) state.latest = { deviceId: config.ttn.deviceId, fCnt: null, ...latest };
-    state.readings = countReadings(config.ttn.deviceId);
+    Object.assign(state, storedCounts());
     state.nests = readNests(config.ttn.deviceId, config.nestCount);
     automation = readSetting('automation');
     ttn.restoreSequence(readSetting('commandSequence'));
+    ttn.restoreSentLog(readSetting('downlinkLog'));
     state.dbOk = true;
   } catch (err) {
     state.dbOk = false;
@@ -326,6 +378,7 @@ process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
 seedFromDb();
+refreshQuota();
 ttn.start();
 http.listen(config.port, () => {
   console.log(`dashboard on http://localhost:${config.port}`);

@@ -542,6 +542,17 @@ th {
   font-variant-numeric: tabular-nums;
 }
 
+.quota {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.quota.is-full {
+  color: var(--serious);
+}
+
 dialog[open] {
   width: min(380px, calc(100vw - 32px));
   padding: 22px;

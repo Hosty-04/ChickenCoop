@@ -3,11 +3,15 @@ import mqtt from 'mqtt';
 import { config, ttnUsername } from './config.js';
 import { decodeUplink, encodeDownlink, UPLINK_PORT, DOWNLINK_PORT, SEQUENCE_MAX, STAMP_MASK, EXCLUSIVE_PAIRS, NEST_COMMANDS } from './codec.js';
 
+const isNestCommand = (name) => Object.hasOwn(NEST_COMMANDS, name);
 const NOT_CONNECTED = 'server není spojený s The Things Network';
 const DOWN_EVENTS = ['sent', 'ack', 'nack', 'failed'];
 const QUEUE_EVENTS = ['sent', 'failed'];
 const SENT_MAX = 16;
 export const COMMAND_TTL_MS = 30 * 60 * 1000;
+// TTN Fair Use Policy: 10 downlinks / 24 h per device; 2 go to time sync, 1 stays in reserve
+export const COMMAND_LIMIT = 7;
+export const COMMAND_WINDOW_MS = 24 * 60 * 60 * 1000;
 const EXPIRY_CHECK_MS = 15 * 1000;
 const CORRELATION_TAG = 'kurnik:';
 const CORRELATION_PREFIX = `${CORRELATION_TAG}${Date.now().toString(36)}:`;
@@ -34,6 +38,15 @@ function sameCommands(a, b) {
   return a.length === b.length && a.every((name) => b.includes(name));
 }
 
+export class CommandLimitError extends Error {
+  constructor(freeAt) {
+    super(freeAt
+      ? `limit ${COMMAND_LIMIT} zpráv s příkazy za 24 h je vyčerpán, další půjde odeslat od ${new Date(freeAt).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })}`
+      : `limit ${COMMAND_LIMIT} zpráv s příkazy za 24 h je vyčerpán čekajícími příkazy`);
+    this.freeAt = freeAt;
+  }
+}
+
 export class QueuedCommandError extends Error {
   constructor(queued) {
     super('ve frontě už čeká stejný nebo opačný příkaz');
@@ -55,6 +68,27 @@ export class TtnBridge extends EventEmitter {
     this.expiryTimer = null;
     this.expired = new Map();
     this.clockOffset = 0;
+    this.sentLog = [];
+  }
+
+  #pruneLog() {
+    const since = Date.now() - COMMAND_WINDOW_MS;
+    this.sentLog = this.sentLog.filter((at) => at > since);
+  }
+
+  restoreSentLog(saved) {
+    if (Array.isArray(saved)) this.sentLog = saved.filter((at) => Number.isFinite(at)).sort((a, b) => a - b);
+    this.#pruneLog();
+  }
+
+  quota() {
+    this.#pruneLog();
+    const used = this.sentLog.length + this.pending.length;
+    return {
+      limit: COMMAND_LIMIT,
+      used,
+      freeAt: used >= COMMAND_LIMIT && this.sentLog.length > 0 ? this.sentLog[0] + COMMAND_WINDOW_MS : null
+    };
   }
 
   #now() {
@@ -233,6 +267,12 @@ export class TtnBridge extends EventEmitter {
       const ids = correlationIds(message);
       const tagged = ids.some((id) => id.startsWith(CORRELATION_TAG));
 
+      if (event === 'sent' && tagged) {
+        this.#pruneLog();
+        this.sentLog.push(Date.now());
+        this.emit('quota', this.sentLog);
+      }
+
       if (ids.some((id) => this.expired.has(id))) {
         if (event === 'nack') this.#purge();
         return;
@@ -288,46 +328,71 @@ export class TtnBridge extends EventEmitter {
     });
   }
 
+  #mergeable(names, replaced) {
+    let nestCommand = names.find(isNestCommand);
+    return this.pending.filter((entry) => {
+      if (replaced.includes(entry) || this.#age(entry) >= COMMAND_TTL_MS) return false;
+      const own = entry.commands.find(isNestCommand);
+      if (own && nestCommand && own !== nestCommand) return false;
+      nestCommand ??= own;
+      return true;
+    });
+  }
+
   sendCommand(names, nests) {
     const plain = Buffer.from(encodeDownlink(names, nests, config.nestCount));
     const chosen = plain.length > 1 ? [...new Set(nests)].sort((a, b) => a - b) : null;
 
     if (!this.connected) throw new Error(NOT_CONNECTED);
     const replaced = this.#clashing(names, chosen);
-    const blocking = replaced.find((entry) => !chosen || !sameCommands(entry.commands, names));
+    const blocking = replaced.find((entry) => !chosen || !sameCommands(entry.commands.filter(isNestCommand), names));
     if (blocking) throw new QueuedCommandError(blocking);
 
-    const merged = chosen && [...new Set([...chosen, ...replaced.flatMap((entry) => entry.nests)])].sort((a, b) => a - b);
-    if (replaced.length > 0 && merged.length === replaced.reduce((sum, entry) => sum + entry.nests.length, 0)) {
+    const covered = replaced.flatMap((entry) => entry.nests);
+    if (replaced.length > 0 && chosen.every((nest) => covered.includes(nest))) {
       throw new QueuedCommandError(replaced[0]);
     }
+
+    // Commands still waiting in the queue are merged into a single downlink
+    const merged = this.#mergeable(names, replaced);
+    const group = [...merged, ...replaced];
+    const commands = [...new Set([...group.flatMap((entry) => entry.commands), ...names])];
+    const nestCommand = commands.find(isNestCommand);
+    const allNests = nestCommand
+      ? [...new Set([...(chosen ?? []), ...group.filter((entry) => entry.commands.includes(nestCommand)).flatMap((entry) => entry.nests)])]
+        .sort((a, b) => a - b)
+      : null;
+
+    const quota = this.quota();
+    if (quota.used - group.length + 1 > COMMAND_LIMIT) throw new CommandLimitError(quota.freeAt);
 
     const now = this.#now();
     const sequence = this.#nextSequence();
     const stamp = Math.floor(now / 1000) & STAMP_MASK;
-    const payload = Buffer.from(encodeDownlink(names, merged, config.nestCount, sequence, stamp));
+    const payload = Buffer.from(encodeDownlink(commands, allNests, config.nestCount, sequence, stamp));
     const id = this.nextId++;
     const entry = {
       id,
       correlationId: `${CORRELATION_PREFIX}${id}`,
-      commands: names,
-      nests: merged,
+      commands,
+      nests: allNests,
       replaced: replaced.map((queued) => ({ commands: queued.commands, nests: queued.nests })),
-      byte: plain[0],
+      merged: merged.map((queued) => ({ commands: queued.commands, nests: queued.nests })),
+      byte: encodeDownlink(commands, allNests, config.nestCount)[0],
       sequence,
       stamp,
       payload: payload.toString('hex'),
       queuedAt: new Date(now).toISOString()
     };
 
-    this.#setPending([...this.pending.filter((queued) => !replaced.includes(queued)), entry]);
+    this.#setPending([...this.pending.filter((queued) => !group.includes(queued)), entry]);
 
-    const published = replaced.length > 0 ? this.#publish('replace', this.pending) : this.#publish('push', [entry]);
+    const published = group.length > 0 ? this.#publish('replace', this.pending) : this.#publish('push', [entry]);
     return published.then(() => {
-      this.#silence(replaced);
+      this.#silence(group);
       return entry;
     }, (err) => {
-      this.#setPending([...this.pending.filter((queued) => queued !== entry), ...replaced]);
+      this.#setPending([...this.pending.filter((queued) => queued !== entry), ...group]);
       throw err;
     });
   }

@@ -18,7 +18,7 @@
 #include "stm32_timer.h"
 #include "utilities_conf.h"
 
-#define DOOR_OPEN_OFFSET_MIN     (-60)
+#define DOOR_OPEN_OFFSET_MIN     0
 #define DOOR_CLOSE_OFFSET_MIN    60
 #define DOOR_RETRY_S             (5UL * 60UL)
 #define DOOR_RETRY_MAX           3U
