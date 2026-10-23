@@ -21,10 +21,11 @@
 
 #define NEST_EGG_G            60L
 #define NEST_CHANGE_G         30L
+#define NEST_CREEP_G          10L
 #define NEST_HEN_G            1250L
 #define NEST_DRIFT_G          25L
 #define NEST_STABLE_G         5L
-#define NEST_EGGS_MAX         255L
+#define NEST_EGGS_MAX         127L
 #define NEST_NOMINAL_PER_KG   100000L
 #define NEST_MIN_PER_KG       10000L
 #define NEST_G_PER_KG         1000L
@@ -54,11 +55,16 @@
 #define NEST_EEPROM_CALIB     DATA_EEPROM_BASE
 #define NEST_EEPROM_COUNT     (DATA_EEPROM_BASE + 16UL)
 #define NEST_MAGIC_CALIB      0x4E455A31UL
-#define NEST_MAGIC_COUNT      0x4E455331UL
+#define NEST_MAGIC_COUNT      0x4E455332UL
+#define NEST_MAGIC_COUNT_V1   0x4E455331UL
 #define NEST_RECORD_WORDS     4U
 #define NEST_HEAVY_MASK       0x000000FFUL
 #define NEST_DAY_SET          0x00000100UL
+#define NEST_EGGS_SHIFT       9U
+#define NEST_EGGS_MASK        0x0000007FUL
 #define NEST_DAY_SHIFT        16U
+#define NEST_STORED_MASK      0x0000FFFFUL
+#define NEST_EGG_G_SHIFT      16U
 
 typedef struct {
   uint8_t valid;
@@ -67,7 +73,9 @@ typedef struct {
 } Nest_Calib_t;
 
 typedef struct {
-  int32_t  stored;
+  int32_t  stored;   /* hmotnost při poslední započtené změně (g) */
+  uint16_t egg_g;    /* hmotnost vajec, která jsou právě v hnízdě (g) */
+  uint8_t  eggs;     /* počet vajec v hnízdě */
   uint8_t  heavy;
   uint8_t  day_set;
   uint16_t day;
@@ -96,6 +104,16 @@ static uint32_t nest_boot_tick;
 static uint32_t nest_wait_tick;
 static uint32_t nest_seen_tick;
 static int32_t  nest_samples[NEST_SAMPLES];
+
+static int32_t Nest_Round(int32_t grams, int32_t per)
+{
+  return (grams + per / 2L) / per;
+}
+
+static uint8_t Nest_Empty(int32_t grams)
+{
+  return (uint8_t)((grams < NEST_DRIFT_G) && (grams > -NEST_DRIFT_G));
+}
 
 static uint32_t Nest_Check(const uint32_t *words)
 {
@@ -134,13 +152,28 @@ static void Nest_Store(uint32_t addr, uint32_t *words)
 static void Nest_LoadState(void)
 {
   uint32_t words[NEST_RECORD_WORDS];
+  int32_t  eggs;
+  uint8_t  found = 1U;
 
   nest_calib.valid  = Nest_Load(NEST_EEPROM_CALIB, NEST_MAGIC_CALIB, words);
   nest_calib.zero   = nest_calib.valid ? (int32_t)words[1] : 0;
   nest_calib.per_kg = nest_calib.valid ? (int32_t)words[2] : 0;
 
   if (Nest_Load(NEST_EEPROM_COUNT, NEST_MAGIC_COUNT, words)) {
-    nest_count.stored  = (int32_t)words[1];
+    nest_count.stored = (int32_t)(int16_t)(words[1] & NEST_STORED_MASK);
+    nest_count.egg_g  = (uint16_t)(words[1] >> NEST_EGG_G_SHIFT);
+    nest_count.eggs   = (uint8_t)((words[2] >> NEST_EGGS_SHIFT) & NEST_EGGS_MASK);
+  } else if (Nest_Load(NEST_EEPROM_COUNT, NEST_MAGIC_COUNT_V1, words)) {
+    /* Záznam starší verze: počet se odvodí z celkové hmotnosti jako dřív */
+    nest_count.stored = (int32_t)words[1];
+    eggs              = (nest_count.stored > 0) ? Nest_Round(nest_count.stored, NEST_EGG_G) : 0;
+    nest_count.eggs   = (uint8_t)((eggs > NEST_EGGS_MAX) ? NEST_EGGS_MAX : eggs);
+    nest_count.egg_g  = (uint16_t)(nest_count.eggs * NEST_EGG_G);
+  } else {
+    found = 0U;
+  }
+
+  if (found) {
     nest_count.heavy   = (uint8_t)(words[2] & NEST_HEAVY_MASK);
     nest_count.day_set = (uint8_t)((words[2] & NEST_DAY_SET) != 0U);
     nest_count.day     = (uint16_t)(words[2] >> NEST_DAY_SHIFT);
@@ -159,10 +192,13 @@ static void Nest_SaveCalib(void)
 
 static void Nest_SaveCount(void)
 {
+  int32_t  stored = (nest_count.stored > INT16_MAX) ? INT16_MAX :
+                    ((nest_count.stored < INT16_MIN) ? INT16_MIN : nest_count.stored);
   uint32_t words[NEST_RECORD_WORDS] = {
     NEST_MAGIC_COUNT,
-    (uint32_t)nest_count.stored,
-    ((uint32_t)nest_count.day << NEST_DAY_SHIFT) | (nest_count.day_set ? NEST_DAY_SET : 0U) | nest_count.heavy,
+    ((uint32_t)nest_count.egg_g << NEST_EGG_G_SHIFT) | ((uint32_t)stored & NEST_STORED_MASK),
+    ((uint32_t)nest_count.day << NEST_DAY_SHIFT) | ((uint32_t)nest_count.eggs << NEST_EGGS_SHIFT) |
+      (nest_count.day_set ? NEST_DAY_SET : 0U) | nest_count.heavy,
     0U
   };
 
@@ -181,9 +217,61 @@ static int32_t Nest_Grams(int32_t counts)
 
 static uint16_t Nest_Eggs(void)
 {
-  int32_t eggs = (nest_count.stored > 0) ? ((nest_count.stored + NEST_EGG_G / 2L) / NEST_EGG_G) : 0;
+  return nest_count.eggs;
+}
 
-  return (uint16_t)((eggs > NEST_EGGS_MAX) ? NEST_EGGS_MAX : eggs);
+static void Nest_ClearCount(int32_t grams)
+{
+  nest_count.stored = grams;
+  nest_count.egg_g  = 0U;
+  nest_count.eggs   = 0U;
+}
+
+/*
+ * Počet vajec se mění po přírůstcích, takže se rozdíly v hmotnosti vajec nesčítají:
+ *  - přírůstek aspoň o půl vejce se zaokrouhlí na celá vejce a přičte,
+ *  - úbytek se převede na vejce podle průměrné hmotnosti vajec, která v hnízdě jsou,
+ *  - menší změny (podestýlka, trus, drift) jen posunou referenční hmotnost,
+ *  - prázdné hnízdo počet vždy vynuluje.
+ * Změny pod NEST_CREEP_G se ignorují, aby se EEPROM zbytečně nepřepisovala.
+ */
+static void Nest_Count(int32_t grams)
+{
+  int32_t delta = grams - nest_count.stored;
+  int32_t eggs  = nest_count.eggs;
+  int32_t avg, n;
+
+  if (Nest_Empty(grams)) {
+    if ((eggs != 0) || (delta >= NEST_CREEP_G) || (delta <= -NEST_CREEP_G))
+      Nest_ClearCount(grams);
+    return;
+  }
+
+  if ((delta < NEST_CREEP_G) && (delta > -NEST_CREEP_G))
+    return;
+
+  if (delta >= NEST_CHANGE_G) {
+    n = Nest_Round(delta, NEST_EGG_G);
+    if (n > NEST_EGGS_MAX - eggs)
+      n = NEST_EGGS_MAX - eggs;
+    nest_count.eggs  = (uint8_t)(eggs + n);
+    nest_count.egg_g = (uint16_t)(((int32_t)nest_count.egg_g + delta > (int32_t)UINT16_MAX) ?
+                                  UINT16_MAX : (nest_count.egg_g + delta));
+  } else if ((delta <= -NEST_CHANGE_G) && (eggs != 0)) {
+    avg = (int32_t)nest_count.egg_g / eggs;
+    if (avg < NEST_CHANGE_G)
+      avg = NEST_EGG_G;
+    n = Nest_Round(-delta, avg);
+    if (n >= eggs) {
+      nest_count.eggs  = 0U;
+      nest_count.egg_g = 0U;
+    } else {
+      nest_count.eggs  = (uint8_t)(eggs - n);
+      nest_count.egg_g = (uint16_t)((int32_t)nest_count.egg_g - n * avg);
+    }
+  }
+
+  nest_count.stored = grams;
 }
 
 static uint16_t Nest_Flags(void)
@@ -298,7 +386,7 @@ static void Nest_Retry(void)
 
 static void Nest_Drift(const Nest_Reading_t *reading, int32_t grams)
 {
-  if (!Nest_Stable(reading) || (grams >= NEST_DRIFT_G) || (grams <= -NEST_DRIFT_G)) {
+  if (!Nest_Stable(reading) || !Nest_Empty(grams)) {
     Nest_Finish();
     return;
   }
@@ -307,8 +395,8 @@ static void Nest_Drift(const Nest_Reading_t *reading, int32_t grams)
   if (nest_round < NEST_DRIFT_ROUNDS)
     return;
 
-  nest_calib.zero   = (int32_t)(nest_drift_sum / (int64_t)NEST_DRIFT_ROUNDS);
-  nest_count.stored = 0;
+  nest_calib.zero = (int32_t)(nest_drift_sum / (int64_t)NEST_DRIFT_ROUNDS);
+  Nest_ClearCount(0);
   Nest_SaveCalib();
   Nest_SaveCount();
   nest_base = nest_count;
@@ -347,11 +435,9 @@ static void Nest_Measured(const Nest_Reading_t *reading)
   }
 
   nest_count.heavy = 0U;
-  if ((grams - nest_count.stored >= NEST_CHANGE_G) || (nest_count.stored - grams >= NEST_CHANGE_G))
-    nest_count.stored = grams;
+  Nest_Count(grams);
 
-  if ((grams < NEST_DRIFT_G) && (grams > -NEST_DRIFT_G) &&
-      (!nest_count.day_set || (nest_count.day != nest_argument))) {
+  if (Nest_Empty(grams) && (!nest_count.day_set || (nest_count.day != nest_argument))) {
     nest_count.day_set = 1U;
     nest_count.day     = nest_argument;
     nest_drift_sum     = reading->mean;
@@ -370,9 +456,9 @@ static void Nest_Tared(const Nest_Reading_t *reading)
     return;
   }
 
-  nest_calib.zero   = reading->mean;
-  nest_count.stored = 0;
-  nest_count.heavy  = 0U;
+  nest_calib.zero  = reading->mean;
+  nest_count.heavy = 0U;
+  Nest_ClearCount(0);
   Nest_SaveCalib();
   Nest_SaveCount();
   nest_base = nest_count;
@@ -396,8 +482,8 @@ static void Nest_Weighed(const Nest_Reading_t *reading)
   }
 
   nest_calib.per_kg = (int32_t)per_kg;
-  nest_count.stored = 0;
   nest_count.heavy  = 0U;
+  Nest_ClearCount(0);
   Nest_SaveCalib();
   Nest_SaveCount();
   nest_base = nest_count;

@@ -153,11 +153,13 @@ Hnízdové řadiče mají adresy 1 až N podle pořadí v řetězci a hlavní ř
 - Výběr 16 vzorků s nejmenší odchylkou od mediánu
 - Výpočet aritmetického průměru, aktuální hmotnosti (odečet referenční nulové hodnoty) a směrodatné odchylky
 - Pokud hmotnost překročí 1,25 kg, v hnízdě je slepice a měření se zahodí; po třech a více takových po sobě jdoucích měřeních je v GUI hnízdo znázorněno jako obsazené — kvočna
-- Pokud odchylka překročí stanovený práh (pohyb slepice, vibrace), měření se zahodí
+- Pokud směrodatná odchylka překročí 5 g (pohyb slepice, vibrace), měření se zahodí
 - Je-li měření stabilní, aktuální hmotnost se porovná s uloženou hodnotou
-- Odpovídá-li rozdíl hmotnosti přibližné hmotnosti jednoho (60 g) nebo více vajec, změna se aritmeticky přičte k uložené hodnotě a spočítá se počet vajec v hnízdě
-- Pokud hmotnost překročí 600 g, košík je v GUI zobrazen jako plný
-- Při hmotnosti menší než 25 g proběhne nanejvíš jednou denně kontrola driftu — zaznamenají-li se tři hned po sobě jdoucí stabilní měření, aktualizuje se referenční nulová hodnota
+- Přibude-li alespoň 30 g (polovina vejce), rozdíl se vydělí hmotností vejce (60 g), zaokrouhlí na celá vejce a přičte k počtu vajec; počítá se po přírůstcích, takže se rozdíly ve velikosti vajec nesčítají
+- Ubude-li alespoň 30 g, odečte se tolik vajec, kolik odpovídá průměrné hmotnosti vajec v hnízdě
+- Menší změny od 10 g (podestýlka, trus) jen posunou uloženou hodnotu, aby se postupně nenasčítaly do falešného vejce
+- Leží-li hmotnost v rozmezí ±25 g, hnízdo je prázdné a počet vajec se vynuluje; nanejvýš jednou denně navíc proběhne kontrola driftu — jsou-li i dvě další měření stabilní a v tomto rozmezí, referenční nulová hodnota se nastaví na průměr všech tří
+- Při 10 a více vejcích je košík v GUI zobrazen jako plný; víc vajec se do zprávy nevejde
 - Odeslání informace o počtu vajec v jednotlivých hnízdech
 - Uspání mikrořadičů a odpojení napájení od používaných částí systému
 
