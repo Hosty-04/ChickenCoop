@@ -10,7 +10,6 @@
             "name": "STM32Cube: Launch ST-Link GDB Server",
             "origin": "snippet",
             "cwd": "${workspaceFolder}",
-            "serverReset": "Connect under reset",
             "preBuild": "${command:st-stm32-ide-debug-launch.build}",
             "runEntry": "main",
             "imagesAndSymbols": [

@@ -11,7 +11,7 @@
 #include "main.h"
 
 #ifndef NEST_ADDRESS
-#define NEST_ADDRESS  1U
+#define NEST_ADDRESS  2U
 #endif
 
 #if (NEST_ADDRESS < 1U) || (NEST_ADDRESS > 15U)

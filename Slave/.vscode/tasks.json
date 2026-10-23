@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flash Slave 1 (Release)",
+      "type": "shell",
+      "command": "/home/mara/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI",
+      "args": [
+        "-c", "port=SWD", "sn=066DFF494970535067204149",
+        "mode=Normal", "reset=SWrst",
+        "-w", "${workspaceFolder}/build/Release/Slave.elf",
+        "-v", "-rst"
+      ],
+      "problemMatcher": []
+    },
+
+    {
+      "label": "Flash Slave 2 (Release)",
+      "type": "shell",
+      "command": "/home/mara/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI",
+      "args": [
+        "-c", "port=SWD", "sn=066DFF494970535067210941",
+        "mode=Normal", "reset=SWrst",
+        "-w", "${workspaceFolder}/build/Release/Slave.elf",
+        "-v", "-rst"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

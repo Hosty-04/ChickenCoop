@@ -107,16 +107,14 @@ int main(void)
   MX_LoRaWAN_Init();
   /* USER CODE BEGIN 2 */
 
-  /* Debug OFF - connection under reset and mass erase needed to flash and debug again
-   * (~/.local/share/stm32cube/bundles/programmer/2.23.0/bin/STM32_Programmer_CLI -c port=SWD mode=UR -e all)
-   *
-   * To fix communication after a mass erase, click Reset used DevNonces on your TTN device page
-   */
-
-  /* Power_DisableDebug(); */
+#ifndef DEBUG
+  HAL_Delay(2000);
+  Power_DisableDebug();  /* For a new Release: Connect the ST-LINK (Use only one 3,3 V source!), build the Release, 
+                            press the RST button and within 2 secs run the "Flash Master (Release)" task */
+#endif
 
 #if (VERBOSE_LEVEL == VLEVEL_OFF)
-  vcom_DeInit();   /* Debug via printf OFF */
+  vcom_DeInit();
 #endif
 
   Power_Init();
