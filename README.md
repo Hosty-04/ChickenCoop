@@ -165,6 +165,14 @@ Hnízdové řadiče mají adresy 1 až N podle pořadí v řetězci a hlavní ř
 
 <br>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="Flowcharts/egg_detection_flowchart_white.png" width="800px">
+  <source media="(prefers-color-scheme: light)" srcset="Flowcharts/egg_detection_flowchart_black.png" width="800px">
+  <img alt="egg_detection_flowchart" src="Flowcharts/egg_detection_flowchart_black.png" width="800px">
+</picture>
+
+<br><br>
+
 K solárnímu panelu je připojen vysokoimpedanční napěťový dělič tvořený metalizovanými rezistory 1 MΩ a 330 kΩ s tolerancí 1 %, přičemž paralelně k rezistoru R2 (330 kΩ) je zapojen keramický kondenzátor 100 nF / 50 V. Ten slouží jako zásobárna energie: interní vzorkovací kondenzátor uvnitř M se nabíjí přes vysokou výstupní impedanci děliče, a bez tohoto kondenzátoru by se proto nabíjel příliš pomalu na spolehlivé vzorkování; ze stejného důvodu byl pro odebrání vzorku zvolen nejvyšší možný počet cyklů hodin ADC (160,5). Dělič slouží k monitorování napětí panelu; napětí se do M přivádí přes ADC pin v analogovém režimu, pro zvýšení přesnosti se provádí kalibrace a výsledkem je aritmetický průměr 16 vzorků s 12bitovým rozlišením. Vysoká impedance děliče a mizivý svodový proud do M zajišťují zanedbatelný vliv na pracovní bod a účinnost panelu. Modul proudového a napěťového senzoru INA226 s nízkou spotřebou je v krabičce K zapojen mezi akumulátor a vstup Vin pro napájení motoru přes H-můstek; jednou z jeho funkcí je s 16bitovým rozlišením a průměrováním 64 vzorků (1,1 ms/vzorek) monitorovat napětí akumulátoru.
 
 <br>
