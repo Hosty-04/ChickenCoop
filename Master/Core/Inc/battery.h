@@ -15,6 +15,7 @@ void    Battery_Measure(void);
 void    Battery_Process(void);
 uint8_t Battery_WorkPending(void);
 void    Battery_Request(uint8_t full);
+void    Battery_Reschedule(void);
 
 uint8_t  Battery_IsCritical(void);
 uint16_t Battery_GetVoltage_mV(void);
