@@ -43,6 +43,7 @@
 /* USER CODE BEGIN Includes */
 #include "system.h"
 #include "door.h"
+#include "battery.h"
 #include "nests.h"
 #include "telemetry.h"
 #include "timebase.h"
@@ -731,8 +732,13 @@ static void EventCallback(void)
 
         if ((smtc_modem_get_lorawan_mac_time(STACK_ID, &gps_s, &gps_frac)
              == SMTC_MODEM_RC_OK) && (gps_s != 0U)) {
+          uint8_t was_valid = Timebase_IsValid();
+
           Door_SetUnixTime(gps_s + GPS_UNIX_OFFSET - GPS_LEAP_SECONDS);
           Nests_Reschedule();
+          /* Only the first sync after a power loss moves the battery checks onto the real 10-minute grid */
+          if (!was_valid && Timebase_IsValid())
+            Battery_Reschedule();
           APP_LOG(TS_OFF, VLEVEL_M, "MAC TIME: synced\r\n");
         }
         break;

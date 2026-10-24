@@ -297,6 +297,15 @@ void Battery_Request(uint8_t full)
   battery_pending = 1U;
 }
 
+/* Called after the first time sync since a power loss: until then the checks ran on the
+ * fallback clock, from now on they follow the 10-minute grid of the real clock.
+ * A measurement deferred for the radio keeps its own timer. */
+void Battery_Reschedule(void)
+{
+  if (battery_defer == 0U)
+    Battery_Schedule();
+}
+
 uint8_t Battery_IsCritical(void)
 {
   return battery_critical;
