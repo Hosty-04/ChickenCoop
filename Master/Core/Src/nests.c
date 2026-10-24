@@ -361,9 +361,10 @@ static void Nests_Schedule(void)
   Nests_ArmTimer((nests_due > now) ? (nests_due - now) : 0UL);
 }
 
+/* The automation switch (nests_enabled) only gates the hourly check, see Nests_Process() */
 static uint8_t Nests_Allowed(void)
 {
-  return (uint8_t)(nests_enabled && !Battery_IsCritical());
+  return (uint8_t)!Battery_IsCritical();
 }
 
 static uint8_t Nests_RadioBusy(void)
@@ -384,9 +385,10 @@ static void Nests_DropRequests(void)
     nests_data[nest].request = 0U;
 }
 
+/* Tare and calibration work whether the automation is on or off */
 static void Nests_Request(uint8_t nest, uint8_t cmd)
 {
-  if (!nests_enabled || (nest >= NESTS_COUNT))
+  if (nest >= NESTS_COUNT)
     return;
 
   nests_data[nest].request = cmd;
@@ -408,19 +410,20 @@ void Nests_Init(void)
 
 void Nests_Process(void)
 {
-  uint8_t nest, reach, hourly, linked;
+  uint8_t nest, reach, due, hourly, linked;
 
   if (!nests_pending)
     return;
   nests_pending = 0U;
 
-  hourly = (uint8_t)(Timebase_GetUnix() >= nests_due);
+  due    = (uint8_t)(Timebase_GetUnix() >= nests_due);
+  hourly = (uint8_t)(due && nests_enabled);
   reach  = Nests_Reach(hourly);
 
   if ((reach == 0U) || !Nests_Allowed()) {
     Nests_DropRequests();
     nests_defer = 0U;
-    if (hourly) {
+    if (due) {
       Nests_Plan();
       Battery_Request(0U);
     }
@@ -448,7 +451,9 @@ void Nests_Process(void)
 
   Power_SwitchToRunHSE48MHz();
 
-  if (hourly) {
+  /* Also when only a tare or calibration ran at the full hour with the automation off,
+   * the battery is measured next and goes out in the same full message */
+  if (due) {
     Nests_Plan();
     Battery_Request(1U);
   } else {
@@ -482,7 +487,6 @@ void Nests_Enable(void)
 void Nests_Disable(void)
 {
   nests_enabled = 0U;
-  Nests_DropRequests();
 }
 
 void Nests_RequestTare(uint8_t nest)

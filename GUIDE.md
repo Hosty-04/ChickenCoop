@@ -647,8 +647,9 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 
 Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvou se ani ta za ním.
 
-Při kriticky vybité baterii a při vypnuté automatice kurník hnízda nekontroluje. Karta pak
-ukazuje poslední kontrolu i s jejím datem.
+Při kriticky vybité baterii a při vypnuté automatice kurník hnízda každou hodinu
+nekontroluje. Karta pak ukazuje poslední kontrolu i s jejím datem; při vypnuté automatice
+ji obnoví jen vynulování nebo kalibrace.
 
 ### Snáška a Napájení
 
@@ -783,14 +784,15 @@ Pod grafy je karta **Ovládání** se čtyřmi dvojicemi tlačítek:
 |---|---|
 | **Otevřít**, **Zavřít** | pohnou dvířky |
 | **Odblokovat**, **Zablokovat** | zablokovaná dvířka stojí — nepohnou se podle slunce ani na **Otevřít** či **Zavřít** a dlaždice ukazuje **Porucha**; **Odblokovat** zruší zablokování i skutečnou poruchu |
-| **Zapnout**, **Vypnout** | vypnutá automatika zastaví dvířka i kontrolu hnízd; **Otevřít**, **Zavřít**, **Vynulovat** a **Kalibrovat** pak kurník přijme, ale neprovede |
+| **Zapnout**, **Vypnout** | vypnutá automatika zastaví dvířka podle slunce i každohodinovou kontrolu hnízd; **Otevřít**, **Zavřít**, **Vynulovat** a **Kalibrovat** fungují dál |
 | **Vynulovat**, **Kalibrovat** | nastaví váhu ve vybraných hnízdech, viz **Kalibrace váhy** |
 
 Při východu slunce a hodinu po západu se dvířka ovládají sama; ruční **Otevřít** nebo
-**Zavřít** platí jen do nejbližší takové změny. Po odblokování nebo zapnutí automatiky
-dvířka hned dojedou tam, kde mají podle slunce být, pokud ve stejné zprávě nejde
-i **Otevřít** nebo **Zavřít** (viz **Fronta příkazů**). Vypnutí i zablokování si kurník
-pamatuje i po odpojení baterie.
+**Zavřít** platí jen do nejbližší takové změny. Při vypnuté automatice se dvířka sama
+nepohnou a zůstanou tam, kam je naposledy poslalo **Otevřít** nebo **Zavřít**, třeba
+otevřená přes noc. Po odblokování nebo zapnutí automatiky dvířka hned dojedou tam, kde mají
+podle slunce být, pokud ve stejné zprávě nejde i **Otevřít** nebo **Zavřít** (viz **Fronta
+příkazů**). Vypnutí i zablokování si kurník pamatuje i po odpojení baterie.
 
 > **Příkaz se neprovede hned.** Kurník kvůli úspoře baterie poslouchá jen krátce po každé
 > své zprávě, takže může trvat **až 10 minut**, než se dvířka pohnou. Není to porucha
@@ -812,10 +814,10 @@ hnízda, čekající příkaz se nahradí jedním pro všechna hnízda dohromady
 Ostatní příkazy se k tomu, co už ve frontě čeká, přidají a odejdou do kurníku **jednou
 zprávou**; stránka k hlášce připíše **sloučeno s čekajícím příkazem do jedné zprávy**. Kurník
 je provede v pevném pořadí — blokace, automatika, dvířka, váhy. **Odblokovat** a **Otevřít**
-tak nejdřív odblokuje, pak otevře, a **Zapnout** a **Otevřít** nejdřív zapne automatiku, bez
-které by se dvířka neotevřela. Výjimkou je **Vynulovat** a **Kalibrovat** pro různá hnízda,
-které se do jedné zprávy nevejdou a pošlou se po sobě. Sloučený příkaz platí 30 minut
-od posledního přidání.
+tak nejdřív odblokuje, pak otevře, a **Zapnout** a **Otevřít** nejdřív zapne automatiku a pak
+otevře, takže dvířka zůstanou otevřená do nejbližší změny podle slunce. Výjimkou je
+**Vynulovat** a **Kalibrovat** pro různá hnízda, které se do jedné zprávy nevejdou a pošlou se
+po sobě. Sloučený příkaz platí 30 minut od posledního přidání.
 
 Tlačítko **Zrušit** smaže celou frontu najednou — pokud se to stihne dřív, než se kurník
 ozve, neprovede se nic. Jednotlivý příkaz zrušit nejde; ty, které mají zůstat, je potřeba
@@ -866,7 +868,8 @@ ve frontě.
 Zpráva se započítá hned, jak se zařadí do fronty. Dokud čeká, místo se zase uvolní, když
 frontu zrušíte, když zpráva vyprší, když ji síť nedokáže vyslat a při restartu serveru, který
 frontu smaže. Zpráva, kterou brána vyslala, zůstává započítaná celých 24 hodin, i když ji
-kurník neprovedl — třeba **Otevřít** při vypnuté automatice nebo zablokovaných dvířkách.
+kurník neprovedl — třeba **Otevřít** u zablokovaných dvířek nebo **Vynulovat** při kriticky
+vybité baterii.
 
 Počítadlo pod frontou ukazuje, kolik z limitu je využito, třeba **Zprávy s příkazy za
 posledních 24 h: 3 z 7**. Když je limit vyčerpaný, změní se na **Limit 7 zpráv s příkazy
@@ -918,9 +921,10 @@ košíku stačí hnízdo jen vynulovat, kalibrace zůstává platná. Drobné zm
 kurník sám jednou denně, když je hnízdo prázdné; větší změna by se jinak počítala jako vejce.
 
 Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
-provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá nebo
-automatika vypnutá, kurník příkaz zahodí a karta Hnízda se neobnoví. Když hnízdo neodpovídá,
-karta ukáže **⚠ hnízdo neodpovídá**. Po odstranění příčiny příkaz pošlete znovu.
+provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá, kurník
+příkaz zahodí a karta Hnízda se neobnoví. Vypnutá automatika vynulování ani kalibraci
+nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**. Po odstranění příčiny
+příkaz pošlete znovu.
 
 ### Smazání historie
 

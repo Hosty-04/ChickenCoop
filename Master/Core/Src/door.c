@@ -143,13 +143,6 @@ static void Door_ArmTimer(uint32_t seconds, Door_Event_t evt)
   UTIL_TIMER_Start(&door_timer);
 }
 
-static void Door_StopTimer(void)
-{
-  UTIL_TIMER_Stop(&door_timer);
-  door_armed   = DOOR_EVT_NONE;
-  door_pending = DOOR_EVT_NONE;
-}
-
 static Door_Event_t Door_TakePending(void)
 {
   Door_Event_t evt;
@@ -375,11 +368,9 @@ static void Door_RaiseFault(void)
   Door_DropWork();
 }
 
+/* Manual commands work whether the automation is on or off */
 static void Door_Request(Door_Request_t req)
 {
-  if (!door_enabled)
-    return;
-
   door_request      = req;
   door_request_tick = HAL_GetTick();
 }
@@ -460,13 +451,8 @@ void Door_Process(void)
   if ((evt == DOOR_EVT_RESYNC) && Door_TimeSyncFast())
     door_sync_fast++;
 
-  if (!door_enabled) {
-    Door_Schedule();
-    if (evt == DOOR_EVT_RESYNC)
-      Door_MaintainTimeSync();
-    return;
-  }
-
+  /* With the automation off, Door_AutoAllowed() filters out every sun event below,
+   * while manual commands and their retries still go through */
   if (evt == DOOR_EVT_DEFER) {
     if (req == DOOR_REQ_NONE)
       req               = door_deferred_req;
@@ -543,6 +529,9 @@ void Door_Enable(void)
     return;
 
   door_enabled = 1U;
+  /* Turning the automation on hands the door back to the sun; a manual command
+   * in the same downlink is applied after this and takes over again */
+  Door_DropWork();
   (void)Endstop_Sample();
   Door_StoreState();
   Door_PublishState();
@@ -552,11 +541,18 @@ void Door_Enable(void)
 
 void Door_Disable(void)
 {
+  if (!door_enabled)
+    return;
+
   door_enabled = 0U;
-  door_request = DOOR_REQ_NONE;
-  Door_DropWork();
+
+  /* Only automatic work stops; a running manual command keeps its retries */
+  if (!Door_ManualActive(Timebase_GetSecOfDay())) {
+    door_retry_pending = 0U;
+    door_retry_count   = 0U;
+  }
+
   Door_StoreState();
-  Door_StopTimer();
   Door_Schedule();
 }
 
