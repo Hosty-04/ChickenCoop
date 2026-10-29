@@ -100,30 +100,6 @@ static uint8_t Telemetry_EncodeNest(uint8_t nest)
   return (eggs > TELEMETRY_EGGS_MAX) ? TELEMETRY_EGGS_MAX : eggs;
 }
 
-/* Nests not measured since start-up have no state of their own; the code 15 in their
- * nibble would read as "not responding". They are therefore marked in an optional bit
- * mask appended after the nest bytes (bit n of byte n / 8 = nest n + 1). The mask is sent
- * only when such a nest exists, so the usual message stays unchanged */
-static uint8_t Telemetry_AppendUnknown(uint8_t *buf, uint8_t length, uint8_t buf_size)
-{
-  uint8_t n, nest, any = 0U;
-
-  if ((uint8_t)(length + TELEMETRY_LEN_UNKNOWN) > buf_size)
-    return length;
-
-  for (n = 0U; n < TELEMETRY_LEN_UNKNOWN; n++)
-    buf[length + n] = 0U;
-
-  for (nest = 0U; nest < NESTS_COUNT; nest++) {
-    if (Nests_GetState(nest) == NESTS_STATE_UNKNOWN) {
-      buf[length + (nest / 8U)] |= (uint8_t)(1U << (nest % 8U));
-      any = 1U;
-    }
-  }
-
-  return any ? (uint8_t)(length + TELEMETRY_LEN_UNKNOWN) : length;
-}
-
 static uint8_t Telemetry_Fresh(uint32_t stamp)
 {
   uint32_t age;
@@ -186,10 +162,6 @@ uint8_t Telemetry_Pending(void)
 
 void Telemetry_Requeue(uint8_t length)
 {
-  /* The mask of unknown nests is rebuilt with the next message */
-  if (length > TELEMETRY_LEN_FULL)
-    length = TELEMETRY_LEN_FULL;
-
   if (length > telemetry_len)
     telemetry_len = length;
 }
@@ -210,8 +182,6 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
     return 0U;
 
   length = (telemetry_len > telemetry_dropped) ? telemetry_len : telemetry_dropped;
-  if (length > TELEMETRY_LEN_FULL)
-    length = TELEMETRY_LEN_FULL;
   if (length > buf_size)
     length = buf_size;
 
@@ -231,9 +201,6 @@ uint8_t Telemetry_Build(uint8_t *buf, uint8_t buf_size)
     nest   = (uint8_t)(2U * (n - TELEMETRY_LEN_STATUS));
     buf[n] = (uint8_t)((Telemetry_EncodeNest(nest) << 4) | Telemetry_EncodeNest(nest + 1U));
   }
-
-  if (length == TELEMETRY_LEN_FULL)
-    length = Telemetry_AppendUnknown(buf, length, buf_size);
 
   return length;
 }

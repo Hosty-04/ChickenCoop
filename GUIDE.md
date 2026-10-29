@@ -179,8 +179,6 @@ Bez tohoto kroku jsou místo napětí vidět jen čísla v hexadecimální soust
 V aplikaci **Payload formatters → Uplink** zvolte **Custom Javascript formatter** a vložte:
 
 ```js
-var NESTS = 2; // stejné číslo jako NESTS_COUNT ve firmwaru
-
 function decodeUplink(input) {
   var b = input.bytes;
   if (input.fPort !== 2 || b.length < 2) {
@@ -195,13 +193,9 @@ function decodeUplink(input) {
     door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
   };
   if (b.length > 2) {
-    var mask = 2 + Math.ceil(NESTS / 2);
     data.nests = [];
-    for (var i = 0; i < NESTS; i++) {
-      var byte = b[2 + (i >> 1)];
-      var code = byte === undefined ? 15 : (i % 2 === 0 ? byte >> 4 : byte & 15);
-      var unknown = b.length > mask && ((b[mask + (i >> 3)] >> (i & 7)) & 1) === 1;
-      data.nests.push(unknown ? "neznamo" : nest(code));
+    for (var i = 2; i < b.length; i++) {
+      data.nests.push(nest(b[i] >> 4), nest(b[i] & 15));
     }
   }
   return { data: data, warnings: [], errors: [] };
@@ -216,8 +210,8 @@ function nest(code) {
 Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
 v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek. Jednou za hodinu
 přibude seznam `nests` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
-neozvalo, a `"neznamo"` hnízdo, které kurník od svého zapnutí ještě nezměřil. Číslo `NESTS`
-na začátku musí odpovídat počtu hnízd ve firmwaru, jinak se seznam rozejde se skutečností.
+neozvalo. Při lichém počtu hnízd je `null` vždycky i na konci seznamu — to jen dorovnává
+poslední bajt zprávy.
 
 ## 6. Server
 
@@ -636,10 +630,9 @@ Každé hnízdo má svůj zásobník s deseti místy, která se plní tak, jak p
 je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje každou
 celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
 poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulování nebo kalibraci
-váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
-mají stav z poslední kontroly. Hnízda, která kurník od svého zapnutí ještě nezměřil, označí
-ve zprávě jako neznámá a karta u nich nechá stav z poslední kontroly, takže ani po restartu
-kurníku neukáže **⚠ hnízdo neodpovídá** u hnízda, které je ve skutečnosti v pořádku.
+váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, kurník
+při té příležitosti změří stejně jako při hodinové kontrole, takže zpráva nese aktuální stav
+všech hnízd.
 
 Dokud z kurníku nepřišla žádná zpráva o hnízdech, je v záhlaví karty **zatím žádná
 kontrola**. Tak je to po prvním spuštění serveru, po smazání historie a také když je
@@ -918,9 +911,10 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
    kontrolu s poznámkou **⚠ váha není zkalibrovaná**. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
-   hodinu; ostatní hnízda přitom neměří.
+   hodinu; ostatní hnízda přitom změří stejně jako při hodinové kontrole.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
-   jedno závaží, kalibruje hnízda po jednom.
+   jedno závaží, kalibruje hnízda po jednom. Závaží smí být jen v hnízdech, která se právě
+   kalibrují: ostatní hnízda kurník při tom změří a závaží by v nich započítal jako vejce.
 5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.

@@ -59,14 +59,6 @@ function decodeNest(code) {
   return { eggs: null, state: 'offline' };
 }
 
-// Nests not measured since the coop started are marked in an optional bit mask after the
-// nest bytes (bit n of byte n / 8 = nest n + 1); the coop sends it only when such a nest exists
-function nestUnknown(bytes, index, nestCount) {
-  const mask = STATUS_LENGTH + Math.ceil(nestCount / 2);
-  if (bytes.length < mask + Math.ceil(nestCount / 8)) return false;
-  return ((bytes[mask + (index >> 3)] >> (index & 7)) & 1) === 1;
-}
-
 function nestCode(bytes, index) {
   const byte = bytes[STATUS_LENGTH + (index >> 1)];
   if (byte === undefined) return NEST_CODE_NODATA;
@@ -92,9 +84,7 @@ export function decodeUplink(bytes, nestCount) {
     batteryCritical: (bytes[0] & 0x01) === 0x01,
     door: DOOR_STATES[doorCode],
     nests: bytes.length > STATUS_LENGTH
-      ? Array.from({ length: nestCount }, (_, index) => (nestUnknown(bytes, index, nestCount)
-        ? { eggs: null, state: 'unknown' }
-        : decodeNest(nestCode(bytes, index))))
+      ? Array.from({ length: nestCount }, (_, index) => decodeNest(nestCode(bytes, index)))
       : null
   };
 }

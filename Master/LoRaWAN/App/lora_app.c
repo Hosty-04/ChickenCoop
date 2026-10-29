@@ -830,7 +830,7 @@ static void EventCallback(void)
 static bool SendTxData(uint8_t port)
 {
   /* USER CODE BEGIN SendTxData_1 */
-  uint8_t payload[TELEMETRY_LEN_MAX];
+  uint8_t payload[TELEMETRY_LEN_FULL];
   uint8_t length;
 
   length = Telemetry_Build(payload, (uint8_t)sizeof(payload));
