@@ -67,10 +67,10 @@ void Error_Handler(void);
 #define LPUART_CTRL_GPIO_Port GPIOB
 #define LOCAL_Pin GPIO_PIN_12
 #define LOCAL_GPIO_Port GPIOA
-#define DT_Pin GPIO_PIN_4
-#define DT_GPIO_Port GPIOB
-#define SCK_Pin GPIO_PIN_5
+#define SCK_Pin GPIO_PIN_4
 #define SCK_GPIO_Port GPIOB
+#define DT_Pin GPIO_PIN_5
+#define DT_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

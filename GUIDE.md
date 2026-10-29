@@ -203,7 +203,7 @@ function decodeUplink(input) {
 
 function nest(code) {
   if (code <= 10) return code;
-  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[code] || null;
+  return { 11: "kvocna", 12: "nekalibrovano", 13: "nevynulovano", 14: "porucha" }[code] || null;
 }
 ```
 
@@ -630,8 +630,9 @@ Každé hnízdo má svůj zásobník s deseti místy, která se plní tak, jak p
 je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda kontroluje každou
 celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
 poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulování nebo kalibraci
-váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
-mají stav z poslední kontroly.
+váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, kurník
+při té příležitosti změří stejně jako při hodinové kontrole, takže zpráva nese aktuální stav
+všech hnízd.
 
 Na telefonu je každé hnízdo jeden řádek: vlevo název a počet, vpravo zásobník a pod ním
 poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
@@ -642,7 +643,7 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 | **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
 | **⚠ váha není zkalibrovaná, nejdřív ji vynulujte** | hnízdo ještě nikdy nebylo vynulované; bez toho se kalibrace neprovede, viz **Kalibrace váhy** |
 | **⚠ váha není zkalibrovaná** | váha je vynulovaná, zbývá ji zkalibrovat se závažím, viz **Kalibrace váhy** |
-| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly |
+| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly, nebo se nepovedlo vynulování či kalibrace |
 | **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
 
 Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvou se ani ta za ním.
@@ -895,9 +896,10 @@ nestane, hlásí hnízdo **⚠ váha není zkalibrovaná**. Stačí k tomu záva
    jde kliknout na **Vynulovat**. Výběr zůstává, dokud ho nezměníte.
 3. Počkejte, až stránka ohlásí **Kurník příkaz přijal** a karta Hnízda ukáže novou
    kontrolu s poznámkou **⚠ váha není zkalibrovaná**. Kurník zaškrtnutá hnízda vynuluje hned po přijetí příkazu, nečeká na celou
-   hodinu; ostatní hnízda přitom neměří.
+   hodinu; ostatní hnízda přitom změří stejně jako při hodinové kontrole.
 4. Do každého z nich položte doprostřed závaží a klikněte na **Kalibrovat**. Kdo má jen
-   jedno závaží, kalibruje hnízda po jednom.
+   jedno závaží, kalibruje hnízda po jednom. Závaží smí být jen v hnízdech, která se právě
+   kalibrují: ostatní hnízda kurník při tom změří a závaží by v nich započítal jako vejce.
 5. Až se karta Hnízda znovu obnoví, závaží sundejte.
 
 Každý z obou kroků může trvat až deset minut, protože příkaz čeká, až se kurník ozve.
@@ -923,8 +925,9 @@ kurník sám jednou denně, když je hnízdo prázdné; větší změna by se ji
 Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
 provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá, kurník
 příkaz zahodí a karta Hnízda se neobnoví. Vypnutá automatika vynulování ani kalibraci
-nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**. Po odstranění příčiny
-příkaz pošlete znovu.
+nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**; když se vynulování nebo
+kalibrace nepovede, ukáže **⚠ porucha váhy** (viz **Hnízda**). Po odstranění příčiny příkaz
+pošlete znovu.
 
 ### Smazání historie
 

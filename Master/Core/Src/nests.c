@@ -278,17 +278,14 @@ static uint8_t Nests_Release(uint8_t addr)
   return (uint8_t)(st == HAL_OK);
 }
 
-static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
+static uint8_t Nests_Serve(uint8_t nest)
 {
   Nests_Data_t *n    = &nests_data[nest];
   uint8_t       addr = (uint8_t)(nest + 1U);
-  uint16_t      cmd  = (n->request != 0U) ? n->request : (hourly ? NESTS_CMD_MEASURE : 0U);
+  uint16_t      cmd  = (n->request != 0U) ? n->request : NESTS_CMD_MEASURE;
   uint16_t      res[NESTS_STATUS_REGS];
   uint32_t      start;
   uint8_t       done;
-
-  if (cmd == 0U)
-    return Nests_Release(addr);
 
   n->request = 0U;
   n->state   = NESTS_STATE_OFFLINE;
@@ -321,17 +318,17 @@ static uint8_t Nests_Serve(uint8_t nest, uint8_t hourly)
 
 static uint8_t Nests_Reach(uint8_t hourly)
 {
-  uint8_t nest, reach = 0U;
+  uint8_t nest;
 
   if (hourly)
     return NESTS_COUNT;
 
   for (nest = 0U; nest < NESTS_COUNT; nest++) {
     if (nests_data[nest].request != 0U)
-      reach = (uint8_t)(nest + 1U);
+      return NESTS_COUNT;
   }
 
-  return reach;
+  return 0U;
 }
 
 static void Nests_OnTimer(void *ctx)
@@ -400,7 +397,7 @@ void Nests_Init(void)
   uint8_t nest;
 
   for (nest = 0U; nest < NESTS_COUNT; nest++)
-    nests_data[nest].state = NESTS_STATE_OFFLINE;
+    nests_data[nest].state = NESTS_STATE_UNKNOWN;
 
   Nests_PowerDown();
 
@@ -441,7 +438,7 @@ void Nests_Process(void)
   linked = (uint8_t)(Nests_PowerUp() == HAL_OK);
 
   for (nest = 0U; nest < reach; nest++) {
-    linked = (uint8_t)(linked && Nests_Serve(nest, hourly));
+    linked = (uint8_t)(linked && Nests_Serve(nest));
     if (!linked)
       nests_data[nest].state = NESTS_STATE_OFFLINE;
   }
