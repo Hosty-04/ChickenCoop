@@ -179,6 +179,8 @@ Bez tohoto kroku jsou místo napětí vidět jen čísla v hexadecimální soust
 V aplikaci **Payload formatters → Uplink** zvolte **Custom Javascript formatter** a vložte:
 
 ```js
+var NESTS = 2; // stejné číslo jako NESTS_COUNT ve firmwaru
+
 function decodeUplink(input) {
   var b = input.bytes;
   if (input.fPort !== 2 || b.length < 2) {
@@ -193,9 +195,13 @@ function decodeUplink(input) {
     door: ["zavreno", "otevreno", "porucha", "neznamy"][b[1] & 3]
   };
   if (b.length > 2) {
+    var mask = 2 + Math.ceil(NESTS / 2);
     data.nests = [];
-    for (var i = 2; i < b.length; i++) {
-      data.nests.push(nest(b[i] >> 4), nest(b[i] & 15));
+    for (var i = 0; i < NESTS; i++) {
+      var byte = b[2 + (i >> 1)];
+      var code = byte === undefined ? 15 : (i % 2 === 0 ? byte >> 4 : byte & 15);
+      var unknown = b.length > mask && ((b[mask + (i >> 3)] >> (i & 7)) & 1) === 1;
+      data.nests.push(unknown ? "neznamo" : nest(code));
     }
   }
   return { data: data, warnings: [], errors: [] };
@@ -203,15 +209,15 @@ function decodeUplink(input) {
 
 function nest(code) {
   if (code <= 10) return code;
-  return { 11: "kvocna", 12: "nekalibrovano", 14: "porucha" }[code] || null;
+  return { 11: "kvocna", 12: "nekalibrovano", 13: "nevynulovano", 14: "porucha" }[code] || null;
 }
 ```
 
 Uložte a počkejte na další zprávu — kurník se ozývá po deseti minutách. Pak už jsou
 v **Live data** místo šestnáctkových čísel vidět napětí a stav dvířek. Jednou za hodinu
 přibude seznam `nests` s počtem vajec v každém hnízdě; `null` znamená hnízdo, které se
-neozvalo. Při lichém počtu hnízd je `null` vždycky i na konci seznamu — to jen dorovnává
-poslední bajt zprávy.
+neozvalo, a `"neznamo"` hnízdo, které kurník od svého zapnutí ještě nezměřil. Číslo `NESTS`
+na začátku musí odpovídat počtu hnízd ve firmwaru, jinak se seznam rozejde se skutečností.
 
 ## 6. Server
 
@@ -631,7 +637,14 @@ je jejich počet, pod ním, kolik jich v hnízdě dnes přibylo. Kurník hnízda
 celou hodinu a hned po nich změří baterii a panel, takže obojí dorazí v jedné zprávě. Čas
 poslední kontroly je v záhlaví karty i se součtem za celý den. Po vynulování nebo kalibraci
 váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se příkaz netýkal, v ní
-mají stav z poslední kontroly.
+mají stav z poslední kontroly. Hnízda, která kurník od svého zapnutí ještě nezměřil, označí
+ve zprávě jako neznámá a karta u nich nechá stav z poslední kontroly, takže ani po restartu
+kurníku neukáže **⚠ hnízdo neodpovídá** u hnízda, které je ve skutečnosti v pořádku.
+
+Dokud z kurníku nepřišla žádná zpráva o hnízdech, je v záhlaví karty **zatím žádná
+kontrola**. Tak je to po prvním spuštění serveru, po smazání historie a také když je
+automatika vypnutá od začátku — pak se hnízda každou hodinu nekontrolují a kartu obnoví
+až vynulování nebo kalibrace.
 
 Na telefonu je každé hnízdo jeden řádek: vlevo název a počet, vpravo zásobník a pod ním
 poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
@@ -642,10 +655,20 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 | **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
 | **⚠ váha není zkalibrovaná, nejdřív ji vynulujte** | hnízdo ještě nikdy nebylo vynulované; bez toho se kalibrace neprovede, viz **Kalibrace váhy** |
 | **⚠ váha není zkalibrovaná** | váha je vynulovaná, zbývá ji zkalibrovat se závažím, viz **Kalibrace váhy** |
-| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly |
+| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly, nebo se nepovedlo vynulování či kalibrace — viz níže |
 | **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
 
 Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvou se ani ta za ním.
+
+**Porucha váhy** má dvě různé příčiny. Při běžné hodinové kontrole znamená vždy závadu:
+převodník HX711 nedodává data (bez napájení, přerušený nebo prohozený vodič DT a SCK) nebo
+dává nesmysly (přerušený vodič od tenzometru, vadný tenzometr). Neklidná váha při hodinové
+kontrole poruchu nehlásí, kontrola jen nechá předchozí počet. Hned po **Vynulovat** nebo
+**Kalibrovat** ale porucha znamená, že se krok nepovedl: váha se ani na třetí pokus
+neustálila (v hnízdě byla slepice, hnízdo se houpalo), nebo se při kalibraci se závažím
+skoro nepohnula (závaží nebylo na vážicí desce, tenzometr nemá volný konec — třeba když
+jen leží na stole). Stačí příčinu odstranit a krok zopakovat. Porucha není trvalá: zmizí,
+jakmile další kontrola nebo příkaz proběhne v pořádku.
 
 Při kriticky vybité baterii a při vypnuté automatice kurník hnízda každou hodinu
 nekontroluje. Karta pak ukazuje poslední kontrolu i s jejím datem; při vypnuté automatice
@@ -923,8 +946,10 @@ kurník sám jednou denně, když je hnízdo prázdné; větší změna by se ji
 Vynulování i kalibrace proběhnou jen hned po přijetí, nikdy později — jinak by se mohly
 provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kriticky vybitá, kurník
 příkaz zahodí a karta Hnízda se neobnoví. Vypnutá automatika vynulování ani kalibraci
-nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**. Po odstranění příčiny
-příkaz pošlete znovu.
+nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**; když se vynulování nebo
+kalibrace nepovede, ukáže **⚠ porucha váhy** (viz **Hnízda**). Po odstranění příčiny příkaz
+pošlete znovu. Tenzometr musí být při obojím namontovaný jako v hotovém hnízdě, s jedním
+koncem pevným a druhým volným; po přestavbě hnízda vynulování i kalibraci zopakujte.
 
 ### Smazání historie
 

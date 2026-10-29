@@ -88,6 +88,12 @@ const selectNestsAt = db.prepare(`
   WHERE device = ? AND time = (SELECT MAX(time) FROM nests WHERE device = ? AND time <= ?)
 `);
 
+const selectNestLast = db.prepare(`
+  SELECT eggs, state FROM nests
+  WHERE device = ? AND nest = ? AND time <= ?
+  ORDER BY time DESC LIMIT 1
+`);
+
 const selectEggsBefore = db.prepare(`
   SELECT eggs FROM nests
   WHERE device = ? AND nest = ? AND eggs IS NOT NULL AND time < ?
@@ -232,7 +238,10 @@ export function writeReading(deviceId, reading, radio, at) {
       radio?.spreadingFactor ?? null,
       radio?.gateway ?? null
     );
+    // A nest the coop has not measured since it started brings no news: no row is stored,
+    // so the card keeps its state from the last check
     reading.nests?.forEach((nest, index) => {
+      if (nest.state === 'unknown') return;
       insertNest.run(deviceId, time, index + 1, nest.eggs, NEST_STATES.indexOf(nest.state));
     });
   });
@@ -291,7 +300,7 @@ export function readNests(deviceId, nestCount) {
   const current = new Map(latest.map((row) => [row.nest, row]));
 
   const nests = Array.from({ length: nestCount }, (_, index) => {
-    const row = current.get(index + 1);
+    const row = current.get(index + 1) ?? selectNestLast.get(deviceId, index + 1, now);
     return {
       state: row ? (NEST_STATES[row.state] ?? 'offline') : null,
       eggs: row?.eggs ?? known[index],

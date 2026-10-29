@@ -400,7 +400,7 @@ void Nests_Init(void)
   uint8_t nest;
 
   for (nest = 0U; nest < NESTS_COUNT; nest++)
-    nests_data[nest].state = NESTS_STATE_OFFLINE;
+    nests_data[nest].state = NESTS_STATE_UNKNOWN;
 
   Nests_PowerDown();
 
