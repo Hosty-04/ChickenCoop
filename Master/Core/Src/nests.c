@@ -316,9 +316,6 @@ static uint8_t Nests_Serve(uint8_t nest)
   return 1U;
 }
 
-/* Every round covers all nests: the hourly check measures them all, and so does a tare or
- * calibration, where the nests without the command are measured as at the hourly check.
- * The full message after the round thus carries a fresh state of every nest */
 static uint8_t Nests_Reach(uint8_t hourly)
 {
   uint8_t nest;

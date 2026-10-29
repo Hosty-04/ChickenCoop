@@ -25,7 +25,7 @@ typedef enum {
   NESTS_STATE_FAULT,
   NESTS_STATE_OFFLINE,
   NESTS_STATE_UNTARED,
-  NESTS_STATE_UNKNOWN   /* not measured since start-up */
+  NESTS_STATE_UNKNOWN
 } Nests_State_t;
 
 void    Nests_Init(void);

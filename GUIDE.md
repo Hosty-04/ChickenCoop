@@ -634,11 +634,6 @@ váhy přijde zpráva o hnízdech i mimo celou hodinu; hnízda, kterých se př�
 při té příležitosti změří stejně jako při hodinové kontrole, takže zpráva nese aktuální stav
 všech hnízd.
 
-Dokud z kurníku nepřišla žádná zpráva o hnízdech, je v záhlaví karty **zatím žádná
-kontrola**. Tak je to po prvním spuštění serveru, po smazání historie a také když je
-automatika vypnutá od začátku — pak se hnízda každou hodinu nekontrolují a kartu obnoví
-až vynulování nebo kalibrace.
-
 Na telefonu je každé hnízdo jeden řádek: vlevo název a počet, vpravo zásobník a pod ním
 poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 
@@ -648,20 +643,10 @@ poznámka. I patnáct hnízd se tak vejde zhruba na jednu obrazovku.
 | **⚠ sedí kvočna** | váha tři kontroly po sobě ukázala slepici; počet je z doby, kdy hnízdo bylo volné |
 | **⚠ váha není zkalibrovaná, nejdřív ji vynulujte** | hnízdo ještě nikdy nebylo vynulované; bez toho se kalibrace neprovede, viz **Kalibrace váhy** |
 | **⚠ váha není zkalibrovaná** | váha je vynulovaná, zbývá ji zkalibrovat se závažím, viz **Kalibrace váhy** |
-| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly, nebo se nepovedlo vynulování či kalibrace — viz níže |
+| **⚠ porucha váhy** | převodník u tenzometru neodpovídá nebo měří nesmysly, nebo se nepovedlo vynulování či kalibrace |
 | **⚠ hnízdo neodpovídá** | řadič v krabičce hnízda se neozval; počet je z poslední úspěšné kontroly |
 
 Hnízda jsou napájená jedno od druhého, takže když se neozve první, neozvou se ani ta za ním.
-
-**Porucha váhy** má dvě různé příčiny. Při běžné hodinové kontrole znamená vždy závadu:
-převodník HX711 nedodává data (bez napájení, přerušený nebo prohozený vodič DT a SCK) nebo
-dává nesmysly (přerušený vodič od tenzometru, vadný tenzometr). Neklidná váha při hodinové
-kontrole poruchu nehlásí, kontrola jen nechá předchozí počet. Hned po **Vynulovat** nebo
-**Kalibrovat** ale porucha znamená, že se krok nepovedl: váha se ani na třetí pokus
-neustálila (v hnízdě byla slepice, hnízdo se houpalo), nebo se při kalibraci se závažím
-skoro nepohnula (závaží nebylo na vážicí desce, tenzometr nemá volný konec — třeba když
-jen leží na stole). Stačí příčinu odstranit a krok zopakovat. Porucha není trvalá: zmizí,
-jakmile další kontrola nebo příkaz proběhne v pořádku.
 
 Při kriticky vybité baterii a při vypnuté automatice kurník hnízda každou hodinu
 nekontroluje. Karta pak ukazuje poslední kontrolu i s jejím datem; při vypnuté automatice
@@ -942,8 +927,7 @@ provést, až bude v hnízdě vejce nebo už nebude závaží. Je-li baterie kri
 příkaz zahodí a karta Hnízda se neobnoví. Vypnutá automatika vynulování ani kalibraci
 nebrání. Když hnízdo neodpovídá, karta ukáže **⚠ hnízdo neodpovídá**; když se vynulování nebo
 kalibrace nepovede, ukáže **⚠ porucha váhy** (viz **Hnízda**). Po odstranění příčiny příkaz
-pošlete znovu. Tenzometr musí být při obojím namontovaný jako v hotovém hnízdě, s jedním
-koncem pevným a druhým volným; po přestavbě hnízda vynulování i kalibraci zopakujte.
+pošlete znovu.
 
 ### Smazání historie
 
