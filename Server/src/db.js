@@ -52,6 +52,7 @@ const LONGEST_MONTH_MS = 31 * DAY_MS;
 const MONDAY_OFFSET = 4 * DAY_MS;
 const ALL_MONTHS = 60;
 const LAID_SLACK_MS = 10 * 60 * 1000;
+const BATTERY_CHECK_MS = 10 * 60 * 1000;
 
 const insertReading = db.prepare(`
   INSERT OR REPLACE INTO readings
@@ -109,8 +110,9 @@ const deleteNests = db.prepare('DELETE FROM nests WHERE device = ?');
 const historyStatements = new Map();
 
 function slotSql(bucket) {
-  if (bucket === MONTH_MS) return `strftime('%s', time / 1000, 'unixepoch', 'localtime', 'start of month') * 1000`;
-  return `(((strftime('%s', time / 1000, 'unixepoch', 'localtime') * 1000 - ${MONDAY_OFFSET}) / ${bucket}) * ${bucket}) + ${MONDAY_OFFSET}`;
+  const seconds = `(time + ${BATTERY_CHECK_MS / 2}) / 1000`;
+  if (bucket === MONTH_MS) return `strftime('%s', ${seconds}, 'unixepoch', 'localtime', 'start of month') * 1000`;
+  return `(((strftime('%s', ${seconds}, 'unixepoch', 'localtime') * 1000 - ${MONDAY_OFFSET}) / ${bucket}) * ${bucket}) + ${MONDAY_OFFSET}`;
 }
 
 function historyStatement(bucket) {
