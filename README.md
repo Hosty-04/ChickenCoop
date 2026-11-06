@@ -44,7 +44,7 @@ Systém pro automatizaci kurníku s detekcí snesených vajec - bakalářská pr
 
 ### a) Krabičky
 
-Solární panel je uchycen v rámečku vytištěném z materiálu PETG, jehož vnější rozměr (360 × 240 mm) přesahuje rozměr panelu (340 × 220 mm) o 10 mm po každé straně. Tento materiál byl zvolen pro jeho vysokou houževnatost a teplotní odolnost. Kapsa pro panel je hluboká 4 mm, tedy o 1 mm více než tloušťka panelu, aby panel po vložení mírně zapadl pod úroveň okraje rámečku a nedocházelo k zadržování vody na jeho povrchu. Dno kapsy je opatřeno výřezem o rozměru 320 × 200 mm, odpovídajícím aktivní ploše panelu, takže rámeček má tvar pasparty a nestíní dopadající sluneční záření. Po vložení panelu do kapsy je spára mezi jeho okrajem a stěnou rámečku vyplněna venkovním UV odolným silikonovým tmelem, čímž vzniká vodotěsné a zároveň mechanicky pevné spojení bez nutnosti vrtat do samotného panelu. Rámeček je přišroubován přímo ke stěně kurníku vruty do zdiva 6 × 80 mm s plastovými hmoždinkami 8 mm, a to přes čtyři otvory o průměru 5 mm v rozích mimo aktivní plochu panelu.
+Solární panel je uchycen v rámečku vytištěném z materiálu PETG, jehož vnější rozměr (360 × 240 mm) přesahuje rozměr panelu (340 × 220 mm) o 10 mm po každé straně. Tento materiál byl zvolen pro jeho vysokou houževnatost a teplotní odolnost. Kapsa pro panel je hluboká 4 mm, tedy o 1 mm více než tloušťka panelu, aby panel po vložení mírně zapadl pod úroveň okraje rámečku a nedocházelo k zadržování vody na jeho povrchu. Dno kapsy je opatřeno výřezem o rozměru 320 × 200 mm, odpovídajícím aktivní ploše panelu, takže rámeček má tvar pasparty a nestíní dopadající sluneční záření. Po vložení panelu do kapsy je spára mezi jeho okrajem a stěnou rámečku vyplněna venkovním UV odolným silikonovým tmelem, čímž vzniká vodotěsné a zároveň mechanicky pevné spojení bez nutnosti vrtat do samotného panelu. Rámeček je přišroubován přímo ke stěně kurníku vruty 6 × 80 mm s plastovými hmoždinkami 8 mm, a to přes čtyři otvory o průměru 5 mm v rozích mimo aktivní plochu panelu.
 
 Konstrukce obsahuje jednu krabičku pro akumulátor o tloušťce stěny 2,4 mm a jednu krabičku (K) o tloušťce stěny 1,6 mm určenou pro mechaniku a elektroniku dvířek a hlavní mikrořadič. Pro každé snáškové hnízdo je dále vyhrazena samostatná krabička (Kx) se stejnou tloušťkou stěny, obsahující potřebnou elektroniku a hnízdový mikrořadič. Všechny krabičky jsou vytištěny na 3D tiskárně z materiálu PETG. Do tohoto materiálu je kvůli riziku deformace nutné vrtat při nízkých otáčkách. Zadní stěna krabiček je ve svislém směru prodloužena a má tloušťku 3,5 mm; v každém rohu této stěny jsou otvory pro vruty 4 × 40 mm, které umožňují upevnění krabiček k betonové stěně kurníku pomocí hmoždinek o průměru 6 mm. Víko je vytištěno samostatně s přesahem 2 mm; uprostřed jeho levé hrany je dutá trubička s vnitřním průměrem 2 mm. Stejná trubička je u všech krabiček na obou koncích vnější horní hrany levé stěny. Po vytištění je všemi třemi trubičkami protažen filament o průměru 1,75 mm, jehož konce se krátce nahřejí zapalovačem a roztepou do podoby hlaviček. Tím vzniká jednoduchý pant pro uchycení víka.
 
@@ -72,7 +72,7 @@ Na horní části přední strany dvířek je umístěno závěsné očko M5 z n
 
 Lanko vede kolmo vzhůru do krabičky K, kde je navíjeno na špulku vytištěnou z materiálu PETG (šířka 2 cm, vnější průměr 2,5 cm). Lanko je provlečeno otvorem o průměru 3 mm na okraji špulky (na straně vzdálenější od motoru) a zajištěno osmičkovým uzlem, rovněž zakápnutým vteřinovým lepidlem; uzel je zapuštěn 8 mm hluboko do záhlubení o průměru 10 mm a lanko z něj vychází na okraji záhlubení směrem k okraji špulky.
 
-Špulka má packy pro uchycení ke dnu krabičky K a otvor s D-profilem (průměr 3 mm, hloubka 10 mm); pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) je upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), a to ze strany, kde vstupuje lanko. Stejnosměrný motor s převodovkou byl zvolen místo krokového motoru, protože vystačí s jednoduchým budičem, převodovka mu dává vysoký krouticí moment a polohu dvířek určují koncové spínače, takže není potřeba počítat kroky.
+Špulka má otvor s D-profilem (průměr 3 mm, hloubka 10 mm); pomocí stavěcího šroubu (červíku) M5 z nerezové oceli A4 (délka 6 mm) a mosazné závitové vložky M5 (délka 5,8 mm, průměr 7,1 mm) je upevněna na hřídeli nízkootáčkového (20 rpm) stejnosměrného motoru s kovovou převodovkou (6 V), a to ze strany, kde vstupuje lanko. Stejnosměrný motor s převodovkou byl zvolen místo krokového motoru, protože vystačí s jednoduchým budičem, převodovka mu dává vysoký krouticí moment a polohu dvířek určují koncové spínače, takže není potřeba počítat kroky. U finální verze bude motor přes držák připevněn k hlavní desce plošných spojů.
 
 <br>
 
@@ -263,7 +263,7 @@ Kvůli nízkopříkonové povaze systému je nutné u mikrořadiče LoRa-E5 mini
 
 Prototyp je sestaven z modulů umístěných na nepájivém poli pomocí kolíkových lišt. Finální verze obsahuje jednu hlavní desku plošných spojů a několik (v tomto případě dvě, obecně například pět) vedlejších desek pro jednotlivá snášková hnízda. Na všech deskách jsou moduly nahrazeny čipy a nezbytnými externími SMD součástkami.
 
-Za akumulátorem je do napájecí větve zařazena rychlá trubičková pojistka o jmenovitém proudu 1 A, umístěná v pouzdře. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provoznímu odběru systému, který při pohybu dvířek dosahuje pouhých 250 mA, a pojistka snese i krátkodobé proudové špičky do 550 mA při rozběhu nebo zaseknutí motoru. Zároveň je však tato hodnota dostatečně nízká na to, aby pojistka při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud mohl cokoliv poškodit.
+Za akumulátorem je do napájecí větve zařazena rychlá trubičková pojistka o jmenovitém proudu 2 A, umístěná v pouzdře. Tato hodnota poskytuje dostatečnou rezervu vůči běžnému provoznímu odběru systému, který při pohybu dvířek dosahuje pouhých 250 mA, a pojistka snese i krátkodobé proudové špičky do 550 mA při rozběhu nebo zaseknutí motoru. Zároveň je však tato hodnota dostatečně nízká na to, aby pojistka při poruchovém stavu (zkrat na desce plošných spojů nebo zkrat vinutí motoru) spolehlivě přerušila obvod dříve, než by proud mohl cokoliv poškodit.
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování není do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavním mikrořadičem, který při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekračuje bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak měla jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, panel) jsou realizovány pevnými pružinovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
@@ -774,7 +774,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
 | P-MOS tranzistor | 15 ks | [Odkaz][p-mos] | 61,01 Kč | 73,82 Kč |
 | Akumulátor | 1 ks | [Odkaz][akumulator] | 156,00 Kč | 189,00 Kč |
-| Pojistka | 5 ks | [Odkaz][pojistka] | 33,05 Kč | 40,00 Kč |
+| Pojistka | 5 ks | [Odkaz][pojistka] | 28,93 Kč | 35,00 Kč |
 | Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,20 Kč | 18,40 Kč |
 | Pojistková krytka | 2 ks | [Odkaz][krytka] | 8,26 Kč | 10,00 Kč |
 | Lineární LDO regulátor | 2 ks | [Odkaz][ldo] | 33,48 Kč | 40,51 Kč |
@@ -810,7 +810,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **6046 Kč** | **7315 Kč** |
+| **Celkem** | | | **5 945 Kč** | **7 194 Kč** |
 
 > Do celkové ceny *není* započtena doprava
 
@@ -837,7 +837,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [n-mos]: https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor
 [p-mos]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
 [akumulator]: https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm
-[pojistka]: https://www.gme.cz/v/1511166/schurter-spf-5x20-h-1a-250v-pojistka-trubickova-s-keramikou
+[pojistka]: https://www.gme.cz/v/1511167/schurter-spf-5x20-h-2a-250v-pojistka-trubickova-s-keramikou
 [pouzdro]: https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps
 [krytka]: https://www.gme.cz/v/1512950/stelvio-kontek-bs140na-krytka-pro-pojistkove-pouzdro
 [ldo]: https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/
