@@ -267,7 +267,7 @@ Za akumulátorem je do napájecí větve zařazena rychlá trubičková pojistka
 
 Samostatná přepěťová ochrana ani ochrana proti přepólování není do systému zařazena. Napětí akumulátoru je již průběžně softwarově hlídáno hlavním mikrořadičem, který při překročení bezpečné meze odpojuje solární panel pomocí MOSFET odpojovače, a napětí panelu je navíc přirozeně omezeno jeho konstrukčními parametry (naprázdno nepřekračuje bezpečnou hodnotu pro napájecí obvody); dedikovaná přepěťová ochrana by tak měla jen marginální přínos za cenu vyšší klidové spotřeby a složitosti obvodu. Ochrana proti přepólování byla rovněž vynechána, protože veškeré napájecí spoje (akumulátor, panel) jsou realizovány pevnými pružinovými WAGO svorkovnicemi zapojovanými jednorázově při montáži, čímž je riziko náhodného přepólování v provozu prakticky vyloučeno; přidání sériové ochranné diody by navíc znamenalo trvalý úbytek napětí a zbytečnou ztrátu energie v celé napájecí větvi systému.
 
-MOSFET odpojovač je tvořen dvěma P-MOS tranzistory DMP3056L-7 zapojenými back-to-back (source proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému. Parazitní diody obou P-MOS tranzistorů vedou směrem ke společnému source, jsou tedy orientovány proti sobě a rozepnutý odpojovač nepropustí proud ani jedním směrem — zamezuje jak zpětnému toku proudu z akumulátoru do panelu, tak dalšímu nabíjení akumulátoru po jeho odpojení. Tyto tranzistory řídí M přes budicí logic-level N-MOS tranzistor BSS138 (sepnutí odpojovače probíhá nastavením logické jedničky na gate N-MOS), protože napětí 3,3 V z GPIO pinu by při napětí panelu a akumulátoru nestačilo k jejich rozepnutí. Za M je sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení kapacity gate. Mezi gate a společnou zem N-MOS tranzistoru je paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain N-MOS tranzistoru je připojen na gate obou P-MOS tranzistorů, které jsou přes 100 kΩ pull-up rezistor spojeny se společným source. Source N-MOS tranzistoru je připojen ke společné zemi. Při rozepnutém N-MOS tranzistoru je proto napětí U<sub>GS</sub> obou P-MOS tranzistorů nulové bez ohledu na to, zda je vyšší napětí panelu, nebo akumulátoru, a oba tranzistory zůstávají zavřené. Společný source se přitom přes parazitní diodu tranzistoru na straně s vyšším napětím nabije na toto napětí snížené o úbytek diody (v noci tedy přibližně na 6 V); proud však dál neteče, protože druhá dioda je v závěrném směru. Při sepnutém N-MOS tranzistoru je gate obou P-MOS tranzistorů stažen k zemi a napětí U<sub>GS</sub> přibližně odpovídá záporné hodnotě napětí akumulátoru, je tedy vždy nižší než −4,5 V. Z toho vyplývá, že R<sub>DSon</sub> je maximálně 100 mΩ. Na N-MOS tranzistoru je napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> je maximálně 5 Ω. Jelikož jsou tranzistory typu SMD, je pro prototyp potřeba SMD adaptér SOT23 a kolíkové lišty. Co nejblíže za MOSFET odpojovačem jsou v krabičce K paralelně mezi výstupní napájecí větev a společnou zem zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
+MOSFET odpojovač je tvořen dvěma P-MOS tranzistory DMP3056L-7 zapojenými back-to-back (source proti sobě). Toto zapojení umožňuje úplné odpojení kladného napájecího napětí při zachování společné země celého systému. Parazitní diody obou P-MOS tranzistorů vedou směrem ke společnému source, jsou tedy orientovány proti sobě a rozepnutý odpojovač nepropustí proud ani jedním směrem — zamezuje jak zpětnému toku proudu z akumulátoru do panelu, tak dalšímu nabíjení akumulátoru po jeho odpojení. Tyto tranzistory řídí M přes budicí logic-level N-MOS tranzistor BSS138 (sepnutí odpojovače probíhá nastavením logické jedničky na gate N-MOS), protože napětí 3,3 V z GPIO pinu by při napětí panelu a akumulátoru 6-11 V nestačilo k jejich rozepnutí. Za M je sériově zapojen 220 Ω rezistor pro ochranu GPIO pinu před krátkodobou proudovou špičkou při nabíjení/vybíjení kapacity gate. Mezi gate a společnou zem N-MOS tranzistoru je paralelně zapojen 470 kΩ pull-down rezistor zabraňující vzniku nedefinovaného logického stavu nebo falešnému sepnutí. Drain N-MOS tranzistoru je připojen na gate obou P-MOS tranzistorů, které jsou přes 100 kΩ pull-up rezistor spojeny se společným source. Source N-MOS tranzistoru je připojen ke společné zemi. Při rozepnutém N-MOS tranzistoru je proto napětí U<sub>GS</sub> obou P-MOS tranzistorů nulové bez ohledu na to, zda je vyšší napětí panelu, nebo akumulátoru, a oba tranzistory zůstávají zavřené. Společný source se přitom přes parazitní diodu tranzistoru na straně s vyšším napětím nabije na toto napětí snížené o úbytek diody (v noci tedy přibližně na 6 V); proud však dál neteče, protože druhá dioda je v závěrném směru. Při sepnutém N-MOS tranzistoru je gate obou P-MOS tranzistorů stažen k zemi a napětí U<sub>GS</sub> přibližně odpovídá záporné hodnotě napětí akumulátoru, je tedy vždy nižší než −4,5 V. Z toho vyplývá, že R<sub>DSon</sub> je maximálně 100 mΩ. Na N-MOS tranzistoru je napětí U<sub>GS</sub> při sepnutí vždy vyšší než 2,5 V — R<sub>DSon</sub> je maximálně 5 Ω. Jelikož jsou tranzistory typu SMD, je pro prototyp potřeba SMD adaptér SOT23 a kolíkové lišty. Co nejblíže za MOSFET odpojovačem jsou v krabičce K paralelně mezi výstupní napájecí větev a společnou zem zapojeny dva kondenzátory: elektrolytický 47 µF / 25 V jako zásobárna energie a blokovací keramický 100 nF / 50 V.
 
 <br>
 
@@ -282,7 +282,11 @@ MOSFET odpojovač je tvořen dvěma P-MOS tranzistory DMP3056L-7 zapojenými bac
 **Ověření funkce MOSFET odpojovače**
 
 $$
-U_{G,P} = U_{max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 9\ \text{V} \cdot \frac{5\ \Omega}{100\ \text{k}\Omega + 5\ \Omega} = \mathbf{450\ \text{µV} \approx 0\ \text{V}}
+U_{G,P} = U_{S,max} \cdot \frac{R_{DSon}}{R_{pullup} + R_{DSon}} = 11\ \text{V} \cdot \frac{5\ \Omega}{100\ \text{k}\Omega + 5\ \Omega} = \mathbf{550\ \text{µV} \approx 0\ \text{V}}
+$$
+
+$$
+U_{GS,P} = U_{G,P} - U_S \approx -U_{aku} \le -U_{aku,min} = \mathbf{-5,8\ \text{V} < -4,5\ \text{V}}
 $$
 
 $$
@@ -294,17 +298,21 @@ U_{G,N} = U_r \cdot \frac{R_{pulldown}}{R_G + R_{pulldown}} = 3,3\ \text{V} \cdo
 $$
 
 kde:
-- $U_{G,P}$ ... napětí na gate P-MOS tranzistoru
-- $U_{max}$ ... maximální napětí panelu
-- $R_{DSon}$ ... vnitřní odpor sepnutého tranzistoru
-- $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistor
+- $U_{G,P}$ ... napětí na gate P-MOS tranzistorů při sepnutém N-MOS tranzistoru
+- $U_{S,max}$ ... maximální napětí společného source (napětí panelu naprázdno)
+- $R_{DSon}$ ... vnitřní odpor sepnutého N-MOS tranzistoru
+- $R_{pullup}$ ... pull-up rezistor pro P-MOS tranzistory
+- $U_{GS,P}$ ... napětí mezi gate a source P-MOS tranzistorů při sepnutém odpojovači
+- $U_S$ ... napětí společného source
+- $U_{aku}$ ... napětí akumulátoru
+- $U_{aku,min}$ ... minimální napětí akumulátoru (vybitý akumulátor)
 - $U_{G,N}$ ... napětí na gate N-MOS tranzistoru
 - $I_{leak}$ ... svodový proud tekoucí přes gate
 - $U_r$ ... napětí řadiče
 - $R_{pulldown}$ ... pull-down rezistor pro N-MOS tranzistor
 - $R_G$ ... ochranný rezistor
 
-I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistoru k zemi a tím ho otevřít. Slabší pull-down rezistor dokáže i navzdory svodovému proudu gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8–1,5 V. Pokles napětí na gate N-MOS tranzistoru způsobený ochranným rezistorem je při jeho spínání zanedbatelný.
+I při větším R<sub>DSon</sub> dokáže spínač s N-MOS tranzistorem spolehlivě stáhnout gate P-MOS tranzistorů k zemi a tím je otevřít; napětí U<sub>GS</sub> při sepnutí (−5,8 V a méně) přitom s velkou rezervou překračuje jejich prahové napětí −1 až −2,1 V. Slabší pull-down rezistor dokáže i navzdory svodovému proudu gate udržet spínač s N-MOS tranzistorem rozepnutý; U<sub>th</sub> je u N-MOS tranzistoru 0,8–1,5 V. Pokles napětí na gate N-MOS tranzistoru způsobený ochranným rezistorem je při jeho spínání zanedbatelný.
 
 <br>
 
@@ -427,7 +435,7 @@ kde:
 - $I_{DSS,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
 - $I_{GSS}$ ... svodový proud tekoucí přes gate
 
-U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
+U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Proud pull-up rezistorem P-MOS tranzistorů teče jen při sepnutém odpojovači, kdy ho hradí panel. Při rozepnutém odpojovači teče přes parazitní diodu a pull-up rezistor (v noci z akumulátoru) pouze svodový proud drainu rozepnutého N-MOS tranzistoru. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
 
 ### Kontrola fotovoltaického panelu a akumulátoru (29 s a 12 s)
 
