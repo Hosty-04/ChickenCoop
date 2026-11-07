@@ -678,12 +678,12 @@ CPU je většinu času v režimu Stop2 s RTC.
 
 | Blok | Spotřeba (typ) | Podíl | Spotřeba (max) | Podíl |
 |:---|:---:|:---:|:---:|:---:|
-| Kontrola vajec | 937 µAh | 44,2 % | 1,39 mAh | 11,0 % |
-| Pohyb dvířek | 897 µAh | 42,3 % | 10,1 mAh | 79,7 % |
+| Kontrola vajec | 937 µAh | 43,9 % | 1,39 mAh | 11,0 % |
+| Pohyb dvířek | 897 µAh | 42,0 % | 10,1 mAh | 79,5 % |
 | Komunikace | 153 µAh | 7,2 % | 166 µAh | 1,3 % |
-| Klidový režim | 129 µAh | 6,1 % | 1 mAh | 7,9 % |
+| Klidový režim | 144 µAh | 6,8 % | 1,03 mAh | 8,2 % |
 | Kontrola panelu a baterie | 3,53 µAh | 0,2 % | 6,89 µAh | 0,1 % |
-| **Celkem** | **2,12 mAh** | **100 %** | **12,6 mAh** | **100 %** |
+| **Celkem** | **2,13 mAh** | **100 %** | **12,7 mAh** | **100 %** |
 
 ### Energie dodávaná do akumulátoru
 
