@@ -769,9 +769,9 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Kabel plochý barevný | 3 m | [Odkaz][plochy] | 18,20 Kč | 22,00 Kč |
 | Bužírka | 1 ks | [Odkaz][buzirka] | 45,45 Kč | 55,00 Kč |
 | Lišty | 10 m | [Odkaz][listy] | 115,70 Kč | 140,00 Kč |
-| Ukončovací profil | 3 ks | [Odkaz][term] | 22,31 Kč | 27,00 Kč |
-| Ukončovací profil vnitřní úhel | 4 ks | [Odkaz][term-in] | 29,75 Kč | 36,00 Kč |
-| Ukončovací profil vnější úhel | 2 ks | [Odkaz][term-out] | 14,88 Kč | 18,00 Kč |
+| Ukončovací profil | 3 ks | [Odkaz][profil-u] | 22,31 Kč | 27,00 Kč |
+| Ukončovací profil vnitřní úhel | 4 ks | [Odkaz][profil-vni] | 29,75 Kč | 36,00 Kč |
+| Ukončovací profil vnější úhel | 2 ks | [Odkaz][profil-vne] | 14,88 Kč | 18,00 Kč |
 | WAGO svorkovnice 2pól | 1 ks | [Odkaz][wago-2pol] | 12,40 Kč | 15,00 Kč |
 | WAGO svorkovnice 4pól | 2 ks | [Odkaz][wago-4pol] | 74,38 Kč | 90,00 Kč |
 | WAGO svorkovnice 6pól | 2 ks | [Odkaz][wago-6pol] | 128,92 Kč | 156,00 Kč |
@@ -780,7 +780,8 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580,00 Kč |
 | N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
-| P-MOS tranzistor | 15 ks | [Odkaz][p-mos] | 61,01 Kč | 73,82 Kč |
+| P-MOS tranzistor u odpojovače | 5 ks | [Odkaz][sep-tran] | 46,38 Kč | 56,27 Kč |
+| P-MOS tranzistor u spínačů | 10 ks | [Odkaz][switch-tran] | 40,90 Kč | 49,48 Kč |
 | Akumulátor | 1 ks | [Odkaz][akumulator] | 156,00 Kč | 189,00 Kč |
 | Pojistka | 5 ks | [Odkaz][pojistka] | 28,93 Kč | 35,00 Kč |
 | Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,20 Kč | 18,40 Kč |
@@ -788,7 +789,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Lineární LDO regulátor | 2 ks | [Odkaz][ldo] | 33,48 Kč | 40,51 Kč |
 | Master | 1 ks | [Odkaz][master] | 525,62 Kč | 636,00 Kč |
 | Slave | 2 ks | [Odkaz][slave] | 813,22 Kč | 984,00 Kč |
-| Programátor | 1 ks | [Odkaz][programmer] | 114,10 Kč | 138,00 Kč |
+| Programátor | 1 ks | [Odkaz][programator] | 114,10 Kč | 138,00 Kč |
 | H-můstek DRV8838 | 1 ks | [Odkaz][h-mustek] | 81,82 Kč | 99,00 Kč |
 | Feritový korálek | 5 ks | [Odkaz][ferit] | 13,42 Kč | 16,24 Kč |
 | Motor | 1 ks | [Odkaz][motor] | 88,00 Kč | 107,00 Kč |
@@ -818,7 +819,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Matice M5 samojistná | 2 ks | [Odkaz][matice-samojistna] | 1,12 Kč | 1,36 Kč |
 | Matice M5 klobouková | 2 ks | [Odkaz][matice-kloboukova] | 7,52 Kč | 9,10 Kč |
 | Podložka M5 | 4 ks | [Odkaz][podlozka] | 0,89 Kč | 1,08 Kč |
-| **Celkem** | | | **5 945 Kč** | **7 194 Kč** |
+| **Celkem** | | | **5 971 Kč** | **7 226 Kč** |
 
 > Do celkové ceny *není* započtena doprava
 
@@ -832,9 +833,9 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [plochy]: https://www.kondik.cz/kabel-plochy-ds1058-1-27mm-barevny/
 [buzirka]: https://www.hornbach.cz/p/smrstovaci-buzirka-s-lepidlem-3-1mm-cerna/8570253/
 [listy]: https://www.hornbach.cz/p/lista-na-kabely-malpro-15x10-mm-2m-bila/6647360/
-[term]: https://www.hornbach.cz/p/ukoncovaci-profil-15x10-mm-bily-9003/6647353/
-[term-in]: https://www.hornbach.cz/p/ukoncovaci-profil-vnitrni-uhel-15x10-mm/6647265/
-[term-out]: https://www.hornbach.cz/p/ukoncovaci-profil-vnejsi-uhel-15x10-mm/6647272/
+[profil-u]: https://www.hornbach.cz/p/ukoncovaci-profil-15x10-mm-bily-9003/6647353/
+[profil-vni]: https://www.hornbach.cz/p/ukoncovaci-profil-vnitrni-uhel-15x10-mm/6647265/
+[profil-vne]: https://www.hornbach.cz/p/ukoncovaci-profil-vnejsi-uhel-15x10-mm/6647272/
 [wago-2pol]: https://www.gme.cz/v/1501431/wago-256-402-svorkovnice-2pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-4pol]: https://www.gme.cz/v/1499112/wago-256-404-svorkovnice-4pol-roztec-508mm-24a-320v-vstup-45-pruzina
 [wago-6pol]: https://www.gme.cz/v/1501395/wago-233-506-svorkovnice-6pol-roztec-254mm-6a-160v-vstup-45-pruzina
@@ -843,7 +844,8 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [faston]: https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm
 [solar]: https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
 [n-mos]: https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor
-[p-mos]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
+[sep-tran]: https://www.tme.eu/cz/details/dmp3056l-7/tranzistory-s-kanalem-p-smd/diodes-incorporated/
+[switch-tran]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
 [akumulator]: https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm
 [pojistka]: https://www.gme.cz/v/1511167/schurter-spf-5x20-h-2a-250v-pojistka-trubickova-s-keramikou
 [pouzdro]: https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps
@@ -851,7 +853,7 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [ldo]: https://www.tme.eu/cz/details/mcp1702-3302e_to/stabilizatory-napeti-neregulovane-ldo/microchip-technology/
 [master]: https://botland.cz/lora-lorawan/19267-lora-e5-mini-stm32wle5jc-modul-lorawan-868-915-mhz-seeedstudio-113990939-5904422369026.html
 [slave]: https://botland.cz/stm32-nucleo/18799-stm32-nucleo-l031k6-s-stm32l031k6-mcu-kompatibilni-s-arduino-nano-5904422364878.html
-[programmer]: https://www.laskakit.cz/st-link-v2-programator-stm8-stm32/
+[programator]: https://www.laskakit.cz/st-link-v2-programator-stm8-stm32/
 [h-mustek]: https://botland.cz/ovladace-stejnosmerneho-motoru/2695-drv8838-jednokanalovy-budic-motoru-11v-17a-pololu-2990-5903351244855.html
 [ferit]: https://www.tme.eu/cz/details/blm21pg121sn1d/koralky-s-feritem/murata/
 [motor]: https://dratek.cz/arduino-platforma/3197-stejnosmerny-motor-s-prevodovkou-dc-6v-20-rpm.html
