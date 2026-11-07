@@ -406,36 +406,51 @@ Silová část systému pracuje s napětím 6 V, veškerá elektronika pak s nap
 | INA226 (shutdown) | 0,6 µA | 2,5 µA | 14,4 µAh | 60 µAh |
 | DRV8838 (shutdown) | 80 nA | 120 nA | 1,92 µAh | 2,88 µAh |
 | Spínač (N) | 7,1 µA | 7,1 µA | 14,2 µAh | 71 µAh |
+| Odpojovač (leak) | 1,1 µA | 1,5 µA | 15,4 µAh | 33 µAh |
 | Spínače (leak) | 1,1 µA | 5,1 µA | 26,4 µAh | 122 µAh |
 | M (Stop2 s RTC) | 1 µA | 26 µA | 24 µAh | 624 µAh |
-| **Celkem** | **11,9 µA** | **45,8 µA** | **129 µAh** | **1 mAh** |
+| **Celkem** | **13,0 µA** | **47,3 µA** | **144 µAh** | **1,03 mAh** |
 
 <br>
 
 $$
-I_N = \frac{U_{nap}}{R_{pd} + R_G} + I_{GSS} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
+I_{N} = \frac{U_{nap}}{R_{pulldown} + R_G} + I_{GSS,N} = \frac{3,3\ \text{V}}{470\ \text{k}\Omega + 220\ \Omega} + 100\ \text{nA} \approx \mathbf{7,1\ \text{µA}}
 $$
 
 $$
-I_{leak,min} = I_{DSS,min} + I_{GSS} = 1\ \mu\text{A} + 100\ \text{nA} = \mathbf{1,1\ \mu\text{A}}
+I_{leak,odp,typ} = I_{DSS,N,typ} + I_{DSS,P} = 100\ \text{nA} + 1\ \mu\text{A} = \mathbf{1,1\ \mu\text{A}}
 $$
 
 $$
-I_{leak,max} = I_{DSS,max} + I_{GSS} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
+I_{leak,odp,max} = I_{DSS,N,max} + I_{DSS,P} = 500\ \text{nA} + 1\ \mu\text{A} = \mathbf{1,5\ \mu\text{A}}
+$$
+
+$$
+I_{leak,sp,typ} = I_{DSS,sp,typ} + I_{GSS,sp} = 1\ \mu\text{A} + 100\ \text{nA} = \mathbf{1,1\ \mu\text{A}}
+$$
+
+$$
+I_{leak,sp,max} = I_{DSS,sp,max} + I_{GSS,sp} = 5\ \mu\text{A} + 100\ \text{nA} = \mathbf{5,1\ \mu\text{A}}
 $$
 
 kde:
-- $I_N$ ... proud tekoucí pull-down rezistorem u spínače s N-MOS tranzistorem
+- $I_{N}$ ... proud tekoucí do gate N-MOS tranzistoru odpojovače a jeho pull-down rezistorem
 - $U_{nap}$ ... napájecí napětí
-- $R_{pd}$ ... pull-down rezistor o hodnotě 470 kΩ
+- $R_{pulldown}$ ... pull-down rezistor N-MOS tranzistoru o hodnotě 470 kΩ
 - $R_G$ ... ochranný rezistor
-- $I_{leak,min}$ ... minimální svodový proud spínačů s P-MOS tranzistorem
-- $I_{leak,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem
-- $I_{DSS,min}$ ... minimální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
-- $I_{DSS,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem tekoucí přes drain
-- $I_{GSS}$ ... svodový proud tekoucí přes gate
+- $I_{GSS,N}$ ... svodový proud tekoucí přes gate N-MOS tranzistoru odpojovače
+- $I_{leak,odp,typ}$ ... typický svodový proud rozepnutého MOSFET odpojovače
+- $I_{leak,odp,max}$ ... maximální svodový proud rozepnutého MOSFET odpojovače
+- $I_{DSS,N,typ}$ ... typický svodový proud drainu N-MOS tranzistoru odpojovače
+- $I_{DSS,N,max}$ ... maximální svodový proud drainu N-MOS tranzistoru odpojovače
+- $I_{DSS,P}$ ... svodový proud drainu P-MOS tranzistoru odpojovače na straně panelu
+- $I_{leak,sp,typ}$ ... typický svodový proud spínačů s P-MOS tranzistorem
+- $I_{leak,sp,max}$ ... maximální svodový proud spínačů s P-MOS tranzistorem
+- $I_{DSS,sp,typ}$ ... typický svodový proud drainu P-MOS tranzistoru spínačů
+- $I_{DSS,sp,max}$ ... maximální svodový proud drainu P-MOS tranzistoru spínačů
+- $I_{GSS,sp}$ ... svodový proud tekoucí přes gate P-MOS tranzistoru spínačů
 
-U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Proud pull-up rezistorem P-MOS tranzistorů teče jen při sepnutém odpojovači, kdy ho hradí panel. Při rozepnutém odpojovači teče přes parazitní diodu a pull-up rezistor (v noci z akumulátoru) pouze svodový proud drainu rozepnutého N-MOS tranzistoru. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
+U MOSFET odpojovače přispívá do spotřeby pouze pull-down rezistor při sepnutí N-MOS tranzistoru (2–10 hodin denně — nabíjení akumulátoru) a svodový proud tekoucí do gate N-MOS tranzistoru (celý den); přes ochranný rezistor teče proud pouze po velmi krátkou dobu, a to při změně stavu spínače. Při rozepnutém odpojovači (14–22 hodin denně) teče z akumulátoru přes parazitní diodu P-MOS tranzistoru na straně akumulátoru do společného source svodový proud drainu N-MOS tranzistoru (přes pull-up rezistor) a svodový proud drainu P-MOS tranzistoru na straně panelu. U větve zodpovědné za kontrolu vajec je 6 spínačů s P-MOS tranzistorem s pull-up rezistorem a 5 spínačů s P-MOS tranzistorem s pull-down rezistorem. Největší část spotřeby spínačů s P-MOS tranzistorem s pull-up rezistorem tvoří svodové proudy tekoucí přes drain při jejich rozepnutí (téměř celý den) a svodové proudy tekoucí přes gate (celý den); ty tekoucí přes gate jsou při sepnutí zanedbatelné. Všemi těmito šesti spínači teče tentýž svodový proud. U spínačů s P-MOS tranzistorem s pull-down rezistorem tečou svodové proudy pouze po přivedení napájecího napětí, tedy zanedbatelnou dobu.
 
 ### Kontrola fotovoltaického panelu a akumulátoru (29 s a 12 s)
 
@@ -488,7 +503,7 @@ O_s = \pi \cdot d_s = \pi \cdot 25\ \text{mm} = 78,5\ \text{mm}
 $$
 
 $$
-v_{min} = f_{min} \cdot O_s = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
+v_{typ} = f_{typ} \cdot O_s = \frac{15\ \text{rpm}} {60} \cdot 78,5\ \text{mm} = 19,6\ \text{mm/s}
 $$
 
 $$
@@ -496,21 +511,21 @@ v_{max} = f_{max} \cdot O_s = \frac{17\ \text{rpm}} {60} \cdot 78,5\ \text{mm} =
 $$
 
 $$
-t_{min} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{mm/s}} = 2 \cdot 15,7\ \text{s} \approx \mathbf{32\ \text{s}}
+t_{typ} = 2 \cdot \frac{h}{v_{max}} = 2 \cdot \frac{35\ \text{cm}}{22,3\ \text{mm/s}} = 2 \cdot 15,7\ \text{s} \approx \mathbf{32\ \text{s}}
 $$
 
 $$
-t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{min}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}
+t_{max} = 2 \cdot 2 \cdot n_p \cdot \frac{h}{v_{typ}} = 2 \cdot 2 \cdot 2 \cdot \frac{35\ \text{cm}}{19,6\ \text{mm/s}} = 8 \cdot 17,9\ \text{s} \approx \mathbf{144\ \text{s}}
 $$
 
 kde:
 - $t_{max}$ ... maximální čas potřebný pro otevření a zavření dvířek
 - $n_p$ ... počet pokusů pro otevření/zavření dvířek
-- $t_{min}$ ... minimální čas potřebný pro otevření a zavření dvířek
+- $t_{typ}$ ... typický čas potřebný pro otevření a zavření dvířek
 - $v_{max}$ ... maximální rychlost otáčení špulky
-- $v_{min}$ ... minimální rychlost otáčení špulky
+- $v_{typ}$ ... typická rychlost otáčení špulky
 - $f_{max}$ ... maximální frekvence otáčení špulky
-- $f_{min}$ ... minimální frekvence otáčení špulky
+- $f_{typ}$ ... typická frekvence otáčení špulky
 - $O_s$ ... obvod špulky
 - $d_s$ ... průměr špulky
 - $h$ ... výška dvířek
@@ -537,15 +552,15 @@ t = t_i + t_v = t_i + \frac{n_v}{f_v} = 0,5\ \text{s} + \frac{32}{10\ \text{Hz}}
 $$
 
 $$
-t_{h,min} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \text{s} \approx 4\ \text{s}
+t_{h,typ} = t + n_x \cdot t_x = 3,7\ \text{s} + 3 \cdot 30\ \text{ms} = 3,79\ \text{s} \approx 4\ \text{s}
 $$
 
 $$
-t_{h,max} = t_{h,min} + t_p + t_x = 3,79\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,07\ \text{s} \approx 4,1\ \text{s}
+t_{h,max} = t_{h,typ} + t_p + t_x = 3,79\ \text{s} + 250\ \text{ms} + 30\ \text{ms} = 4,07\ \text{s} \approx 4,1\ \text{s}
 $$
 
 $$
-t_{min} = 24 \cdot h \cdot t_{h,min} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
+t_{typ} = 24 \cdot h \cdot t_{h,typ} = 24 \cdot 5 \cdot 4\ \text{s} = \mathbf{8\ \text{min}}
 $$
 
 $$
@@ -557,7 +572,7 @@ t_{max} = 24 \cdot h \cdot t_{h,max} + h \cdot t_r = 24 \cdot 5 \cdot 4,1\ \text
 $$
 
 $$
-t_{P,pu,min} = 24 \cdot t_{h,min} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}
+t_{P,pu,typ} = 24 \cdot t_{h,typ} \cdot (5 + 4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 15 = \mathbf{24\ \text{min}}
 $$
 
 $$
@@ -565,7 +580,7 @@ t_{P,pu,max} = (24 \cdot t_{h,max} + t_r) \cdot (5 + 4 + 3 + 2 + 1) = (24 \cdot 
 $$
 
 $$
-t_{P,pd,min} = 24 \cdot t_{h,min} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 10 = \mathbf{16\ \text{min}}
+t_{P,pd,typ} = 24 \cdot t_{h,typ} \cdot (4 + 3 + 2 + 1) = 24 \cdot 4\ \text{s} \cdot 10 = \mathbf{16\ \text{min}}
 $$
 
 $$
@@ -579,11 +594,11 @@ $$
 kde:
 - $t_{max}$ ... maximální denní doba každohodinových kontrol h hnízd
 - $t_r$ ... čas navíc při aktualizaci referenční nulové hodnoty tenzometru (nanejvýš jednou denně)
-- $t_{min}$ ... minimální denní doba každohodinových kontrol h hnízd
+- $t_{typ}$ ... typická denní doba každohodinových kontrol h hnízd
 - $h$ ... počet hnízd
 - $t_{h,max}$ ... maximální doba kontroly jednoho hnízda
 - $t_p$ ... perioda dotazování na stav měření
-- $t_{h,min}$ ... minimální doba kontroly jednoho hnízda
+- $t_{h,typ}$ ... typická doba kontroly jednoho hnízda
 - $n_x$ ... počet výměn rámců při kontrole jednoho hnízda (příkaz, dotaz na stav, uvolnění)
 - $t_x$ ... doba jedné výměny rámců (dotaz a odpověď mají nejvýše 21 B, tj. asi 22 ms, a k tomu rozpoznání konce obou rámců)
 - $t$ ... doba měření jednoho hnízda
@@ -591,9 +606,9 @@ kde:
 - $t_v$ ... doba vzorkování
 - $n_v$ ... počet vzorků
 - $f_v$ ... vzorkovací frekvence HX711
-- $t_{P,pu,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
+- $t_{P,pu,typ}$ ... typická denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pu,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-up rezistory spínačů s P-MOS tranzistorem
-- $t_{P,pd,min}$ ... minimální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
+- $t_{P,pd,typ}$ ... typická denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
 - $t_{P,pd,max}$ ... maximální denní doba, po kterou teče proud ochrannými a pull-down rezistory spínačů s P-MOS tranzistorem
 - $I_P$ ... proud tekoucí pull-down/pull-up rezistorem u spínačů s P-MOS tranzistorem
 - $U_{nap}$ ... napájecí napětí
@@ -633,7 +648,7 @@ t_{v} = 24 \cdot t_{5B} + 2 \cdot t_{2B} + 120 \cdot t_{2B} + 2 \cdot t_{2B} = 2
 $$
 
 $$
-t_{p,min} = 148 \cdot t_{o,min} = 148 \cdot 30\ \text{ms} = 4,44\ \text{s} \approx \mathbf{5\ \text{s}}
+t_{p,typ} = 148 \cdot t_{o,typ} = 148 \cdot 30\ \text{ms} = 4,44\ \text{s} \approx \mathbf{5\ \text{s}}
 $$
 
 $$
@@ -650,9 +665,9 @@ kde:
 - $T_{sym}$ ... doba jednoho symbolu
 - $SF$ ... rozprostírací faktor
 - $BW$ ... šířka pásma
-- $t_{p,min}$ ... minimální doba příjmu
+- $t_{p,typ}$ ... typická doba příjmu
 - $t_{p,max}$ ... maximální doba příjmu
-- $t_{o,min}$ ... minimální doba příjmového okna
+- $t_{o,typ}$ ... typická doba příjmového okna
 - $t_{o,max}$ ... maximální doba příjmového okna
 
 Číslo 44 ve vzorci pro $n_{sym}$ zahrnuje i 16 bitů CRC a násobek 5 odpovídá kódovacímu poměru 4/5; optimalizace pro nízkou přenosovou rychlost se při SF9 nepoužívá. Downlink CRC nemá, takže jeho příjem je o něco kratší; přichází navíc jen při manuálním ovládání, takže jeho vliv na spotřebu je zanedbatelný.
@@ -730,7 +745,7 @@ kde:
 - $Q_{aku}$ ... náboj nabíjející akumulátor
 - $U_{aku}$ ... průměrné napětí akumulátoru
 
-Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit nástroj PVGIS. Úbytek napětí MOSFET odpojovače nijak zvlášť neovlivňuje účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor, svodového proudu tekoucího přes gate P-MOS tranzistoru a vnitřního odporu N-MOS tranzistoru je na účinnost MOSFET odpojovače a pracovního bodu panelu minimální. Svodový proud drainu P-MOS i N-MOS tranzistoru je ve srovnání s napájecím proudem z panelu zanedbatelný a teče pouze tehdy, když jsou spínače rozepnuty.
+Pro zjištění výkonu fotovoltaického panelu v lokalitě kurníku byl použit nástroj PVGIS. Úbytek napětí MOSFET odpojovače nijak zvlášť neovlivňuje účinnost pracovního bodu panelu, protože panel pracuje v oblasti konstantního proudu. Vliv pull-up rezistoru pro P-MOS tranzistor a svodového proudu tekoucího přes gate P-MOS tranzistoru je na účinnost MOSFET odpojovače a pracovního bodu panelu minimální. Svodový proud drainu P-MOS i N-MOS tranzistoru je ve srovnání s napájecím proudem z panelu zanedbatelný a teče pouze tehdy, když jsou spínače rozepnuty.
 
 ### Energetická bilance
 
@@ -780,8 +795,8 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 | Konektor Faston F1 | 4 ks | [Odkaz][faston] | 10,92 Kč | 13,20 Kč |
 | Solární panel | 1 ks | [Odkaz][solar] | 479,34 Kč | 580,00 Kč |
 | N-MOS tranzistor | 5 ks | [Odkaz][n-mos] | 10,05 Kč | 12,15 Kč |
-| P-MOS tranzistor u odpojovače | 5 ks | [Odkaz][sep-tran] | 46,38 Kč | 56,27 Kč |
-| P-MOS tranzistor u spínačů | 10 ks | [Odkaz][switch-tran] | 40,90 Kč | 49,48 Kč |
+| P-MOS tranzistor u odpojovače | 5 ks | [Odkaz][odpojovac] | 46,38 Kč | 56,27 Kč |
+| P-MOS tranzistor u spínačů | 10 ks | [Odkaz][spinac] | 40,90 Kč | 49,48 Kč |
 | Akumulátor | 1 ks | [Odkaz][akumulator] | 156,00 Kč | 189,00 Kč |
 | Pojistka | 5 ks | [Odkaz][pojistka] | 28,93 Kč | 35,00 Kč |
 | Pojistkové pouzdro | 2 ks | [Odkaz][pouzdro] | 15,20 Kč | 18,40 Kč |
@@ -844,8 +859,8 @@ Systém nabízí spolehlivý celoroční provoz s obrovskou energetickou rezervo
 [faston]: https://www.gme.cz/v/1498755/kss-pv2-5a-faston-na-kabel-48mm
 [solar]: https://www.dexhal.cz/fotovoltaicky-panel-9v-1110ma-10w-solarni-clanek_z2900/
 [n-mos]: https://www.gme.cz/v/1496204/diodes-bss138-7-f-unipolarni-tranzistor
-[sep-tran]: https://www.tme.eu/cz/details/dmp3056l-7/tranzistory-s-kanalem-p-smd/diodes-incorporated/
-[switch-tran]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
+[odpojovac]: https://www.tme.eu/cz/details/dmp3056l-7/tranzistory-s-kanalem-p-smd/diodes-incorporated/
+[spinac]: https://www.tme.eu/cz/details/ao3401a/tranzistory-s-kanalem-p-smd/alpha-omega-semiconductor/
 [akumulator]: https://www.levne-baterky.cz/Green-Cell-AGM-Baterie-6V-4Ah-d5516.htm
 [pojistka]: https://www.gme.cz/v/1511167/schurter-spf-5x20-h-2a-250v-pojistka-trubickova-s-keramikou
 [pouzdro]: https://www.gme.cz/v/1512336/stelvio-chapponi-ptf15b-poistkove-puzdro-do-dps
