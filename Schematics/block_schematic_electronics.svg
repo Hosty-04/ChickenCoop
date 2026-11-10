@@ -707,16 +707,17 @@
            y="86.226753">ADC</tspan></text>
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82223px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="137.16132"
-         y="95.34568"
-         id="text11913-8"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82223px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;text-align:center;text-anchor:middle"
+         x="-94.212220"
+         y="139.539679"
+         id="text11913-8"
+         transform="rotate(-90)"><tspan
            sodipodi:role="line"
            id="tspan11911-6"
            style="stroke-width:1"
-           x="137.16132"
-           y="95.34568">I<tspan
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82223px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:super;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+           x="-94.212220"
+           y="139.539679">I<tspan
+   style="font-size:65%;baseline-shift:super"
    id="tspan11915-2">2</tspan>C</tspan></text>
       <text
          xml:space="preserve"
