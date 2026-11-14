@@ -1,5 +1,5 @@
 (sym_lib_table
   (version 7)
   (lib (name "lcsc")(type "KiCad")(uri "${KIPRJMOD}/libs/lcsc.kicad_sym")(options "")(descr ""))
-  (lib (name "coop")(type "KiCad")(uri "${KIPRJMOD}/libs/lcsc.3dshapes/coop.kicad_sym")(options "")(descr ""))
+  (lib (name "coop")(type "KiCad")(uri "${KIPRJMOD}/libs/coop.kicad_sym")(options "")(descr ""))
 )

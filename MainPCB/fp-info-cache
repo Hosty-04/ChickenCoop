@@ -1,4 +1,4 @@
-25626212192674026
+25628006710265277
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -102640,6 +102640,13 @@ Varistor VF
 0
 2
 2
+coop
+Pololu_MicroMotor_Bracket
+Pololu micro metal gearmotor (10 x 12 mm) in bracket #989 / #1086, 2x NPTH 2.5 mm for #2-56 screws, 18 mm apart; origin between the holes, output shaft to +X; 3D model re-oriented from Pololu mmgm_with_bracket.STEP; F.Cu rule area under the metal motor can and gearbox
+motor gearmotor micro metal pololu bracket 989 1086
+0
+0
+0
 lcsc
 CONN-TH_4P-P5.08-256-404
 
