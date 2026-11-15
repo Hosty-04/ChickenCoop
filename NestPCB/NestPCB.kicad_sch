@@ -6,7 +6,7 @@
 	(paper "User" 297 240)
 	(title_block
 		(title "Chicken Coop")
-		(date "2026-11-13")
+		(date "2026-11-15")
 		(rev "1.0")
 		(company "BUT - Brno University of Technology")
 	)
@@ -2510,7 +2510,7 @@
 				(pin unspecified line
 					(at -8.89 -13.97 90)
 					(length 3.81)
-					(name "1"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2528,7 +2528,7 @@
 				(pin unspecified line
 					(at -6.35 -13.97 90)
 					(length 3.81)
-					(name "2"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2564,7 +2564,7 @@
 				(pin unspecified line
 					(at -3.81 -13.97 90)
 					(length 3.81)
-					(name "3"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2582,7 +2582,7 @@
 				(pin unspecified line
 					(at -1.27 -13.97 90)
 					(length 3.81)
-					(name "4"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2600,7 +2600,7 @@
 				(pin unspecified line
 					(at 1.27 -13.97 90)
 					(length 3.81)
-					(name "5"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2636,7 +2636,7 @@
 				(pin unspecified line
 					(at 3.81 -13.97 90)
 					(length 3.81)
-					(name "6"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2654,7 +2654,7 @@
 				(pin unspecified line
 					(at 6.35 -13.97 90)
 					(length 3.81)
-					(name "7"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2672,7 +2672,7 @@
 				(pin unspecified line
 					(at 8.89 -13.97 90)
 					(length 3.81)
-					(name "8"
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
