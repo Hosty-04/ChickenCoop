@@ -206,7 +206,7 @@ static uint8_t Battery_RadioBusy(void)
 
 void Battery_Init(void)
 {
-  Battery_SetPanel(1U);
+  Battery_SetPanel(0U);
 
   MX_ADC_Init();
   (void)HAL_ADC_DeInit(&hadc);
