@@ -615,7 +615,6 @@
 		(path "/d6e8fab4-688c-400a-8739-612136566bd9")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 3.2 0)
@@ -719,7 +718,6 @@
 		(path "/cf0b37f0-396c-4d7b-a776-ab25acf278b2")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 3.2 0)
@@ -825,7 +823,6 @@
 		(path "/687a06fc-57fa-4b3e-83e7-a1df28623dbe")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 0 1.2)
@@ -1440,7 +1437,7 @@
 		(path "/fa731de1-a98e-4eeb-84e3-c1c70d2c1c36")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -0.261252 -0.735)
 			(end 0.261252 -0.735)
@@ -2337,7 +2334,6 @@
 		(path "/30c1166b-6e04-496e-91d1-410360cd18ad")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 3.2 0)
@@ -2441,7 +2437,7 @@
 		(path "/d9dda60f-bb2e-4872-98c1-efc97834b84c")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -0.261252 -0.735)
 			(end 0.261252 -0.735)
@@ -2640,7 +2636,6 @@
 		(path "/609dfde4-d691-4bd1-8fe8-1d3bce8ec089")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 3.2 0)
@@ -4648,7 +4643,7 @@
 		(path "/1f0793c2-60a6-4d8c-a746-d5d638db2bb8")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -2.53 -1.52)
 			(end 2.53 -1.52)
@@ -6678,7 +6673,6 @@
 		(path "/f4ea6ec8-6397-4c63-ab66-ed121002d145")
 		(sheetname "/")
 		(sheetfile "NestPCB.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
 			(end 0 1.2)
