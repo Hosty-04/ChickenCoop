@@ -1,0 +1,3 @@
+"Designator","Qty","Comment","Footprint","Datasheet","JLCPCB Part #"
+"U1","1","INA226","lcsc:MSOP-10_L3.0-W3.0-P0.50-LS5.0-BL","https://lcsc.com/product-detail/PMIC-Current-Regulation_TI_INA226AIDGSR_INA226AIDGSR_C49851.html","C49851"
+"U2","1","DRV8838","lcsc:WSON-8_L2.0-W2.0-P0.50-TL-EP","https://lcsc.com/product-detail/Motor-Drivers_TI_DRV8838DSGR_DRV8838DSGR_C86667.html","C86667"

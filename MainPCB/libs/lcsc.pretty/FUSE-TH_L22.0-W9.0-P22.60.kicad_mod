@@ -4,7 +4,7 @@
 	(generator_version "9.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -4 0)
+		(at 0 -5.5 0)
 		(layer "F.SilkS")
 		(uuid "c831e90b-8b6f-45d8-8fb5-4e90d2b5fcd5")
 		(effects
@@ -15,7 +15,7 @@
 		)
 	)
 	(property "Value" "FUSE-TH_L22.0-W9.0-P22.60"
-		(at 0 4 0)
+		(at 0 5.5 0)
 		(layer "F.Fab")
 		(uuid "ecf0a287-d8b2-4508-b2ad-35d37357c29d")
 		(effects
@@ -122,55 +122,44 @@
 		(layer "F.SilkS")
 		(uuid "47699209-96f8-40c0-85d2-c4652070d6d4")
 	)
-	(fp_circle
-		(center -12 4.5)
-		(end -11.97 4.5)
-		(stroke
-			(width 0.06)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.SilkS")
-		(uuid "2a8af0af-1da8-4938-b5d0-4027fdfe868e")
-	)
 	(fp_line
 		(start -12 -4.5)
 		(end -12 4.5)
 		(stroke
-			(width 0.05)
+			(width 0.1)
 			(type solid)
 		)
-		(layer "F.CrtYd")
+		(layer "F.Fab")
 		(uuid "c0d88281-5220-438a-b01c-dcc57dfcc808")
 	)
 	(fp_line
 		(start -12 4.5)
 		(end 12 4.5)
 		(stroke
-			(width 0.05)
+			(width 0.1)
 			(type solid)
 		)
-		(layer "F.CrtYd")
+		(layer "F.Fab")
 		(uuid "a19dab01-3bd8-457e-9c73-223ab59c26a9")
 	)
 	(fp_line
 		(start 12 -4.5)
 		(end -12 -4.5)
 		(stroke
-			(width 0.05)
+			(width 0.1)
 			(type solid)
 		)
-		(layer "F.CrtYd")
+		(layer "F.Fab")
 		(uuid "4a167a9c-400c-4456-b71f-fc1c90dcdbba")
 	)
 	(fp_line
 		(start 12 4.5)
 		(end 12 -4.5)
 		(stroke
-			(width 0.05)
+			(width 0.1)
 			(type solid)
 		)
-		(layer "F.CrtYd")
+		(layer "F.Fab")
 		(uuid "6f189176-8bb5-4d2b-af3e-adfb4747ab4c")
 	)
 	(fp_text user "${REFERENCE}"
@@ -199,6 +188,17 @@
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "e867658d-a1cf-40d7-a3b4-2c173a970ba5")
+	)
+	(fp_rect
+		(start -12.65 -4.75)
+		(end 12.65 4.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "a8a4ae39-2fbb-4dff-88de-c73132c9131a")
 	)
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/libs/lcsc.3dshapes/FUSE-TH_L22.0-W9.0-H13.5-P22.60.wrl"
