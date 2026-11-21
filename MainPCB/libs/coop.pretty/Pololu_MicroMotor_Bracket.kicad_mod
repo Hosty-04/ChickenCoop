@@ -27,7 +27,7 @@
 			)
 		)
 	)
-	(attr through_hole exclude_from_pos_files exclude_from_bom)
+	(attr through_hole)
 	(fp_poly
 		(pts
 			(xy -21.9500 4.0000) (xy -21.9500 3.5000) (xy -19.9500 3.4999) (xy -19.9500 2.5000)

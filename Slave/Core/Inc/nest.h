@@ -10,8 +10,10 @@
 
 #include "main.h"
 
+/* Adresa se čte z DIP přepínače SW1 (SW1-1..4 = 1, 2, 4, 8; ON = 1).
+   NEST_ADDRESS platí jen tehdy, když jsou všechny přepínače OFF. */
 #ifndef NEST_ADDRESS
-#define NEST_ADDRESS  2U
+#define NEST_ADDRESS  1U
 #endif
 
 #if (NEST_ADDRESS < 1U) || (NEST_ADDRESS > 15U)
@@ -19,6 +21,7 @@
 #endif
 
 void    Nest_Init(void);
+uint8_t Nest_Address(void);
 void    Nest_Process(void);
 uint8_t Nest_ReadRegisters(uint16_t start, uint16_t count, uint16_t *values);
 uint8_t Nest_WriteRegisters(uint16_t start, uint16_t count, const uint16_t *values);

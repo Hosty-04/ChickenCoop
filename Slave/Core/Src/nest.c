@@ -66,6 +66,11 @@
 #define NEST_STORED_MASK      0x0000FFFFUL
 #define NEST_EGG_G_SHIFT      16U
 
+#define NEST_ADDR_PORT        ADDR0_GPIO_Port
+#define NEST_ADDR_PINS        (ADDR0_Pin | ADDR1_Pin | ADDR2_Pin | ADDR3_Pin)
+#define NEST_ADDR_BITS        4U
+#define NEST_ADDR_SETTLE_MS   1U
+
 typedef struct {
   uint8_t valid;
   int32_t zero;
@@ -104,6 +109,34 @@ static uint32_t nest_boot_tick;
 static uint32_t nest_wait_tick;
 static uint32_t nest_seen_tick;
 static int32_t  nest_samples[NEST_SAMPLES];
+static uint8_t  nest_address = NEST_ADDRESS;
+
+/* SW1-1..SW1-4 -> ADDR0..ADDR3 = PA7, PA6, PA5, PA4 (bit 0..3), sepnutý přepínač = log. 0 */
+static const uint16_t nest_addr_pin[NEST_ADDR_BITS] = {ADDR0_Pin, ADDR1_Pin, ADDR2_Pin, ADDR3_Pin};
+
+static uint8_t Nest_ReadAddress(void)
+{
+  GPIO_InitTypeDef gpio = {0};
+  uint8_t addr = 0U;
+  uint8_t n;
+
+  gpio.Pin  = NEST_ADDR_PINS;
+  gpio.Mode = GPIO_MODE_INPUT;
+  gpio.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(NEST_ADDR_PORT, &gpio);
+  HAL_Delay(NEST_ADDR_SETTLE_MS);
+
+  for (n = 0U; n < NEST_ADDR_BITS; n++) {
+    if (HAL_GPIO_ReadPin(NEST_ADDR_PORT, nest_addr_pin[n]) == GPIO_PIN_RESET)
+      addr |= (uint8_t)(1U << n);
+  }
+
+  gpio.Mode = GPIO_MODE_ANALOG;
+  gpio.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(NEST_ADDR_PORT, &gpio);
+
+  return (addr != 0U) ? addr : (uint8_t)NEST_ADDRESS;
+}
 
 static int32_t Nest_Round(int32_t grams, int32_t per)
 {
@@ -562,11 +595,17 @@ static void Nest_Sample(uint32_t now)
 
 void Nest_Init(void)
 {
+  nest_address   = Nest_ReadAddress();
   nest_boot_tick = HAL_GetTick();
   nest_seen_tick = nest_boot_tick;
 
   Nest_LoadState();
   Modbus_Start();
+}
+
+uint8_t Nest_Address(void)
+{
+  return nest_address;
 }
 
 void Nest_Process(void)

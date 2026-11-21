@@ -57,12 +57,20 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define NEXT_Pin GPIO_PIN_0
+#define NEXT_GPIO_Port GPIOA
 #define LPUART_TX_Pin GPIO_PIN_2
 #define LPUART_TX_GPIO_Port GPIOA
 #define LPUART_RX_Pin GPIO_PIN_3
 #define LPUART_RX_GPIO_Port GPIOA
-#define NEXT_Pin GPIO_PIN_0
-#define NEXT_GPIO_Port GPIOB
+#define ADDR3_Pin GPIO_PIN_4
+#define ADDR3_GPIO_Port GPIOA
+#define ADDR2_Pin GPIO_PIN_5
+#define ADDR2_GPIO_Port GPIOA
+#define ADDR1_Pin GPIO_PIN_6
+#define ADDR1_GPIO_Port GPIOA
+#define ADDR0_Pin GPIO_PIN_7
+#define ADDR0_GPIO_Port GPIOA
 #define LPUART_CTRL_Pin GPIO_PIN_1
 #define LPUART_CTRL_GPIO_Port GPIOB
 #define LOCAL_Pin GPIO_PIN_12

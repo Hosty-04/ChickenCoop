@@ -17,6 +17,9 @@
 #include "stm32_timer.h"
 
 #define BATTERY_CHECK_S        (10UL * 60UL)
+#define BATTERY_GUARD_S        60UL
+#define BATTERY_GUARD_BAND_V   0.5f
+#define BATTERY_RECONNECT_V    6.5f
 #define BATTERY_CONV_MS        80U
 #define BATTERY_BLOCK_MS       1000UL
 #define BATTERY_DEFER_S        10UL
@@ -39,7 +42,9 @@ static const uint32_t battery_adc_channels[] = {
 };
 
 static UTIL_TIMER_Object_t battery_timer;
+static UTIL_TIMER_Object_t battery_guard_timer;
 static volatile uint8_t    battery_pending = 0;
+static volatile uint8_t    battery_guard   = 0;
 static uint8_t             battery_full    = 0;
 
 static uint8_t  battery_critical = 0;
@@ -133,7 +138,12 @@ static HAL_StatusTypeDef Battery_ReadPanel(float *v_panel)
 
 static void Battery_UpdateOverVoltage(float v_bat, uint8_t month)
 {
-  panel_ov_block = (uint8_t)(v_bat >= Battery_OverVoltageLimit(month));
+  float limit = Battery_OverVoltageLimit(month);
+
+  if (v_bat >= limit)
+    panel_ov_block = 1U;
+  else if (v_bat < BATTERY_RECONNECT_V)
+    panel_ov_block = 0U;
 }
 
 static void Battery_UpdateCritical(float v_bat, uint8_t month)
@@ -180,6 +190,23 @@ static void Battery_ArmTimer(uint32_t seconds)
   UTIL_TIMER_Start(&battery_timer);
 }
 
+static void Battery_OnGuard(void *ctx)
+{
+  UNUSED(ctx);
+  battery_guard = 1U;
+}
+
+/* Fast check while the panel charges an almost full battery, so that the voltage limit is not
+ * overshot for up to 10 minutes; seconds = 0 stops it */
+static void Battery_ArmGuard(uint32_t seconds)
+{
+  UTIL_TIMER_Stop(&battery_guard_timer);
+  if (seconds == 0UL)
+    return;
+  UTIL_TIMER_SetPeriod(&battery_guard_timer, seconds * 1000UL);
+  UTIL_TIMER_Start(&battery_guard_timer);
+}
+
 static void Battery_Schedule(void)
 {
   uint32_t now  = Timebase_GetSecOfDay();
@@ -212,12 +239,13 @@ void Battery_Init(void)
   (void)HAL_ADC_DeInit(&hadc);
 
   UTIL_TIMER_Create(&battery_timer, 0xFFFFFFFFU, UTIL_TIMER_ONESHOT, Battery_OnTimer, NULL);
+  UTIL_TIMER_Create(&battery_guard_timer, 0xFFFFFFFFU, UTIL_TIMER_ONESHOT, Battery_OnGuard, NULL);
 }
 
-void Battery_Measure(void)
+static void Battery_Check(void)
 {
   float    v_bat = 0.0f, v_panel = 0.0f;
-  uint8_t  month, bat_ok, panel_ok;
+  uint8_t  month, bat_ok, panel_ok, ov_was, nearly_full;
   HAL_StatusTypeDef st_bat, st_panel;
 
   Power_SwitchToLPRunMSI2MHz();
@@ -245,6 +273,7 @@ void Battery_Measure(void)
   if (bat_ok) {
     month      = Timebase_IsValid() ? Timebase_GetMonth() : 0U;
     battery_mv = (uint16_t)(v_bat * 1000.0f + 0.5f);
+    ov_was     = panel_ov_block;
 
     Battery_UpdateOverVoltage(v_bat, month);
     Battery_UpdateCritical(v_bat, month);
@@ -253,14 +282,22 @@ void Battery_Measure(void)
       Battery_UpdateBackfeed(v_bat, v_panel);
 
     Battery_SetPanel((uint8_t)!(panel_ov_block || panel_bf_block));
+
+    nearly_full = (uint8_t)(ov_was || (v_bat >= (Battery_OverVoltageLimit(month) - BATTERY_GUARD_BAND_V)));
+    Battery_ArmGuard((panel_connected && nearly_full) ? BATTERY_GUARD_S : 0UL);
   } else {
     Battery_SetPanel(0U);
+    Battery_ArmGuard(0UL);
   }
 
   Battery_UpdateSensor(bat_ok);
 
   Power_SwitchToRunHSE48MHz();
+}
 
+void Battery_Measure(void)
+{
+  Battery_Check();
   Battery_Schedule();
 
   if (battery_full) {
@@ -273,21 +310,34 @@ void Battery_Measure(void)
 
 void Battery_Process(void)
 {
-  if (!battery_pending)
-    return;
-  battery_pending = 0U;
+  if (battery_pending) {
+    battery_pending = 0U;
+    battery_guard   = 0U;
 
-  if (Battery_RadioBusy()) {
-    Battery_ArmTimer(BATTERY_DEFER_S);
+    if (Battery_RadioBusy()) {
+      Battery_ArmTimer(BATTERY_DEFER_S);
+      return;
+    }
+
+    Battery_Measure();
     return;
   }
 
-  Battery_Measure();
+  if (!battery_guard)
+    return;
+  battery_guard = 0U;
+
+  if (!LoRaWAN_IsIdleFor(BATTERY_BLOCK_MS)) {
+    Battery_ArmGuard(BATTERY_DEFER_S);
+    return;
+  }
+
+  Battery_Check();
 }
 
 uint8_t Battery_WorkPending(void)
 {
-  return battery_pending;
+  return (uint8_t)(battery_pending || battery_guard);
 }
 
 void Battery_Request(uint8_t full)

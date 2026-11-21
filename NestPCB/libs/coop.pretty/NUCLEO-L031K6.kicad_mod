@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "8.0")
 	(layer "F.Cu")
-	(descr "ST NUCLEO-L031K6 (Nucleo-32, MB1180) on two 1x15 2.54 mm sockets, rows 15.24 mm apart; pads CN3-1..15 and CN4-1..15 per UM1956; micro-USB at the pin-1 end")
+	(descr "ST NUCLEO-L031K6 (Nucleo-32, MB1180) on two 1x15 2.54 mm sockets, rows 15.24 mm apart; pads CN3-1..15 and CN4-1..15 per UM1956; micro-USB at the pin-1 end. Courtyard = the two sockets only: low SMD parts may sit under the module (8.5 mm sockets).")
 	(tags "NUCLEO Nucleo-32 L031K6 STM32 module socket")
 	(property "Reference" "REF**"
 		(at 7.62 -11.4 0)
@@ -53,8 +53,8 @@
 	)
 	(attr through_hole)
 	(fp_rect
-		(start -1.77 -9.26)
-		(end 17.01 41.78)
+		(start -1.4 -1.4)
+		(end 1.4 36.96)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -62,6 +62,17 @@
 		(fill none)
 		(layer "F.SilkS")
 		(uuid "3c9ee663-96f7-45df-a0a5-17f04d20a27e")
+	)
+	(fp_rect
+		(start 13.84 -1.4)
+		(end 16.64 36.96)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "22521b76-f025-49a8-bfd0-0e50c0c695e6")
 	)
 	(fp_rect
 		(start -1.65 -9.14)
@@ -97,8 +108,8 @@
 		(uuid "73d01ba5-b4d2-499f-a4d3-11c786581f95")
 	)
 	(fp_rect
-		(start -2.15 -10.65)
-		(end 17.4 42.65)
+		(start -1.52 -1.52)
+		(end 1.52 37.08)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -106,6 +117,17 @@
 		(fill none)
 		(layer "F.CrtYd")
 		(uuid "e34d5b54-8874-47ae-83db-ae1db95c4090")
+	)
+	(fp_rect
+		(start 13.72 -1.52)
+		(end 16.76 37.08)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.CrtYd")
+		(uuid "ce6f5efe-6423-462e-8778-1cd9c793d7cd")
 	)
 	(fp_poly
 		(pts (xy -0.6 -2) (xy 0.6 -2) (xy 0 -1.25))
@@ -169,6 +191,7 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
 		(uuid "3464ec08-6cad-4cf9-9cca-c1af7d6de805")
 	)
 	(pad "CN3-5" thru_hole oval

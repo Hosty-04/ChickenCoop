@@ -116,7 +116,7 @@ static uint8_t Modbus_Handle(uint16_t len)
   uint16_t crc, start, count, reply = 0U;
   uint8_t  exc = MODBUS_OK;
 
-  if ((len < MODBUS_FRAME_MIN) || (len > MODBUS_FRAME_MAX) || (modbus_rx[0] != NEST_ADDRESS))
+  if ((len < MODBUS_FRAME_MIN) || (len > MODBUS_FRAME_MAX) || (modbus_rx[0] != Nest_Address()))
     return 0U;
 
   crc = Modbus_Crc(modbus_rx, (uint16_t)(len - 2U));

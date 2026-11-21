@@ -58,12 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "courtyards_overlap|107627252|122972683|08f55b26-523d-4cd9-8a93-eb844ff82cb8|7c4bb850-429c-4a9f-b6be-7321f36940fa",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -533,15 +528,19 @@
     "netclass_patterns": [
       {
         "netclass": "Power",
-        "pattern": "/VBAT*"
+        "pattern": "VBAT"
       },
       {
         "netclass": "Power",
-        "pattern": "/VMOT*"
+        "pattern": "/VBAT_*"
       },
       {
-        "netclass": "3V3",
-        "pattern": "*3V3*"
+        "netclass": "Power",
+        "pattern": "VMOT"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "VPANEL"
       },
       {
         "netclass": "Power",
@@ -549,11 +548,11 @@
       },
       {
         "netclass": "Power",
-        "pattern": "/VPANEL"
+        "pattern": "/MOT_*"
       },
       {
-        "netclass": "Power",
-        "pattern": "/MOT_*"
+        "netclass": "3V3",
+        "pattern": "*3V3*"
       }
     ]
   },
