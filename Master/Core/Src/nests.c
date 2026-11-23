@@ -358,7 +358,6 @@ static void Nests_Schedule(void)
   Nests_ArmTimer((nests_due > now) ? (nests_due - now) : 0UL);
 }
 
-/* The automation switch (nests_enabled) only gates the hourly check, see Nests_Process() */
 static uint8_t Nests_Allowed(void)
 {
   return (uint8_t)!Battery_IsCritical();
@@ -382,7 +381,6 @@ static void Nests_DropRequests(void)
     nests_data[nest].request = 0U;
 }
 
-/* Tare and calibration work whether the automation is on or off */
 static void Nests_Request(uint8_t nest, uint8_t cmd)
 {
   if (nest >= NESTS_COUNT)
@@ -448,8 +446,6 @@ void Nests_Process(void)
 
   Power_SwitchToRunHSE48MHz();
 
-  /* Also when only a tare or calibration ran at the full hour with the automation off,
-   * the battery is measured next and goes out in the same full message */
   if (due) {
     Nests_Plan();
     Battery_Request(1U);

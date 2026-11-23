@@ -310,9 +310,8 @@ static Callbacks_t Callbacks =
 #define LORAWAN_TX_RETRY_MAX 2U
 #define RNG_ATTEMPTS         10U
 #define RNG_FALLBACK_MASK    0x55555555UL
-#define LORAWAN_DR_SF9       3U   /* EU868 DR3 = SF9 / 125 kHz */
+#define LORAWAN_DR_SF9       3U
 
-/* Fixed SF9: keeps daily airtime within the TTN Fair Use Policy (30 s / 24 h) */
 static const uint8_t lorawan_dr_sf9[SMTC_MODEM_CUSTOM_ADR_DATA_LENGTH] = {
   LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9,
   LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9, LORAWAN_DR_SF9,

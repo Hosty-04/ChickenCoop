@@ -10,8 +10,6 @@
 
 #include "main.h"
 
-/* Adresa se čte z DIP přepínače SW1 (SW1-1..4 = 1, 2, 4, 8; ON = 1).
-   NEST_ADDRESS platí jen tehdy, když jsou všechny přepínače OFF. */
 #ifndef NEST_ADDRESS
 #define NEST_ADDRESS  1U
 #endif

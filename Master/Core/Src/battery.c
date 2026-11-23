@@ -196,8 +196,6 @@ static void Battery_OnGuard(void *ctx)
   battery_guard = 1U;
 }
 
-/* Fast check while the panel charges an almost full battery, so that the voltage limit is not
- * overshot for up to 10 minutes; seconds = 0 stops it */
 static void Battery_ArmGuard(uint32_t seconds)
 {
   UTIL_TIMER_Stop(&battery_guard_timer);
@@ -347,9 +345,6 @@ void Battery_Request(uint8_t full)
   battery_pending = 1U;
 }
 
-/* Called after the first time sync since a power loss: until then the checks ran on the
- * fallback clock, from now on they follow the 10-minute grid of the real clock.
- * A measurement deferred for the radio keeps its own timer. */
 void Battery_Reschedule(void)
 {
   if (battery_defer == 0U)

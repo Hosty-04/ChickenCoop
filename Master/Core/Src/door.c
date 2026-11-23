@@ -368,7 +368,6 @@ static void Door_RaiseFault(void)
   Door_DropWork();
 }
 
-/* Manual commands work whether the automation is on or off */
 static void Door_Request(Door_Request_t req)
 {
   door_request      = req;
@@ -451,8 +450,6 @@ void Door_Process(void)
   if ((evt == DOOR_EVT_RESYNC) && Door_TimeSyncFast())
     door_sync_fast++;
 
-  /* With the automation off, Door_AutoAllowed() filters out every sun event below,
-   * while manual commands and their retries still go through */
   if (evt == DOOR_EVT_DEFER) {
     if (req == DOOR_REQ_NONE)
       req               = door_deferred_req;
@@ -529,8 +526,6 @@ void Door_Enable(void)
     return;
 
   door_enabled = 1U;
-  /* Turning the automation on hands the door back to the sun; a manual command
-   * in the same downlink is applied after this and takes over again */
   Door_DropWork();
   (void)Endstop_Sample();
   Door_StoreState();
@@ -546,7 +541,6 @@ void Door_Disable(void)
 
   door_enabled = 0U;
 
-  /* Only automatic work stops; a running manual command keeps its retries */
   if (!Door_ManualActive(Timebase_GetSecOfDay())) {
     door_retry_pending = 0U;
     door_retry_count   = 0U;

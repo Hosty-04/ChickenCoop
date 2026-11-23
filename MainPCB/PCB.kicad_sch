@@ -8644,7 +8644,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 83.82 45.72 0)
 			(effects
 				(font
@@ -9368,7 +9368,7 @@
 				)
 			)
 		)
-		(property "Footprint" "lcsc:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 264.16 39.37 0)
 			(effects
 				(font
@@ -11525,7 +11525,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 163.83 33.02 0)
 			(effects
 				(font
@@ -12025,7 +12025,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "lcsc:SOT-23-3_L2.9-W1.6-P1.90-LS2.8-BR"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 173.99 49.53 0)
 			(effects
 				(font
@@ -12862,7 +12862,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 189.23 33.02 0)
 			(effects
 				(font

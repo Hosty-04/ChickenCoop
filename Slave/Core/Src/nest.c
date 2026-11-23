@@ -78,9 +78,9 @@ typedef struct {
 } Nest_Calib_t;
 
 typedef struct {
-  int32_t  stored;   /* hmotnost při poslední započtené změně (g) */
-  uint16_t egg_g;    /* hmotnost vajec, která jsou právě v hnízdě (g) */
-  uint8_t  eggs;     /* počet vajec v hnízdě */
+  int32_t  stored;
+  uint16_t egg_g;
+  uint8_t  eggs;
   uint8_t  heavy;
   uint8_t  day_set;
   uint16_t day;
@@ -111,7 +111,6 @@ static uint32_t nest_seen_tick;
 static int32_t  nest_samples[NEST_SAMPLES];
 static uint8_t  nest_address = NEST_ADDRESS;
 
-/* SW1-1..SW1-4 -> ADDR0..ADDR3 = PA7, PA6, PA5, PA4 (bit 0..3), sepnutý přepínač = log. 0 */
 static const uint16_t nest_addr_pin[NEST_ADDR_BITS] = {ADDR0_Pin, ADDR1_Pin, ADDR2_Pin, ADDR3_Pin};
 
 static uint8_t Nest_ReadAddress(void)
@@ -197,7 +196,6 @@ static void Nest_LoadState(void)
     nest_count.egg_g  = (uint16_t)(words[1] >> NEST_EGG_G_SHIFT);
     nest_count.eggs   = (uint8_t)((words[2] >> NEST_EGGS_SHIFT) & NEST_EGGS_MASK);
   } else if (Nest_Load(NEST_EEPROM_COUNT, NEST_MAGIC_COUNT_V1, words)) {
-    /* Záznam starší verze: počet se odvodí z celkové hmotnosti jako dřív */
     nest_count.stored = (int32_t)words[1];
     eggs              = (nest_count.stored > 0) ? Nest_Round(nest_count.stored, NEST_EGG_G) : 0;
     nest_count.eggs   = (uint8_t)((eggs > NEST_EGGS_MAX) ? NEST_EGGS_MAX : eggs);
@@ -260,14 +258,6 @@ static void Nest_ClearCount(int32_t grams)
   nest_count.eggs   = 0U;
 }
 
-/*
- * Počet vajec se mění po přírůstcích, takže se rozdíly v hmotnosti vajec nesčítají:
- *  - přírůstek aspoň o půl vejce se zaokrouhlí na celá vejce a přičte,
- *  - úbytek se převede na vejce podle průměrné hmotnosti vajec, která v hnízdě jsou,
- *  - menší změny (podestýlka, trus, drift) jen posunou referenční hmotnost,
- *  - prázdné hnízdo počet vždy vynuluje.
- * Změny pod NEST_CREEP_G se ignorují, aby se EEPROM zbytečně nepřepisovala.
- */
 static void Nest_Count(int32_t grams)
 {
   int32_t delta = grams - nest_count.stored;
@@ -559,7 +549,6 @@ static void Nest_Start(uint16_t command)
   nest_wait_tick = HAL_GetTick();
 
   if (command == NEST_CMD_CALIBRATE) {
-    /* Never tared: there is no zero to calibrate against, the scale stays uncalibrated */
     if (!nest_calib.valid)
       Nest_Finish();
     else if (nest_argument == 0U)
