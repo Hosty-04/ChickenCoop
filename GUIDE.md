@@ -101,15 +101,24 @@ Firmware je nastavený na dvě snášková hnízda. Jiný počet (1 až 15) pat�
 ```
 
 Stejné číslo pak dostane i server, viz `NEST_COUNT` v kapitole 6. Hnízda se číslují od
-krabičky nejblíž hlavní krabičce: první má adresu 1, druhá 2 a tak dál. Tu samou adresu
-dostane řadič v dané krabičce v souboru `Slave/Core/Inc/nest.h`:
+krabičky nejblíž hlavní krabičce: první má adresu 1, druhá 2 a tak dál. Adresu nastavuje
+DIP přepínač SW1 na hnízdové desce, binárně, ON = 1 (páčka směrem k nápisu ON):
 
-```c
-#define NEST_ADDRESS  1U
-```
+| Adresa | SW1-1 (1) | SW1-2 (2) | SW1-3 (4) | SW1-4 (8) |
+|--------|-----------|-----------|-----------|-----------|
+| 1      | ON        | OFF       | OFF       | OFF       |
+| 2      | OFF       | ON        | OFF       | OFF       |
+| 3      | ON        | ON        | OFF       | OFF       |
+| 4      | OFF       | OFF       | ON        | OFF       |
 
-Firmware hnízdového řadiče se proto pro každou krabičku přeloží a nahraje zvlášť, pokaždé
-s její adresou.
+Firmware hnízdového řadiče je pro všechny krabičky stejný a přepínač čte jen po zapnutí,
+takže změna se projeví při dalším měření. Jsou-li všechny přepínače OFF, použije se adresa
+`NEST_ADDRESS` ze souboru `Slave/Core/Inc/nest.h` (výchozí 1).
+
+Sběrnici mezi krabičkami musí na konci zakončit terminační rezistor. Na hnízdové desce
+poslední krabičky v řetězci proto propojte kapkou cínu pájecí propojku JP1 (TERM), na
+ostatních hnízdech ji nechte rozpojenou. Při přidání dalšího hnízda propojku na dosavadním
+posledním hnízdě rozpojte a propojte ji na novém.
 
 ## 1. Účet v The Things Network
 
