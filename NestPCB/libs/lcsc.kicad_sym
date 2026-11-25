@@ -711,27 +711,31 @@
 		)
 		(embedded_fonts no)
 	)
-	(symbol "R-RJ45R08P-C000"
+	(symbol "R-RJ45R08P-B000"
+		(pin_names
+			(offset 1.016)
+			(hide yes)
+		)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "RJ"
-			(at 0 19.05 0)
+			(at 0 16.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "R-RJ45R08P-C000"
-			(at 0 -19.05 0)
+		(property "Value" "R-RJ45R08P-B000"
+			(at 0 -16.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "lcsc:RJ45-TH_R-RJ45R08P-C000"
+		(property "Footprint" "lcsc:RJ45-TH_R-RJ45R08P-B000"
 			(at 0 -21.59 0)
 			(effects
 				(font
@@ -740,7 +744,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://lcsc.com/product-detail/Ethernet-Connectors-Modular-Connectors-RJ45-RJ11_Shenzhen-Cankemeng-R-RJ45R08P-C000_C386757.html"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C386756.html"
 			(at 0 -24.13 0)
 			(effects
 				(font
@@ -767,7 +771,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "R-RJ45R08P-C000"
+		(property "MPN" "R-RJ45R08P-B000"
 			(at 0 -29.21 0)
 			(effects
 				(font
@@ -776,7 +780,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part" "C386757"
+		(property "LCSC Part" "C386756"
 			(at 0 -31.75 0)
 			(effects
 				(font
@@ -794,9 +798,9 @@
 				(hide yes)
 			)
 		)
-		(symbol "R-RJ45R08P-C000_0_1"
+		(symbol "R-RJ45R08P-B000_0_1"
 			(rectangle
-				(start -10.16 8.89)
+				(start -10.16 10.16)
 				(end 10.16 -10.16)
 				(stroke
 					(width 0)
@@ -808,9 +812,9 @@
 			)
 			(polyline
 				(pts
-					(xy -5.59 3.81) (xy 5.84 3.81) (xy 5.84 -6.35) (xy 3.3 -6.35) (xy 3.3 -7.62) (xy 2.03 -7.62) (xy 2.03 -8.89)
-					(xy -1.78 -8.89) (xy -1.78 -7.62) (xy -3.05 -7.62) (xy -3.05 -6.35) (xy -5.59 -6.35) (xy -5.59 3.81)
-					(xy -5.59 3.81)
+					(xy 6.35 -5.59) (xy 6.35 5.84) (xy -3.81 5.84) (xy -3.81 3.3) (xy -5.08 3.3) (xy -5.08 2.03) (xy -6.35 2.03)
+					(xy -6.35 -1.78) (xy -5.08 -1.78) (xy -5.08 -3.05) (xy -3.81 -3.05) (xy -3.81 -5.59) (xy 6.35 -5.59)
+					(xy 6.35 -5.59)
 				)
 				(stroke
 					(width 0)
@@ -822,7 +826,7 @@
 			)
 			(polyline
 				(pts
-					(xy -4.32 2.54) (xy -4.32 3.81) (xy -4.32 3.81)
+					(xy 5.08 -4.32) (xy 6.35 -4.32) (xy 6.35 -4.32)
 				)
 				(stroke
 					(width 0)
@@ -834,7 +838,7 @@
 			)
 			(polyline
 				(pts
-					(xy -3.05 3.81) (xy -3.05 2.54) (xy -3.05 2.54)
+					(xy 6.35 -3.05) (xy 5.08 -3.05) (xy 5.08 -3.05)
 				)
 				(stroke
 					(width 0)
@@ -846,7 +850,7 @@
 			)
 			(polyline
 				(pts
-					(xy -1.78 3.81) (xy -1.78 2.54) (xy -1.78 2.54)
+					(xy 6.35 -1.78) (xy 5.08 -1.78) (xy 5.08 -1.78)
 				)
 				(stroke
 					(width 0)
@@ -858,7 +862,7 @@
 			)
 			(polyline
 				(pts
-					(xy -0.51 3.81) (xy -0.51 2.54) (xy -0.51 2.54)
+					(xy 6.35 -0.51) (xy 5.08 -0.51) (xy 5.08 -0.51)
 				)
 				(stroke
 					(width 0)
@@ -870,7 +874,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0.76 3.81) (xy 0.76 2.54) (xy 0.76 2.54)
+					(xy 6.35 0.76) (xy 5.08 0.76) (xy 5.08 0.76)
 				)
 				(stroke
 					(width 0)
@@ -882,7 +886,7 @@
 			)
 			(polyline
 				(pts
-					(xy 2.03 3.81) (xy 2.03 2.54) (xy 2.03 2.54)
+					(xy 6.35 2.03) (xy 5.08 2.03) (xy 5.08 2.03)
 				)
 				(stroke
 					(width 0)
@@ -894,7 +898,7 @@
 			)
 			(polyline
 				(pts
-					(xy 3.3 2.54) (xy 3.3 3.81) (xy 3.3 3.81)
+					(xy 5.08 3.3) (xy 6.35 3.3) (xy 6.35 3.3)
 				)
 				(stroke
 					(width 0)
@@ -906,7 +910,7 @@
 			)
 			(polyline
 				(pts
-					(xy 4.57 2.54) (xy 4.57 3.81) (xy 4.57 3.81)
+					(xy 5.08 4.57) (xy 6.35 4.57) (xy 6.35 4.57)
 				)
 				(stroke
 					(width 0)
@@ -917,43 +921,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -13.97 1.27 0)
-				(length 3.81)
-				(name "L+"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "9"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin unspecified line
-				(at -13.97 -1.27 0)
-				(length 3.81)
-				(name "L-"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "10"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin unspecified line
-				(at -8.89 -13.97 90)
+				(at 13.97 3.81 180)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -971,7 +939,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -6.35 -13.97 90)
+				(at 13.97 1.27 180)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -989,8 +957,8 @@
 				)
 			)
 			(pin unspecified line
-				(at -3.81 13.97 270)
-				(length 5.08)
+				(at 13.97 8.89 180)
+				(length 3.81)
 				(name "S"
 					(effects
 						(font
@@ -998,7 +966,7 @@
 						)
 					)
 				)
-				(number "13"
+				(number "9"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1007,7 +975,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -3.81 -13.97 90)
+				(at -13.97 8.89 0)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1025,7 +993,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -1.27 -13.97 90)
+				(at -13.97 -8.89 0)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1043,7 +1011,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 1.27 -13.97 90)
+				(at -13.97 -3.81 0)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1061,8 +1029,8 @@
 				)
 			)
 			(pin unspecified line
-				(at 3.81 13.97 270)
-				(length 5.08)
+				(at 13.97 -8.89 180)
+				(length 3.81)
 				(name "S"
 					(effects
 						(font
@@ -1070,7 +1038,7 @@
 						)
 					)
 				)
-				(number "14"
+				(number "10"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1079,7 +1047,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 3.81 -13.97 90)
+				(at -13.97 6.35 0)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1097,7 +1065,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 6.35 -13.97 90)
+				(at 13.97 -1.27 180)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1115,7 +1083,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 8.89 -13.97 90)
+				(at 13.97 -3.81 180)
 				(length 3.81)
 				(name "~"
 					(effects
@@ -1132,40 +1100,22 @@
 					)
 				)
 			)
-			(pin unspecified line
-				(at 13.97 1.27 180)
-				(length 3.81)
-				(name "R-"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
+			(text "S"
+				(at 9.398 8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-				)
-				(number "12"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
+					(justify right)
 				)
 			)
-			(pin unspecified line
-				(at 13.97 -1.27 180)
-				(length 3.81)
-				(name "R+"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
+			(text "S"
+				(at 9.398 -8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-				)
-				(number "11"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
+					(justify right)
 				)
 			)
 		)
@@ -1176,7 +1126,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
-			(at 0 8.89 0)
+			(at 0 11.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1184,7 +1134,7 @@
 			)
 		)
 		(property "Value" "SN65HVD72DR"
-			(at 0 -8.89 0)
+			(at 0 -11.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1256,8 +1206,8 @@
 		)
 		(symbol "SN65HVD72DR_0_1"
 			(rectangle
-				(start -7.62 6.86)
-				(end 7.62 -6.86)
+				(start -7.62 10.16)
+				(end 7.62 -10.16)
 				(stroke
 					(width 0)
 					(type default)
@@ -1266,30 +1216,8 @@
 					(type background)
 				)
 			)
-			(circle
-				(center -6.35 5.59)
-				(radius 0.38)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(circle
-				(center -6.35 5.59)
-				(radius 0.38)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
 			(pin unspecified line
-				(at -10.16 3.81 0)
+				(at -10.16 -8.89 0)
 				(length 2.54)
 				(name "R"
 					(effects
@@ -1307,7 +1235,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -10.16 1.27 0)
+				(at -10.16 -2.54 0)
 				(length 2.54)
 				(name "~{RE}"
 					(effects
@@ -1325,7 +1253,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -10.16 -1.27 0)
+				(at -10.16 2.54 0)
 				(length 2.54)
 				(name "DE"
 					(effects
@@ -1343,7 +1271,7 @@
 				)
 			)
 			(pin unspecified line
-				(at -10.16 -3.81 0)
+				(at -10.16 8.89 0)
 				(length 2.54)
 				(name "D"
 					(effects
@@ -1361,7 +1289,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 10.16 3.81 180)
+				(at 10.16 8.89 180)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -1379,7 +1307,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 10.16 1.27 180)
+				(at 10.16 -8.89 180)
 				(length 2.54)
 				(name "B"
 					(effects
@@ -1397,7 +1325,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 10.16 -1.27 180)
+				(at 10.16 -3.81 180)
 				(length 2.54)
 				(name "A"
 					(effects
@@ -1415,7 +1343,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 10.16 -3.81 180)
+				(at 10.16 3.81 180)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -1460,7 +1388,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "lcsc:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+		(property "Footprint" "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
 			(at 0 -12.7 0)
 			(effects
 				(font

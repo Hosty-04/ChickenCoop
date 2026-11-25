@@ -323,7 +323,7 @@
       (pin unspecified line
         (at -10.16 -8.89 0)
         (length 2.54)
-        (name "RO" (effects (font (size 1.27 1.27))))
+        (name "R" (effects (font (size 1.27 1.27))))
         (number "1" (effects (font (size 1.27 1.27))))
       )
       (pin unspecified line
@@ -341,7 +341,7 @@
       (pin unspecified line
         (at -10.16 8.89 0)
         (length 2.54)
-        (name "DI" (effects (font (size 1.27 1.27))))
+        (name "D" (effects (font (size 1.27 1.27))))
         (number "4" (effects (font (size 1.27 1.27))))
       )
       (pin unspecified line
@@ -391,7 +391,7 @@
     )
     (property
       "Footprint"
-      "lcsc:SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR"
+      "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
       (id 2)
       (at 0 -10.16 0)
       (effects (font (size 1.27 1.27) ) hide)
@@ -482,7 +482,7 @@
     )
     (property
       "Footprint"
-      "lcsc:SOT-23-3_L2.9-W1.6-P1.90-LS2.8-BR"
+      "lcsc:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR"
       (id 2)
       (at 0 -12.70 0)
       (effects (font (size 1.27 1.27) ) hide)
@@ -1028,7 +1028,7 @@
     )
   )
 
-  (symbol "R-RJ45R08P-C000"
+  (symbol "R-RJ45R08P-B000"
     (pin_names (offset 1.016) hide)
     (in_bom yes)
     (on_board yes)
@@ -1041,21 +1041,21 @@
     )
     (property
       "Value"
-      "R-RJ45R08P-C000"
+      "R-RJ45R08P-B000"
       (id 1)
       (at 0 -16.51 0)
       (effects (font (size 1.27 1.27) ) )
     )
     (property
       "Footprint"
-      "lcsc:RJ45-TH_R-RJ45R08P-C000"
+      "lcsc:RJ45-TH_R-RJ45R08P-B000"
       (id 2)
       (at 0 -21.59 0)
       (effects (font (size 1.27 1.27) ) hide)
     )
     (property
       "Datasheet"
-      "https://lcsc.com/product-detail/Ethernet-Connectors-Modular-Connectors-RJ45-RJ11_Shenzhen-Cankemeng-R-RJ45R08P-C000_C386757.html"
+      "https://www.lcsc.com/product-detail/C386756.html"
       (id 3)
       (at 0 -24.13 0)
       (effects (font (size 1.27 1.27) ) hide)
@@ -1069,14 +1069,14 @@
     )
     (property
       "MPN"
-      "R-RJ45R08P-C000"
+      "R-RJ45R08P-B000"
       (id 5)
       (at 0 -29.21 0)
       (effects (font (size 1.27 1.27) ) hide)
     )
     (property
       "LCSC Part"
-      "C386757"
+      "C386756"
       (id 6)
       (at 0 -31.75 0)
       (effects (font (size 1.27 1.27) ) hide)
@@ -1088,7 +1088,7 @@
       (at 0 -34.29 0)
       (effects (font (size 1.27 1.27) ) hide)
     )
-    (symbol "R-RJ45R08P-C000_0_1"
+    (symbol "R-RJ45R08P-B000_0_1"
       (rectangle
         (start -10.16 10.16)
         (end 10.16 -10.16)
@@ -1207,45 +1207,17 @@
         (number "8" (effects (font (size 1.27 1.27))))
       )
       (pin unspecified line
-        (at -2.54 -13.97 90)
-        (length 3.81)
-        (name "L+" (effects (font (size 1.27 1.27))))
-        (number "9" (effects (font (size 1.27 1.27))))
-      )
-      (pin unspecified line
-        (at 2.54 -13.97 90)
-        (length 3.81)
-        (name "L-" (effects (font (size 1.27 1.27))))
-        (number "10" (effects (font (size 1.27 1.27))))
-      )
-      (pin unspecified line
-        (at -2.54 13.97 270)
-        (length 3.81)
-        (name "R+" (effects (font (size 1.27 1.27))))
-        (number "11" (effects (font (size 1.27 1.27))))
-      )
-      (pin unspecified line
-        (at 2.54 13.97 270)
-        (length 3.81)
-        (name "R-" (effects (font (size 1.27 1.27))))
-        (number "12" (effects (font (size 1.27 1.27))))
-      )
-      (pin unspecified line
         (at 13.97 8.89 180)
         (length 3.81)
         (name "S" (effects (font (size 1.27 1.27))))
-        (number "13" (effects (font (size 1.27 1.27))))
+        (number "9" (effects (font (size 1.27 1.27))))
       )
       (pin unspecified line
         (at 13.97 -8.89 180)
         (length 3.81)
         (name "S" (effects (font (size 1.27 1.27))))
-        (number "14" (effects (font (size 1.27 1.27))))
+        (number "10" (effects (font (size 1.27 1.27))))
       )
-      (text "L+" (at -2.54 -8.636 0) (effects (font (size 1.27 1.27) )))
-      (text "L-" (at 2.54 -8.636 0) (effects (font (size 1.27 1.27) )))
-      (text "R+" (at -2.54 8.636 0) (effects (font (size 1.27 1.27) )))
-      (text "R-" (at 2.54 8.636 0) (effects (font (size 1.27 1.27) )))
       (text "S" (at 9.398 8.89 0) (effects (font (size 1.27 1.27) ) (justify right)))
       (text "S" (at 9.398 -8.89 0) (effects (font (size 1.27 1.27) ) (justify right)))
     )

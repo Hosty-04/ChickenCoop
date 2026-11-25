@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder"
-		(at 0 2.65 0)
+		(at 0 2.45 0)
 		(layer "F.Fab")
 		(uuid "e0b22666-659b-469e-9f65-fe4be922549f")
 		(effects
@@ -178,7 +178,7 @@
 		(uuid "8e370e1b-74f0-48fe-9bc4-1c6b9db4291f")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/libs/lcsc.3dshapes/FUSE-SMD_L4.5-W3.2-H1.0.step"
+	(model "${KIPRJMOD}/libs/lcsc.3dshapes/F1812_L4.5-W3.2-H1.0.step"
 		(offset
 			(xyz 0 0 0)
 		)

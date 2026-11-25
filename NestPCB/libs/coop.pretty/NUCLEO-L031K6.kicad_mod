@@ -17,12 +17,12 @@
 		)
 	)
 	(property "Value" "NUCLEO-L031K6"
-		(at 7.62 43.6 0)
+		(at 7.62 42.25 0)
 		(layer "F.Fab")
 		(uuid "fdf581a7-b64b-444a-9c25-10dece7276e8")
 		(effects
 			(font
-				(size 1.0 1.0)
+				(size 1 1)
 				(thickness 0.15)
 			)
 		)
@@ -75,8 +75,8 @@
 		(uuid "22521b76-f025-49a8-bfd0-0e50c0c695e6")
 	)
 	(fp_rect
-		(start -1.65 -9.14)
-		(end 16.89 41.66)
+		(start -1.65 -8.89)
+		(end 16.89 41.4)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -86,8 +86,8 @@
 		(uuid "59e730b9-64ca-4c89-ae9e-b1d196ced64d")
 	)
 	(fp_rect
-		(start 3.87 -10.14)
-		(end 11.37 -5.14)
+		(start 3.52 -9.93)
+		(end 11.72 -4.53)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -97,8 +97,8 @@
 		(uuid "47ad398a-f83d-4dc9-b66f-015bcac941fe")
 	)
 	(fp_rect
-		(start 6.72 41.66)
-		(end 8.52 42.16)
+		(start 4.95 41.4)
+		(end 10.45 42.07)
 		(stroke
 			(width 0.1)
 			(type solid)
@@ -139,24 +139,13 @@
 		(layer "F.SilkS")
 		(uuid "7d9857d6-12b4-4694-9dbe-7099340fe2ff")
 	)
-	(fp_text user "USB"
-		(at 7.62 -7.4 0)
-		(layer "F.SilkS")
-		(uuid "c6be23cc-eaa4-4fb4-afa0-a03bd41c9dae")
-		(effects
-			(font
-				(size 1.0 1.0)
-				(thickness 0.15)
-			)
-		)
-	)
 	(fp_text user "${REFERENCE}"
-		(at 7.62 16.26 0)
+		(at 7.62 16.255 0)
 		(layer "F.Fab")
 		(uuid "5ec105a9-8965-44ce-8897-073deb922bd1")
 		(effects
 			(font
-				(size 1.0 1.0)
+				(size 1 1)
 				(thickness 0.15)
 			)
 		)

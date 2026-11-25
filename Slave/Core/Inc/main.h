@@ -73,7 +73,7 @@ void Error_Handler(void);
 #define ADDR0_GPIO_Port GPIOA
 #define LPUART_CTRL_Pin GPIO_PIN_1
 #define LPUART_CTRL_GPIO_Port GPIOB
-#define LOCAL_Pin GPIO_PIN_12
+#define LOCAL_Pin GPIO_PIN_1
 #define LOCAL_GPIO_Port GPIOA
 #define SCK_Pin GPIO_PIN_4
 #define SCK_GPIO_Port GPIOB
