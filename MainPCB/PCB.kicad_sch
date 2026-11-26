@@ -7660,7 +7660,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 283.21 168.91 0)
 			(effects
 				(font
@@ -8291,7 +8291,7 @@
 				)
 			)
 		)
-		(property "Footprint" "lcsc:Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder"
+		(property "Footprint" "lcsc:F1812"
 			(at 64.77 43.18 0)
 			(effects
 				(font
@@ -8300,7 +8300,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 64.77 43.18 0)
 			(effects
 				(font
@@ -8309,7 +8309,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resettable fuse, polymeric positive temperature coefficient"
+		(property "Description" ""
 			(at 64.77 43.18 0)
 			(effects
 				(font
@@ -8327,7 +8327,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "SMD1812P200TF/16"
+		(property "MPN" ""
 			(at 64.77 43.18 0)
 			(effects
 				(font
@@ -8336,7 +8336,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "PTTC"
+		(property "Manufacturer" ""
 			(at 64.77 43.18 0)
 			(effects
 				(font
@@ -9529,7 +9529,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 283.21 163.83 0)
 			(effects
 				(font
@@ -9725,7 +9725,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 243.84 158.75 0)
 			(effects
 				(font
@@ -12556,7 +12556,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 243.84 168.91 0)
 			(effects
 				(font
@@ -12988,7 +12988,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 243.84 163.83 0)
 			(effects
 				(font
@@ -13391,7 +13391,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "Test Point"
 			(at 283.21 158.75 0)
 			(effects
 				(font

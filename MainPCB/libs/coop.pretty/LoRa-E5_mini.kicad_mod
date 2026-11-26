@@ -322,7 +322,6 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(thermal_bridge_angle 45)
 		(uuid "e8d6079e-8788-45b3-98b5-c0b96cfe2b1f")
 	)
 	(pad "B8" thru_hole oval

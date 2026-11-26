@@ -50,9 +50,9 @@ Shape{
 Shape{
     appearance Appearance {
         material  Material 	{
-            diffuseColor 0.6666666666666666 0.6666666666666666 0.6666666666666666
-            specularColor 0.3333333333333333 0.3333333333333333 0.3333333333333333
-            ambientIntensity 0.6667
+            diffuseColor 0.25098039215686274 0.25098039215686274 0.25098039215686274
+            specularColor 0.12549019607843137 0.12549019607843137 0.12549019607843137
+            ambientIntensity 0.251
             transparency 0.0
             shininess 0.5
         }
@@ -96,9 +96,9 @@ Shape{
 Shape{
     appearance Appearance {
         material  Material 	{
-            diffuseColor 0.6666666666666666 0.6666666666666666 0.6666666666666666
-            specularColor 0.3333333333333333 0.3333333333333333 0.3333333333333333
-            ambientIntensity 0.6667
+            diffuseColor 0.25098039215686274 0.25098039215686274 0.25098039215686274
+            specularColor 0.12549019607843137 0.12549019607843137 0.12549019607843137
+            ambientIntensity 0.251
             transparency 0.0
             shininess 0.5
         }

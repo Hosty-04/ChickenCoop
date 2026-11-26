@@ -5257,7 +5257,7 @@
 		)
 		(uuid "fe84f95c-cc09-4d77-8af5-e98fa0261af9")
 	)
-	(global_label "ADDR2"
+	(global_label "ADDR1"
 		(shape input)
 		(at 63.5 121.92 0)
 		(effects
@@ -5719,7 +5719,7 @@
 			)
 		)
 	)
-	(global_label "ADDR1"
+	(global_label "ADDR2"
 		(shape input)
 		(at 63.5 119.38 0)
 		(effects
@@ -5868,7 +5868,7 @@
 	)
 	(global_label "AVDD"
 		(shape passive)
-		(at 327.66 104.14 0)
+		(at 321.31 106.68 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5877,7 +5877,7 @@
 		)
 		(uuid "ad43a777-0602-4d8f-9533-e6229fb1c0fa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 327.66 104.14 0)
+			(at 321.31 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5887,7 +5887,7 @@
 			)
 		)
 	)
-	(global_label "ADDR0"
+	(global_label "ADDR3"
 		(shape input)
 		(at 63.5 116.84 0)
 		(effects
@@ -5929,7 +5929,7 @@
 			)
 		)
 	)
-	(global_label "ADDR3"
+	(global_label "ADDR0"
 		(shape input)
 		(at 63.5 124.46 0)
 		(effects
@@ -6141,7 +6141,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 298.45 109.22 0)
+		(at 295.91 111.76 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -6149,7 +6149,7 @@
 		(dnp no)
 		(uuid "07aa68bb-fc22-4d31-ae3b-900c052e3e53")
 		(property "Reference" "#PWR022"
-			(at 298.45 115.57 0)
+			(at 295.91 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6158,7 +6158,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 298.45 113.03 0)
+			(at 295.91 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6166,7 +6166,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6175,7 +6175,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6184,7 +6184,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6684,7 +6684,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole_Pad")
-		(at 312.42 130.81 0)
+		(at 313.69 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -6692,7 +6692,7 @@
 		(dnp no)
 		(uuid "30c1166b-6e04-496e-91d1-410360cd18ad")
 		(property "Reference" "H3"
-			(at 316.23 129.54 0)
+			(at 317.5 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6700,7 +6700,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 316.23 132.08 0)
+			(at 317.5 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6709,7 +6709,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad"
-			(at 312.42 130.81 0)
+			(at 313.69 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6718,7 +6718,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 312.42 130.81 0)
+			(at 313.69 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6727,7 +6727,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole with connection"
-			(at 312.42 130.81 0)
+			(at 313.69 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6749,7 +6749,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 298.45 109.22 0)
+		(at 295.91 111.76 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -6757,7 +6757,7 @@
 		(dnp no)
 		(uuid "3135478b-c74e-4254-ac0a-17212c9b9699")
 		(property "Reference" "#FLG02"
-			(at 298.45 107.315 0)
+			(at 295.91 109.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6766,7 +6766,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 298.45 105.41 0)
+			(at 295.91 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6774,7 +6774,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6783,7 +6783,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6792,7 +6792,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 298.45 109.22 0)
+			(at 295.91 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6814,7 +6814,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 327.66 109.22 90)
+		(at 321.31 111.76 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -6822,7 +6822,7 @@
 		(dnp no)
 		(uuid "3dafcce4-ec21-4c6e-84dc-d3059461d596")
 		(property "Reference" "TP3"
-			(at 318.77 107.95 90)
+			(at 312.42 110.49 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6830,7 +6830,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 318.77 110.49 90)
+			(at 312.42 113.03 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6838,7 +6838,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm"
-			(at 327.66 109.22 0)
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6847,7 +6847,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 327.66 109.22 0)
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6855,8 +6855,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 327.66 109.22 0)
+		(property "Description" "Test Point"
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7198,7 +7198,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Solder Jumper, 2-pole, open"
 			(at 318.77 67.31 0)
 			(effects
 				(font
@@ -7484,7 +7484,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 292.1 133.35 0)
+		(at 293.37 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -7492,7 +7492,7 @@
 		(dnp no)
 		(uuid "52f96f6b-b111-47e1-8c67-a6dff3d810fb")
 		(property "Reference" "#PWR024"
-			(at 292.1 139.7 0)
+			(at 293.37 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7501,7 +7501,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 292.1 137.16 0)
+			(at 293.37 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7509,7 +7509,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 292.1 133.35 0)
+			(at 293.37 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7518,7 +7518,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 292.1 133.35 0)
+			(at 293.37 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7527,7 +7527,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 292.1 133.35 0)
+			(at 293.37 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7549,7 +7549,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 302.26 133.35 0)
+		(at 303.53 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -7557,7 +7557,7 @@
 		(dnp no)
 		(uuid "58b52dbc-e681-4295-909c-357a179f7904")
 		(property "Reference" "#PWR025"
-			(at 302.26 139.7 0)
+			(at 303.53 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7566,7 +7566,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 302.26 137.16 0)
+			(at 303.53 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7574,7 +7574,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 302.26 133.35 0)
+			(at 303.53 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7583,7 +7583,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 302.26 133.35 0)
+			(at 303.53 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7592,7 +7592,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 302.26 133.35 0)
+			(at 303.53 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7809,7 +7809,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole_Pad")
-		(at 302.26 130.81 0)
+		(at 303.53 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -7817,7 +7817,7 @@
 		(dnp no)
 		(uuid "609dfde4-d691-4bd1-8fe8-1d3bce8ec089")
 		(property "Reference" "H2"
-			(at 306.07 129.54 0)
+			(at 307.34 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7825,7 +7825,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 306.07 132.08 0)
+			(at 307.34 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7834,7 +7834,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad"
-			(at 302.26 130.81 0)
+			(at 303.53 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7843,7 +7843,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 302.26 130.81 0)
+			(at 303.53 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7852,7 +7852,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole with connection"
-			(at 302.26 130.81 0)
+			(at 303.53 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7874,7 +7874,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 327.66 104.14 90)
+		(at 321.31 106.68 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -7882,7 +7882,7 @@
 		(dnp no)
 		(uuid "6407678a-0050-45e6-8221-93cfb26c1247")
 		(property "Reference" "TP2"
-			(at 318.77 102.87 90)
+			(at 312.42 105.41 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7890,7 +7890,7 @@
 			)
 		)
 		(property "Value" "AVDD"
-			(at 318.77 105.41 90)
+			(at 312.42 107.95 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7898,7 +7898,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm"
-			(at 327.66 104.14 0)
+			(at 321.31 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7907,7 +7907,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 327.66 104.14 0)
+			(at 321.31 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7915,8 +7915,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 327.66 104.14 0)
+		(property "Description" "Test Point"
+			(at 321.31 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8028,7 +8028,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Button_Switch_THT:SW_DIP_SPSTx04_Slide_9.78x12.34mm_W7.62mm_P2.54mm"
+		(property "Footprint" "lcsc:SW-TH_DS-04XP"
 			(at 123.19 120.65 0)
 			(effects
 				(font
@@ -8405,7 +8405,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 312.42 133.35 0)
+		(at 313.69 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -8413,7 +8413,7 @@
 		(dnp no)
 		(uuid "834f908f-973b-414f-9a50-614019cc44a8")
 		(property "Reference" "#PWR026"
-			(at 312.42 139.7 0)
+			(at 313.69 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8422,7 +8422,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 312.42 137.16 0)
+			(at 313.69 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8430,7 +8430,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 312.42 133.35 0)
+			(at 313.69 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8439,7 +8439,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 312.42 133.35 0)
+			(at 313.69 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8448,7 +8448,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 312.42 133.35 0)
+			(at 313.69 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8603,7 +8603,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 283.21 99.06 180)
+		(at 295.91 101.6 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -8611,7 +8611,7 @@
 		(dnp no)
 		(uuid "9253d69e-c7d6-4c42-a594-5a22e6f8322c")
 		(property "Reference" "#FLG01"
-			(at 283.21 100.965 0)
+			(at 295.91 103.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8620,7 +8620,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 283.21 102.87 0)
+			(at 295.91 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8628,7 +8628,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8637,7 +8637,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8646,7 +8646,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8733,7 +8733,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 322.58 133.35 0)
+		(at 323.85 133.35 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -8741,7 +8741,7 @@
 		(dnp no)
 		(uuid "97539da6-3400-4255-9f92-4b95d0118836")
 		(property "Reference" "#PWR027"
-			(at 322.58 139.7 0)
+			(at 323.85 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8750,7 +8750,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 322.58 137.16 0)
+			(at 323.85 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8758,7 +8758,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 322.58 133.35 0)
+			(at 323.85 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8767,7 +8767,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 322.58 133.35 0)
+			(at 323.85 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8776,7 +8776,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 322.58 133.35 0)
+			(at 323.85 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8863,7 +8863,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 327.66 109.22 0)
+		(at 321.31 111.76 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -8871,7 +8871,7 @@
 		(dnp no)
 		(uuid "99c65671-afc5-48f8-8ed8-54297126117f")
 		(property "Reference" "#PWR021"
-			(at 327.66 115.57 0)
+			(at 321.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8880,7 +8880,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 327.66 113.03 0)
+			(at 321.31 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8888,7 +8888,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 327.66 109.22 0)
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8897,7 +8897,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 327.66 109.22 0)
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8906,7 +8906,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 327.66 109.22 0)
+			(at 321.31 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9581,7 +9581,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole_Pad")
-		(at 292.1 130.81 0)
+		(at 293.37 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -9589,7 +9589,7 @@
 		(dnp no)
 		(uuid "d6e8fab4-688c-400a-8739-612136566bd9")
 		(property "Reference" "H1"
-			(at 295.91 129.54 0)
+			(at 297.18 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9597,7 +9597,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 295.91 132.08 0)
+			(at 297.18 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9606,7 +9606,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad"
-			(at 292.1 130.81 0)
+			(at 293.37 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9615,7 +9615,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 292.1 130.81 0)
+			(at 293.37 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9624,7 +9624,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole with connection"
-			(at 292.1 130.81 0)
+			(at 293.37 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9711,7 +9711,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 327.66 99.06 0)
+		(at 321.31 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -9719,7 +9719,7 @@
 		(dnp no)
 		(uuid "d8f24fc8-389a-47b8-a06b-06d76d2be338")
 		(property "Reference" "#PWR020"
-			(at 327.66 95.25 0)
+			(at 321.31 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9728,7 +9728,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 327.66 95.504 0)
+			(at 321.31 98.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9736,7 +9736,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 327.66 99.06 0)
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9745,7 +9745,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 327.66 99.06 0)
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9754,7 +9754,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 327.66 99.06 0)
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10081,7 +10081,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole_Pad")
-		(at 322.58 130.81 0)
+		(at 323.85 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -10089,7 +10089,7 @@
 		(dnp no)
 		(uuid "e5f5b9d0-7aa7-4975-ac9d-633f8d6fe8ee")
 		(property "Reference" "H4"
-			(at 326.39 129.54 0)
+			(at 327.66 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10097,7 +10097,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 326.39 132.08 0)
+			(at 327.66 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10106,7 +10106,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad"
-			(at 322.58 130.81 0)
+			(at 323.85 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10115,7 +10115,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 322.58 130.81 0)
+			(at 323.85 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10124,7 +10124,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole with connection"
-			(at 322.58 130.81 0)
+			(at 323.85 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10279,7 +10279,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 283.21 99.06 0)
+		(at 295.91 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -10287,7 +10287,7 @@
 		(dnp no)
 		(uuid "efed7812-ac06-4e1e-8aed-3f7e70984580")
 		(property "Reference" "#PWR019"
-			(at 283.21 95.25 0)
+			(at 295.91 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10296,7 +10296,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 283.21 95.504 0)
+			(at 295.91 98.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10304,7 +10304,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10313,7 +10313,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10322,7 +10322,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 283.21 99.06 0)
+			(at 295.91 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10344,7 +10344,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 327.66 99.06 90)
+		(at 321.31 101.6 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -10352,7 +10352,7 @@
 		(dnp no)
 		(uuid "f4ea6ec8-6397-4c63-ab66-ed121002d145")
 		(property "Reference" "TP1"
-			(at 318.77 97.79 90)
+			(at 312.42 100.33 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10360,7 +10360,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 318.77 100.33 90)
+			(at 312.42 102.87 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10368,7 +10368,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm"
-			(at 327.66 99.06 0)
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10377,7 +10377,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 327.66 99.06 0)
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10385,8 +10385,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 327.66 99.06 0)
+		(property "Description" "Test Point"
+			(at 321.31 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)

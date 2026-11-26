@@ -1,10 +1,10 @@
-(footprint "Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder"
+(footprint "F1812"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
 	(layer "F.Cu")
-	(descr "Fuse SMD 1812 (4532 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: https://www.nikhef.nl/pub/departments/mt/projects/detectorR_D/dtddice/ERJ2G.pdf), generated with kicad-footprint-generator")
-	(tags "fuse handsolder")
+	(descr "PTC 1812 (4532 Metric), PTTC SMD1812P200TF/16 (LCSC C545213), pads for hand soldering")
+	(tags "fuse PTC 1812 F1812")
 	(property "Reference" "REF**"
 		(at 0 -2.65 0)
 		(layer "F.SilkS")
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder"
+	(property "Value" "F1812"
 		(at 0 2.45 0)
 		(layer "F.Fab")
 		(uuid "e0b22666-659b-469e-9f65-fe4be922549f")
@@ -39,7 +39,7 @@
 			)
 		)
 	)
-	(property "Description" "Fuse SMD 1812 (4532 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: https://www.nikhef.nl/pub/departments/mt/projects/detectorR_D/dtddice/ERJ2G.pdf), generated with kicad-footprint-generator"
+	(property "Description" "PTC 1812 (4532 Metric), PTTC SMD1812P200TF/16 (LCSC C545213), pads for hand soldering"
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)

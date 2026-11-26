@@ -73,10 +73,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ADDR3_Pin ADDR2_Pin ADDR1_Pin ADDR0_Pin
-                           PA8 PA9 PA10 PA11
-                           PA12 PA15 */
-  GPIO_InitStruct.Pin = ADDR3_Pin|ADDR2_Pin|ADDR1_Pin|ADDR0_Pin
+  /*Configure GPIO pins : ADDR0_Pin ADDR1_Pin ADDR2_Pin ADDR3_Pin */
+  GPIO_InitStruct.Pin = ADDR0_Pin|ADDR1_Pin|ADDR2_Pin|ADDR3_Pin
                           |GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11
                           |GPIO_PIN_12|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
